@@ -6,7 +6,7 @@
 }
 
 .aside {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     min-height: 100vh;
@@ -150,7 +150,7 @@
 
 .content {
     width: 100%;
-    margin: 23px 33px 33px 331px;
+    margin: 23px 33px 33px 31px;
 }
 
 .content__header {

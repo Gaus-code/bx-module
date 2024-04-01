@@ -6,8 +6,9 @@ use Bitrix\Main\Routing\RoutingConfigurator;
 return function (RoutingConfigurator $routes) {
 
 	$routes->get('/', new PublicPageController('/local/modules/up.ukan/views/main.php'));
-	$routes->get('/catalog/{id}/', new PublicPageController('/local/modules/up.ukan/views/catalog.php'));
+	$routes->get('/catalog/{page}/', new PublicPageController('/local/modules/up.ukan/views/catalog.php'));
 	$routes->get('/login/', new PublicPageController('/local/modules/up.ukan/views/login.php'));
-
-
+	$routes->get('/client/', new PublicPageController('/local/modules/up.ukan/views/client.php'));
+	$routes->get('/create/task/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
+	$routes->get('/create/project/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
 };
