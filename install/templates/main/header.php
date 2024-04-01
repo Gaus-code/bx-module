@@ -24,8 +24,8 @@
 		<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logo.svg" alt="logo" class="logo">
 		<a href="/" class="header__logoName">UKAN</a>
 		<nav class="header__nav">
-			<a href="/" class="header__link active-link">Главная</a>
-			<a href="/catalog/" class="header__link">Каталог</a>
+			<a href="/" class="header__link">Главная</a>
+			<a href="/catalog/1/" class="header__link">Каталог</a>
 		</nav>
 	</div>
 	<div class="header__registerContainer">

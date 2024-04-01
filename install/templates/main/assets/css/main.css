@@ -55,7 +55,7 @@ body {
     transition: 0.3s;
 }
 
-.header__btn, .previewBtn, .peoplePreview__textcontainer button {
+.header__btn, .previewBtn, .peoplePreview__link {
 
     border-radius: 5px;
     background: var(--bg-color-primary-purple);
@@ -65,12 +65,11 @@ body {
     font-size: 18px;
     font-weight: 600;
     line-height: 28px;
-    letter-spacing: 0%;
     text-align: center;
     text-transform: capitalize;
 }
 
-.header__btn:hover, .previewBtn:hover, .header__btn:active, .previewBtn:active .header__btn:focus, .previewBtn:focus {
+.header__btn:hover, .previewBtn:hover, .header__btn:active, .previewBtn:active, .header__btn:focus, .previewBtn:focus {
     background: var(--color-primary-white);
     transition: 0.4s;
     color: var(--color-primary-black);

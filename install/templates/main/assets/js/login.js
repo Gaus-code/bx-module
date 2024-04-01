@@ -10,11 +10,9 @@ pwShowHide.forEach(eyeIcon => {
 			if (password.type === "password")
 			{
 				password.type = "text";
-				eyeIcon.src = '/assets/images/eye.svg';
 				return;
 			}
 			password.type = "password";
-			eyeIcon.src = '/assets/images/hide.svg';
 		})
 	})
 });
