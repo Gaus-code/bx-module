@@ -1,0 +1,15 @@
+<svg width="64.000000" height="64.000000" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip107_243">
+			<rect id="yandex_music" width="64.000000" height="64.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<rect id="yandex_music" width="64.000000" height="64.000000" fill="#FFFFFF" fill-opacity="0"/>
+	<g clip-path="url(#clip107_243)">
+		<path id="Vector" d="M54.8 37.48C54.8 49.91 44.32 60 31.4 60C18.47 60 8 49.91 8 37.48C8 25.05 18.47 14.96 31.4 14.96C44.32 14.96 54.8 25.05 54.8 37.48Z" fill="#FFCC00" fill-opacity="1.000000" fill-rule="evenodd"/>
+		<path id="Vector" d="M43.39 14.55L43.39 35.55C43.39 37.67 43.24 39.64 42.94 40.64C42.19 43.17 40.57 45.38 38.34 46.9C36.11 48.42 33.41 49.16 30.69 49.01C27.96 48.85 25.37 47.8 23.35 46.04C21.32 44.28 19.98 41.9 19.55 39.31C19.12 36.71 19.62 34.06 20.97 31.77C22.32 29.49 24.44 27.71 26.98 26.75C29.52 25.78 32.32 25.67 34.93 26.45C37.54 27.22 39.8 28.83 41.33 31L41 29.02L41 4L56 8.61L56 18.43L43.39 14.55Z" fill="#FF3333" fill-opacity="1.000000" fill-rule="evenodd"/>
+	</g>
+</svg>

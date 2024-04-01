@@ -1,0 +1,210 @@
+.modal {
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    gap: 30px;
+    align-items: flex-start;
+    backdrop-filter: blur(30px);
+}
+
+.modalCard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 4;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    padding: 41px 80px 24px;
+    border-radius: 8px;
+    background: var(--color-primary-white);
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--color-primary-purple);
+}
+.signUp{
+    opacity: 0;
+    pointer-events: none;
+}
+.show__signUp .signUp{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.modalResponse {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 11px;
+    width: 100%;
+    height: 30px;
+}
+
+.invalidField{
+    background-color: var(--color-warning-yellow);
+}
+
+.modal__list {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    border-bottom: 2px solid var(--color-primary-gray);
+}
+
+.modal__item {
+    width: 100%;
+    padding: 8px 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.activeModalItem
+{
+    border-bottom: 2px solid var(--color-primary-purple);
+}
+
+.modal__link {
+    width: 100%;
+    color: var(--color-primary-gray);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 28px;
+}
+
+.activeModalLink {
+    color: var(--color-primary-purple);
+}
+
+.modalCard__title {
+    color: var(--color-primary-black);
+    font-size: 32px;
+    text-align: center;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.modalCard__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+}
+
+.modalCard__form_input {
+    border-radius: 8px;
+    border: 1px solid var(--color-primary-gray);
+    color: #2D2D2D;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    padding: 12px 8px 12px 44px;
+    width: 100%;
+}
+
+.modalField {
+    position: relative;
+    width: 100%;
+}
+
+.modalField__img{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 24px;
+}
+
+.modalField__eye{
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+}
+
+.requiredSuccess {
+    color: var(--color-warning-green);
+}
+.requiredError {
+    color: var(--color-warning-red);
+}
+.searchError {
+    color: var(--color-warning-yellow);
+}
+
+.modalCard__btn {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: var(--color-primary-purple);
+    color: var(--color-primary-white);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.modalCard__availability {
+    margin: 24px auto 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.modalCard__availability_text {
+    color: var(--color-primary-gray);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+}
+
+.modalCard__availability_btn {
+    color: var(--color-primary-purple);
+    background-color: inherit;
+    border-bottom: 2px solid var(--color-primary-purple);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.modalCard__link {
+    color: var(--color-primary-purple);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.modalField__role input[type="radio"] {
+    display: none;
+}
+  
+.modalField__role label {
+    display: inline-block;
+    padding: 15px 20px;
+    border: 2px solid var(--color-primary-purple);
+    border-radius: 5px;
+    color: var(--color-primary-purple);
+    transition: background-color 0.3s;
+    cursor: pointer;
+    font-size: 16px;
+}
+  
+.modalField__role input[type="radio"]:checked + label {
+    background-color: var(--color-primary-purple);
+    color: var(--color-primary-white);
+}

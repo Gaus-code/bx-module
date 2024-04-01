@@ -1,0 +1,14 @@
+:root {
+    --color-primary-white: rgb(255, 255, 255);
+    --color-primary-purple: rgb(115, 103, 240);
+    --color-primary-black: rgb(0, 0, 0);
+    --color-primary-gray:  rgb(216, 216, 216);
+    --color-dark-gray: rgb(101, 95, 95);
+    --color-tag-green: rgba(152, 231, 193, 1);
+    --color-tag-purple: rgba(153, 170, 255, 1);
+    --color-warning-yellow: #FFD580;
+    --color-warning-red: rgba(255, 117, 74, 1);
+    --color-warning-green: rgba(72, 164, 122, 1);
+    --color-primary-border: rgba(228, 216, 216, 0.4);
+    --bg-color-primary-purple: linear-gradient(180.00deg, rgb(206, 159, 252),rgb(165, 130, 247) 50.521%,rgb(115, 103, 240) 100%);
+}

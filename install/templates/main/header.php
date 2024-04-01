@@ -11,7 +11,7 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title><?php $APPLICATION->ShowTitle(); ?></title>
-
+	<link rel="stylesheet" href="<?= SITE_TEMPLATE_PATH ?>/assets/css/index.css">
 	<?php
 	$APPLICATION->ShowHead();
 	?>
@@ -19,5 +19,18 @@
 <body>
 
 <?php $APPLICATION->ShowPanel(); ?>
+<header class="header wrapper">
+	<div class="header__logoContainer">
+		<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logo.svg" alt="logo" class="logo">
+		<a href="/" class="header__logoName">UKAN</a>
+		<nav class="header__nav">
+			<a href="/" class="header__link active-link">Главная</a>
+			<a href="/catalog/" class="header__link">Каталог</a>
+		</nav>
+	</div>
+	<div class="header__registerContainer">
+		<a href="/login/" class="header__btn">Войти</a>
+	</div>
+</header>
 
 

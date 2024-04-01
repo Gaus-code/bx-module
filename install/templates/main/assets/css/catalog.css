@@ -1,0 +1,151 @@
+.catalog {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.catalog__aside {
+    position: fixed;
+    max-width: 260px;
+    width: 100%;
+    min-height: 100vh;
+    margin-bottom: 20px;
+}
+
+.catalog__aside h2{
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: left;
+}
+
+.catalog__subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0%;
+    text-align: left;
+    color: var(--color-primary-gray);
+    margin-top: 21px;
+}
+
+.filter__list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.filter__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.filter__checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: 1px solid var(--color-primary-purple);
+    border-radius: 2px;
+    background-color: var(--color-primary-white);
+    width: 15px;
+    height: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.filter__checkbox:checked {
+    background-color: var(--color-primary-purple);
+
+    &::before {
+      content: "\2713";
+      color: #fff;
+      position: absolute;
+      font-size: 12px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(5deg);
+      
+    }
+}
+
+.filter__label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 1%;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.catalog__main {
+    margin-left: 260px;
+}
+
+.catalog__header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.catalog__header h1 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+.catalog__header h1 span {
+    padding: 5px 12px;
+    border: 2px solid var(--color-primary-purple);
+    border-radius: 30px;
+    font-size: 21px;
+    margin-left: 10px;
+}
+
+.catalog__sort {
+    border: 2px solid var(--color-primary-purple);
+    border-radius: 6px;
+    min-height: 30px;
+}
+
+.catalog__sort option {
+    border: none;
+}
+
+.task__respond__btn {
+    border-radius: 8px;
+    background: var(--bg-color-primary-purple);
+    color: var(--color-primary-white);
+    border: 1px solid var(--color-primary-purple);
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0%;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.pagination {
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    font-size: 15px;
+}
+
+.pagination__btn {
+    color: var(--color-primary-purple);
+}
