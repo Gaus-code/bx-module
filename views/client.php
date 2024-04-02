@@ -5,11 +5,11 @@ $APPLICATION->SetTitle("UKAN - super service");
 
 <main class="profile__main">
 	<aside class="aside">
+		<div class="aside__profile">
+			<p class="profile__name">Заказчик Заказчиков</p>
+			<p class="profile__email">zakazchikIsSuper007@gmail.com</p>
+		</div>
 		<div class="aside__header">
-			<div class="aside__logoContainer">
-				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logo.svg" alt="logo" class="logo">
-				<a href="/" class="header__profileName">UKAN</a>
-			</div>
 			<nav class="aside__nav">
 				<button type="button" class="aside__btn active-profile-btn">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/dashboard.svg" alt="task folder">
@@ -80,20 +80,19 @@ $APPLICATION->SetTitle("UKAN - super service");
 					<span>2</span>
 				</button>
 			</nav>
-		</div>
-
-		<div class="aside__profile">
-			<p class="profile__name">Заказчик Заказчиков</p>
-			<p class="profile__email">zakazchikIsSuper007@gmail.com</p>
 			<button class="profile__logOut">Выйти</button>
 		</div>
 	</aside>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
-			<a class="plus-link" href="/create/project/">
+			<button type="button" class="plus-link">
 				<span class="plus-link__inner">+</span>
-			</a>
+			</button>
+			<div class="content__profileCreate">
+				<a href="/create/project/" class="create__link">Создать проект</a>
+				<a href="/create/task/" class="create__link">Создать заявку</a>
+			</div>
 		</article>
 		<article class="content__name">
 			<h2 class="content__tittle">Ваши проекты</h2>
