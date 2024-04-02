@@ -46,3 +46,10 @@ projectList.addEventListener('scroll', () => {
   updateScrollbarThumb(projectList);
 });
 
+const button = document.querySelector('.plus-link');
+const createContent = document.querySelector('.content__profileCreate');
+
+button.addEventListener('click', () => {
+    createContent.classList.toggle('open');
+});
+
