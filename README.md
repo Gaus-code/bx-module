@@ -38,5 +38,5 @@ require_once __DIR__ . '/bitrix/routing_index.php';
 ```php
 <?php
 
-\Bitrix\Main\Loader::includeModule('up.ucan');
+\Bitrix\Main\Loader::includeModule('up.ukan');
 ```
