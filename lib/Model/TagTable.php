@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 
 Loc::loadMessages(__FILE__);
 
@@ -57,6 +58,10 @@ class TagTable extends DataManager
 					'title' => Loc::getMessage('TAG_ENTITY_TITLE_FIELD')
 				]
 			),
+			(new ManyToMany(
+				'TASKS',
+				TaskTable::class)
+			)->configureTableName('up_ukan_tag_task'),
 		];
 	}
 

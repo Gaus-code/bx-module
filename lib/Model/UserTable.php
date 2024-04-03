@@ -8,6 +8,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 
 Loc::loadMessages(__FILE__);
 
@@ -117,6 +118,36 @@ class UserTable extends DataManager
 					'required' => true,
 					'title' => Loc::getMessage('USER_ENTITY_UPDATED_AT_FIELD')
 				]
+			),
+			new OneToMany(
+				'PROJECTS',
+				ProjectTable::class,
+				'CLIENT'
+			),
+			new OneToMany(
+				'FEEDBACKS_FROM',
+				FeedbackTable::class,
+				'FROM_USER'
+			),
+			new OneToMany(
+				'FEEDBACKS_TO',
+				FeedbackTable::class,
+				'TO_USER'
+			),
+			new OneToMany(
+				'TASKS_CLIENT',
+				TaskTable::class,
+				'CLIENT'
+			),
+			new OneToMany(
+				'TASKS_CONTRACTOR',
+				TaskTable::class,
+				'CONTRACTOR'
+			),
+			new OneToMany(
+				'RESPONSES',
+				ResponseTable::class,
+				'CONTRACTOR'
 			),
 		];
 	}

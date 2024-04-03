@@ -8,6 +8,9 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\Relations\OneToMany;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
 
@@ -77,6 +80,11 @@ class ProjectTable extends DataManager
 					'title' => Loc::getMessage('PROJECT_ENTITY_CLIENT_ID_FIELD')
 				]
 			),
+			new Reference(
+				'CLIENT',
+				UserTable::class,
+				Join::on('this.CLIENT_ID', 'ref.ID')
+			),
 			new DatetimeField(
 				'CREATED_AT',
 				[
@@ -90,6 +98,11 @@ class ProjectTable extends DataManager
 					'required' => true,
 					'title' => Loc::getMessage('PROJECT_ENTITY_UPDATED_AT_FIELD')
 				]
+			),
+			new OneToMany(
+				'TASKS',
+				TaskTable::class,
+				'PROJECT'
 			),
 		];
 	}

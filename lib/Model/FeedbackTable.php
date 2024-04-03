@@ -6,6 +6,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\DatetimeField,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\TextField;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
 
@@ -68,6 +70,11 @@ class FeedbackTable extends DataManager
 					'title' => Loc::getMessage('FEEDBACK_ENTITY_FROM_USER_ID_FIELD')
 				]
 			),
+			new Reference(
+				'FROM_USER',
+				UserTable::class,
+				Join::on('this.FROM_USER_ID', 'ref.ID')
+			),
 			new IntegerField(
 				'TO_USER_ID',
 				[
@@ -75,12 +82,22 @@ class FeedbackTable extends DataManager
 					'title' => Loc::getMessage('FEEDBACK_ENTITY_TO_USER_ID_FIELD')
 				]
 			),
+			new Reference(
+				'TO_USER',
+				UserTable::class,
+				Join::on('this.TO_USER_ID', 'ref.ID')
+			),
 			new IntegerField(
 				'TASK_ID',
 				[
 					'required' => true,
 					'title' => Loc::getMessage('FEEDBACK_ENTITY_TASK_ID_FIELD')
 				]
+			),
+			new Reference(
+				'TASK',
+				TaskTable::class,
+				Join::on('this.TASK_ID', 'ref.ID')
 			),
 			new TextField(
 				'FEEDBACK',

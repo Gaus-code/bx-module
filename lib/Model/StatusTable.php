@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 
 Loc::loadMessages(__FILE__);
 
@@ -57,6 +58,11 @@ class StatusTable extends DataManager
 					'title' => Loc::getMessage('STATUS_ENTITY_TITLE_FIELD')
 				]
 			),
+			new OneToMany(
+				'TASKS',
+				TaskTable::class,
+				'STATUS'
+			)
 		];
 	}
 

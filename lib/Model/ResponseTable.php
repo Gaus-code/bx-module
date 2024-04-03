@@ -6,6 +6,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\DatetimeField,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\TextField;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
 
@@ -61,12 +63,22 @@ class ResponseTable extends DataManager
 					'title' => Loc::getMessage('RESPONSE_ENTITY_TASK_ID_FIELD')
 				]
 			),
+			new Reference(
+				'TASK',
+				TaskTable::class,
+				Join::on('this.TASK_ID', 'ref.ID')
+			),
 			new IntegerField(
 				'CONTRACTOR_ID',
 				[
 					'required' => true,
 					'title' => Loc::getMessage('RESPONSE_ENTITY_CONTRACTOR_ID_FIELD')
 				]
+			),
+			new Reference(
+				'CONTRACTOR',
+				UserTable::class,
+				Join::on('this.CONTRACTOR_ID', 'ref.ID')
 			),
 			new IntegerField(
 				'PRICE',
