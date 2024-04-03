@@ -10,7 +10,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 			</h1>
 			<p>Поможем найти работу, которая подойдет вам лучше всего!</p>
 			<div class="preview__btnContainer">
-				<a href="/login/" class="previewBtn">Начать</a>
+				<a href="/registration/" class="previewBtn">Начать</a>
 			</div>
 		</div>
 	</section>
@@ -31,7 +31,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 		<div class="companiesPreview__textContainer">
 			<h2>Работайте с <span> интересными</span> <br> команиями</h2>
 			<p>Выбирай любую и откликайся на заявки!</p>
-			<a href="/login/" class="previewBtn">Начать</a>
+			<a href="/registration/" class="previewBtn">Начать</a>
 		</div>
 	</section>
 	<section class="catalogPreview wrapper">
@@ -144,7 +144,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 		<div class="peoplePreview__textcontainer">
 			<h2>Так много людей уже <span>заняты</span><br> по всему Калининграду</h2>
 			<p>Находите надёжных исполнителей для решений любых задач</p>
-			<a class="peoplePreview__link" href="/login/">Разместить заявку</a>
+			<a class="peoplePreview__link" href="/registration/">Разместить заявку</a>
 		</div>
 		<div class="peoplePreview__imagecontainer">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/group.png" alt="create your first request">

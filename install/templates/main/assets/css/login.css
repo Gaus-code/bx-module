@@ -25,11 +25,11 @@
     transform: translate(-50%, -50%);
     border: 2px solid var(--color-primary-purple);
 }
-.signUp{
+.signUp {
     opacity: 0;
     pointer-events: none;
 }
-.show__signUp .signUp{
+.show__signUp .signUp {
     opacity: 1;
     pointer-events: auto;
 }
