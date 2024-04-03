@@ -1,3 +1,14 @@
+const form = document.querySelector(".modal");
+const currentPage = window.location.pathname;
+if (currentPage === '/registration/')
+{
+	form.classList.add("show__signUp");
+}
+else
+{
+	form.classList.remove("show__signUp");
+}
+
 const forms = document.querySelector(".modal"),
 	pwShowHide = document.querySelectorAll(".modalField__eye"),
 	buttons = document.querySelectorAll(".modalCard__availability_btn"),
