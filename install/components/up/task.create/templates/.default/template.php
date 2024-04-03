@@ -45,7 +45,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<ul class="filter__list">
 						<?php foreach ($arResult['PROJECTS'] as $project): ?>
 							<li class="filter__item">
-								<input type="radio" class="filter__checkbox" name="project[<?=$project['ID']?>]" value="<?=$project['ID']?>">
+								<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project['ID']?>">
 								<label class="filter__label"><?=$project['TITLE']?></label>
 							</li>
 						<?php endforeach; ?>
