@@ -69,7 +69,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <!--					</ul>-->
 <!--				</fieldset>-->
 <!--				<fieldset>-->
-<!--					<legend>Добавьте Статаус</legend>-->
+<!--					<legend>Добавьте Статус</legend>-->
 <!--					<ul class="filter__list">-->
 <!--						<li class="filter__item">-->
 <!--							<input type="radio" name="status" class="filter__checkbox">-->

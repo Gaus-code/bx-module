@@ -4,7 +4,6 @@ class TaskListComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-
 		$this->fetchTasks();
 		$this->includeComponentTemplate();
 	}
@@ -13,12 +12,17 @@ class TaskListComponent extends CBitrixComponent
 	{
 		if (!isset($arParams['CLIENT_ID']) || $arParams['CLIENT_ID'] <= 0)
 		{
-			unset($arParams['CLIENT_ID']);
+			$arParams['CLIENT_ID'] = null;
 		}
 
 		if (!isset($arParams['TAG_ID']) || $arParams['TAG_ID'] === [] )
 		{
-			unset($arParams['TAG_ID']);
+			$arParams['TAG_ID'] = null;
+		}
+
+		if (!isset($arParams['IS_PERSONAL_ACCOUNT_PAGE']))
+		{
+			$arParams['IS_PERSONAL_ACCOUNT_PAGE'] = false;
 		}
 
 		return $arParams;
@@ -37,6 +41,7 @@ class TaskListComponent extends CBitrixComponent
 				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
 				'CLIENT' => 'Заказчик Заказчиков',
 				'TAGS' => ['Website', 'Design', 'PHP'],
+				'COUNT_FILES' => 2,
 			],
 			[
 				'ID' => 2,
@@ -44,6 +49,7 @@ class TaskListComponent extends CBitrixComponent
 				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
 				'CLIENT' => 'Заказчик Заказчиков',
 				'TAGS' => ['Website', 'Design'],
+				'COUNT_FILES' => 2,
 			],
 			[
 				'ID' => 3,
@@ -51,6 +57,7 @@ class TaskListComponent extends CBitrixComponent
 				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
 				'CLIENT' => 'Заказчик Заказчиков',
 				'TAGS' => ['Website', 'Design'],
+				'COUNT_FILES' => 2,
 			],
 			[
 				'ID' => 4,
@@ -58,6 +65,7 @@ class TaskListComponent extends CBitrixComponent
 				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
 				'CLIENT' => 'Заказчик Заказчиков',
 				'TAGS' => ['Website', 'Design'],
+				'COUNT_FILES' => 2,
 			],
 			[
 				'ID' => 5,
@@ -65,6 +73,7 @@ class TaskListComponent extends CBitrixComponent
 				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
 				'CLIENT' => 'Заказчик Заказчиков',
 				'TAGS' => ['Website', 'Design'],
+				'COUNT_FILES' => 2,
 			],
 
 		];

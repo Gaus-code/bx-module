@@ -1,33 +1,13 @@
 <?php
 
-class TaskCreateComponent extends CBitrixComponent
+class CatalogComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
 		$this->fetchTags();
-		$this->fetchProjects();
 		$this->includeComponentTemplate();
 	}
 
-	protected function fetchProjects()
-	{
-		//TODO fetch projects from db (by CLIENT_ID)
-
-		$this->arResult['PROJECTS'] = [
-			[
-				'ID' => 1,
-				'TITLE' => 'Интернет-магазин',
-			],
-			[
-				'ID' => 2,
-				'TITLE' => 'Сервис UKAN',
-			],
-			[
-				'ID' => 3,
-				'TITLE' => 'Диплом',
-			],
-		];
-	}
 	protected function fetchTags()
 	{
 		//TODO fetch Tags from db
