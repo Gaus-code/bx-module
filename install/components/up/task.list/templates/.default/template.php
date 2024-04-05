@@ -19,9 +19,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php foreach ($task['TAGS'] as $tag): ?>
 					<p class="task__tag"><?= $tag ?></p>
 				<?php endforeach; ?>
-				<div class="task__edit">
-					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/edit.svg" alt="edit task">
-				</div>
 			</div>
 			<div class="task__main">
 				<h3><?= $task['TITLE'] ?></h3>

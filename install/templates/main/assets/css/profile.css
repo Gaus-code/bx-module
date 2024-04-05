@@ -71,6 +71,10 @@
     margin-left: 50px;
 }
 
+a.aside__btn {
+    color: var(--color-primary-black);
+}
+
 .active-profile-btn {
     background: var(--color-primary-purple);
 }
@@ -114,6 +118,7 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
+    text-align: center;
 }
 
 .profile__email {
@@ -187,7 +192,6 @@
     font-size: 26px;
     font-weight: 500;
     line-height: 31px;
-    letter-spacing: 0%;
     text-align: left;
 }
 
@@ -492,4 +496,32 @@
 .editData__btn img {
     display: block;
     width: 40px;
+}
+
+/*empty responses styles start*/
+.contractor__emptyContainer {
+    margin-top: 32px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contractor__emptyContainer img {
+    display: block;
+    width: 300px;
+}
+
+.contractor__emptyLink {
+    padding: 5px;
+    font-size: 18px;
+}
+
+.contractor__emptyLink a {
+    color: var(--color-primary-purple);
+}
+
+.contractor__emptyLink a:hover, .contractor__emptyLink a:active {
+    border-bottom: 3px solid var(--color-primary-purple);
 }
