@@ -34,49 +34,15 @@ class TaskListComponent extends CBitrixComponent
 		//TODO fetchTasks from db using filters (CLIENT_ID and TAG_ID)
 
 
-		$this->arResult['TASKS'] = [
-			[
-				'ID' => 1,
-				'TITLE' => 'Bugo Website About page 1',
-				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-				'CLIENT' => 'Заказчик Заказчиков',
-				'TAGS' => ['Website', 'Design', 'PHP'],
-				'COUNT_FILES' => 2,
-			],
-			[
-				'ID' => 2,
-				'TITLE' => 'Bugo Website About page 2',
-				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-				'CLIENT' => 'Заказчик Заказчиков',
-				'TAGS' => ['Website', 'Design'],
-				'COUNT_FILES' => 2,
-			],
-			[
-				'ID' => 3,
-				'TITLE' => 'Bugo Website About page 3',
-				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-				'CLIENT' => 'Заказчик Заказчиков',
-				'TAGS' => ['Website', 'Design'],
-				'COUNT_FILES' => 2,
-			],
-			[
-				'ID' => 4,
-				'TITLE' => 'Bugo Website About page 4',
-				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-				'CLIENT' => 'Заказчик Заказчиков',
-				'TAGS' => ['Website', 'Design'],
-				'COUNT_FILES' => 2,
-			],
-			[
-				'ID' => 5,
-				'TITLE' => 'Bugo Website About page 5',
-				'DESCRIPTION' => 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-				'CLIENT' => 'Заказчик Заказчиков',
-				'TAGS' => ['Website', 'Design'],
-				'COUNT_FILES' => 2,
-			],
+		if (is_null($this->arParams['CLIENT_ID']))
+		{
+			$this->arResult['TASKS'] = \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'CLIENT', 'TAGS'])->fetchCollection();
+		}
+		else
+		{
+			$this->arResult['TASKS'] = \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'TAGS'])->where('CLIENT_ID',$this->arParams['CLIENT_ID'])->fetchCollection();
+		}
 
-		];
 	}
 
 }
