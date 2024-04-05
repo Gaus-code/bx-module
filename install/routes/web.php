@@ -14,4 +14,7 @@ return function (RoutingConfigurator $routes) {
 	$routes->get('/client/{user_id}/info/', new PublicPageController('/local/modules/up.ukan/views/client-info.php'));
 	$routes->get('/create/task/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
 	$routes->get('/create/project/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
+	$routes->get('/contractor/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/contractor.php'));
+	$routes->get('/contractor/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/contractor-responses.php'));
+	$routes->get('/contractor/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/contractor-notifications.php'));
 };
