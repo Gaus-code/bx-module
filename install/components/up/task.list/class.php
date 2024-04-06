@@ -31,17 +31,25 @@ class TaskListComponent extends CBitrixComponent
 
 	protected function fetchTasks()
 	{
-		//TODO fetchTasks from db using filters (CLIENT_ID and TAG_ID)
+		//TODO fetchTasks from db using filters TAG_ID
 
+		$query = \Up\Ukan\Model\TaskTable::query();
 
-		if (is_null($this->arParams['CLIENT_ID']))
+		if ($this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
-			$this->arResult['TASKS'] = \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'CLIENT', 'TAGS'])->fetchCollection();
+			$query->setSelect(['*', 'TAGS']);
 		}
 		else
 		{
-			$this->arResult['TASKS'] = \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'TAGS'])->where('CLIENT_ID',$this->arParams['CLIENT_ID'])->fetchCollection();
+			$query->setSelect(['*', 'TAGS', 'CLIENT']);
 		}
+
+		if (!is_null($this->arParams['CLIENT_ID']))
+		{
+			$query->where('CLIENT_ID',$this->arParams['CLIENT_ID']);
+		}
+
+		$this->arResult['TASKS'] = $query->fetchCollection();
 
 	}
 

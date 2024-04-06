@@ -35,8 +35,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<ul class="filter__list">
 							<?php foreach ($arResult['TAGS'] as $tag): ?>
 								<li class="filter__item">
-									<input type="checkbox" class="filter__checkbox" name="tag[<?=$tag['ID']?>]" value="<?=$tag['ID']?>">
-									<label class="filter__label"><?=$tag['TITLE']?></label>
+									<input type="checkbox" class="filter__checkbox" name="tag[<?=$tag->getId()?>]" value="<?=$tag->getId()?>">
+									<label class="filter__label"><?=$tag->getTitle()?></label>
 								</li>
 							<?php endforeach; ?>
 						</ul>
@@ -46,8 +46,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<ul class="filter__list">
 							<?php foreach ($arResult['PROJECTS'] as $project): ?>
 								<li class="filter__item">
-									<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project['ID']?>">
-									<label class="filter__label"><?=$project['TITLE']?></label>
+									<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>">
+									<label class="filter__label"><?=$project->getTitle()?></label>
 								</li>
 							<?php endforeach; ?>
 						</ul>

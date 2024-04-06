@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult['TAGS'] as $tag): ?>
 				<li class="filter__item">
 					<input type="checkbox" class="filter__checkbox">
-					<label class="filter__label"><?=$tag['TITLE']?></label>
+					<label class="filter__label"><?=$tag->getTitle()?></label>
 				</li>
 			<?php endforeach; ?>
 		</ul>

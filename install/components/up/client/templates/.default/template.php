@@ -22,11 +22,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</button>
 			<div class="content__profileCreate">
 				<a href="/create/project/" class="create__link">Создать проект</a>
-				<a href="/create/task/" class="create__link">Создать заявку</a>
+				<a href="/create/task/<?=$arParams['USER_ID']?>/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Ваши проекты</h2>
+			<h2 class="content__tittle">Ваш профиль</h2>
 		</article>
 		<article class="content__main">
 			<?php $APPLICATION->IncludeComponent('up:task.list', '', [
