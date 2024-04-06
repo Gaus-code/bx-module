@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user`
 	`SURNAME`    varchar(255)       NOT NULL,
 	`ROLE`       varchar(255)       NOT NULL,
 	`BIO`        text,
-	`CREATED_AT` timestamp          NOT NULL,
-	`UPDATED_AT` timestamp          NOT NULL,
+	`CREATED_AT` datetime,
+	`UPDATED_AT` datetime,
 	PRIMARY KEY (
 	             `ID`
 		),
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
 	`TO_USER_ID`   int                NOT NULL,
 	`TASK_ID`      int                NOT NULL,
 	`FEEDBACK`     text,
-	`CREATED_AT`   timestamp          NOT NULL,
+	`CREATED_AT`   datetime,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`CONTRACTOR_ID` int,
 	`STATUS_ID`     int                NOT NULL,
 	`PROJECT_ID`    int,
-	`CREATED_AT`    timestamp          NOT NULL,
-	`UPDATED_AT`    timestamp          NOT NULL,
+	`CREATED_AT`    datetime,
+	`UPDATED_AT`    datetime,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS `up_ukan_response`
 	`CONTRACTOR_ID` int                NOT NULL,
 	`PRICE`         int                NOT NULL,
 	`DESCRIPTION`   text,
-	`CREATED_AT`    timestamp          NOT NULL,
-	`UPDATED_AT`    timestamp          NOT NULL,
+	`CREATED_AT`    datetime,
+	`UPDATED_AT`    datetime,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS `up_ukan_project`
 	`TITLE`       varchar(255)       NOT NULL,
 	`DESCRIPTION` text               NOT NULL,
 	`CLIENT_ID`   int                NOT NULL,
-	`CREATED_AT`  timestamp          NOT NULL,
-	`UPDATED_AT`  timestamp          NOT NULL,
+	`CREATED_AT`  datetime,
+	`UPDATED_AT`  datetime,
 	PRIMARY KEY (
 	             `ID`
 		)

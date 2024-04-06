@@ -12,6 +12,8 @@ use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
+use Bitrix\Main\Type\Date;
+use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
 
@@ -89,7 +91,8 @@ class TaskTable extends DataManager
 				'PRIORITY',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_PRIORITY_FIELD')
+					'title' => Loc::getMessage('TASK_ENTITY_PRIORITY_FIELD'),
+					'default_value' => 1,
 				]
 			),
 			new IntegerField(
@@ -119,7 +122,8 @@ class TaskTable extends DataManager
 				'STATUS_ID',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_STATUS_ID_FIELD')
+					'title' => Loc::getMessage('TASK_ENTITY_STATUS_ID_FIELD'),
+					'default_value' => 1
 				]
 			),
 			new Reference(
@@ -142,14 +146,20 @@ class TaskTable extends DataManager
 				'CREATED_AT',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_CREATED_AT_FIELD')
+					'title' => Loc::getMessage('TASK_ENTITY_CREATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			new DatetimeField(
 				'UPDATED_AT',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_UPDATED_AT_FIELD')
+					'title' => Loc::getMessage('TASK_ENTITY_UPDATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			new OneToMany(
