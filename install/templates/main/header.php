@@ -29,7 +29,7 @@
 		</nav>
 	</div>
 	<div class="header__registerContainer">
-		<a href="/login/" class="header__btn">Войти</a>
+		<a href="/sign-in" class="header__btn">Войти</a>
 	</div>
 </header>
 

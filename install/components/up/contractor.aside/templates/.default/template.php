@@ -30,6 +30,6 @@
 				<span>2</span>
 			</a>
 		</nav>
-		<button class="profile__logOut">Выйти</button>
+		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
 	</div>
 </aside>

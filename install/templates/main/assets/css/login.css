@@ -12,9 +12,7 @@
 }
 
 .modalCard {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    margin: 20px auto -80px;
     z-index: 4;
     width: 600px;
     display: flex;
@@ -22,7 +20,6 @@
     padding: 41px 80px 24px;
     border-radius: 8px;
     background: var(--color-primary-white);
-    transform: translate(-50%, -50%);
     border: 2px solid var(--color-primary-purple);
 }
 .signUp {
@@ -39,11 +36,11 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 10px;
+    margin: 10px 0;
     padding-left: 10px;
     border-radius: 11px;
     width: 100%;
-    height: 30px;
+    min-height: 30px;
 }
 
 .invalidField{
@@ -89,7 +86,7 @@
     text-align: center;
     font-weight: 500;
     line-height: normal;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 

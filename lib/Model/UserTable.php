@@ -108,14 +108,12 @@ class UserTable extends DataManager
 			new DatetimeField(
 				'CREATED_AT',
 				[
-					'required' => true,
 					'title' => Loc::getMessage('USER_ENTITY_CREATED_AT_FIELD')
 				]
 			),
 			new DatetimeField(
 				'UPDATED_AT',
 				[
-					'required' => true,
 					'title' => Loc::getMessage('USER_ENTITY_UPDATED_AT_FIELD')
 				]
 			),
