@@ -37,6 +37,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<div class="create__fieldsetContainer">
 					<fieldset>
 						<legend>Добавьте Тэги</legend>
+						<?php if (count($arResult['TAGS']) > 0): ?>
 						<ul class="filter__list">
 							<?php foreach ($arResult['TAGS'] as $tag): ?>
 								<li class="filter__item">
@@ -45,9 +46,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</li>
 							<?php endforeach; ?>
 						</ul>
+						<?php else: ?>
+							<p class="empty">У вас пока нет тегов</p>
+						<?php endif;?>
 					</fieldset>
 					<fieldset>
 						<legend>Выберите Проект</legend>
+						<?php if (count($arResult['PROJECTS']) > 0): ?>
 						<ul class="filter__list">
 							<?php foreach ($arResult['PROJECTS'] as $project): ?>
 								<li class="filter__item">
@@ -56,6 +61,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</li>
 							<?php endforeach; ?>
 						</ul>
+						<?php else: ?>
+							<div class="emptyContainer">
+								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
+								<p class="empty">У вас пока нет проектов</p>
+							</div>
+						<?php endif;?>
 					</fieldset>
 					<!--				<fieldset>-->
 					<!--					<legend>Добавьте Приоритетность</legend>-->

@@ -12,12 +12,12 @@ class Auth extends Engine\Controller
 	public function configureActions(): array
 	{
 		return [
-			'signin' => [
+			'signIn' => [
 				'-prefilters' => [
 					Engine\ActionFilter\Authentication::class,
 				],
 			],
-			'signupUser' => [
+			'signUpUser' => [
 				'-prefilters' => [
 					Engine\ActionFilter\Authentication::class,
 				],

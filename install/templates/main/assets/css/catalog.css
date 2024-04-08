@@ -149,3 +149,18 @@
 .pagination__btn {
     color: var(--color-primary-purple);
 }
+
+.content__image {
+    grid-column-start: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.content__image p {
+    font-size: 18px;
+    color: var(--color-primary-purple);
+    font-weight: 500;
+}

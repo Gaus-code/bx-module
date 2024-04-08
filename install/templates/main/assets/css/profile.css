@@ -129,6 +129,7 @@ a.aside__btn {
 }
 
 .profile__logOut {
+    display: block;
     padding: 8px;
     margin-top: 45px;
     width: 100%;
@@ -137,6 +138,7 @@ a.aside__btn {
     border-radius: 8px;
     text-align: center;
     font-weight: 500;
+    color: var(--color-primary-black);
 }
 
 .profile__logOut:active, .profile__logOut:hover {
@@ -524,4 +526,17 @@ a.aside__btn {
 
 .contractor__emptyLink a:hover, .contractor__emptyLink a:active {
     border-bottom: 3px solid var(--color-primary-purple);
+}
+
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.emptyContainer img {
+    display: block;
+    width: 120px;
 }
