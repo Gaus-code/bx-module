@@ -5,7 +5,6 @@ class UserComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->includeComponentTemplate();
-		$this->fetchUser();
 	}
 
 	public function onPrepareComponentParams($arParams)
@@ -16,9 +15,5 @@ class UserComponent extends CBitrixComponent
 		}
 
 		return $arParams;
-	}
-	protected function fetchUser()
-	{
-		//coming soon...
 	}
 }

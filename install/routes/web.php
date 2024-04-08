@@ -19,6 +19,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/profile/{user_id}/project/', new PublicPageController('/local/modules/up.ukan/views/user-project.php'));
 	$routes->get('/profile/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/user-responses.php'));
 	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/user-notify.php'));
+	$routes->get('/subscription/', new PublicPageController('/local/modules/up.ukan/views/subscription.php'));
 
 	//profile actions(get)
 	$routes->get('/edit/profile/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));

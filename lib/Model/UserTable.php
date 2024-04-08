@@ -9,6 +9,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
+use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
 
@@ -108,13 +109,21 @@ class UserTable extends DataManager
 			new DatetimeField(
 				'CREATED_AT',
 				[
-					'title' => Loc::getMessage('USER_ENTITY_CREATED_AT_FIELD')
+					'required' => true,
+					'title' => Loc::getMessage('USER_ENTITY_CREATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			new DatetimeField(
 				'UPDATED_AT',
 				[
-					'title' => Loc::getMessage('USER_ENTITY_UPDATED_AT_FIELD')
+					'required' => true,
+					'title' => Loc::getMessage('USER_ENTITY_UPDATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			new OneToMany(
