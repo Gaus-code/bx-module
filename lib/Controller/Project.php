@@ -2,7 +2,9 @@
 
 namespace Up\Ukan\Controller;
 
+use Bitrix\Main\Application;
 use Bitrix\Main\Engine\Controller;
+use Bitrix\Main\UserTable;
 use Up\Ukan\Model\EO_Project;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\ProjectTable;
@@ -18,7 +20,9 @@ class Project extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
-			$clientId = 1;
+			global $USER;
+
+			$clientId = $USER->GetID();
 
 			$project = new EO_Project();
 			$project->setTitle($title)->setDescription($description)->setClientId($clientId);

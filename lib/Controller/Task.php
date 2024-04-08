@@ -19,7 +19,9 @@ class Task extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
-			$clientId = 1;
+			global $USER;
+
+			$clientId = $USER->GetID();
 
 			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
 			{
@@ -62,7 +64,9 @@ class Task extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
-			$clientId = 1;
+			global $USER;
+
+			$clientId = $USER->GetID();
 
 			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
 			{
