@@ -1,7 +1,12 @@
+<?php
+/**
+ * @var CUser $USER
+ */
+?>
 <aside class="aside">
 	<div class="aside__profile">
-		<p class="profile__name">Заказчик Заказчиков</p>
-		<p class="profile__email">zakazchikIsSuper007@gmail.com</p>
+		<p class="profile__name"><?=$USER->GetLogin()?></p>
+		<p class="profile__email"><?=$USER->GetEmail()?></p>
 	</div>
 	<div class="aside__header">
 		<nav class="aside__nav">
@@ -15,6 +20,11 @@
 					Заявки
 				</button>
 				<ul id="taskList" class="aside__taskList">
+					<li>
+						<a href="/profile/<?=$USER->GetID()?>/tasks/">
+							<span></span>Все заявки
+						</a>
+					</li>
 					<li>
 						<a href="/task/1/">
 							<span></span>Task 1
@@ -46,6 +56,11 @@
 				</button>
 				<ul id="projectList" class="aside__projectList">
 					<li>
+						<a class="project-link" href="/profile/<?=$USER->GetID()?>/projects/">
+							<span></span>Все проекты
+						</a>
+					</li>
+					<li>
 						<a class="project-link" href="/project/1/">
 							<span></span>Project 1 Project 1 Project 1 Project 1 Project 1
 						</a>
@@ -68,11 +83,18 @@
 				</ul>
 			</div>
 
-			<button class="aside__btn">
+			<div class="aside__navContainer">
+				<a href="/profile/<?=$USER->GetID()?>/responses/" class="aside__btn">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/folder.svg" alt="project folder">
+					Отклики
+				</a>
+			</div>
+
+			<a href="/profile/<?=$USER->GetID()?>/notifications/" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
 				Уведомления
 				<span>2</span>
-			</button>
+			</a>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
 	</div>

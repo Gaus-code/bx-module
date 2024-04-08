@@ -6,17 +6,16 @@ use Up\Ukan\Model\BUserTable;
 
 class User
 {
-	public static function registerUser($login, $name, $lastname, $password, $email, $role)
+	public static function registerUser($login, $name, $lastname, $password, $email)
 	{
 		global $USER;
 
-		$resultMessage = $USER->Register($login, $name, $lastname, $password, $password, $email, $role);
+		$resultMessage = $USER->Register($login, $name, $lastname, $password, $password, $email);
 		if ($resultMessage['TYPE'] === 'OK')
 		{
 			$userId = $USER->GetID();
 			$USER->Update($userId, [
-				"WORK_COMPANY" => 'UKAN',
-				"WORK_POSITION" => $role
+				"WORK_COMPANY" => 'UKAN'
 			]);
 			return $USER->GetID();
 		}
@@ -66,15 +65,5 @@ class User
 			return False;
 		}
 		return True;
-	}
-
-	public static function getRole($userId)
-	{
-		$result = BUserTable::query()
-			->setSelect(['WORK_POSITION'])
-			->setFilter(['ID'=> $userId])
-			->fetch();
-
-		return $result['WORK_POSITION'];
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-class ContructorAsideComponent extends CBitrixComponent
+class UserNotifyComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{

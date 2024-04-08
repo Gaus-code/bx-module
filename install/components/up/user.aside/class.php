@@ -1,6 +1,6 @@
 <?php
 
-class ClientAsideComponent extends CBitrixComponent
+class UserAsideComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{

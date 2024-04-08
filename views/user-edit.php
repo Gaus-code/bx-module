@@ -1,7 +1,10 @@
 <?php
+/**
+ * @var CUser $USER
+ */
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("UKAN - super service");
-global $USER;
+
 if (!$USER->IsAuthorized())
 {
 	LocalRedirect('/sign-in');
@@ -9,7 +12,7 @@ if (!$USER->IsAuthorized())
 ?>
 
 <main class="profile__main">
-	<?php $APPLICATION->IncludeComponent('up:client.aside', '', []); ?>
+	<?php $APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>

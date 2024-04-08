@@ -13,7 +13,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <main class="profile__main">
-	<?php $APPLICATION->IncludeComponent('up:client.aside', '', []); ?>
+	<?php $APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>

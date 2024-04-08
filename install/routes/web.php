@@ -3,21 +3,30 @@
 use Bitrix\Main\Routing\Controllers\PublicPageController;
 use Bitrix\Main\Routing\RoutingConfigurator;
 
-return function (RoutingConfigurator $routes) {
+return function (RoutingConfigurator $routes)
+{
 
+	//common
 	$routes->get('/', new PublicPageController('/local/modules/up.ukan/views/main.php'));
 	$routes->get('/catalog/{page}/', new PublicPageController('/local/modules/up.ukan/views/catalog.php'));
 	$routes->get('/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
-	$routes->get('/client/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/client.php'));
-	$routes->get('/client/{user_id}/info/', new PublicPageController('/local/modules/up.ukan/views/client-info.php'));
+
+	//profile
+	$routes->get('/profile/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/user.php'));
+	$routes->get('/profile/{user_id}/tasks/', new PublicPageController('/local/modules/up.ukan/views/user-tasks.php'));
+	$routes->get('/profile/{user_id}/task/', new PublicPageController('/local/modules/up.ukan/views/user-task.php'));
+	$routes->get('/profile/{user_id}/projects/', new PublicPageController('/local/modules/up.ukan/views/user-projects.php'));
+	$routes->get('/profile/{user_id}/project/', new PublicPageController('/local/modules/up.ukan/views/user-project.php'));
+	$routes->get('/profile/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/user-responses.php'));
+	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/user-notify.php'));
+
+	//profile actions(get)
+	$routes->get('/edit/profile/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));
 	$routes->get('/create/task/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
 	$routes->get('/create/project/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
-	$routes->get('/contractor/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/contractor.php'));
-	$routes->get('/contractor/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/contractor-responses.php'));
-	$routes->get('/contractor/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/contractor-notifications.php'));
 	$routes->get('/task/{id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
-	$routes->get('/client/', new PublicPageController('/local/modules/up.ukan/views/client.php'));
 
+	//profile actions(post)
 	$routes->post('/create/task/', [\Up\Ukan\Controller\Task::class, 'create']);
 	$routes->post('/update/task/', [\Up\Ukan\Controller\Task::class, 'update']);
 	$routes->post('/delete/task/', [\Up\Ukan\Controller\Task::class, 'delete']);
@@ -32,5 +41,4 @@ return function (RoutingConfigurator $routes) {
 	$routes->post('/reg', [\Up\Ukan\Controller\Auth::class, 'signUpUser']);
 	$routes->get('/sign-up', new PublicPageController('/local/modules/up.ukan/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/up.ukan/views/sign-in.php'));
-
 };

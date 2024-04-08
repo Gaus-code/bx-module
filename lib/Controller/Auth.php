@@ -25,18 +25,17 @@ class Auth extends Engine\Controller
 		];
 	}
 
+	protected function setUserSession($userId)
+	{
+		$session = \Bitrix\Main\Application::getInstance()->getSession();
+		if (!$session->has('USER_ID'))
+		{
+			$session->set('USER_ID', $userId);
+		}
+	}
 	public function signInAction($login, $password)
 	{
 		$errors = [];
-
-		if (empty($login))
-		{
-			$errors[] = 'Введите логин';
-		}
-		if (empty($password))
-		{
-			$errors[] = 'Введите пароль';
-		}
 
 		global $USER;
 		if (!is_object($USER))
@@ -51,9 +50,9 @@ class Auth extends Engine\Controller
 			if (is_bool($errorMessage) && $errorMessage)
 			{
 				$userId = $USER->GetID();
-				$role = User::getRole($userId);
+				$this->setUserSession($userId);
 
-				LocalRedirect('/'.$role.'/'.$USER->GetID().'/');
+				LocalRedirect('/profile/'.$userId.'/');
 			}
 			else
 			{
@@ -64,22 +63,14 @@ class Auth extends Engine\Controller
 		LocalRedirect('/sign-in');
 	}
 
-	public function signUpUserAction($login, $password, $firstname, $lastname, $email, $role)
+	public function signUpUserAction($login, $password, $firstname, $lastname, $email)
 	{
-		if (empty($role))
-		{
-			$errors[] = 'Укажите роль: заказчик или исполнитель';
-		}
-		if (strlen($firstname) > 20 || strlen($lastname) > 20)
-		{
-			$errors[] = 'Имя и фамилия не могут быть длиннее 20 символов.';
-		}
-
-		$result = User::registerUser($login, $firstname, $lastname, $password, $email, $role);
+		$result = User::registerUser($login, $firstname, $lastname, $password, $email);
 		if (is_numeric($result))
 		{
 			$userId = $result;
 			$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+			$this->setUserSession($userId);
 
 			$user = new EO_User();
 			$user->setId($userId)
@@ -87,7 +78,7 @@ class Auth extends Engine\Controller
 				 ->setHash($passwordHash)
 				 ->setName($firstname)
 				 ->setSurname($lastname)
-				 ->setRole($role);
+				 ->setRole('user');
 			$user->save();
 		}
 		else
@@ -108,21 +99,10 @@ class Auth extends Engine\Controller
 		}
 		else
 		{
-			self::getRole($role, $userId);
+			global $USER;
+			LocalRedirect('/profile/'.$USER->GetID().'/');
 		}
 
-	}
-
-	public static function getRole($role, $userId)
-	{
-		if ($role === 'client')
-		{
-			LocalRedirect('/client/'.$userId.'/');
-		}
-		if ($role === 'contractor')
-		{
-			LocalRedirect('/contractor/'.$userId.'/');
-		}
 	}
 
 	public function changePasswordAction($oldPassword, $newPassword, $confirmPassword)
@@ -169,13 +149,14 @@ class Auth extends Engine\Controller
 			}
 		}
 		\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-		LocalRedirect('/client/'.$USER->GetID().'/');
+		LocalRedirect('/profile/'.$USER->GetID().'/');
 	}
 
 	public static function logOutAction()
 	{
 		global $USER;
 		$USER->Logout();
+		unset($_SESSION['USER_ID']);
 		LocalRedirect('/sign-in');
 	}
 }

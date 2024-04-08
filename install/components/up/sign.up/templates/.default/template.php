@@ -21,14 +21,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 		</div>
 
-		<div class="modalField__role">
-			<input class="modalCard__radio" id="client-radio" type="radio" name="role" value="client">
-			<label for="client-radio">Я заказчик</label>
-
-			<input class="modalCard__role" id="executer-radio" type="radio" name="role" value="contractor">
-			<label for="executer-radio">Я исполнитель</label>
-		</div>
-
 		<div class="modalField">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="click and write your name" class="modalField__img">
 			<input class="modalCard__form_input" autocomplete="off" type="text" name="firstname" maxlength="30" placeholder="Имя">

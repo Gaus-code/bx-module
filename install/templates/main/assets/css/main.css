@@ -436,6 +436,7 @@ h1 span {
 
 .detail {
     min-height: 500px;
+    max-width: 850px;
 }
 
 .detail__header {
