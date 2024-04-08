@@ -19,7 +19,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 16px;
+    gap: 20px;
     margin-top: 20px;
 }
 
@@ -33,7 +33,6 @@
 .subscription__item img {
     display: block;
     width: 20px;
-    margin-bottom: 10px;
 }
 
 .subscription__item p {
