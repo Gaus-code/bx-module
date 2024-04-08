@@ -19,6 +19,12 @@ return function (RoutingConfigurator $routes) {
 	$routes->get('/client/', new PublicPageController('/local/modules/up.ukan/views/client.php'));
 
 	$routes->post('/create/task/', [\Up\Ukan\Controller\Task::class, 'create']);
+	$routes->post('/update/task/', [\Up\Ukan\Controller\Task::class, 'update']);
+	$routes->post('/delete/task/', [\Up\Ukan\Controller\Task::class, 'delete']);
+
+	$routes->post('/create/project/', [\Up\Ukan\Controller\Project::class, 'create']);
+	$routes->post('/update/task/', [\Up\Ukan\Controller\Project::class, 'update']);
+	$routes->post('/delete/task/', [\Up\Ukan\Controller\Project::class, 'delete']);
 
 	//auth&logOut
 	$routes->get('/logout', [\Up\Ukan\Controller\Auth::class, 'logOut']);
@@ -26,10 +32,5 @@ return function (RoutingConfigurator $routes) {
 	$routes->post('/reg', [\Up\Ukan\Controller\Auth::class, 'signUpUser']);
 	$routes->get('/sign-up', new PublicPageController('/local/modules/up.ukan/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/up.ukan/views/sign-in.php'));
-	$routes->post('/update/task/', [\Up\Ukan\Controller\Task::class, 'update']);
-	$routes->post('/delete/task/', [\Up\Ukan\Controller\Task::class, 'delete']);
 
-	$routes->post('/create/project/', [\Up\Ukan\Controller\Project::class, 'create']);
-	$routes->post('/update/task/', [\Up\Ukan\Controller\Project::class, 'update']);
-	$routes->post('/delete/task/', [\Up\Ukan\Controller\Project::class, 'delete']);
 };
