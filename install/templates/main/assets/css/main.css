@@ -69,6 +69,23 @@ body {
     text-transform: capitalize;
 }
 
+.header__userBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-bottom: 3px solid var(--color-primary-purple);
+    padding: 10px;
+    color: var(--color-primary-black);
+    font-size: 17px;
+}
+
+.header__userBtn img {
+    display: block;
+    width: 30px;
+}
+
 .header__btn:hover, .previewBtn:hover, .header__btn:active, .previewBtn:active, .header__btn:focus, .previewBtn:focus {
     background: var(--color-primary-white);
     transition: 0.4s;

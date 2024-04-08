@@ -1,6 +1,7 @@
 <?php
 /**
  * @var CMain $APPLICATION
+ * @var CUser $USER
  */
 ?>
 <!doctype html>
@@ -28,9 +29,18 @@
 			<a href="/catalog/1/" class="header__link">Каталог</a>
 		</nav>
 	</div>
-	<div class="header__registerContainer">
-		<a href="/sign-in" class="header__btn">Войти</a>
-	</div>
+	<?php if (!$USER->IsAuthorized()): ?>
+		<div class="header__registerContainer">
+			<a href="/sign-in" class="header__btn">Войти</a>
+		</div>
+	<?php else:?>
+		<div class="header__registerContainer">
+			<a href="/profile/<?= $USER->GetID() ?>/" class="header__userBtn">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="get into your account link">
+				<?= $USER->GetLogin() ?>
+			</a>
+		</div>
+	<?php endif; ?>
 </header>
 
 
