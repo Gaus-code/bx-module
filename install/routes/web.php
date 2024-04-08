@@ -17,8 +17,6 @@ return function (RoutingConfigurator $routes) {
 	$routes->get('/contractor/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/contractor-notifications.php'));
 	$routes->get('/task/{id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
 	$routes->get('/client/', new PublicPageController('/local/modules/up.ukan/views/client.php'));
-	$routes->get('/create/task/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
-	$routes->get('/create/project/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
 
 	$routes->post('/create/task/', [\Up\Ukan\Controller\Task::class, 'create']);
 
@@ -28,4 +26,10 @@ return function (RoutingConfigurator $routes) {
 	$routes->post('/reg', [\Up\Ukan\Controller\Auth::class, 'signUpUser']);
 	$routes->get('/sign-up', new PublicPageController('/local/modules/up.ukan/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/up.ukan/views/sign-in.php'));
+	$routes->post('/update/task/', [\Up\Ukan\Controller\Task::class, 'update']);
+	$routes->post('/delete/task/', [\Up\Ukan\Controller\Task::class, 'delete']);
+
+	$routes->post('/create/project/', [\Up\Ukan\Controller\Project::class, 'create']);
+	$routes->post('/update/task/', [\Up\Ukan\Controller\Project::class, 'update']);
+	$routes->post('/delete/task/', [\Up\Ukan\Controller\Project::class, 'delete']);
 };
