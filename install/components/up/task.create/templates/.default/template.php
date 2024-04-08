@@ -18,15 +18,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h1>Создание Заявки</h1>
 		</article>
 		<article class="content__create">
-			<form class="create__form" action="" method="post">
+			<form class="create__form" action="/create/task/" method="post">
+				<?=bitrix_sessid_post()?>
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Добавьте Название</label>
-						<input id="createTitle" type="text" class="create__title" placeholder="Название заявки">
+						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки">
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="taskDescription">Добавьте Описание</label>
-						<textarea name="" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+					</div>
+					<div class="create__container">
+						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость</label>
+						<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
 					</div>
 				</div>
 				<div class="create__fieldsetContainer">
@@ -35,7 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<ul class="filter__list">
 							<?php foreach ($arResult['TAGS'] as $tag): ?>
 								<li class="filter__item">
-									<input type="checkbox" class="filter__checkbox" name="tag[<?=$tag->getId()?>]" value="<?=$tag->getId()?>">
+									<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>">
 									<label class="filter__label"><?=$tag->getTitle()?></label>
 								</li>
 							<?php endforeach; ?>
