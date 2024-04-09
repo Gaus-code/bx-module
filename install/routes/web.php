@@ -16,7 +16,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/profile/{user_id}/tasks/', new PublicPageController('/local/modules/up.ukan/views/user-tasks.php'));
 	$routes->get('/profile/{user_id}/task/', new PublicPageController('/local/modules/up.ukan/views/user-task.php'));
 	$routes->get('/profile/{user_id}/projects/', new PublicPageController('/local/modules/up.ukan/views/user-projects.php'));
-	$routes->get('/profile/{user_id}/project/', new PublicPageController('/local/modules/up.ukan/views/user-project.php'));
+	$routes->get('/project/{project_id}/', new PublicPageController('/local/modules/up.ukan/views/user-project.php'));
 	$routes->get('/profile/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/user-responses.php'));
 	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/user-notify.php'));
 	$routes->get('/subscription/', new PublicPageController('/local/modules/up.ukan/views/subscription.php'));
