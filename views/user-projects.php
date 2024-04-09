@@ -10,7 +10,9 @@ if (!$USER->IsAuthorized())
 {
 	LocalRedirect('/sign-in');
 }
-var_dump('hello from user PROJECTSSSS');
 ?>
 
+<?php $APPLICATION->IncludeComponent('up:user.projects', '', [
+	'USER_ID' => (int)$USER->GetID()
+]); ?>
 <?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
