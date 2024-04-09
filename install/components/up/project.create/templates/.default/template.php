@@ -3,6 +3,7 @@
 /**
  * @var array $arResult
  * @var array $arParams
+ * @var CUser $USER
  */
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
@@ -16,11 +17,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<section class="content">
 		<article class="content__header">
 			<h1>Создание проекта</h1>
+			<button type="button" class="plus-link">
+				<span class="plus-link__inner">+</span>
+			</button>
+			<div class="content__profileCreate">
+				<a href="/create/project/<?=$USER->GetID()?>/" class="create__link">Создать проект</a>
+				<a href="/create/task/<?=$USER->GetID()?>/" class="create__link">Создать заявку</a>
+			</div>
 		</article>
 		<article class="content__create">
 			<form class="create__form" action="" method="post">
-				<input type="text" class="create__title" placeholder="Название проекта">
-				<input type="text" class="create__description" placeholder="Описание проекта">
+				<?=bitrix_sessid_post()?>
+				<input type="text" name="title" class="create__title" placeholder="Название проекта">
+				<input type="text" name="description" class="create__description" placeholder="Описание проекта">
 				<button class="createBtn" type="submit">Создать Проект</button>
 	<!--			<fieldset>-->
 	<!--				<legend>Добавьте Заявки К Проеку</legend>-->
@@ -37,3 +46,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 	</section>
 </main>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>

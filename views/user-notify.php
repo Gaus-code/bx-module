@@ -10,4 +10,6 @@ if (!$USER->IsAuthorized())
 	LocalRedirect('/sign-in');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:user.notify', '', []); ?>
+<?php $APPLICATION->IncludeComponent('up:user.notify', '', [
+	'USER_ID' => (int)$USER->GetID()
+]); ?>

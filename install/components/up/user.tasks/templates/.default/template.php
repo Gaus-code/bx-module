@@ -21,7 +21,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<span class="plus-link__inner">+</span>
 			</button>
 			<div class="content__profileCreate">
-				<a href="/create/project/" class="create__link">Создать проект</a>
+				<a href="/create/project/<?=$arParams['USER_ID']?>/" class="create__link">Создать проект</a>
 				<a href="/create/task/<?=$arParams['USER_ID']?>/" class="create__link">Создать заявку</a>
 			</div>
 		</article>

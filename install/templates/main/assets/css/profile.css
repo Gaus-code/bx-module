@@ -201,7 +201,7 @@ a.aside__btn {
     margin-top: 40px;
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 350px 350px 350px;
     gap: 20px;
 }
 
@@ -221,6 +221,8 @@ a.aside__btn {
     align-items: center;
     justify-content: flex-start;
     gap: 9px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .task__tag {
@@ -273,6 +275,13 @@ a.aside__btn {
     justify-content: flex-end;
     gap: 13px;
     border-top: 1px solid var(--color-primary-gray);
+}
+
+.task__footer p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
 }
 
 .task__footer_img {

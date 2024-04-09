@@ -10,4 +10,6 @@ if (!$USER->IsAuthorized())
 	LocalRedirect('/sign-in');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:user.response', '', []); ?>
+<?php $APPLICATION->IncludeComponent('up:user.response', '', [
+	'USER_ID' => (int)$USER->GetID()
+]); ?>

@@ -16,6 +16,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<section class="content">
 		<article class="content__header">
 			<h1>Создание Заявки</h1>
+			<button type="button" class="plus-link">
+				<span class="plus-link__inner">+</span>
+			</button>
+			<div class="content__profileCreate">
+				<a href="/create/project/<?=$arParams['USER_ID']?>/" class="create__link">Создать проект</a>
+				<a href="/create/task/<?=$arParams['USER_ID']?>/" class="create__link">Создать заявку</a>
+			</div>
 		</article>
 		<article class="content__create">
 			<form class="create__form" action="/create/task/" method="post">
