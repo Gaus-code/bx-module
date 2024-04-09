@@ -49,3 +49,5 @@ DROP TABLE `up_ukan_status`;
 DROP TABLE `up_ukan_response`;
 
 DROP TABLE `up_ukan_project`;
+
+DELETE FROM b_user where WORK_COMPANY = 'UKAN';
