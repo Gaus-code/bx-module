@@ -42,4 +42,9 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/reg', [\Up\Ukan\Controller\Auth::class, 'signUpUser']);
 	$routes->get('/sign-up', new PublicPageController('/local/modules/up.ukan/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/up.ukan/views/sign-in.php'));
+
+	//response area
+	$routes->post('/create/response/', [\Up\Ukan\Controller\Response::class, 'create']);
+	$routes->post('/delete/response/', [\Up\Ukan\Controller\Response::class, 'delete']);
+
 };

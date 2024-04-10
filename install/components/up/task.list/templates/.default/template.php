@@ -34,7 +34,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p><?= $task->getClient()->getName() . ' ' . $task->getClient()->getSurname() ?></p>
 					</div>
 					<div class="task__respond">
-						<button class="task__respond__btn">Откликнуться</button>
+						<a href="/task/<?= $task->getId() ?>/" class="task__link">
+							<button class="task__respond__btn" >Откликнуться</button>
+						</a>
 					</div>
 				<?php endif; ?>
 			</div>

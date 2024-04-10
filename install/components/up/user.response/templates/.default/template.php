@@ -27,11 +27,37 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваши Отклики</h2>
 		</article>
-		<div class="contractor__emptyContainer">
-			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/EmptyResponce.svg" alt="empty responses image">
-			<p class="contractor__emptyLink">Пока что тут пусто.</p>
-			<p class="contractor__emptyLink">Давайте попробуем <a href="/catalog/1/">откликнуться</a>!</p>
-		</div>
+		<?php if (count($arResult['RESPONSES']) > 0): ?>
+			<?php foreach ($arResult['RESPONSES'] as $response):?>
+				<div href="/task/<?= $response->getTask()->getId() ?>/" class="task">
+					<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
+						<div class="task__header">
+							<?php foreach ($response->getTask()->getTags() as $tag): ?>
+								<p class="task__tag"><?= $tag->getTitle() ?></p>
+							<?php endforeach; ?>
+						</div>
+						<div class="task__main">
+							<h3><?= $response->getTask()->getTitle() ?></h3>
+							<p>Дата отклика: <?= $response->getCreatedAt() ?> </p>
+						</div>
+					</a>
+					<div class="task__footer">
+						<p>Ваша цена: <?= $response->getPrice() ?> </p>
+						<form action="/delete/response/" method="post">
+							<?=bitrix_sessid_post()?>
+							<input hidden="hidden" name="responseId" value="<?= $response->getId() ?>">
+							<button class="editProject" type="submit">Отменить отклик</button>
+						</form>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<div class="contractor__emptyContainer">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/EmptyResponce.svg" alt="empty responses image">
+				<p class="contractor__emptyLink">Пока что тут пусто.</p>
+				<p class="contractor__emptyLink">Давайте попробуем <a href="/catalog/1/">откликнуться</a>!</p>
+			</div>
+		<?php endif; ?>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
