@@ -4,8 +4,9 @@ class UserComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->includeComponentTemplate();
 		$this->fetchUser();
+		$this->includeComponentTemplate();
+
 	}
 
 	public function onPrepareComponentParams($arParams)
@@ -17,8 +18,17 @@ class UserComponent extends CBitrixComponent
 
 		return $arParams;
 	}
+
 	protected function fetchUser()
 	{
-		//coming soon...
+		global $USER;
+		$userId = $USER->GetID();
+
+		$query = \Up\Ukan\Model\UserTable::query();
+
+		$query->setSelect(['*'])->where('ID', $userId);
+
+		$this->arResult['USER'] = $query->fetchCollection();
 	}
+
 }
