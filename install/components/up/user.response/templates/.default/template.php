@@ -55,7 +55,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="contractor__emptyContainer">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/EmptyResponce.svg" alt="empty responses image">
 				<p class="contractor__emptyLink">Пока что тут пусто.</p>
-				<p class="contractor__emptyLink">Давайте попробуем <a href="/catalog/1/">откликнуться</a>!</p>
+				<p class="contractor__emptyLink">Давайте попробуем <a href="/catalog/">откликнуться</a>!</p>
 			</div>
 		<?php endif; ?>
 	</section>

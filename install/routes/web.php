@@ -8,7 +8,7 @@ return function (RoutingConfigurator $routes)
 
 	//common
 	$routes->get('/', new PublicPageController('/local/modules/up.ukan/views/main.php'));
-	$routes->get('/catalog/{page}/', new PublicPageController('/local/modules/up.ukan/views/catalog.php'));
+	$routes->get('/catalog/', new PublicPageController('/local/modules/up.ukan/views/catalog.php'));
 	$routes->get('/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
 
 	//profile

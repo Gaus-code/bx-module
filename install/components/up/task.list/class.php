@@ -20,6 +20,15 @@ class TaskListComponent extends CBitrixComponent
 			$arParams['TAG_ID'] = null;
 		}
 
+		if (!request()->get('PAGEN_1') || !is_numeric(request()->get('PAGEN_1')) || (int)request()->get('PAGEN_1') < 1)
+		{
+			$arParams['CURRENT_PAGE'] = 1;
+		}
+		else
+		{
+			$arParams['CURRENT_PAGE'] = (int)request()->get('PAGEN_1');
+		}
+
 		if (!isset($arParams['IS_PERSONAL_ACCOUNT_PAGE']))
 		{
 			$arParams['IS_PERSONAL_ACCOUNT_PAGE'] = false;
@@ -33,23 +42,42 @@ class TaskListComponent extends CBitrixComponent
 	{
 		//TODO fetchTasks from db using filters TAG_ID
 
+		$pageSize = 9; //TODO remove hardcode
+		$currentPage = $this->arParams['CURRENT_PAGE'];
+		$offset = ($currentPage - 1) * $pageSize;
+
 		$query = \Up\Ukan\Model\TaskTable::query();
 
-		if ($this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
-		{
-			$query->setSelect(['*', 'TAGS']);
-		}
-		else
-		{
-			$query->setSelect(['*', 'TAGS', 'CLIENT']);
-		}
+		$query->setSelect(['*']);
 
 		if (!is_null($this->arParams['CLIENT_ID']))
 		{
-			$query->where('CLIENT_ID',$this->arParams['CLIENT_ID']);
+			$query->where('CLIENT_ID', $this->arParams['CLIENT_ID']);
 		}
 
-		$this->arResult['TASKS'] = $query->fetchCollection();
+		$query->setLimit($pageSize + 1);
+		$query->setOffset($offset);
+
+		$result = $query->fetchCollection();
+
+		$arrayOfTask = $result->getAll();
+		if (count($result) === $pageSize + 1)
+		{
+			$this->arResult['EXIST_NEXT_PAGE'] = true;
+			array_pop($arrayOfTask);
+		}
+		else
+		{
+			$this->arResult['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$result->fillTags();
+		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
+		{
+			$result->fillClient();
+		}
+
+		$this->arResult['TASKS'] = $arrayOfTask;
 
 	}
 

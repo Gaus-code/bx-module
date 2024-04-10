@@ -38,7 +38,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 			<?php if (!$USER->IsAuthorized()):?>
 				<a href="/sign-up" class="previewBtn">Начать</a>
 			<?php else: ?>
-				<a href="/catalog/1/" class="previewBtn">Начать</a>
+				<a href="/catalog/" class="previewBtn">Начать</a>
 			<?php endif; ?>
 		</div>
 	</section>
