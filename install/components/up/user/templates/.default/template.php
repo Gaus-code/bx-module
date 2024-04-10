@@ -9,6 +9,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
+
 ?>
 
 <main class="profile__main">
@@ -27,31 +28,37 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваш профиль</h2>
 		</article>
+		<?php foreach ($arResult['USER'] as $user): ?>
 		<article class="content__mainBio">
 			<div class="content__mainBio_header">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
 				<div class="userInfo">
 					<p class="userInfo__subscription">У вас пока нет премиум подписки. Хотите <a href="/subscription/" class="rainbow-border-link premium-link">завести?</a></p>
-					<p class="userInfo__name"><?= htmlspecialchars($USER->GetFirstName()) ?></p>
-					<p class="userInfo__surname"><?= htmlspecialchars($USER->GetLastName()) ?></p>
+					<p class="userInfo__name"><?= htmlspecialchars($user->getName()) ?></p>
+					<p class="userInfo__surname"><?= htmlspecialchars($user->getSurname()) ?></p>
 				</div>
-				<a href="/edit/profile/<?= $USER->GetID() ?>/" class="editProfile">
+				<a href="/edit/profile/<?= $user->getID() ?>/" class="editProfile">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 				</a>
 			</div>
 			<div class="content__mainBio_main">
 				<h4>Ваше описание:</h4>
-				<p class="userInfo__bio">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus dolor dolores ea, eveniet exercitationem facilis fugiat inventore, laboriosam maiores maxime nemo obcaecati provident sequi sint soluta temporibus unde ut voluptatibus.</p>
+				<?php if (!empty($user->getBio())): ?>
+					<p class="userInfo__bio"><?= htmlspecialchars($user->getBio()) ?></p>
+				<?php else: ?>
+					<p class="userInfo__bio">У вас пока нет описания. Давайте <a href="/edit/profile/<?= $user->getID() ?>/">добавим</a></p>
+				<?php endif;?>
 			</div>
 			<div class="content__mainBio_footer">
 				<h4>Аккаунт создан:</h4>
-				<p class="userInfo__createdAt">20 Mar 2024</p>
+				<p class="userInfo__createdAt"><?= $user->getCreatedAt()->format('d.m.Y')?></p>
 			</div>
 			<div class="content__mainBio_footer">
 				<h4>Подписка активна до:</h4>
 				<p class="userInfo__createdAt">У вас нет премиум подписки</p>
 			</div>
 		</article>
+		<?php endforeach; ?>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>

@@ -47,4 +47,6 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/create/response/', [\Up\Ukan\Controller\Response::class, 'create']);
 	$routes->post('/delete/response/', [\Up\Ukan\Controller\Response::class, 'delete']);
 
+	//edit profile
+	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);
 };

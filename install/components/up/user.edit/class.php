@@ -1,12 +1,11 @@
 <?php
 
-class UserComponent extends CBitrixComponent
+class UserEditComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
 		$this->fetchUser();
 		$this->includeComponentTemplate();
-
 	}
 
 	public function onPrepareComponentParams($arParams)
@@ -30,5 +29,4 @@ class UserComponent extends CBitrixComponent
 
 		$this->arResult['USER'] = $query->fetchCollection();
 	}
-
 }
