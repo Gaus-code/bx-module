@@ -37,10 +37,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</div>
 		<div class="subscription__footer">
 			<form action="" method="post" class="subscription__form">
+				<?=bitrix_sessid_post()?>
 				<h4>Оформить подписку</h4>
 				<p class="subscription__cost">Стоимость: 399.99 ₽</p>
 				<input id="requiredInput" type="checkbox" required>
 				<label for="requiredInput">Я принимаю пользовательское соглашение бла-бла-бла</label>
+				<button class="subscription__btn" type="submit">Оформить подписку</button>
+			</form>
+			<form action="/subscription/getTrialVersion" method="post" class="subscription__form">
+				<?=bitrix_sessid_post()?>
+				<h4>Оформить пробную версию подписки на 7 дней</h4>
 				<button class="subscription__btn" type="submit">Оформить подписку</button>
 			</form>
 		</div>
