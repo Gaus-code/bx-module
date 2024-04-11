@@ -79,7 +79,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="profile__changePassword">
 			<h2 class="profile__changeBio_title">Смена пароля</h2>
-			<p>Coming soon...</p>
+			<form action="/profile/changePassword" method="post" class="changePassword__form">
+				<?= bitrix_sessid_post() ?>
+				<ul class="changePassword__list">
+					<li class="changePassword__item">
+						<h2 class="editData__title">Старый пароль</h2>
+						<input type="password" class="changePassword__input" name="oldPassword" >
+					</li>
+					<li class="changePassword__item">
+						<h2 class="editData__title">Новый пароль</h2>
+						<input type="password" class="changePassword__input" name="newPassword" >
+					</li>
+					<li class="changePassword__item">
+						<h2 class="editData__title">Подтверждение пароля</h2>
+						<input type="password" class="changePassword__input" name="confirmPassword" >
+					</li>
+				</ul>
+				<button class="changePassword__btn" type="submit">Изменить пароль</button>
+			</form>
 		</article>
 	</section>
 </main>

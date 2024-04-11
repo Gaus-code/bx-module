@@ -41,6 +41,10 @@ class User extends Engine\Controller
 			{
 				$user->setBio($userBio);
 			}
+			else
+			{
+				$user->setBio(null);
+			}
 			$user->save();
 
 			if (!is_numeric($result))

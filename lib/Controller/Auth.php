@@ -113,14 +113,17 @@ class Auth extends Engine\Controller
 		{
 			$errors[] = 'Введите старый пароль';
 		}
+
 		if (empty($newPassword))
 		{
 			$errors[] = 'Введите новый пароль';
 		}
+
 		if (empty($confirmPassword))
 		{
 			$errors[] = 'Повторите новый пароль';
 		}
+
 		if (!$errors)
 		{
 			$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
@@ -133,6 +136,14 @@ class Auth extends Engine\Controller
 						'PASSWORD' => $newPassword,
 						'CONFIRM_PASSWORD' => $confirmPassword
 					]);
+
+					$ukanUser = \Up\Ukan\Model\UserTable::getById($USER->GetID())->fetchObject();
+
+					$ukanPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+					$ukanUser->setHash($ukanPassword);
+					$ukanUser->save();
+
 					if (!$result)
 					{
 						$errors[] = $user->LAST_ERROR;
