@@ -55,6 +55,13 @@ class TaskListComponent extends CBitrixComponent
 			$query->where('CLIENT_ID', $this->arParams['CLIENT_ID']);
 		}
 
+		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
+		{
+			$query->addSelect('CLIENT');
+			$query->addOrder('SEARCH_PRIORITY', 'DESC');
+		}
+
+		$query->addOrder('CREATED_AT', 'DESC');
 		$query->setLimit($pageSize + 1);
 		$query->setOffset($offset);
 
@@ -72,10 +79,6 @@ class TaskListComponent extends CBitrixComponent
 		}
 
 		$result->fillTags();
-		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
-		{
-			$result->fillClient();
-		}
 
 		$this->arResult['TASKS'] = $arrayOfTask;
 
