@@ -43,7 +43,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<div class="create__fieldsetContainer">
 					<fieldset>
-						<legend>Добавьте Тэги</legend>
+						<legend>Добавьте Теги</legend>
 						<?php if (count($arResult['TAGS']) > 0): ?>
 						<ul class="filter__list">
 							<?php foreach ($arResult['TAGS'] as $tag): ?>

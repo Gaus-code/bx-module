@@ -1,0 +1,146 @@
+.profile__changeBio {
+    margin-top: 32px;
+    border-bottom: 3px solid var(--color-primary-border);
+    width: 85%;
+}
+
+.profile__changeBio_title {
+    margin: 10px 0;
+    font-size: 21px;
+    text-decoration: underline;
+}
+
+.profile__changeBio_form {
+    margin-top: 22px;
+    min-height: 400px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-left: 20px;
+    padding-bottom: 20px;
+}
+
+.editData__list {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.editData__item {
+
+}
+
+.editData__title {
+    color: var(--color-primary-purple);
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 19px;
+}
+
+.editData__form {
+    padding: 4px 16px;
+    width: 450px;
+    min-height: 72px;
+    border-radius: 8px;
+    border: 1px solid var(--color-primary-purple);
+    background: #F9F9F9;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.editData__img {
+}
+
+.editData__input {
+    height: 100%;
+    width: 100%;
+    font-size: 19px;
+    border: none;
+    background-color: inherit;
+}
+
+.editData__bioContainer {
+    height: 397px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.editData__bio {
+    padding: 12px;
+    font-size: 15px;
+    vertical-align: top;
+    resize: none;
+    display: block;
+    width: 450px;
+    min-height: 300px;
+    border: 2px solid var(--color-primary-purple);
+    background: #F9F9F9;
+    border-radius: 10px;
+}
+
+.profile__changeBio_form button, .changePassword__btn {
+    width: 100%;
+    border-radius: 8px;
+    background: var(--color-primary-purple);
+    color: var(--color-primary-black);
+    border: 2px solid var(--color-primary-purple);
+    padding: 6px 8px;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    text-transform: capitalize;
+    align-self: flex-end;
+}
+
+.profile__changeBio_form button:hover, .changePassword__btn:hover, .profile__changeBio_form button:focus, .changePassword__btn:focus {
+    background: var(--color-primary-white);
+    transition: 0.4s;
+    color: var(--color-primary-black);
+}
+
+.profile__changePassword {
+    margin-top: 20px;
+}
+
+.changePassword__form {
+    width: 85%;
+    padding: 4px 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.changePassword__list {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.changePassword__item {
+    min-width: 31%;
+}
+
+.changePassword__input {
+    width: 100%;
+    padding: 4px 16px;
+    min-height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--color-primary-purple);
+    background: #F9F9F9;
+}

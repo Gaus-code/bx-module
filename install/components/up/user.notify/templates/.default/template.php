@@ -27,10 +27,87 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваши Уведомления</h2>
 		</article>
-		<div class="contractor__emptyContainer">
+		<article class="notify">
+			<ul class="notify__list">
+				<li class="notify__item">
+					<div class="notify__profile">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
+						<div class="userInfo">
+							<p class="userInfo__name">
+								<a href="/">
+									<?= htmlspecialchars('ДлинноеИмя ДлиннаяФамилия') ?>
+								</a>
+							</p>
+							<p class="userInfo__surname">откликнулся</p>
+						</div>
+					</div>
+					<div class="notify__title"><span>Заявка:</span> Заголовок 1 заявки для заголовочных заголовков заявок</div>
+					<div class="notify__buttons">
+						<a href="/task/1/accept/user/1/" class="notify__accept">Принять</a>
+						<a href="/task/1/reject/user/1/" class="notify__reject">Отклонить</a>
+					</div>
+				</li>
+				<li class="notify__item">
+					<div class="notify__profile">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
+						<div class="userInfo">
+							<p class="userInfo__name">
+								<a href="/">
+									<?= htmlspecialchars('Имя ОченьДлиннаяФамилия') ?>
+								</a>
+							</p>
+							<p class="userInfo__surname">откликнулся</p>
+						</div>
+					</div>
+					<div class="notify__title"><span>Заявка:</span> Заголовок 2 заявки для заголовочных заголовков заявок</div>
+					<div class="notify__buttons">
+						<a href="/task/2/accept/user/1/" class="notify__accept">Принять</a>
+						<a href="/task/2/reject/user/1/" class="notify__reject">Отклонить</a>
+					</div>
+				</li>
+				<li class="notify__item">
+					<div class="notify__profile">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
+						<div class="userInfo">
+							<p class="userInfo__name">
+								<a href="/">
+									<?= htmlspecialchars('Имя ОченьДлиннаяФамилия') ?>
+								</a>
+							</p>
+							<p class="userInfo__surname">откликнулся</p>
+						</div>
+					</div>
+					<div class="notify__title"><span>Заявка:</span> Заголовок 2 заявки для заголовочных заголовков заявок Заголовок 2 заявки для заголовочных заголовков заявок</div>
+					<div class="notify__buttons">
+						<a href="/task/2/accept/user/1/" class="notify__accept">Принять</a>
+						<a href="/task/2/reject/user/1/" class="notify__reject">Отклонить</a>
+					</div>
+				</li>
+				<li class="notify__item">
+					<div class="notify__profile">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
+						<div class="userInfo">
+							<p class="userInfo__name">
+								<a href="/">
+									<?= htmlspecialchars('Имя Очень') ?>
+								</a>
+							</p>
+							<p class="userInfo__surname">откликнулся</p>
+						</div>
+					</div>
+					<div class="notify__title"><span>Заявка:</span> Заголовок 2 заявки для заголовочных заголовков заявок</div>
+					<div class="notify__buttons">
+						<a href="/task/2/accept/user/1/" class="notify__accept">Принять</a>
+						<a href="/task/2/reject/user/1/" class="notify__reject">Отклонить</a>
+					</div>
+				</li>
+			</ul>
+		</article>
+		 <!--<div class="contractor__emptyContainer">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/EmptyInbox.svg" alt="empty inbox image">
 			<p class="contractor__emptyLink">У нас пока нет уведомлений</p>
 		</div>
+		!-->
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>

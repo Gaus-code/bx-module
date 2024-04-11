@@ -26,7 +26,7 @@
 		<a href="/" class="header__logoName">UKAN</a>
 		<nav class="header__nav">
 			<a href="/" class="header__link">Главная</a>
-			<a href="/catalog/1/" class="header__link">Каталог</a>
+			<a href="/catalog/" class="header__link">Каталог</a>
 		</nav>
 	</div>
 	<?php if (!$USER->IsAuthorized()): ?>

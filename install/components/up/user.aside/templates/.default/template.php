@@ -1,13 +1,16 @@
 <?php
 /**
  * @var CUser $USER
+ * @var array $arResult
  */
 ?>
 <aside class="aside">
+	<?php foreach ($arResult['USER'] as $user):?>
 	<div class="aside__profile">
-		<p class="profile__name"><?=$USER->GetLogin()?></p>
-		<p class="profile__email"><?=$USER->GetEmail()?></p>
+		<p class="profile__name"><?=$user->getName() . ' ' .$user->getSurname()?></p>
+		<p class="profile__email"><?=$user->getEmail()?></p>
 	</div>
+	<?php endforeach;?>
 	<div class="aside__header">
 		<nav class="aside__nav">
 			<button type="button" class="aside__btn active-profile-btn">
@@ -20,31 +23,20 @@
 					Заявки
 				</button>
 				<ul id="taskList" class="aside__taskList">
+					<?php foreach ($arResult['USER'] as $user):?>
 					<li>
-						<a href="/profile/<?=$USER->GetID()?>/tasks/">
+						<a href="/profile/<?=$user->getId()?>/tasks/">
 							<span></span>Все заявки
 						</a>
 					</li>
+					<?php endforeach;?>
+					<?php foreach ($arResult['TASKS'] as $task):?>
 					<li>
-						<a href="/task/1/">
-							<span></span>Task 1
+						<a href="/task/<?= $task->getId() ?>/">
+							<span></span><?= $task->getTitle() ?>
 						</a>
 					</li>
-					<li>
-						<a href="/task/1/">
-							<span></span>Task 1
-						</a>
-					</li>
-					<li>
-						<a href="/task/1/">
-							<span></span>Task 1
-						</a>
-					</li>
-					<li>
-						<a href="/task/1/">
-							<span></span>Task 1 Project 1 Project 1 Project 1 Project 1 Project 1
-						</a>
-					</li>
+					<?php endforeach;?>
 				</ul>
 			</div>
 
@@ -55,46 +47,36 @@
 					Проекты
 				</button>
 				<ul id="projectList" class="aside__projectList">
+					<?php foreach ($arResult['USER'] as $user):?>
 					<li>
-						<a class="project-link" href="/profile/<?=$USER->GetID()?>/projects/">
+						<a class="project-link" href="/profile/<?=$user->getId()?>/projects/">
 							<span></span>Все проекты
 						</a>
 					</li>
+					<?php endforeach;?>
+					<?php foreach ($arResult['PROJECTS'] as $project):?>
 					<li>
-						<a class="project-link" href="/project/1/">
-							<span></span>Project 1 Project 1 Project 1 Project 1 Project 1
+						<a class="project-link" href="/project/<?=$project->getId()?>/">
+							<span></span><?= $project->getTitle() ?>
 						</a>
 					</li>
-					<li>
-						<a class="project-link" href="/project/2/">
-							<span></span>Project 1 I GET SOME SPECIAL PROJECT ITS AWESOME
-						</a>
-					</li>
-					<li>
-						<a class="project-link" href="/project/2/">
-							<span></span>Project 1
-						</a>
-					</li>
-					<li>
-						<a href="/project/2/">
-							<span></span>Project 1
-						</a>
-					</li>
+					<?php endforeach;?>
 				</ul>
 			</div>
-
+			<?php foreach ($arResult['USER'] as $user):?>
 			<div class="aside__navContainer">
-				<a href="/profile/<?=$USER->GetID()?>/responses/" class="aside__btn">
+				<a href="/profile/<?=$user->getId()?>/responses/" class="aside__btn">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/folder.svg" alt="project folder">
 					Отклики
 				</a>
 			</div>
 
-			<a href="/profile/<?=$USER->GetID()?>/notifications/" class="aside__btn">
+			<a href="/profile/<?=$user->getId()?>/notifications/" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
 				Уведомления
 				<span>2</span>
 			</a>
+			<?php endforeach;?>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
 	</div>

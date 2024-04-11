@@ -31,7 +31,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</section>
 		<section class="detail__footer">
-			<form action="" class="detail__form">
+			<form action="/create/response/" class="detail__form" method="post">
+				<?= bitrix_sessid_post() ?>
+				<input type="hidden" name="taskId" value="<?= $arResult['TASK']->getId() ?>">
+				<label for="setPrice">Добавьте стоимость:</label>
+				<input name = "price" id="setPrice" type="number" class="create__title" placeholder="Ваша цена">
 				<label for="detail__coverLetter">Добавьте сопроводительное письмо:</label>
 				<textarea id="detail__coverLetter" name="coverLetter"></textarea>
 				<button class="detail__btn" type="submit">Откликнуться</button>
@@ -45,7 +49,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<li class="metaContainer__item">
 					<p class="metaContainer__info">
 						<span>Задача создана:</span>
-						08.04.2024 в 12:57
+						<?= $arResult['TASK']->getCreatedAt() ?>
 					</p>
 				</li>
 				<li class="metaContainer__item">

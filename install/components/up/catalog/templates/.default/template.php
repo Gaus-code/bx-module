@@ -36,20 +36,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<option value="high">Сначала низкая цена</option>
 			</select>
 		</div>
-		<div class="content__main">
-			<?php $APPLICATION->IncludeComponent('up:task.list', '', [
-				'CLIENT_ID' => (int)request()->get('user_id'),
-				'TAG_ID' => (int)request()->get('tag_id'),
-			]);
-			?>
-		</div>
-		<div class="pagination">
-			<a href="/catalog/1/" class="pagination__btn">
-				Предыдущая страница
-			</a>
-			<a href="/catalog/1/" class="pagination__btn">
-				Следующая страница
-			</a>
-		</div>
+
+		<?php $APPLICATION->IncludeComponent('up:task.list', '', [
+			'CLIENT_ID' => (int)request()->get('user_id'),
+			'TAG_ID' => (int)request()->get('tag_id'),
+		]);
+		?>
 	</section>
 </main>

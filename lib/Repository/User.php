@@ -23,13 +23,14 @@ class User
 		return $resultMessage['MESSAGE'];
 	}
 
-	public static function updateUser($userId, $userLogin, $userName, $userLastName)
+	public static function updateUser($userId, $userLogin, $userName, $userLastName, $userEmail)
 	{
 		global $USER;
 		$resultMessage = $USER->Update($userId, [
 			'LOGIN' => $userLogin,
 			'NAME' => $userName,
 			'LAST_NAME' => $userLastName,
+			'EMAIL' => $userEmail
 		]);
 		if ($resultMessage['TYPE'] === 'OK')
 		{
@@ -42,7 +43,7 @@ class User
 		return $resultMessage['MESSAGE'];
 	}
 
-	public static function changeInfo($userName, $userLastName, $newLogin, $userLogin)
+	public static function changeInfo($userName, $userLastName, $userEmail, $newLogin, $userLogin)
 	{
 		return BUserTable::query()
 			->setSelect(['*'])
@@ -50,6 +51,7 @@ class User
 			->fetchObject()
 			->setName($userName)
 			->setLastName($userLastName)
+			->setEmail($userEmail)
 			->setLogin($newLogin)
 			->save()->getErrorMessages();
 	}
