@@ -27,8 +27,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваш профиль</h2>
 		</article>
-		<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 		<article class="profile__changeBio">
+			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			<h2 class="profile__changeBio_title">Смена личной информации</h2>
 			<form action="/profile/changeBio" method="post" class="profile__changeBio_form">
 				<?php foreach ($arResult['USER'] as $user):?>

@@ -2,9 +2,12 @@
 
 namespace Up\Ukan\Controller;
 
+use Bitrix\Main\Application;
 use Bitrix\Main\Engine;
 use Bitrix\Main\EO_User;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Model\UserTable;
+
 
 class User extends Engine\Controller
 {
@@ -19,14 +22,25 @@ class User extends Engine\Controller
 		$errors = [];
 		global $USER;
 
-		if (!$userName || !$userLogin || !$userEmail)
+		if (empty(trim($userName)) || empty(trim($userLogin)) || empty(trim($userEmail)))
 		{
 			$errors[] =  'Не заполнены обязателные поля';
+			Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/edit/profile/'. $USER->GetID() .'/');
+		}
+
+		if (!filter_var($userEmail, FILTER_VALIDATE_EMAIL))
+		{
+			$errors[] =  'Почта указана в некорректном формате';
+			Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/edit/profile/'. $USER->GetID() .'/');
 		}
 
 		if ($USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin) && !\Up\Ukan\Repository\User::checkLoginExists($userLogin))
 		{
 			$errors[] = 'Логин занят';
+			Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/edit/profile/'. $USER->GetID() .'/');
 		}
 
 		$errorMessage = \Up\Ukan\Repository\User::changeInfo($userName, $userLastName, $userEmail, $userLogin, $USER->GetLogin());
@@ -35,48 +49,80 @@ class User extends Engine\Controller
 			$userId = $USER->GetID();
 			$result = \Up\Ukan\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName, $userEmail);
 
-			$user = \Up\Ukan\Model\UserTable::getById($userId)->fetchObject();
+			$user = UserTable::getById($userId)->fetchObject();
 			$user->setName($userName)->setSurname($userLastName)->setEmail($userEmail)->setUpdatedAt(new DateTime());
-			if (!empty($userBio))
+
+			!empty($userBio) ? $user->setBio($userBio) : $user->setBio(null);
+			
+			$user->save();
+
+			LocalRedirect('/profile/'. $USER->GetID() .'/');
+		}
+	}
+
+	public function changePasswordAction(
+		string $oldPassword,
+		string $newPassword,
+		string $confirmPassword
+	)
+	{
+		global $USER;
+		$errors = [];
+
+		if (empty(trim($oldPassword)))
+		{
+			$errors[] = 'Введите старый пароль';
+		}
+
+		if (empty(trim($newPassword)))
+		{
+			$errors[] = 'Введите новый пароль';
+		}
+
+		if (empty(trim($confirmPassword)))
+		{
+			$errors[] = 'Повторите новый пароль';
+		}
+
+		if (!$errors)
+		{
+			$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
+
+			if (is_bool($errorMessage) && $errorMessage)
 			{
-				$user->setBio($userBio);
+				if ($newPassword === $confirmPassword)
+				{
+					$user = new \CUser();
+					$result = $user->update($USER->GetID(), [
+						'PASSWORD' => $newPassword,
+						'CONFIRM_PASSWORD' => $confirmPassword
+					]);
+
+					$ukanUser = UserTable::getById($USER->GetID())->fetchObject();
+
+					$ukanPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+					$ukanUser->setHash($ukanPassword)->setUpdatedAt(new DateTime());
+
+					$ukanUser->save();
+
+					if (!$result)
+					{
+						$errors[] = $user->LAST_ERROR;
+					}
+					LocalRedirect('/profile/'.$USER->GetID().'/');
+				}
+				else
+				{
+					$errors[] = 'Пароли не совпадают';
+				}
 			}
 			else
 			{
-				$user->setBio(null);
-			}
-			$user->save();
-
-			if (!is_numeric($result))
-			{
-				foreach (explode('<br>', $result) as $error)
-				{
-					if ($error)
-					{
-						$errors[] = $error;
-					}
-				}
+				$errors[] = 'Неверный старый пароль';
 			}
 		}
-		else
-		{
-			foreach (explode('<br>', $errorMessage) as $error)
-			{
-				if ($error)
-				{
-					$errors[] = $error;
-				}
-			}
-		}
-
-		if ($errors)
-		{
-			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/profile/'. $USER->GetID() .'/');
-		}
-		else
-		{
-			LocalRedirect('/profile/'. $USER->GetID() .'/');
-		}
+		Application::getInstance()->getSession()->set('errors', $errors);
+		LocalRedirect('/edit/profile/'.$USER->GetID().'/');
 	}
 }
