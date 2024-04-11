@@ -50,4 +50,7 @@ return function (RoutingConfigurator $routes)
 	//edit profile
 	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);
 	$routes->post('/profile/changePassword', [\Up\Ukan\Controller\Auth::class, 'changePassword']);
+
+	//subscription
+	$routes->post('/subscription/getTrialVersion', [\Up\Ukan\Controller\Subscription::class, 'getTrialVersion']);
 };
