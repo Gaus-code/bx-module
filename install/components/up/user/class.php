@@ -26,7 +26,7 @@ class UserComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\UserTable::query();
 
-		$query->setSelect(['*'])->where('ID', $userId);
+		$query->setSelect(['*','SUBSCRIPTION_STATUS'])->where('ID', $userId);
 
 		$this->arResult['USER'] = $query->fetchCollection();
 	}
