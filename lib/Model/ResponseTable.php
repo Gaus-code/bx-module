@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\DatetimeField,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\TextField;
+use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
 
@@ -106,6 +107,11 @@ class ResponseTable extends DataManager
 					'required' => true,
 					'title' => Loc::getMessage('RESPONSE_ENTITY_UPDATED_AT_FIELD')
 				]
+			),
+			new ExpressionField(
+				'SEARCH_PRIORITY',
+				"IF (%s='Active', 1, 0)",
+				['CONTRACTOR.SUBSCRIPTION_STATUS']
 			),
 		];
 	}

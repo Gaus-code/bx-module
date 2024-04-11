@@ -7,7 +7,9 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
+	Bitrix\Main\ORM\Fields\DateField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\Type\DateTime;
 
@@ -92,14 +94,17 @@ class UserTable extends DataManager
 					'title' => Loc::getMessage('USER_ENTITY_SURNAME_FIELD')
 				]
 			),
-			new StringField(
-				'ROLE',
+			new DateField(
+				'SUBSCRIPTION_END_DATE',
 				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateRole'],
-					'title' => Loc::getMessage('USER_ENTITY_ROLE_FIELD')
+					'title' => Loc::getMessage('USER_ENTITY_SUBSCRIPTION_END_DATE_FIELD')
 				]
 			),
+			// new ExpressionField(
+			// 	'SUBSCRIPTION_END_DATE',
+			// 	"MAX(%s)",
+			// 	['HISTORY_SUBSCRIPTION.END_DATE']
+			// ),
 			new TextField(
 				'BIO',
 				[
@@ -126,10 +131,28 @@ class UserTable extends DataManager
 					}
 				]
 			),
+			new StringField(
+				'ROLE',
+				[
+					'required' => true,
+					'validation' => [__CLASS__, 'validateRole'],
+					'title' => Loc::getMessage('USER_ENTITY_ROLE_FIELD')
+				]
+			),
+			new ExpressionField(
+				'SUBSCRIPTION_STATUS',
+				"IF (NOW()<=%s, 'Active', 'Not active')",
+				['SUBSCRIPTION_END_DATE']
+			),
 			new OneToMany(
 				'PROJECTS',
 				ProjectTable::class,
 				'CLIENT'
+			),
+			new OneToMany(
+				'HISTORY_SUBSCRIPTION',
+				UserSubscriptionTable::class,
+				'USER'
 			),
 			new OneToMany(
 				'FEEDBACKS_FROM',
@@ -156,9 +179,16 @@ class UserTable extends DataManager
 				ResponseTable::class,
 				'CONTRACTOR'
 			),
+			new StringField(
+				'LOGIN',
+				[
+					'required' => true,
+					'validation' => [__CLASS__, 'validateLogin'],
+					'title' => Loc::getMessage('USER_ENTITY_LOGIN_FIELD')
+				]
+			),
 		];
 	}
-
 	/**
 	 * Returns validators for EMAIL field.
 	 *
@@ -213,6 +243,18 @@ class UserTable extends DataManager
 	 * @return array
 	 */
 	public static function validateRole()
+	{
+		return [
+			new LengthValidator(null, 255),
+		];
+	}
+
+	/**
+	 * Returns validators for LOGIN field.
+	 *
+	 * @return array
+	 */
+	public static function validateLogin()
 	{
 		return [
 			new LengthValidator(null, 255),

@@ -8,6 +8,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
@@ -88,7 +89,7 @@ class TaskTable extends DataManager
 				]
 			),
 			new IntegerField(
-				'PRIORITY',
+				'PROJECT_PRIORITY',
 				[
 					'required' => true,
 					'title' => Loc::getMessage('TASK_ENTITY_PRIORITY_FIELD'),
@@ -161,6 +162,11 @@ class TaskTable extends DataManager
 						return new DateTime();
 					}
 				]
+			),
+			new ExpressionField(
+				'SEARCH_PRIORITY',
+				"IF (%s='Active', 1, 0)",
+				['CLIENT.SUBSCRIPTION_STATUS']
 			),
 			new OneToMany(
 				'RESPONSES',
