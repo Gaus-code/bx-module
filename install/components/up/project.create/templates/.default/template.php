@@ -26,7 +26,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 		<article class="content__create">
-			<form class="create__form" action="" method="post">
+			<form class="create__form" action="/create/project/" method="post">
 				<?=bitrix_sessid_post()?>
 				<input type="text" name="title" class="create__title" placeholder="Название проекта">
 				<input type="text" name="description" class="create__description" placeholder="Описание проекта">
