@@ -34,6 +34,8 @@ class TaskListComponent extends CBitrixComponent
 			$arParams['IS_PERSONAL_ACCOUNT_PAGE'] = false;
 		}
 
+		$arParams['EXIST_NEXT_PAGE'] = false;
+
 		return $arParams;
 
 	}
@@ -70,12 +72,12 @@ class TaskListComponent extends CBitrixComponent
 		$arrayOfTask = $result->getAll();
 		if (count($result) === $pageSize + 1)
 		{
-			$this->arResult['EXIST_NEXT_PAGE'] = true;
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
 			array_pop($arrayOfTask);
 		}
 		else
 		{
-			$this->arResult['EXIST_NEXT_PAGE'] = false;
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
 		$result->fillTags();

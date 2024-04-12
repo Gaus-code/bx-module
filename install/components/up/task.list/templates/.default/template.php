@@ -42,6 +42,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 			</div>
 		<?php endforeach; ?>
+		<?php
+		if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+		{
+			$APPLICATION->IncludeComponent('up:pagination', '', [
+				'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+			]);
+		}
+		?>
 	<?php else: ?>
 		<div class="content__image">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
@@ -49,9 +57,3 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</div>
 	<?php endif; ?>
 </div>
-
-<?php
-$APPLICATION->IncludeComponent('up:pagination', '', [
-	'EXIST_NEXT_PAGE' => $arResult['EXIST_NEXT_PAGE'],
-]);
-?>

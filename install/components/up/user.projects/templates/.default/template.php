@@ -40,6 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</ul>
 			</div>
 			<div class="projects__list">
+				<?php if (count($arResult['PROJECTS']) > 0): ?>
 				<table id="projectsTable">
 					<thead>
 						<tr>
@@ -51,53 +52,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						</tr>
 					</thead>
 					<tbody>
+					<?php foreach ($arResult['PROJECTS'] as $project): ?>
 						<tr>
-							<td data-label="Название проекта">Проект 1 Проект 1 Проект 1 Проект 1</td>
-							<td data-label="Дата создания">01.04.2024</td>
-							<td data-label="Количество задач">10</td>
-							<td data-label="Количество исполнителей">9</td>
+							<td data-label="Название проекта"><?= $project->getTitle() ?></td>
+							<td data-label="Дата создания"><?= $project->getCreatedAt() ?></td>
+							<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
+							<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
 							<td data-label="Редактировать">
-								<a class="editProject" href="/project/1/">Редактировать проект</a>
+								<a class="editProject" href="/project/<?= $project->getId() ?>/">Редактировать проект</a>
 							</td>
 						</tr>
-						<tr>
-							<td data-label="Название проекта">Проект 2</td>
-							<td data-label="Дата создания">01.04.2024</td>
-							<td data-label="Количество задач">100</td>
-							<td data-label="Количество исполнителей">50</td>
-							<td data-label="Редактировать">
-								<a class="editProject" href="/project/1/">Редактировать проект</a>
-							</td>
-						</tr>
-						<tr>
-							<td data-label="Название проекта">Проект 3</td>
-							<td data-label="Дата создания">01.04.2024</td>
-							<td data-label="Количество задач">3</td>
-							<td data-label="Количество исполнителей">2</td>
-							<td data-label="Редактировать">
-								<a class="editProject" href="/project/1/">Редактировать проект</a>
-							</td>
-						</tr>
-						<tr>
-							<td data-label="Название проекта">Проект 4</td>
-							<td data-label="Дата создания">01.04.2024</td>
-							<td data-label="Количество задач">3</td>
-							<td data-label="Количество исполнителей">2</td>
-							<td data-label="Редактировать">
-								<a class="editProject" href="/project/1/">Редактировать проект</a>
-							</td>
-						</tr>
-						<tr>
-							<td data-label="Название проекта">Проект 5</td>
-							<td data-label="Дата создания">01.04.2024</td>
-							<td data-label="Количество задач">3</td>
-							<td data-label="Количество исполнителей">2</td>
-							<td data-label="Редактировать">
-								<a class="editProject" href="/project/1/">Редактировать проект</a>
-							</td>
-						</tr>
+					<?php endforeach; ?>
 					</tbody>
 				</table>
+				<?php
+				if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+				{
+					$APPLICATION->IncludeComponent('up:pagination', '', [
+						'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+					]);
+				}
+				?>
+				<?php else: ?>
+					<p> Пустовато здесь </p>
+				<?php endif; ?>
 			</div>
 		</article>
 	</section>

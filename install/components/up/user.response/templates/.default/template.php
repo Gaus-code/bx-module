@@ -52,6 +52,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 				</div>
 			<?php endforeach; ?>
+			<?php
+			if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+			{
+				$APPLICATION->IncludeComponent('up:pagination', '', [
+					'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+				]);
+			}
+			?>
 		</article>
 		<?php else: ?>
 			<div class="contractor__emptyContainer">
