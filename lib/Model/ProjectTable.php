@@ -11,6 +11,7 @@ use Bitrix\Main\Localization\Loc,
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
+use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
 
@@ -89,14 +90,20 @@ class ProjectTable extends DataManager
 				'CREATED_AT',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('PROJECT_ENTITY_CREATED_AT_FIELD')
+					'title' => Loc::getMessage('PROJECT_ENTITY_CREATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			new DatetimeField(
 				'UPDATED_AT',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('PROJECT_ENTITY_UPDATED_AT_FIELD')
+					'title' => Loc::getMessage('PROJECT_ENTITY_UPDATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			new OneToMany(

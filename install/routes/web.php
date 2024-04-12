@@ -33,8 +33,8 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/delete/task/', [\Up\Ukan\Controller\Task::class, 'delete']);
 
 	$routes->post('/create/project/', [\Up\Ukan\Controller\Project::class, 'create']);
-	$routes->post('/update/task/', [\Up\Ukan\Controller\Project::class, 'update']);
-	$routes->post('/delete/task/', [\Up\Ukan\Controller\Project::class, 'delete']);
+	$routes->post('/update/project/', [\Up\Ukan\Controller\Project::class, 'update']);
+	$routes->post('/delete/project/', [\Up\Ukan\Controller\Project::class, 'delete']);
 
 	//auth&logOut
 	$routes->get('/logout', [\Up\Ukan\Controller\Auth::class, 'logOut']);
