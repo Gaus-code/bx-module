@@ -15,11 +15,6 @@ class TaskListComponent extends CBitrixComponent
 			$arParams['CLIENT_ID'] = null;
 		}
 
-		if (!isset($arParams['TAG_ID']) || $arParams['TAG_ID'] === [] )
-		{
-			$arParams['TAG_ID'] = null;
-		}
-
 		if (!request()->get('PAGEN_1') || !is_numeric(request()->get('PAGEN_1')) || (int)request()->get('PAGEN_1') < 1)
 		{
 			$arParams['CURRENT_PAGE'] = 1;
@@ -34,6 +29,7 @@ class TaskListComponent extends CBitrixComponent
 			$arParams['IS_PERSONAL_ACCOUNT_PAGE'] = false;
 		}
 
+		$arParams['TAGS_ID'] = request()->get('tags');
 		$arParams['EXIST_NEXT_PAGE'] = false;
 
 		return $arParams;
@@ -42,21 +38,42 @@ class TaskListComponent extends CBitrixComponent
 
 	protected function fetchTasks()
 	{
-		//TODO fetchTasks from db using filters TAG_ID
-
 		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
 		$nav->allowAllRecords(true)
 			->setPageSize(9); //TODO remove hardcode
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
-
-		$query->setSelect(['*']);
+		$query->setSelect(['ID']);
 
 		if (!is_null($this->arParams['CLIENT_ID']))
 		{
 			$query->where('CLIENT_ID', $this->arParams['CLIENT_ID']);
 		}
+		if (!is_null($this->arParams['TAGS_ID']))
+		{
+			$query->whereIn('TAGS.ID', $this->arParams['TAGS_ID']);
+		}
+
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
+
+		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
+		$idList = $result->getIdList();
+
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($idList);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['*', 'TAGS']);
 
 		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
@@ -65,26 +82,11 @@ class TaskListComponent extends CBitrixComponent
 		}
 
 		$query->addOrder('CREATED_AT', 'DESC');
-		$query->setLimit($nav->getLimit() + 1);
-		$query->setOffset($nav->getOffset());
+		$query->whereIn('ID', $idList);
 
 		$result = $query->fetchCollection();
-		$nav->setRecordCount($nav->getOffset() + count($result));
 
-		$arrayOfTask = $result->getAll();
-		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
-		{
-			$this->arParams['EXIST_NEXT_PAGE'] = true;
-			array_pop($arrayOfTask);
-		}
-		else
-		{
-			$this->arParams['EXIST_NEXT_PAGE'] = false;
-		}
-
-		$result->fillTags();
-
-		$this->arResult['TASKS'] = $arrayOfTask;
+		$this->arResult['TASKS'] = $result;
 
 	}
 
