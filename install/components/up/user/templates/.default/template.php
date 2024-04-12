@@ -35,22 +35,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<div class="content__mainBio_header">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
 					<div class="userInfo">
-						<?php
-						if ($user->get('SUBSCRIPTION_STATUS') === "Active")
-						{
-							?>
-							<p class="userInfo__subscription"> Премиум подписка действует до: <?= $user->get(
-									'SUBSCRIPTION_END_DATE'
-								) ?></p>
-							<?php
-						}
-						else
-						{
-							?>
-							<p class="userInfo__subscription">У вас пока нет премиум подписки. Хотите
-								<a href="/subscription/" class="rainbow-border-link premium-link">завести?</a></p>
-						<?php
-						} ?>
+
 						<p class="userInfo__name"><?= htmlspecialchars($user->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialchars($user->getSurname()) ?></p>
 					</div>
@@ -76,7 +61,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<div class="content__mainBio_footer">
 					<h4>Подписка активна до:</h4>
-					<p class="userInfo__createdAt">У вас нет премиум подписки</p>
+					<?php
+					if ($user->get('SUBSCRIPTION_STATUS') === "Active")
+					{
+						?>
+						<p class="userInfo__subscription"> <?= $user->get('SUBSCRIPTION_END_DATE') ?></p>
+						<?php
+					}
+					else
+					{
+						?>
+						<p class="userInfo__subscription">У вас пока нет премиум подписки. Хотите
+							<a href="/subscription/" class="rainbow-border-link premium-link">завести?</a></p>
+						<?php
+					} ?>
 				</div>
 			</article>
 		<?php
