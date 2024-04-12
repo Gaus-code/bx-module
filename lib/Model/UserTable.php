@@ -131,14 +131,6 @@ class UserTable extends DataManager
 					}
 				]
 			),
-			new StringField(
-				'ROLE',
-				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateRole'],
-					'title' => Loc::getMessage('USER_ENTITY_ROLE_FIELD')
-				]
-			),
 			new ExpressionField(
 				'SUBSCRIPTION_STATUS',
 				"IF (NOW()<=%s, 'Active', 'Not active')",
@@ -231,18 +223,6 @@ class UserTable extends DataManager
 	 * @return array
 	 */
 	public static function validateSurname()
-	{
-		return [
-			new LengthValidator(null, 255),
-		];
-	}
-
-	/**
-	 * Returns validators for ROLE field.
-	 *
-	 * @return array
-	 */
-	public static function validateRole()
 	{
 		return [
 			new LengthValidator(null, 255),
