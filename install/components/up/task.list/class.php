@@ -55,12 +55,17 @@ class TaskListComponent extends CBitrixComponent
 			$query->whereIn('TAGS.ID', $this->arParams['TAGS_ID']);
 		}
 
+		$query->addGroup('ID');
 		$query->setLimit($nav->getLimit() + 1);
 		$query->setOffset($nav->getOffset());
 
-		$result = $query->fetchCollection();
-		$nav->setRecordCount($nav->getOffset() + count($result));
-		$idList = $result->getIdList();
+		$idList = [];
+		$result = $query->exec();
+		while ($row = $result->fetch())
+		{
+			$idList[] = $row['ID'];
+		}
+		$nav->setRecordCount($nav->getOffset() + count($idList));
 
 		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
 		{
