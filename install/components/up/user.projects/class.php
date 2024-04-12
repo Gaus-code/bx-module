@@ -31,12 +31,13 @@ class UserProjectsComponent extends CBitrixComponent
 
 	private function fetchProjects()
 	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("user.projects");
+		$nav->allowAllRecords(true)
+			->setPageSize(7); //TODO remove hardcode
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
 		global $USER;
 		$clientId = $USER->GetID();
-
-		$pageSize = 7; //TODO remove hardcode
-		$currentPage = $this->arParams['CURRENT_PAGE'];
-		$offset = ($currentPage - 1) * $pageSize;
 
 		$query = \Up\Ukan\Model\ProjectTable::query();
 
@@ -45,22 +46,23 @@ class UserProjectsComponent extends CBitrixComponent
 		$query->where('CLIENT_ID', $clientId);
 
 		$query->addOrder('CREATED_AT', 'DESC');
-		$query->setLimit($pageSize + 1);
-		$query->setOffset($offset);
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
 
 		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
 
-		$arrayOfResponses = $result->getAll();
-		if (count($result) === $pageSize + 1)
+		$arrayOfProjects = $result->getAll();
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
 		{
 			$this->arParams['EXIST_NEXT_PAGE'] = true;
-			array_pop($arrayOfResponses);
+			array_pop($arrayOfProjects);
 		}
 		else
 		{
 			$this->arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
-		$this->arResult['PROJECTS'] = $arrayOfResponses;
+		$this->arResult['PROJECTS'] = $arrayOfProjects;
 	}
 }

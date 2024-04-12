@@ -30,12 +30,13 @@ class UserResponseComponent extends CBitrixComponent
 
 	private function fetchResponses()
 	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("user.response");
+		$nav->allowAllRecords(true)
+			->setPageSize(4); //TODO remove hardcode
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
 		global $USER;
 		$contractorId = $USER->GetID();
-
-		$pageSize = 5; //TODO remove hardcode
-		$currentPage = $this->arParams['CURRENT_PAGE'];
-		$offset = ($currentPage - 1) * $pageSize;
 
 		$query = \Up\Ukan\Model\ResponseTable::query();
 
@@ -43,13 +44,15 @@ class UserResponseComponent extends CBitrixComponent
 
 
 		$query->addOrder('CREATED_AT', 'DESC');
-		$query->setLimit($pageSize + 1);
-		$query->setOffset($offset);
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
 
 		$result = $query->fetchCollection();
 
+		$nav->setRecordCount($nav->getOffset() + count($result));
+
 		$arrayOfResponses = $result->getAll();
-		if (count($result) === $pageSize + 1)
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
 		{
 			$this->arParams['EXIST_NEXT_PAGE'] = true;
 			array_pop($arrayOfResponses);

@@ -44,9 +44,10 @@ class TaskListComponent extends CBitrixComponent
 	{
 		//TODO fetchTasks from db using filters TAG_ID
 
-		$pageSize = 9; //TODO remove hardcode
-		$currentPage = $this->arParams['CURRENT_PAGE'];
-		$offset = ($currentPage - 1) * $pageSize;
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(9); //TODO remove hardcode
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 
@@ -64,13 +65,14 @@ class TaskListComponent extends CBitrixComponent
 		}
 
 		$query->addOrder('CREATED_AT', 'DESC');
-		$query->setLimit($pageSize + 1);
-		$query->setOffset($offset);
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
 
 		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
 
 		$arrayOfTask = $result->getAll();
-		if (count($result) === $pageSize + 1)
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
 		{
 			$this->arParams['EXIST_NEXT_PAGE'] = true;
 			array_pop($arrayOfTask);
