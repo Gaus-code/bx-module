@@ -26,6 +26,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/create/task/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
 	$routes->get('/create/project/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
 	$routes->get('/task/{id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
+	$routes->get('/edit/project/{project_id}/', new PublicPageController('/local/modules/up.ukan/views/user-edit-project.php'));
 
 	//profile actions(post)
 	$routes->post('/create/task/', [\Up\Ukan\Controller\Task::class, 'create']);
