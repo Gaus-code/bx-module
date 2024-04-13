@@ -10,12 +10,11 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user`
 	`SUBSCRIPTION_END_DATE` date,
 	`CREATED_AT`            datetime,
 	`UPDATED_AT`            datetime,
-	`ROLE`       varchar(255)       NOT NULL,
-	PRIMARY KEY (
-	             `ID`
-		),
-	CONSTRAINT `uc_up_ukan_user_EMAIL` UNIQUE (
-	                                           `EMAIL`
+    PRIMARY KEY (
+                 `ID`
+        ),
+    CONSTRAINT `uc_up_ukan_user_LOGIN` UNIQUE (
+	                                           `LOGIN`
 		)
 );
 

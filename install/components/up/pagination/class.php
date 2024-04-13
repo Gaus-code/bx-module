@@ -23,6 +23,9 @@ class ProjectCreateComponent extends CBitrixComponent
 			$arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
+		$currentUrl = request()->getRequestUri();
+		$arParams['NEW_URI'] = $currentUrl . (!str_contains($currentUrl, '?') ? '?' : '&') . 'PAGEN_1=';
+
 		return $arParams;
 	}
 

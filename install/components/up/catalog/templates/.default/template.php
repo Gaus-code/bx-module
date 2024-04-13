@@ -14,16 +14,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 <main class="catalog wrapper">
 	<aside class="catalog__aside">
-		<h2>Фильтры</h2>
-		<p class="catalog__subtitle">Специализация</p>
-		<ul class="filter__list">
-			<?php foreach ($arResult['TAGS'] as $tag): ?>
-				<li class="filter__item">
-					<input type="checkbox" class="filter__checkbox">
-					<label class="filter__label"><?=$tag->getTitle()?></label>
-				</li>
-			<?php endforeach; ?>
-		</ul>
+		<form method="get">
+			<h2>Фильтры</h2>
+			<p class="catalog__subtitle">Специализация</p>
+			<ul class="filter__list">
+				<?php foreach ($arResult['TAGS'] as $tag): ?>
+					<li class="filter__item">
+						<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>">
+						<label class="filter__label"><?=$tag->getTitle()?></label>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<button type="submit">Отфильтровать</button>
+		</form>
 	</aside>
 	<section class="catalog__main">
 		<div class="catalog__header">
@@ -39,7 +42,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 		<?php $APPLICATION->IncludeComponent('up:task.list', '', [
 			'CLIENT_ID' => (int)request()->get('user_id'),
-			'TAG_ID' => (int)request()->get('tag_id'),
 		]);
 		?>
 	</section>

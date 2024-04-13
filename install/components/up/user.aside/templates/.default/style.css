@@ -1,0 +1,4 @@
+.aside__btn:hover, aside__btn:focus {
+    background-color: var(--color-primary-purple);
+    transition: 0.3s;
+}

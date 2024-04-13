@@ -30,6 +30,9 @@ class UserNotifyComponent extends CBitrixComponent
 
 	private function fetchNotify()
 	{
+		global $USER;
+		$clientId = $USER->getID();
+
 		$nav = new \Bitrix\Main\UI\PageNavigation("user.notify");
 		$nav->allowAllRecords(true)
 			->setPageSize(5); //TODO remove hardcode
@@ -39,7 +42,7 @@ class UserNotifyComponent extends CBitrixComponent
 
 		$query->setSelect(['*', 'TASK', 'CONTRACTOR']);
 
-		//$query->where() //TODO filter CLIENT_ID
+		$query->where('TASK.CLIENT_ID', $clientId);
 
 		$query->addOrder('CREATED_AT', 'DESC');
 		$query->setLimit($nav->getLimit() + 1);

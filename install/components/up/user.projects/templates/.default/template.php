@@ -74,7 +74,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				}
 				?>
 				<?php else: ?>
-					<p> Пустовато здесь </p>
+					<div class="content__image">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>Пока что тут нет проектов</p>
+					</div>
 				<?php endif; ?>
 			</div>
 		</article>
