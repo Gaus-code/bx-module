@@ -1,3 +1,6 @@
+.create__form {
+    max-width: 1050px;
+}
 .content__editProject {
     margin-top: 20px;
 }
@@ -10,19 +13,39 @@
     border: 1px solid var(--color-primary-purple);
 }
 
-
-.editPriority h2 {
-    font-size: 26px;
-    color: black;
-    text-transform: capitalize;
-    font-weight: 300;
-    text-align: center;
-    margin-bottom: 15px;
+.deleteProject {
+    padding: 10px 20px;
+    background-color: var(--color-warning-red);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 10px 0;
 }
+
+.deleteProject img {
+    display: block;
+    width: 30px;
+}
+
+.content__projectEditContainer h2 {
+    font-size: 18px;
+    color: var(--color-primary-purple);
+    text-transform: capitalize;
+}
+
 table {
     width:100%;
     table-layout: fixed;
-    border: 0;
+}
+
+thead tr {
+    background-color: var(--color-primary-purple);
+
 }
 .tbl-header {
     background-color: rgba(255,255,255,0.3);
@@ -54,8 +77,8 @@ td {
     border-bottom: solid 1px var(--color-primary-border);
 }
 
-section.editPriority {
-    margin: 50px;
+.content__projectEditContainer {
+    margin: 20px;
 }
 
 
@@ -70,21 +93,10 @@ section.editPriority {
     -webkit-box-shadow: inset 0 0 6px rgb(115, 103, 240);
 }
 
-.deleteProject {
-    padding: 10px 20px;
-    background-color: var(--color-warning-red);
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    margin: 10px 0;
+.editTaskPriority {
+    max-width: 50px;
 }
 
-.deleteProject img {
-    display: block;
-    width: 30px;
+.deleted-task {
+    text-decoration: line-through;
 }

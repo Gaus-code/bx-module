@@ -28,50 +28,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Редактирование проекта</h2>
 		</article>
-		<form action="" method="post">
-			<button class="deleteProject">
-				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
-				Удалить проект
-			</button>
-		</form>
 		<article class="content__editProject">
 			<form action="" method="post" class="create__form">
 				<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="Какое-то название проекта" required>
 				<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="Какое-то описание проекта" required>
-				<div class="create__fieldsetContainer">
-					<fieldset>
-						<legend>Редактируйте Задачи</legend>
-						<?php if (!empty($arResult['TASKS'])): ?>
-							<?php if (count($arResult['TASKS']) > 0): ?>
-								<ul class="filter__list">
-									<?php foreach ($arResult['TASKS'] as $task): ?>
-										<li class="filter__item">
-											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$task->getId()?>]" value="<?=$task->getId()?>">
-											<label class="filter__label"><?=$task->getTitle()?></label>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							<?php else: ?>
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
-								<p class="empty">У вас пока нет задач</p>
-							<?php endif;?>
-						<?php else: ?>
-							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
-							<p class="empty">У вас пока нет задач</p>
-						<?php endif;?>
-					</fieldset>
-				</div>
-				<section class="editPriority">
-					<h2>Редактируйте приоритетность заявок</h2>
+				<div class="content__projectEditContainer">
+					<h2>Редактируйте заявки в проекте</h2>
 					<div class="tbl-header">
 						<table>
 							<thead>
 							<tr>
-								<th>Приоритетность</th>
-								<th>Название заявки</th>
-								<th>Статус</th>
+								<th class="test">Порядок Выполнения</th>
+								<th>Название задачи</th>
+								<th>Описание задачи</th>
 								<th>Исполнитель</th>
-								<th>Дата создания</th>
+								<th>Статус</th>
+								<th>Дедлайн</th>
+								<th>Сделать независимой задачей</th>
+								<th>Удалить задачу</th>
 							</tr>
 							</thead>
 						</table>
@@ -81,65 +55,76 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<tbody>
 							<tr>
 								<td>
-									<input type="number" max="5" min="1" placeholder="1" value="1">
+									<input class="editTaskPriority" type="number" name="priority" value="1">
 								</td>
-								<td>AUSTRALIAN COMPANY </td>
+								<td class="test">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
+								<td>Описание описание описание</td>
+								<td>В поиске исполнителя</td>
 								<td>Новая</td>
-								<td>Не найден</td>
-								<td>20.04.2024</td>
+								<td>20.04.2024 17:56</td>
+								<td>
+									<input class="withoutPriority" type="checkbox" name="withoutPriority">
+								</td>
+								<td>
+									<input class="deleteTask" type="checkbox" name="deleteTask">
+								</td>
 							</tr>
 							<tr>
 								<td>
-									<input type="number" max="5" min="1" placeholder="2" value="2">
+									<input class="editTaskPriority" type="number" name="priority" value="2">
 								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>В процессе</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="2" value="2">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>На проверке</td>
-								<td>Умный чел</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="3" value="3">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>Сделана</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="1" value="1">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
+								<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
+								<td>Описание описание описание</td>
+								<td class="test">В поиске исполнителя</td>
 								<td>Новая</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
+								<td>20.04.2024 17:56</td>
+								<td>
+									<input class="withoutPriority" type="checkbox" name="withoutPriority">
+								</td>
+								<td>
+									<input class="deleteTask" type="checkbox" name="deleteTask">
+								</td>
 							</tr>
 							<tr>
 								<td>
-									<input type="number" max="5" min="1" placeholder="1" value="1">
+									<input class="editTaskPriority" type="number" name="priority" value="3">
 								</td>
-								<td>AUSTRALIAN COMPANY </td>
+								<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
+								<td>Описание описание описание</td>
+								<td>В поиске исполнителя</td>
 								<td>Новая</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
+								<td>20.04.2024 17:56</td>
+								<td>
+									<input class="withoutPriority" type="checkbox" name="withoutPriority">
+								</td>
+								<td>
+									<input class="deleteTask" type="checkbox" name="deleteTask">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input class="editTaskPriority" type="number" name="priority" value="3">
+								</td>
+								<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
+								<td>Описание описание описание</td>
+								<td>В поиске исполнителя</td>
+								<td>Новая</td>
+								<td>20.04.2024 17:56</td>
+								<td>
+									<input type="checkbox" name="withoutPriority">
+								</td>
+								<td>
+									<input class="deleteTask" type="checkbox" name="deleteTask">
+								</td>
 							</tr>
 							</tbody>
 						</table>
 					</div>
-				</section>
+				</div>
 				<button class="createBtn" type="submit">Сохранить Изменения</button>
 			</form>
 		</article>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/deleteTaskFromProject.js"></script>
