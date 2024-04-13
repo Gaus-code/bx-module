@@ -26,119 +26,79 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Редактирование проекта</h2>
+			<h2 class="content__tittle">Ваш проект</h2>
 		</article>
-		<form action="" method="post">
-			<button class="deleteProject">
-				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
-				Удалить проект
-			</button>
-		</form>
-		<article class="content__editProject">
-			<form action="" method="post" class="create__form">
-				<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="Какое-то название проекта" required>
-				<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="Какое-то описание проекта" required>
-				<div class="create__fieldsetContainer">
-					<fieldset>
-						<legend>Редактируйте Задачи</legend>
-							<?php if (!empty($arResult['TASKS'])): ?>
-								<?php if (count($arResult['TASKS']) > 0): ?>
-								<ul class="filter__list">
-									<?php foreach ($arResult['TASKS'] as $task): ?>
-										<li class="filter__item">
-											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$task->getId()?>]" value="<?=$task->getId()?>">
-											<label class="filter__label"><?=$task->getTitle()?></label>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-								<?php else: ?>
-									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
-									<p class="empty">У вас пока нет задач</p>
-								<?php endif;?>
-							<?php else: ?>
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
-								<p class="empty">У вас пока нет задач</p>
-							<?php endif;?>
-					</fieldset>
+		<article class="content__userProject">
+			<div class="userProject__title">
+				<h2>Заголовок проекта мы вставляем сюда мы вставляем сюд мы вставляем сюд мы вставляем сюд мы вставляем сюд</h2>
+			</div>
+			<div class="userProject__main">
+				<p class="userProject__description">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium animi aperiam architecto consectetur consequuntur cum, cumque debitis dolores eligendi, eos et eveniet, exercitationem explicabo fuga illum impedit ipsam itaque laudantium magni minus neque odio porro possimus qui quidem rem repellat repudiandae similique unde velit vero voluptas voluptate? A accusamus accusantium, ad aliquam aliquid architecto assumenda commodi culpa dicta dolorum eius error et ex explicabo facilis fugiat fugit impedit inventore ipsum itaque provident sint velit, veniam vitae voluptatum? Ab, aliquid iusto laborum magnam molestiae non possimus quae quam qui! Aspernatur at ea eaque earum enim eos facilis fugiat hic id ipsam iste laborum nam nemo neque, perferendis quisquam quos ratione sed similique voluptatem?
+				</p>
+			</div>
+			<div class="userProject__btnContainer">
+				<form action="" method="post">
+					<button class="deleteProject">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
+						Удалить проект
+					</button>
+				</form>
+				<a href="/edit/project/1/" class="userProject__edit">Редактировать проект</a>
+			</div>
+
+
+			<div class="userProject__tasks">
+				<h2>Задачи в проекте:</h2>
+				<div class="tbl-header">
+					<table>
+						<thead>
+						<tr>
+							<th>Название</th>
+							<th>Описание</th>
+							<th>Приоритет</th>
+							<th>Исполнитель</th>
+							<th>Статус</th>
+							<th>Последние изменения</th>
+							<th>Дедлайн</th>
+						</tr>
+						</thead>
+					</table>
 				</div>
-				<section class="editPriority">
-					<h2>Редактируйте приоритетность заявок</h2>
-					<div class="tbl-header">
-						<table>
-							<thead>
-							<tr>
-								<th>Приоритетность</th>
-								<th>Название заявки</th>
-								<th>Статус</th>
-								<th>Исполнитель</th>
-								<th>Дата создания</th>
-							</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="tbl-content">
-						<table>
-							<tbody>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="1" value="1">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>Новая</td>
-								<td>Не найден</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="2" value="2">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>В процессе</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="2" value="2">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>На проверке</td>
-								<td>Умный чел</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="3" value="3">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>Сделана</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="1" value="1">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>Новая</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="number" max="5" min="1" placeholder="1" value="1">
-								</td>
-								<td>AUSTRALIAN COMPANY </td>
-								<td>Новая</td>
-								<td>Исполнительный Исполнитель Исполняет</td>
-								<td>20.04.2024</td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-				</section>
-				<button class="createBtn" type="submit">Сохранить Изменения</button>
-			</form>
+				<div class="tbl-content">
+					<table>
+						<tbody>
+						<tr>
+							<td>Какой-то заголовок такси</td>
+							<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, debitis dignissimos doloremque dolorum ducimus eius, facere, facilis harum hic incidunt laborum molestiae natus nemo possimus provident quidem quod repellendus soluta.</td>
+							<td>1</td>
+							<td>В поиске исполнителя</td>
+							<td>Новая</td>
+							<td>20.04.2024 17:56</td>
+							<td>22.04.2024 18:56</td>
+						</tr>
+						<tr>
+							<td>Какой-то заголовок такси Какой-то заголовок такси Какой-то заголовок такси</td>
+							<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, debitis dignissimos doloremque dolorum ducimus eius, facere, facilis harum hic incidunt laborum molestiae natus nemo possimus provident quidem quod repellendus soluta.</td>
+							<td>2</td>
+							<td>В поиске исполнителя</td>
+							<td>В заморозке</td>
+							<td>20.04.2024 17:56</td>
+							<td>22.04.2024 18:56</td>
+						</tr>
+						<tr>
+							<td>Какой-то заголовок такси</td>
+							<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, debitis dignissimos doloremque dolorum ducimus eius, facere, facilis harum hic incidunt laborum molestiae natus nemo possimus provident quidem quod repellendus soluta.</td>
+							<td>3</td>
+							<td>Исполнительный Исполнитель</td>
+							<td>Выполняется</td>
+							<td>20.04.2024 17:56</td>
+							<td>22.04.2024 18:56</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</article>
 	</section>
 </main>

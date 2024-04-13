@@ -10,13 +10,14 @@
 		<p class="profile__name"><?=$user->getName() . ' ' .$user->getSurname()?></p>
 		<p class="profile__email"><?=$user->getEmail()?></p>
 	</div>
-	<?php endforeach;?>
+
 	<div class="aside__header">
 		<nav class="aside__nav">
-			<button type="button" class="aside__btn active-profile-btn">
+			<a href="/profile/<?= $user->getId()?>/" type="button" class="aside__btn active-profile-btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/dashboard.svg" alt="task folder">
-				Рабочая Область
-			</button>
+				Профиль
+			</a>
+	<?php endforeach;?>
 			<div class="aside__navContainer">
 				<button id="taskToogle" type="button" class="aside__btn">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/task.svg" alt="task folder">
