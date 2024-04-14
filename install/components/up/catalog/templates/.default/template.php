@@ -25,7 +25,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<button type="submit">Отфильтровать</button>
+			<button class="filterBtn" type="submit">Отфильтровать</button>
 		</form>
 	</aside>
 	<section class="catalog__main">

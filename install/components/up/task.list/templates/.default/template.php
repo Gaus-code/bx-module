@@ -42,6 +42,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 			</div>
 		<?php endforeach; ?>
+</div>
+
 		<?php
 		if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
 		{
@@ -56,4 +58,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<p>Пока что тут нет заявок</p>
 		</div>
 	<?php endif; ?>
-</div>
+

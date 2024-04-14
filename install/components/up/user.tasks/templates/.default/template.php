@@ -28,14 +28,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваши Заявки</h2>
 		</article>
-		<article class="content__main">
-			<?php $APPLICATION->IncludeComponent('up:task.list', '', [
+			<?php $APPLICATION->IncludeComponent('up:task.list', 'table', [
 				'CLIENT_ID' => (int)request()->get('user_id'),
 				'TAG_ID' => (int)request()->get('tag_id'),
 				'IS_PERSONAL_ACCOUNT_PAGE' => true,
 			]);
 			?>
-		</article>
+
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>

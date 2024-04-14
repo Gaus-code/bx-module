@@ -1,0 +1,14 @@
+.filterBtn {
+    margin-top: 20px;
+    padding: 8px 12px;
+    border: 2px solid var(--color-primary-purple);
+    background-color: var(--color-primary-purple);
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.filterBtn:hover, .filterBtn:active, .filterBtn:focus {
+    color: var(--color-primary-purple);
+    background-color: var(--color-primary-white);
+    transition: 0.3s;
+}
