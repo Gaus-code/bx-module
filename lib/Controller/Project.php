@@ -30,43 +30,58 @@ class Project extends Controller
 
 			$project->save();
 
-			LocalRedirect("/project/".$project->getId()."/");
+			LocalRedirect("/project/" . $project->getId() . "/");
 		}
 	}
 
 	public function updateAction(
-		int $projectId,
+		int    $projectId,
 		string $title,
 		string $description,
-		array  $taskIds = [],
+		array  $withoutPriorityFlags = [],
+		array  $priorityNumbers = [],
+		array  $deleteTaskFlags = [],
 
 	)
 	{
 		if (check_bitrix_sessid())
 		{
-			$project = ProjectTable::getById($projectId)->fetchObject();
+
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS'])->where('ID', $projectId)->fetchObject();
 
 			$project->setTitle($title)->setDescription($description);
 
-			foreach ($taskIds as $taskId)
+			foreach ($priorityNumbers as $taskId => $priorityNumber)
 			{
-				$task = TaskTable::getById($taskId)->fetchObject();
-				$project->addToTasks($task);
+				if ($priorityNumber > 0)
+				{
+					$project->getTasks()->getByPrimary($taskId)->setProjectPriority($priorityNumber);
+				}
+			}
+			foreach ($withoutPriorityFlags as $taskId => $withoutPriorityFlag)
+			{
+				$project->getTasks()->getByPrimary($taskId)->setProjectPriority(0);
+			}
+
+			foreach ($deleteTaskFlags as $taskId => $deleteTaskFlag)
+			{
+				$project->removeFromTasks($project->getTasks()->getByPrimary($taskId));
 			}
 
 			$project->save();
 
-			LocalRedirect("/project/".$project->getId()."/");
+			LocalRedirect("/project/" . $projectId . "/");
 		}
 	}
 
 	public function deleteAction(int $projectId)
 	{
+		global $USER;
 		if (check_bitrix_sessid())
 		{
 			ProjectTable::delete($projectId);
 
-			LocalRedirect("/client/");
+			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
 		}
 	}
 }

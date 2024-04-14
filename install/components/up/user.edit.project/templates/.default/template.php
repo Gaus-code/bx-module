@@ -29,22 +29,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Редактирование проекта</h2>
 		</article>
 		<article class="content__editProject">
-			<form action="" method="post" class="create__form">
-				<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="Какое-то название проекта" required>
-				<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="Какое-то описание проекта" required>
+			<form action="/project/update/" method="post" class="create__form">
+				<?= bitrix_sessid_post() ?>
+				<input type="hidden" name="projectId" value='<?=$arParams['PROJECT_ID']?>'>
+				<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="<?=$arParams['PROJECT']->getTitle()?>" required>
+				<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="<?=$arParams['PROJECT']->getDescription()?>" required>
 				<div class="content__projectEditContainer">
 					<h2>Редактируйте заявки в проекте</h2>
 					<div class="tbl-header">
 						<table>
 							<thead>
 							<tr>
+								<th>Независимый порядок</th>
 								<th class="test">Порядок Выполнения</th>
 								<th>Название задачи</th>
-								<th>Описание задачи</th>
 								<th>Исполнитель</th>
 								<th>Статус</th>
 								<th>Дедлайн</th>
-								<th>Сделать независимой задачей</th>
 								<th>Удалить задачу</th>
 							</tr>
 							</thead>
@@ -53,70 +54,40 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<div class="tbl-content">
 						<table>
 							<tbody>
-							<tr>
-								<td>
-									<input class="editTaskPriority" type="number" name="priority" value="1">
-								</td>
-								<td class="test">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
-								<td>Описание описание описание</td>
-								<td>В поиске исполнителя</td>
-								<td>Новая</td>
-								<td>20.04.2024 17:56</td>
-								<td>
-									<input class="withoutPriority" type="checkbox" name="withoutPriority">
-								</td>
-								<td>
-									<input class="deleteTask" type="checkbox" name="deleteTask">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input class="editTaskPriority" type="number" name="priority" value="2">
-								</td>
-								<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
-								<td>Описание описание описание</td>
-								<td class="test">В поиске исполнителя</td>
-								<td>Новая</td>
-								<td>20.04.2024 17:56</td>
-								<td>
-									<input class="withoutPriority" type="checkbox" name="withoutPriority">
-								</td>
-								<td>
-									<input class="deleteTask" type="checkbox" name="deleteTask">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input class="editTaskPriority" type="number" name="priority" value="3">
-								</td>
-								<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
-								<td>Описание описание описание</td>
-								<td>В поиске исполнителя</td>
-								<td>Новая</td>
-								<td>20.04.2024 17:56</td>
-								<td>
-									<input class="withoutPriority" type="checkbox" name="withoutPriority">
-								</td>
-								<td>
-									<input class="deleteTask" type="checkbox" name="deleteTask">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input class="editTaskPriority" type="number" name="priority" value="3">
-								</td>
-								<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto.</td>
-								<td>Описание описание описание</td>
-								<td>В поиске исполнителя</td>
-								<td>Новая</td>
-								<td>20.04.2024 17:56</td>
-								<td>
-									<input type="checkbox" name="withoutPriority">
-								</td>
-								<td>
-									<input class="deleteTask" type="checkbox" name="deleteTask">
-								</td>
-							</tr>
+							<?php
+							foreach ($arParams['PROJECT']->getTasks() as $task)
+							{
+								?>
+								<tr>
+									<td>
+										<input class="withoutPriority" type="checkbox" name="withoutPriorityFlags[<?=$task->getId()?>]" value="on" <?php if ($task->getProjectPriority()==0) { echo "checked";}?>>
+									</td>
+									<td>
+										<input class="editTaskPriority" type="number" min="1" name="priorityNumbers[<?=$task->getId()?>]" value="<?=$task->getProjectPriority()?>">
+									</td>
+
+									<td><?= $task->getTitle() ?></td>
+
+									<?php
+									if ($task->getContractor() !== null)
+									{
+										?>
+										<td><?= $task->getContractor()->getName() ?></td>
+										<?php
+									}
+									else
+									{ ?>
+										<td> Исполнителя нет</td> <?php
+									}
+									?>
+									<td><?= $task->getStatusId() ?></td>
+									<td>Дедлайн</td>
+									<td>
+										<input class="deleteTask" type="checkbox" name="deleteTaskFlags[<?=$task->getId()?>]">
+									</td>
+								</tr>
+								<?php
+							} ?>
 							</tbody>
 						</table>
 					</div>
