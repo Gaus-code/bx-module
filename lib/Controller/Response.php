@@ -5,6 +5,7 @@ use Bitrix\Main\Engine;
 use Up\Ukan\Model\EO_Response;
 use Up\Ukan\Model\ResponseTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Service\Configuration;
 
 class Response extends Engine\Controller
 {
@@ -67,6 +68,7 @@ class Response extends Engine\Controller
 			if ($task)
 			{
 				$task->setContractorId($contractorId);
+				$task->setStatus(Configuration::getOption('task_status')['at_work']);
 				$task->save();
 
 				//TODO sent notify contractor that him approved
