@@ -129,11 +129,6 @@ class TaskTable extends DataManager
 					'default_value' => Configuration::getOption('task_status')['new'],
 				]
 			),
-			new Reference(
-				'STATUS',
-				StatusTable::class,
-				Join::on('this.STATUS_ID', 'ref.ID')
-			),
 			new IntegerField(
 				'PROJECT_ID',
 				[
@@ -198,6 +193,17 @@ class TaskTable extends DataManager
 	 * @return array
 	 */
 	public static function validateTitle()
+	{
+		return [
+			new LengthValidator(null, 255),
+		];
+	}
+	/**
+	 * Returns validators for STATUS field.
+	 *
+	 * @return array
+	 */
+	public static function validateStatus()
 	{
 		return [
 			new LengthValidator(null, 255),
