@@ -15,6 +15,7 @@ use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\Date;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Service\Configuration;
 
 Loc::loadMessages(__FILE__);
 
@@ -119,12 +120,13 @@ class TaskTable extends DataManager
 				UserTable::class,
 				Join::on('this.CONTRACTOR_ID', 'ref.ID')
 			),
-			new IntegerField(
-				'STATUS_ID',
+			new StringField(
+				'STATUS',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_STATUS_ID_FIELD'),
-					'default_value' => 1
+					'validation' => [__CLASS__, 'validateStatus'],
+					'title' => Loc::getMessage('TASK_ENTITY_STATUS_FIELD'),
+					'default_value' => Configuration::getOption('task_status')['new'],
 				]
 			),
 			new Reference(

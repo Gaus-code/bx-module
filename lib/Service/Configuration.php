@@ -1,6 +1,6 @@
 <?php
 
-namespace Up\Ukan\Configuration;
+namespace Up\Ukan\Service;
 
 class Configuration
 {
@@ -19,8 +19,10 @@ class Configuration
 		self::$config = $config;
 	}
 
-	public function option(string $name, $defaultValue = null)
+	public static function getOption(string $name, $defaultValue = null)
 	{
+		self::getInstance();
+
 		if (array_key_exists($name, static::$config))
 		{
 			return static::$config[$name];
@@ -34,7 +36,7 @@ class Configuration
 		throw new \RuntimeException("Configuration option {$name} not found");
 	}
 
-	public static function getInstance(): Configuration
+	static function getInstance(): Configuration
 	{
 		if (static::$instance)
 		{

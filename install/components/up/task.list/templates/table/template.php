@@ -37,7 +37,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php else:?>
 					<td>В поиске исполнителя</td>
 					<?php endif;?>
-					<td><?= $task->getStatusId() ?>HARDCODE!(need to get name)</td>
+					<td><?= $task->getStatus() ?></td>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/edit/task/<?= $task->getId() ?>/">Редактировать заявку</a>
 					</td>

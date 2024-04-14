@@ -80,7 +80,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 										<td> Исполнителя нет</td> <?php
 									}
 									?>
-									<td><?= $task->getStatusId() ?></td>
+									<td><?= $task->getStatus() ?></td>
 									<td>Дедлайн</td>
 									<td>
 										<input class="deleteTask" type="checkbox" name="deleteTaskFlags[<?=$task->getId()?>]">

@@ -23,7 +23,7 @@ class TaskDetailComponent extends CBitrixComponent
 
 		if ($this->arParams['TASK_ID'])
 		{
-			$this->arResult['TASK'] =  \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'TAGS', 'CLIENT', 'STATUS'])->where('ID', $this->arParams['TASK_ID'])->fetchObject();
+			$this->arResult['TASK'] =  \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'TAGS', 'CLIENT'])->where('ID', $this->arParams['TASK_ID'])->fetchObject();
 		}
 
 	}

@@ -14,7 +14,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <main class="subscription wrapper">
 	<div class="subscription__container animate-border">
 		<div class="subscription__main">
-			<p class="subscription__description">Какое-то гениальное описание подписки и надпись "подписка доступна <span>30 дней</span> со дня оформления"</p>
+			<p class="subscription__title"><?=\Up\Ukan\Options\Subscription::getTitle()?></p>
+			<p class="subscription__description"><?=\Up\Ukan\Options\Subscription::getDescription()?></p>
 			<p class="subscription__title">С нашей подпиской вам доступно:</p>
 			<ul class="subscription__list">
 				<li class="subscription__item">

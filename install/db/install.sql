@@ -131,3 +131,17 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user_subscription`
 
 INSERT INTO up_ukan_status (TITLE)
 	VALUE ('Новая');
+
+-- Заполнение таблицы up_ukan_tag
+INSERT INTO up_ukan_tag (TITLE)
+VALUES
+	('HTML'),
+	('CSS'),
+	('JavaScript'),
+	('Безопасность'),
+	('Тестирование'),
+	('Сервер'),
+	('API'),
+	('React'),
+	('SQL'),
+	('OWASP');
