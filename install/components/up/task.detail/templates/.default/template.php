@@ -31,16 +31,40 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</section>
 		<section class="detail__footer">
-			<form action="/create/response/" class="detail__form" method="post">
-				<?= bitrix_sessid_post() ?>
-				<input type="hidden" name="taskId" value="<?= $arResult['TASK']->getId() ?>">
-				<label for="setPrice">Добавьте стоимость:</label>
-				<input name = "price" id="setPrice" type="number" class="create__title" placeholder="Ваша цена">
-				<label for="detail__coverLetter">Добавьте сопроводительное письмо:</label>
-				<textarea id="detail__coverLetter" name="coverLetter"></textarea>
-				<button class="detail__btn" type="submit">Откликнуться</button>
-			</form>
-		</section>
+			<section class="detail__footer">
+				<?php switch ($arResult['USER_ACTIVITY']):
+					case 'owner': ?>
+						<div class="detail__status">
+							<span> Вы владелец этой задачи! Хотите <a href="/edit/task/<?= $arResult['TASK']->getId() ?>/"> отредактировать</a> ее?  </span>
+						</div>
+						<?php break;
+					case 'wait approve this user': ?>
+						<div class="detail__status">
+							<span> Заказчик этой задачи уже получил уведомление, ждите его решения! </span>
+						</div>
+						<?php break;
+					case 'approved this user': ?>
+						<div class="detail__status">
+							<span> Круто, ваш отклик подтвердили! Заказчик ждет, что Вы с ним свяжетесь! </span>
+						</div>
+						<?php break;
+					case 'approved other user': ?>
+						<div class="detail__status">
+							<span> К сожалению, эту задачу уже кто-то выполняет </span>
+						</div>
+						<?php break;
+					default: ?>
+						<form action="/create/response/" class="detail__form" method="post">
+							<?= bitrix_sessid_post() ?>
+							<input type="hidden" name="taskId" value="<?= $arResult['TASK']->getId() ?>">
+							<label for="setPrice">Добавьте стоимость:</label>
+							<input name="price" id="setPrice" type="number" class="create__title" placeholder="Ваша цена">
+							<label for="detail__coverLetter">Добавьте сопроводительное письмо:</label>
+							<textarea id="detail__coverLetter" name="coverLetter"></textarea>
+							<button class="detail__btn" type="submit">Откликнуться</button>
+						</form>
+					<?php endswitch; ?>
+			</section>
 	</div>
 	<div class="detail__metaContainer">
 		<section class="metaContainer__header">
@@ -54,7 +78,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</li>
 				<li class="metaContainer__item">
 					<p class="metaContainer__info">
-						<span>Исполнитель:</span>
+						<span>Заказчик:</span>
 						<?= $arResult['TASK']->getClient()->getName() . ' ' . $arResult['TASK']->getClient()->getSurname() ?>
 					</p>
 				</li>

@@ -10,10 +10,6 @@ class TaskListComponent extends CBitrixComponent
 
 	public function onPrepareComponentParams($arParams)
 	{
-		if (!isset($arParams['CLIENT_ID']) || $arParams['CLIENT_ID'] <= 0)
-		{
-			$arParams['CLIENT_ID'] = null;
-		}
 
 		if (!request()->get('PAGEN_1') || !is_numeric(request()->get('PAGEN_1')) || (int)request()->get('PAGEN_1') < 1)
 		{
@@ -46,9 +42,15 @@ class TaskListComponent extends CBitrixComponent
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['ID']);
 
-		if (!is_null($this->arParams['CLIENT_ID']))
+		if ($this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
-			$query->where('CLIENT_ID', $this->arParams['CLIENT_ID']);
+			global $USER;
+			$userId = $USER->getId();
+			$query->where('CLIENT_ID', $userId);
+		}
+		else
+		{
+			$query->where('CONTRACTOR_ID', null);
 		}
 		if (!is_null($this->arParams['TAGS_ID']))
 		{

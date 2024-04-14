@@ -36,7 +36,7 @@ class Response extends Engine\Controller
 
 			$response->save();
 
-			LocalRedirect("/profile/$contractorId/responses/");
+			LocalRedirect("/task/$taskId/");
 		}
 	}
 
