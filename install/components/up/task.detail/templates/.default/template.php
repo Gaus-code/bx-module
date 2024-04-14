@@ -26,7 +26,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?= $arResult['TASK']->getDescription() ?>
 			</div>
 			<div class="detail__container">
-				<div class="detail__priority"><?= $arResult['TASK']->getProjectPriority() ?> приоритет</div>
 				<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
 			</div>
 		</section>
