@@ -30,37 +30,41 @@ class TaskDetailComponent extends CBitrixComponent
 
 	protected function fetchUserActivity()
 	{
-		global $USER;
-		$userId = (int)$USER->getId();
-
-		if ($this->arResult['TASK']->getClientId() === $userId)
+		if ($this->arResult['TASK'])
 		{
-			$this->arResult['USER_ACTIVITY'] = 'owner';
-			return ;
-		}
+			global $USER;
+			$userId = (int)$USER->getId();
 
-		if ($this->arResult['TASK']->getContractorId() !== 0)
-		{
-			if ($this->arResult['TASK']->getContractorId() === $userId)
+			if ($this->arResult['TASK']->getClientId() === $userId)
 			{
-				$this->arResult['USER_ACTIVITY'] = 'approved this user';
+				$this->arResult['USER_ACTIVITY'] = 'owner';
+				return ;
 			}
-			else
+
+			if ($this->arResult['TASK']->getContractorId() !== 0)
 			{
-				$this->arResult['USER_ACTIVITY'] = 'approved other user';
+				if ($this->arResult['TASK']->getContractorId() === $userId)
+				{
+					$this->arResult['USER_ACTIVITY'] = 'approved this user';
+				}
+				else
+				{
+					$this->arResult['USER_ACTIVITY'] = 'approved other user';
+				}
+				return ;
 			}
-			return ;
+
+			$response = \Up\Ukan\Model\ResponseTable::query()
+													->setSelect(['ID'])
+													->where('TASK_ID', $this->arResult['TASK']->getId())
+													->where('CONTRACTOR_ID', $userId)
+													->fetchObject();
+			if ($response)
+			{
+				$this->arResult['USER_ACTIVITY'] = 'wait approve this user';
+			}
 		}
 
-		$response = \Up\Ukan\Model\ResponseTable::query()
-												->setSelect(['ID'])
-												->where('TASK_ID', $this->arResult['TASK']->getId())
-												->where('CONTRACTOR_ID', $userId)
-												->fetchObject();
-		if ($response)
-		{
-			$this->arResult['USER_ACTIVITY'] = 'wait approve this user';
-		}
 
 	}
 }

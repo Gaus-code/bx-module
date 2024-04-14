@@ -48,6 +48,8 @@ return function (RoutingConfigurator $routes)
 	//response area
 	$routes->post('/create/response/', [\Up\Ukan\Controller\Response::class, 'create']);
 	$routes->post('/delete/response/', [\Up\Ukan\Controller\Response::class, 'delete']);
+	$routes->post('/approve/response/', [\Up\Ukan\Controller\Response::class, 'approve']);
+	$routes->post('/reject/response/', [\Up\Ukan\Controller\Response::class, 'reject']);
 
 	//edit profile
 	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);

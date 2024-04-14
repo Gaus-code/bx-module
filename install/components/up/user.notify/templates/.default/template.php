@@ -45,8 +45,18 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						</div>
 						<div class="notify__title"><span>Заявка:</span> <?= $response->getTask()->getTitle() ?></div>
 						<div class="notify__buttons">
-							<a href="/task/<?= $response->getTask()->getId() ?>/accept/user/<?=$response->getContractor()->getId()?>/" class="notify__accept">Принять</a>
-							<a href="/task/<?= $response->getTask()->getId() ?>/reject/user/<?=$response->getContractor()->getId()?>/" class="notify__reject">Отклонить</a>
+							<form action="/approve/response/" method="post">
+								<?=bitrix_sessid_post()?>
+								<input hidden="hidden" name="taskId" value="<?= $response->getTask()->getId() ?>">
+								<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+								<button class="notify__accept" type="submit">Принять</button>
+							</form>
+							<form action="/reject/response/" method="post">
+								<?=bitrix_sessid_post()?>
+								<input hidden="hidden" name="taskId" value="<?= $response->getTask()->getId() ?>">
+								<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+								<button class="notify__reject" type="submit">Отклонить</button>
+							</form>
 						</div>
 					</li>
 					<?php endforeach; ?>
