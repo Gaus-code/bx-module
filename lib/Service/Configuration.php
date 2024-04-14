@@ -36,7 +36,7 @@ class Configuration
 		throw new \RuntimeException("Configuration option {$name} not found");
 	}
 
-	static function getInstance(): Configuration
+	private static function getInstance(): Configuration
 	{
 		if (static::$instance)
 		{
