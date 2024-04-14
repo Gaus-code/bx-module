@@ -15,7 +15,8 @@ if (!$USER->IsAuthorized())
 ?>
 
 <?php $APPLICATION->IncludeComponent('up:user.project', '', [
-	'USER_ID' => (int)$USER->GetID()
+	'USER_ID' => (int)$USER->GetID(),
+	'PROJECT_ID' => (int)request()->get('project_id'),
 ]);
 ?>
 

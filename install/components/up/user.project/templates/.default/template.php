@@ -13,7 +13,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 ?>
 <main class="profile__main">
-	<?php $APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	<?php
+	$APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
@@ -21,8 +22,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<span class="plus-link__inner">+</span>
 			</button>
 			<div class="content__profileCreate">
-				<a href="/create/project/<?=$arParams['USER_ID']?>/" class="create__link">Создать проект</a>
-				<a href="/create/task/<?=$arParams['USER_ID']?>/" class="create__link">Создать заявку</a>
+				<a href="/create/project/<?= $arParams['USER_ID'] ?>/" class="create__link">Создать проект</a>
+				<a href="/create/task/<?= $arParams['USER_ID'] ?>/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
 		<article class="content__name">
@@ -30,15 +31,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="content__userProject">
 			<div class="userProject__title">
-				<h2>Заголовок проекта мы вставляем сюда мы вставляем сюд мы вставляем сюд мы вставляем сюд мы вставляем сюд</h2>
+				<h2><?= $arParams['PROJECT']->getTitle() ?></h2>
 			</div>
 			<div class="userProject__main">
 				<p class="userProject__description">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium animi aperiam architecto consectetur consequuntur cum, cumque debitis dolores eligendi, eos et eveniet, exercitationem explicabo fuga illum impedit ipsam itaque laudantium magni minus neque odio porro possimus qui quidem rem repellat repudiandae similique unde velit vero voluptas voluptate? A accusamus accusantium, ad aliquam aliquid architecto assumenda commodi culpa dicta dolorum eius error et ex explicabo facilis fugiat fugit impedit inventore ipsum itaque provident sint velit, veniam vitae voluptatum? Ab, aliquid iusto laborum magnam molestiae non possimus quae quam qui! Aspernatur at ea eaque earum enim eos facilis fugiat hic id ipsam iste laborum nam nemo neque, perferendis quisquam quos ratione sed similique voluptatem?
+					<?= $arParams['PROJECT']->getDescription() ?>
 				</p>
 			</div>
 			<div class="userProject__btnContainer">
-				<form action="" method="post">
+				<form action="/project/delete/" method="post">
+					<?= bitrix_sessid_post() ?>
+					<input type="hidden" name="projectId" value='<?= $arParams['PROJECT_ID'] ?>'>
 					<button class="deleteProject">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
 						Удалить проект
@@ -55,9 +58,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<table>
 						<thead>
 						<tr>
+							<th>Порядок выполнения</th>
 							<th>Название</th>
-							<th>Описание</th>
-							<th>Приоритет</th>
 							<th>Исполнитель</th>
 							<th>Статус</th>
 							<th>Последние изменения</th>
@@ -69,33 +71,34 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<div class="tbl-content">
 					<table>
 						<tbody>
-						<tr>
-							<td>Какой-то заголовок такси</td>
-							<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, debitis dignissimos doloremque dolorum ducimus eius, facere, facilis harum hic incidunt laborum molestiae natus nemo possimus provident quidem quod repellendus soluta.</td>
-							<td>1</td>
-							<td>В поиске исполнителя</td>
-							<td>Новая</td>
-							<td>20.04.2024 17:56</td>
-							<td>22.04.2024 18:56</td>
-						</tr>
-						<tr>
-							<td>Какой-то заголовок такси Какой-то заголовок такси Какой-то заголовок такси</td>
-							<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, debitis dignissimos doloremque dolorum ducimus eius, facere, facilis harum hic incidunt laborum molestiae natus nemo possimus provident quidem quod repellendus soluta.</td>
-							<td>2</td>
-							<td>В поиске исполнителя</td>
-							<td>В заморозке</td>
-							<td>20.04.2024 17:56</td>
-							<td>22.04.2024 18:56</td>
-						</tr>
-						<tr>
-							<td>Какой-то заголовок такси</td>
-							<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, debitis dignissimos doloremque dolorum ducimus eius, facere, facilis harum hic incidunt laborum molestiae natus nemo possimus provident quidem quod repellendus soluta.</td>
-							<td>3</td>
-							<td>Исполнительный Исполнитель</td>
-							<td>Выполняется</td>
-							<td>20.04.2024 17:56</td>
-							<td>22.04.2024 18:56</td>
-						</tr>
+						<?php
+						foreach ($arParams['PROJECT']->getTasks() as $task)
+						{
+							?>
+							<tr>
+								<td><?= $task->getProjectPriority() ?></td>
+								<td><?= $task->getTitle() ?></td>
+
+
+								<?php
+								if ($task->getContractor() !== null)
+								{
+									?>
+									<td><?= $task->getContractor()->getName() ?></td>
+									<?php
+								}
+								else
+								{ ?>
+									<td> Исполнителя нет</td> <?php
+								}
+								?>
+								<td><?= $task->getStatusId() ?></td>
+								<td><?= $task->getUpdatedAt() ?></td>
+								<td>Дедлайн</td>
+							</tr>
+
+							<?php
+						} ?>
 						</tbody>
 					</table>
 				</div>
