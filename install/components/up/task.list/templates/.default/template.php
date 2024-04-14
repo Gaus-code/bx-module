@@ -11,6 +11,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 }
 
 ?>
+
+<form method="get">
+	<input type="text" name="q" placeholder="Поиск...">
+	<button type="submit">Искать</button>
+</form>
 <div class="content__main">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<?php foreach ($arResult['TASKS'] as $task): ?>

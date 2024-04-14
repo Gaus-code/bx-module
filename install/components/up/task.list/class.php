@@ -26,6 +26,7 @@ class TaskListComponent extends CBitrixComponent
 		}
 
 		$arParams['TAGS_ID'] = request()->get('tags');
+		$arParams['SEARCH'] = request()->get('q');
 		$arParams['EXIST_NEXT_PAGE'] = false;
 
 		return $arParams;
@@ -56,6 +57,10 @@ class TaskListComponent extends CBitrixComponent
 		{
 			$query->whereIn('TAGS.ID', $this->arParams['TAGS_ID']);
 		}
+		if (!is_null($this->arParams['SEARCH']))
+		{
+			$query->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%');
+		}
 
 		$query->addGroup('ID');
 		$query->setLimit($nav->getLimit() + 1);
@@ -79,6 +84,11 @@ class TaskListComponent extends CBitrixComponent
 			$this->arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
+		if ($idList === [])
+		{
+			$this->arResult['TASKS'] = [];
+			return;
+		}
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*', 'TAGS']);
 
