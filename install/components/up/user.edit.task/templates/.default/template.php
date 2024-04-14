@@ -75,6 +75,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<button class="editBtn" type="submit">Сохранить Изменения</button>
 			</form>
+			<form action="" method="post" class="deleteTask__form">
+				<button class="deleteTask">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
+					Удалить заявку
+				</button>
+			</form>
 		</article>
 	</section>
 </main>
