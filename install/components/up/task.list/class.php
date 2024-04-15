@@ -51,7 +51,7 @@ class TaskListComponent extends CBitrixComponent
 		}
 		else
 		{
-			$query->where('CONTRACTOR_ID', null);
+			$query->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
 		}
 		if (!is_null($this->arParams['TAGS_ID']))
 		{
