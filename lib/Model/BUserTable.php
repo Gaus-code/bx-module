@@ -9,7 +9,9 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
-	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+	Bitrix\Main\ORM\Fields\Validators\LengthValidator,
+	Bitrix\Main\ORM\Fields\Relations\Reference,
+	Bitrix\Main\ORM\Query\Join;
 
 Loc::loadMessages(__FILE__);
 
@@ -106,6 +108,11 @@ class BUserTable extends DataManager
 	public static function getMap()
 	{
 		return [
+			(new Reference(
+				'USER',
+				\Up\Ukan\Model\UserTable::class,
+				Join::on('this.ID', 'ref.ID')
+			)),
 			(new IntegerField('ID',
 				[]
 			))->configureTitle(Loc::getMessage('USER_ENTITY_ID_FIELD'))

@@ -36,7 +36,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if (!$arParams['IS_PERSONAL_ACCOUNT_PAGE']): ?>
 						<div class="task__footer_img">
 							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/people.svg" alt="count executers">
-							<p><?= $task->getClient()->getName() . ' ' . $task->getClient()->getSurname() ?></p>
+							<p><?= $task->getClient()->fillBUser()->getName() . ' ' . $task->getClient()->fillBUser()->getLastName() ?></p>
 						</div>
 						<div class="task__respond">
 							<a href="/task/<?= $task->getId() ?>/" class="task__link">

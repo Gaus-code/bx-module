@@ -48,18 +48,34 @@ __ukanMigrate(3, function($updater, $DB)
 {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
-		$DB->query('ALTER TABLE up_ukan_user DROP COLUMN ROLE;');
-		$DB->query('ALTER TABLE up_ukan_user DROP CONSTRAINT uc_up_ukan_user_EMAIL;');
-		$DB->query('ALTER TABLE up_ukan_user ADD CONSTRAINT uc_up_ukan_user_LOGIN UNIQUE (LOGIN);');
+		// $DB->query('ALTER TABLE up_ukan_user DROP COLUMN ROLE;');
+		// $DB->query('ALTER TABLE up_ukan_user DROP CONSTRAINT uc_up_ukan_user_EMAIL;');
+		// $DB->query('ALTER TABLE up_ukan_user ADD CONSTRAINT uc_up_ukan_user_LOGIN UNIQUE (LOGIN);');
 	}
 });
 
 __ukanMigrate(4, function($updater, $DB)
 {
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_status') &&  $updater->TableExists('up_ukan_task'))
 	{
 		$DB->query('drop table up_ukan_status;');
 		$DB->query('alter table up_ukan_task
     change STATUS_ID STATUS varchar(255) not null;');
+	}
+});
+
+__ukanMigrate(5, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query('ALTER TABLE up_ukan_user
+					DROP COLUMN EMAIL,
+					DROP COLUMN LOGIN,
+					DROP COLUMN HASH,
+					DROP COLUMN NAME,
+					DROP COLUMN SURNAME,
+					DROP COLUMN CREATED_AT;');
+		$DB->query('ALTER TABLE up_ukan_user
+					ADD COLUMN B_USER_ID int;');
 	}
 });
