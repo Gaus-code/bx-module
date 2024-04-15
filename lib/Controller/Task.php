@@ -25,7 +25,7 @@ class Task extends Controller
 
 			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
 			{
-				LocalRedirect("/create/task/".$clientId."/");
+				LocalRedirect("/task/".$clientId."/create/");
 			}
 
 			$task = new EO_Task();
@@ -70,7 +70,7 @@ class Task extends Controller
 
 			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
 			{
-				LocalRedirect("/create/task/".$clientId."/");
+				LocalRedirect("/task/".$clientId."/create/");
 			}
 
 			$task = TaskTable::getById($taskId)->fetchObject();

@@ -34,7 +34,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php switch ($arResult['USER_ACTIVITY']):
 					case 'owner': ?>
 						<div class="detail__status">
-							<span> Вы владелец этой задачи! Хотите <a href="/edit/task/<?= $arResult['TASK']->getId() ?>/"> отредактировать</a> ее?  </span>
+							<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arResult['TASK']->getId() ?>/edit/"> отредактировать</a> ее?  </span>
 						</div>
 						<?php break;
 					case 'wait approve this user': ?>
@@ -53,7 +53,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						</div>
 						<?php break;
 					default: ?>
-						<form action="/create/response/" class="detail__form" method="post">
+						<form action="/response/create/" class="detail__form" method="post">
 							<?= bitrix_sessid_post() ?>
 							<input type="hidden" name="taskId" value="<?= $arResult['TASK']->getId() ?>">
 							<label for="setPrice">Добавьте стоимость:</label>

@@ -14,9 +14,8 @@ if (!$USER->IsAuthorized())
 }
 ?>
 
-<?php $APPLICATION->IncludeComponent('up:user.edit.project', '', [
-	'USER_ID' => (int)$USER->GetID(),
-	'PROJECT_ID' => (int)request()->get('project_id'),
+<?php $APPLICATION->IncludeComponent('up:task.edit', '', [
+	'USER_ID' => (int)$USER->GetID()
 ]);
 ?>
 

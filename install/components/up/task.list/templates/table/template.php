@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php endif;?>
 					<td><?= $task->getStatus() ?></td>
 					<td data-label="Редактировать">
-						<a class="editTask" href="/edit/task/<?= $task->getId() ?>/">Редактировать заявку</a>
+						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
 				</tr>
 				<?php endforeach; ?>

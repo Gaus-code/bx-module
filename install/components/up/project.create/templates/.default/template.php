@@ -21,12 +21,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<span class="plus-link__inner">+</span>
 			</button>
 			<div class="content__profileCreate">
-				<a href="/create/project/<?=$USER->GetID()?>/" class="create__link">Создать проект</a>
-				<a href="/create/task/<?=$USER->GetID()?>/" class="create__link">Создать заявку</a>
+				<a href="/project/<?=$USER->GetID()?>/create/" class="create__link">Создать проект</a>
+				<a href="/task/<?=$USER->GetID()?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
 		<article class="content__create">
-			<form class="create__form" action="/create/project/" method="post">
+			<form class="create__form" action="/project/create/" method="post">
 				<?=bitrix_sessid_post()?>
 				<input type="text" name="title" class="create__title" placeholder="Название проекта">
 				<input type="text" name="description" class="create__description" placeholder="Описание проекта">

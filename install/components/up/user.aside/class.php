@@ -14,12 +14,20 @@ class UserAsideComponent extends CBitrixComponent
 	{
 		global $USER;
 		$userId = $USER->GetID();
+//
+//		$query = \Up\Ukan\Model\UserTable::query();
+//
+//		$query->setSelect(['*', 'B_USER'])->where('ID', $userId);
+//
+//		$this->arResult['USER'] = $query->fetchObject();
 
-		$query = \Up\Ukan\Model\UserTable::query();
-
-		$query->setSelect(['*'])->where('ID', $userId);
-
-		$this->arResult['USER'] = $query->fetchCollection();
+		$user = \Up\Ukan\Model\UserTable::query();
+		$user->setSelect(['*', 'B_USER'])->where('ID', $userId)->fetchCollection();
+		//$user->getBUser()->getLogin();
+		//echo $user->getBio();
+		$bUser = \Up\Ukan\Model\BUserTable::query();
+		$bUser->setSelect(['*'])->where('ID', $userId)->fetchObject();
+		echo $bUser->getName();
 	}
 
 	protected function fetchTasks()
@@ -28,7 +36,7 @@ class UserAsideComponent extends CBitrixComponent
 		$userId = $USER->GetID();
 
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['ID', 'TITLE'])->where('CLIENT_ID', $userId);
+		$query->setSelect(['ID', 'TITLE', 'B_USER'])->where('CLIENT_ID', $userId);
 
 		$this->arResult['TASKS'] = $query->fetchCollection();
 	}

@@ -22,8 +22,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<span class="plus-link__inner">+</span>
 			</button>
 			<div class="content__profileCreate">
-				<a href="/create/project/<?= $arParams['USER_ID'] ?>/" class="create__link">Создать проект</a>
-				<a href="/create/task/<?= $arParams['USER_ID'] ?>/" class="create__link">Создать заявку</a>
+				<a href="/project/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать проект</a>
+				<a href="/task/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
 		<article class="content__name">
@@ -47,7 +47,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						Удалить проект
 					</button>
 				</form>
-				<a href="/edit/project/<?= $arParams['PROJECT_ID'] ?>/" class="userProject__edit">Редактировать проект</a>
+				<a href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/" class="userProject__edit">Редактировать проект</a>
 				<button class="userProject__add">Добавить задачу</button>
 			</div>
 

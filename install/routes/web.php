@@ -22,19 +22,19 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/subscription/', new PublicPageController('/local/modules/up.ukan/views/subscription.php'));
 
 	//profile actions(get)
-	$routes->get('/edit/profile/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));
-	$routes->get('/create/task/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
-	$routes->get('/create/project/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
+	$routes->get('/profile/{user_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));
+	$routes->get('/task/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
+	$routes->get('/project/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
 	$routes->get('/task/{id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
-	$routes->get('/edit/project/{project_id}/', new PublicPageController('/local/modules/up.ukan/views/user-edit-project.php'));
-	$routes->get('/edit/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/user-edit-task.php'));
+	$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
+	$routes->get('/task/{task_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/task-edit.php'));
 
 	//profile actions(post)
-	$routes->post('/create/task/', [\Up\Ukan\Controller\Task::class, 'create']);
-	$routes->post('/update/task/', [\Up\Ukan\Controller\Task::class, 'update']);
-	$routes->post('/delete/task/', [\Up\Ukan\Controller\Task::class, 'delete']);
+	$routes->post('/task/create/', [\Up\Ukan\Controller\Task::class, 'create']);
+	$routes->post('/task/update/', [\Up\Ukan\Controller\Task::class, 'update']);
+	$routes->post('/task/delete/', [\Up\Ukan\Controller\Task::class, 'delete']);
 
-	$routes->post('/create/project/', [\Up\Ukan\Controller\Project::class, 'create']);
+	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);
 	$routes->post('/project/update/', [\Up\Ukan\Controller\Project::class, 'update']);
 	$routes->post('/project/delete/', [\Up\Ukan\Controller\Project::class, 'delete']);
 
@@ -46,10 +46,10 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/sign-in', new PublicPageController('/local/modules/up.ukan/views/sign-in.php'));
 
 	//response area
-	$routes->post('/create/response/', [\Up\Ukan\Controller\Response::class, 'create']);
-	$routes->post('/delete/response/', [\Up\Ukan\Controller\Response::class, 'delete']);
-	$routes->post('/approve/response/', [\Up\Ukan\Controller\Response::class, 'approve']);
-	$routes->post('/reject/response/', [\Up\Ukan\Controller\Response::class, 'reject']);
+	$routes->post('/response/create/', [\Up\Ukan\Controller\Response::class, 'create']);
+	$routes->post('/response/delete/', [\Up\Ukan\Controller\Response::class, 'delete']);
+	$routes->post('/response/approve/', [\Up\Ukan\Controller\Response::class, 'approve']);
+	$routes->post('/response/reject/', [\Up\Ukan\Controller\Response::class, 'reject']);
 
 	//edit profile
 	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);

@@ -155,7 +155,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 			<?php if (!$USER->IsAuthorized()):?>
 				<a class="peoplePreview__link" href="/sign-up">Разместить заявку</a>
 			<?php else: ?>
-				<a class="peoplePreview__link" href="/create/task/<?= $USER->GetID() ?>/">Разместить заявку</a>
+				<a class="peoplePreview__link" href="/task/<?= $USER->GetID() ?>/create/">Разместить заявку</a>
 			<?php endif; ?>
 
 		</div>
