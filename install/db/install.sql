@@ -1,21 +1,13 @@
 CREATE TABLE IF NOT EXISTS `up_ukan_user`
 (
 	`ID`                    int AUTO_INCREMENT NOT NULL,
-	`EMAIL`                 varchar(255)       NOT NULL,
-	`LOGIN`                 varchar(255)       NOT NULL,
-	`HASH`                  varchar(255)       NOT NULL,
-	`NAME`                  varchar(255)       NOT NULL,
-	`SURNAME`               varchar(255)       NOT NULL,
+	'B_USER_ID'             int NOT NULL ,
 	`BIO`                   text,
 	`SUBSCRIPTION_END_DATE` date,
-	`CREATED_AT`            datetime,
 	`UPDATED_AT`            datetime,
     PRIMARY KEY (
                  `ID`
-        ),
-    CONSTRAINT `uc_up_ukan_user_LOGIN` UNIQUE (
-	                                           `LOGIN`
-		)
+        )
 );
 
 CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
@@ -63,15 +55,6 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`PROJECT_ID`    int,
 	`CREATED_AT`    datetime,
 	`UPDATED_AT`    datetime,
-	PRIMARY KEY (
-	             `ID`
-		)
-);
-
-CREATE TABLE IF NOT EXISTS `up_ukan_status`
-(
-	`ID`    int AUTO_INCREMENT NOT NULL,
-	`TITLE` varchar(255)       NOT NULL,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -129,8 +112,6 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user_subscription`
 		)
 );
 
-INSERT INTO up_ukan_status (TITLE)
-	VALUE ('Новая');
 
 -- Заполнение таблицы up_ukan_tag
 INSERT INTO up_ukan_tag (TITLE)

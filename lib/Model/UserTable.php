@@ -11,6 +11,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
@@ -62,37 +64,17 @@ class UserTable extends DataManager
 					'title' => Loc::getMessage('USER_ENTITY_ID_FIELD')
 				]
 			),
-			new StringField(
-				'EMAIL',
+			new IntegerField(
+				'B_USER_ID',
 				[
 					'required' => true,
-					'validation' => [__CLASS__, 'validateEmail'],
-					'title' => Loc::getMessage('USER_ENTITY_EMAIL_FIELD')
+					'title' => Loc::getMessage('TASK_ENTITY_CLIENT_ID_FIELD')
 				]
 			),
-			new StringField(
-				'HASH',
-				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateHash'],
-					'title' => Loc::getMessage('USER_ENTITY_HASH_FIELD')
-				]
-			),
-			new StringField(
-				'NAME',
-				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateName'],
-					'title' => Loc::getMessage('USER_ENTITY_NAME_FIELD')
-				]
-			),
-			new StringField(
-				'SURNAME',
-				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateSurname'],
-					'title' => Loc::getMessage('USER_ENTITY_SURNAME_FIELD')
-				]
+			new Reference(
+				'B_USER',
+				BUserTable::class,
+				Join::on('this.B_USER_ID', 'ref.ID')
 			),
 			new DateField(
 				'SUBSCRIPTION_END_DATE',
@@ -109,16 +91,6 @@ class UserTable extends DataManager
 				'BIO',
 				[
 					'title' => Loc::getMessage('USER_ENTITY_BIO_FIELD')
-				]
-			),
-			new DatetimeField(
-				'CREATED_AT',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('USER_ENTITY_CREATED_AT_FIELD'),
-					'default_value' => function () {
-						return new DateTime();
-					}
 				]
 			),
 			new DatetimeField(
@@ -170,14 +142,6 @@ class UserTable extends DataManager
 				'RESPONSES',
 				ResponseTable::class,
 				'CONTRACTOR'
-			),
-			new StringField(
-				'LOGIN',
-				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateLogin'],
-					'title' => Loc::getMessage('USER_ENTITY_LOGIN_FIELD')
-				]
 			),
 		];
 	}

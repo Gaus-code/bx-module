@@ -81,17 +81,12 @@ class Auth extends Engine\Controller
 		if (is_numeric($result))
 		{
 			$userId = $result;
-			$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 			$this->setUserSession($userId);
 
 			$user = new EO_User();
 
-			$user->setId($userId)
-				 ->setEmail($email)
-				 ->setLogin($login)
-				 ->setHash($passwordHash)
-				 ->setName($firstname)
-				 ->setSurname($lastname);
+			$user->setBUserId($userId)->setUpdatedAt(new \Bitrix\Main\Type\DateTime());
+
 			$user->save();
 		}
 		global $USER;
