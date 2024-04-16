@@ -29,32 +29,36 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Редактирование заявки</h2>
 		</article>
 		<article class="content__editTask">
-			<form action="" method="post" class="create__form">
+			<form action="/task/update/" method="post" class="create__form">
+				<?=bitrix_sessid_post()?>
+				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Редактируйте Название</label>
-						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="сюда вставить название">
+						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=$arResult['TASK']->getTitle()?>">
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="taskDescription">Редактируйте Описание</label>
-						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10">сюда вставить описание</textarea>
+						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"><?=$arResult['TASK']->getDescription()?></textarea>
 					</div>
 					<div class="splitContainer">
 						<div class="create__container">
 							<label class="create__textareaLabel" for="createMaxPrice">Редактируйте максимальную стоимость</label>
-							<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" value="сюда вставить максимальную стоимость">
+							<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" value="<?php if ($arResult['TASK']->getMaxPrice()) {echo $arResult['TASK']->getMaxPrice();} ?>">
 						</div>
 						<div class="create__container editTaskStatus">
 							<label class="create__textareaLabel" for="createMaxPrice">Редактируйте статус заявки</label>
 							<select class="editStatusSelect" name="status" id="">
-								<option value="new">Новая</option>
-								<option value="inProgress">Выполняется</option>
-								<option value="stopped">Приостановлена</option>
-								<option value="done">Сделана</option>
+								<?php foreach (\Up\Ukan\Service\Configuration::getOption('task_status') as $keyStatus => $status):; ?>
+									<option value="<?=$keyStatus?>" <?php if ($status === $arResult['TASK']->getStatus()){echo "selected";}?>><?=$status?></option>
+								<?php endforeach;?>
 							</select>
 						</div>
 					</div>
-
+					<li class="filter__item">
+						<input class="filter__checkbox" name = "useGPT" type = "checkbox">
+						<label class="filter__label">Автоматичемкое проставление тегов по описанию</label>
+					</li>
 					<div class="create__container">
 						<fieldset>
 							<legend>Редактируйте теги в заявке</legend>
@@ -62,7 +66,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<ul class="filter__list">
 									<?php foreach ($arResult['TAGS'] as $tag): ?>
 										<li class="filter__item">
-											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>">
+											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>"
+												<?php if ($arResult['TASK']->getTags()->hasByPrimary($tag->getId())) { echo 'checked'; } ?>>
 											<label class="filter__label"><?=$tag->getTitle()?></label>
 										</li>
 									<?php endforeach; ?>
@@ -71,11 +76,32 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<p class="empty">У вас пока нет тегов</p>
 							<?php endif;?>
 						</fieldset>
+						<fieldset>
+							<legend>Выберите Проект</legend>
+							<?php if (count($arResult['PROJECTS']) > 0): ?>
+								<ul class="filter__list">
+									<?php foreach ($arResult['PROJECTS'] as $project): ?>
+										<li class="filter__item">
+											<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>"
+												<?php if ($arResult['TASK']->hasProjectId($project->getId())) { echo 'checked'; } ?>>
+											<label class="filter__label"><?=$project->getTitle()?></label>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							<?php else: ?>
+								<div class="emptyContainer">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
+									<p class="empty">У вас пока нет проектов</p>
+								</div>
+							<?php endif;?>
+						</fieldset>
 					</div>
 				</div>
 				<button class="editBtn" type="submit">Сохранить Изменения</button>
 			</form>
-			<form action="" method="post" class="deleteTask__form">
+			<form action="/task/delete/" method="post" class="deleteTask__form">
+				<?=bitrix_sessid_post()?>
+				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
 				<button class="deleteTask">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
 					Удалить заявку
