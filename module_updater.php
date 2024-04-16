@@ -63,3 +63,13 @@ __ukanMigrate(4, function($updater, $DB)
     change STATUS_ID STATUS varchar(255) not null;');
 	}
 });
+
+__ukanMigrate(5, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query('ALTER TABLE up_ukan_user DROP COLUMN B_USER_ID;');
+//		$DB->query('alter table up_ukan_task
+//    change STATUS_ID STATUS varchar(255) not null;');
+	}
+});

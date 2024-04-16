@@ -47,7 +47,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						Удалить проект
 					</button>
 				</form>
-				<a href="/edit/project/1/" class="userProject__edit">Редактировать проект</a>
+				<a href="/project/1/edit/" class="userProject__edit">Редактировать проект</a>
 				<button class="userProject__add">Добавить задачу</button>
 			</div>
 

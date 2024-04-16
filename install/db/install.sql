@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS `up_ukan_user`
 (
-	`ID`                    int AUTO_INCREMENT NOT NULL,
-	'B_USER_ID'             int NOT NULL ,
+	`ID`                    int NOT NULL,
 	`BIO`                   text,
 	`SUBSCRIPTION_END_DATE` date,
 	`UPDATED_AT`            datetime,
