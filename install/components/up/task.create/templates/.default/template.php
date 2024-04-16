@@ -41,6 +41,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
 					</div>
 				</div>
+				<li class="filter__item">
+					<input class="filter__checkbox" name = "useGPT" type = "checkbox">
+					<label class="filter__label">Автоматичемкое проставление тегов по описанию</label>
+				</li>
 				<div class="create__fieldsetContainer">
 					<fieldset>
 						<legend>Добавьте Теги</legend>

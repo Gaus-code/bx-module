@@ -81,7 +81,7 @@ class YandexGPT
 		$tagIdsList = explode(" ",trim($tagIdsList));
 
 		$tagCollection = TagTable::query()->setSelect(['*'])
-										  ->whereIn('ID', '$tagIdsList')
+										  ->whereIn('ID', $tagIdsList)
 										  ->fetchCollection();
 
 		return $tagCollection;

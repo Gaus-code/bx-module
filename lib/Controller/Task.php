@@ -3,6 +3,7 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
+use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
@@ -13,6 +14,7 @@ class Task extends Controller
 		string $title,
 		string $description,
 		string $maxPrice,
+		string $useGPT = null,
 		int    $projectId = null,
 		array  $tagIds = [],
 	)
@@ -30,9 +32,17 @@ class Task extends Controller
 
 			$task = new EO_Task();
 			$task->setTitle($title)->setDescription($description)->setClientId($clientId);
-			foreach ($tagIds as $tagId)
+
+			if ($useGPT)
 			{
-				$tag = TagTable::getById($tagId)->fetchObject();
+				$tags = YandexGPT::getTagsByTaskDescription($title.$description);
+			}
+			else
+			{
+				$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+			}
+			foreach ($tags as $tag)
+			{
 				$task->addToTags($tag);
 			}
 
