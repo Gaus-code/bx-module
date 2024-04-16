@@ -23,14 +23,10 @@ Loc::loadMessages(__FILE__);
  * Fields:
  * <ul>
  * <li> ID int mandatory
- * <li> EMAIL string(255) mandatory
- * <li> HASH string(255) mandatory
- * <li> NAME string(255) mandatory
- * <li> SURNAME string(255) mandatory
- * <li> ROLE string(255) mandatory
  * <li> BIO text optional
  * <li> CREATED_AT datetime mandatory
  * <li> UPDATED_AT datetime mandatory
+ * <li> B_USER_ID int mandatory
  * </ul>
  *
  * @package Bitrix\Ukan
@@ -60,21 +56,21 @@ class UserTable extends DataManager
 				'ID',
 				[
 					'primary' => true,
-					'autocomplete' => true,
+					// 'autocomplete' => true,
 					'title' => Loc::getMessage('USER_ENTITY_ID_FIELD')
 				]
 			),
-			new IntegerField(
-				'B_USER_ID',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_CLIENT_ID_FIELD')
-				]
-			),
+			// new IntegerField(
+			// 	'B_USER_ID',
+			// 	[
+			// 		'required' => true,
+			// 		'title' => Loc::getMessage('TASK_ENTITY_CLIENT_ID_FIELD')
+			// 	]
+			// ),
 			new Reference(
 				'B_USER',
 				BUserTable::class,
-				Join::on('this.B_USER_ID', 'ref.ID')
+				Join::on('this.ID', 'ref.ID')
 			),
 			new DateField(
 				'SUBSCRIPTION_END_DATE',

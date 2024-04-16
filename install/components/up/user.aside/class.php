@@ -17,9 +17,9 @@ class UserAsideComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\UserTable::query();
 
-		$query->setSelect(['*'])->where('ID', $userId);
+		$query->setSelect(['*', 'B_USER'])->where('ID', $userId);
 
-		$this->arResult['USER'] = $query->fetchCollection();
+		$this->arResult['USER'] = $query->fetchObject();
 	}
 
 	protected function fetchTasks()

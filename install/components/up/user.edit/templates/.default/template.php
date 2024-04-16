@@ -31,14 +31,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			<h2 class="profile__changeBio_title">Смена личной информации</h2>
 			<form action="/profile/changeBio" method="post" class="profile__changeBio_form">
-				<?php foreach ($arResult['USER'] as $user):?>
+				<?php $user = $arResult['USER']?>
 					<?= bitrix_sessid_post() ?>
 					<ul class="editData__list">
 						<li class="editData__item">
 							<h2 class="editData__title">Имя</h2>
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit name" class="editData__img">
-								<input type="text" class="editData__input" name="userName" value="<?= $user->getName() ?>">
+								<input type="text" class="editData__input" name="userName" value="<?= $user->getBUser()->getName() ?>">
 							</div>
 						</li>
 						<li class="editData__item">
@@ -46,7 +46,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit surname"
 									 class="editData__img">
-								<input type="text" class="editData__input" name="userLastName" value="<?= $user->getSurname() ?>">
+								<input type="text" class="editData__input" name="userLastName" value="<?= $user->getBUser()->getLastName() ?>">
 							</div>
 						</li>
 						<li class="editData__item">
@@ -54,7 +54,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="edit email"
 									 class="editData__img">
-								<input type="text" class="editData__input" name="userEmail" value="<?= $user->getEmail() ?>">
+								<input type="text" class="editData__input" name="userEmail" value="<?= $user->getBUser()->getEmail() ?>">
 							</div>
 						</li>
 						<li class="editData__item">
@@ -62,7 +62,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit login"
 									 class="editData__img">
-								<input type="text" class="editData__input" name="userLogin" value="<?= $USER->GetLogin() ?>">
+								<input type="text" class="editData__input" name="userLogin" value="<?= $user->getBUser()->getLogin() ?>">
 							</div>
 						</li>
 					</ul>
@@ -74,7 +74,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<input type="hidden" value="<?= $user->getID() ?>" name="userId">
 						<button type="submit">Изменить основную информацию</button>
 					</div>
-				<?php endforeach;?>
 			</form>
 		</article>
 		<article class="profile__changePassword">

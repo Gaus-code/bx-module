@@ -84,7 +84,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								if ($task->getContractor() !== null)
 								{
 									?>
-									<td><?= $task->getContractor()->getName() ?></td>
+									<td><?= $task->getContractor()->getBUser()->getName() ?></td>
 									<?php
 								}
 								else

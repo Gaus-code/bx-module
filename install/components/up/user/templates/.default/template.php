@@ -29,15 +29,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваш профиль</h2>
 		</article>
-		<?php
-		foreach ($arResult['USER'] as $user): ?>
+	<?php $user=$arResult['USER']?>
 			<article class="content__mainBio">
 				<div class="content__mainBio_header">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
 					<div class="userInfo">
 
-						<p class="userInfo__name"><?= htmlspecialchars($user->getName()) ?></p>
-						<p class="userInfo__surname"><?= htmlspecialchars($user->getSurname()) ?></p>
+						<p class="userInfo__name"><?= htmlspecialchars($user->getBUser()->getName()) ?></p>
+						<p class="userInfo__surname"><?= htmlspecialchars($user->getBUser()->getLastName()) ?></p>
 					</div>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
@@ -57,7 +56,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<div class="content__mainBio_footer">
 					<h4>Аккаунт создан:</h4>
-					<p class="userInfo__createdAt"><?= $user->getCreatedAt()->format('d.m.Y') ?></p>
+					<p class="userInfo__createdAt"><?= $user->getBUser()->getDateRegister()->format('d.m.Y') ?></p>
 				</div>
 				<div class="content__mainBio_footer">
 					<h4>Подписка активна до:</h4>
@@ -77,8 +76,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					} ?>
 				</div>
 			</article>
-		<?php
-		endforeach; ?>
+
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
