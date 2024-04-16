@@ -119,9 +119,19 @@ class Task extends Controller
 		global $USER;
 		if (check_bitrix_sessid())
 		{
-			$task = TaskTable::getById($taskId)->fetchObject();
-			$task->removeAllTags();
-			// $task->removeAllResponses();
+			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->fetchObject();
+			$tags = $task->getTags();
+			$responses=$task->getResponses();
+
+			foreach ($tags as $tag)
+			{
+				$task->removeFromTags($tag);
+			}
+			foreach ($responses as $response)
+			{
+				$response->delete();
+			}
+			$responses->save();
 			$task->save();
 
 			TaskTable::delete($taskId);
