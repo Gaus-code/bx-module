@@ -12,6 +12,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 ?>
 <div class="content__tableTask">
+	<?php if (count($arResult['TASKS']) > 0): ?>
+	<?php foreach ($arResult['TASKS'] as $task): ?>
 	<table id="taskTable">
 		<thead>
 		<tr>
@@ -24,8 +26,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</tr>
 		</thead>
 			<tbody>
-			<?php if (count($arResult['TASKS']) > 0): ?>
-			<?php foreach ($arResult['TASKS'] as $task): ?>
+
 				<tr>
 					<td>
 						<?= $task->getTitle() ?>
@@ -39,12 +40,18 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php endif;?>
 					<td><?= $task->getStatus() ?></td>
 					<td data-label="Редактировать">
-						<a class="editTask" href="/edit/task/<?= $task->getId() ?>/">Редактировать заявку</a>
+						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
 	</table>
+	<?php else: ?>
+		<div class="contractor__emptyContainer">
+			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+			<p>Пока что тут нет заявок</p>
+		</div>
+	<?php endif; ?>
 </div>
 
 <?php
@@ -55,10 +62,5 @@ if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
 	]);
 }
 ?>
-<?php else: ?>
-	<div class="content__image">
-		<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
-		<p>Пока что тут нет заявок</p>
-	</div>
-<?php endif; ?>
+
 

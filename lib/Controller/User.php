@@ -26,21 +26,21 @@ class User extends Engine\Controller
 		{
 			$errors[] =  'Не заполнены обязателные поля';
 			Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/edit/profile/'. $USER->GetID() .'/');
+			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}
 
 		if (!filter_var($userEmail, FILTER_VALIDATE_EMAIL))
 		{
 			$errors[] =  'Почта указана в некорректном формате';
 			Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/edit/profile/'. $USER->GetID() .'/');
+			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}
 
 		if ($USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin) && !\Up\Ukan\Repository\User::checkLoginExists($userLogin))
 		{
 			$errors[] = 'Логин занят';
 			Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/edit/profile/'. $USER->GetID() .'/');
+			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}
 
 		$errorMessage = \Up\Ukan\Repository\User::changeInfo($userName, $userLastName, $userEmail, $userLogin, $USER->GetLogin());
@@ -123,6 +123,6 @@ class User extends Engine\Controller
 			}
 		}
 		Application::getInstance()->getSession()->set('errors', $errors);
-		LocalRedirect('/edit/profile/'.$USER->GetID().'/');
+		LocalRedirect('/profile/'.$USER->GetID().'/edit/');
 	}
 }

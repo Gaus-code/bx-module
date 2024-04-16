@@ -22,8 +22,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<span class="plus-link__inner">+</span>
 			</button>
 			<div class="content__profileCreate">
-				<a href="/create/project/<?= $arParams['USER_ID'] ?>/" class="create__link">Создать проект</a>
-				<a href="/create/task/<?= $arParams['USER_ID'] ?>/" class="create__link">Создать заявку</a>
+				<a href="/project/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать проект</a>
+				<a href="/task/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
 		<article class="content__name">
@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p class="userInfo__name"><?= htmlspecialchars($user->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialchars($user->getSurname()) ?></p>
 					</div>
-					<a href="/edit/profile/<?= $user->getID() ?>/" class="editProfile">
+					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 					</a>
 				</div>
@@ -51,7 +51,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php
 					else: ?>
 						<p class="userInfo__bio">У вас пока нет описания. Давайте
-							<a href="/edit/profile/<?= $user->getID() ?>/">добавим</a></p>
+							<a href="/profile/edit/<?= $user->getID() ?>/">добавим</a></p>
 					<?php
 					endif; ?>
 				</div>

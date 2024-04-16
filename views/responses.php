@@ -10,6 +10,6 @@ if (!$USER->IsAuthorized())
 	LocalRedirect('/sign-in');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:subscription', '', []); ?>
-
-<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<?php $APPLICATION->IncludeComponent('up:response', '', [
+	'USER_ID' => (int)$USER->GetID()
+]); ?>

@@ -4,12 +4,19 @@
  */
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("UKAN - super service");
+?>
+
+<?php
 
 if (!$USER->IsAuthorized())
 {
 	LocalRedirect('/sign-in');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:subscription', '', []); ?>
+
+<?php $APPLICATION->IncludeComponent('up:task.edit', '', [
+	'USER_ID' => (int)$USER->GetID()
+]);
+?>
 
 <?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
