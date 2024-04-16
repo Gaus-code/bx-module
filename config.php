@@ -8,9 +8,8 @@ return array(
 		'at_work' => 'В работе',
 	),
 	'subscription' => array(
-		'title' => 'Премиум',
-		'description' => '',
 		'price' => 399,
+		'trial_subscription_period_in_days'=>'30',
 	),
 	'yandexGPT' => array(
 		'secret_key' => 'AQVNztg5AhOJG_qdivT_LWgRQADPQkfjCwyY2tbP',
