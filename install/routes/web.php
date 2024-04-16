@@ -45,11 +45,12 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/sign-up', new PublicPageController('/local/modules/up.ukan/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/up.ukan/views/sign-in.php'));
 
-	//response area
+	//response and notifications area
 	$routes->post('/response/create/', [\Up\Ukan\Controller\Response::class, 'create']);
 	$routes->post('/response/delete/', [\Up\Ukan\Controller\Response::class, 'delete']);
 	$routes->post('/response/approve/', [\Up\Ukan\Controller\Response::class, 'approve']);
 	$routes->post('/response/reject/', [\Up\Ukan\Controller\Response::class, 'reject']);
+	$routes->post('/notification/delete/', [\Up\Ukan\Controller\Notification::class, 'delete']);
 
 	//edit profile
 	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);

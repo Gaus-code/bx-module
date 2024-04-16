@@ -1,5 +1,8 @@
 <?php
 
+use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Service\Configuration;
+
 class UserNotifyComponent extends CBitrixComponent
 {
 	public function executeComponent()
@@ -38,11 +41,12 @@ class UserNotifyComponent extends CBitrixComponent
 			->setPageSize(5); //TODO remove hardcode
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
-		$query = \Up\Ukan\Model\ResponseTable::query();
 
-		$query->setSelect(['*', 'TASK', 'CONTRACTOR', 'CONTRACTOR.B_USER']);
+		$query = \Up\Ukan\Model\NotificationTable::query();
 
-		$query->where('TASK.CLIENT_ID', $clientId);
+		$query->setSelect(['*', 'FROM_USER', 'TASK']);
+
+		$query->where('TO_USER_ID', $clientId);
 
 		$query->addOrder('CREATED_AT', 'DESC');
 		$query->setLimit($nav->getLimit() + 1);
@@ -52,18 +56,27 @@ class UserNotifyComponent extends CBitrixComponent
 
 		$nav->setRecordCount($nav->getOffset() + count($result));
 
-		$arrayOfResponses = $result->getAll();
+		$arrayOfNotifications = $result->getAll();
 		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
 		{
 			$this->arParams['EXIST_NEXT_PAGE'] = true;
-			array_pop($arrayOfResponses);
+			array_pop($arrayOfNotifications);
 		}
 		else
 		{
 			$this->arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
-		$this->arResult['RESPONSES'] = $arrayOfResponses;
+		$this->arResult['NOTIFICATIONS'] = $arrayOfNotifications;
+
+		$notification = new Up\Ukan\Model\EO_Notification();
+
+		$notification->setMessage(Configuration::getOption('notification_message')['reject'])
+					 ->setFromUserId(4)
+					 ->setToUserId(2)
+					 ->setTaskId(6)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
 
 	}
 }

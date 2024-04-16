@@ -13,4 +13,10 @@ return array(
 		'price' => 399,
 	),
 	'NUMBER_OF_PRODUCTS_PER_PAGE' => 7,
+	'notification_message' => array(
+		'approve' => 'Ваш отклик одобрен',
+		'reject' => 'Ваш отклик отклонен',
+		'new_feedback' => 'Новый отзыв',
+		'new_response' => 'Новый отклик',
+	)
 );

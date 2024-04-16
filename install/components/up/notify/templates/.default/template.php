@@ -27,38 +27,34 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваши Уведомления</h2>
 		</article>
-		<?php if (count($arResult['RESPONSES']) > 0): ?>
+		<?php if (count($arResult['NOTIFICATIONS']) > 0): ?>
 			<article class="notify">
 				<ul class="notify__list">
-					<?php foreach ($arResult['RESPONSES'] as $response) : ?>
-					<li class="notify__item">
-						<div class="notify__profile">
-							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
-							<div class="userInfo">
-								<p class="userInfo__name">
-									<a href="/profile/<?=$response->getContractor()->getId()?>/">
-										<?= htmlspecialchars($response->getContractor()->getBUser()->getName() . ' ' . $response->getContractor()->getBUser()->getLastName()) ?>
-									</a>
-								</p>
-								<p class="userInfo__surname">откликнулся</p>
+					<?php foreach ($arResult['NOTIFICATIONS'] as $notification) : ?>
+						<li class="notify__item">
+							<div class="notify__profile">
+								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
+								<div class="userInfo">
+									<p class="userInfo__name">
+										<a href="/profile/<?=$notification->getFromUserId()?>/">
+											<?= htmlspecialchars($notification->getFromUser()->fillBUser()->getName() . ' ' . $notification->getFromUser()->fillBUser()->getLastName()) ?>
+										</a>
+									</p>
+								</div>
 							</div>
-						</div>
-						<div class="notify__title"><span>Заявка:</span> <?= $response->getTask()->getTitle() ?></div>
-						<div class="notify__buttons">
-							<form action="/response/approve/" method="post">
-								<?=bitrix_sessid_post()?>
-								<input hidden="hidden" name="taskId" value="<?= $response->getTask()->getId() ?>">
-								<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
-								<button class="notify__accept" type="submit">Принять</button>
-							</form>
-							<form action="/response/reject/" method="post">
-								<?=bitrix_sessid_post()?>
-								<input hidden="hidden" name="taskId" value="<?= $response->getTask()->getId() ?>">
-								<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
-								<button class="notify__reject" type="submit">Отклонить</button>
-							</form>
-						</div>
-					</li>
+							<div class="notify__profile">
+								<p><?=$notification->getMessage()?></p>
+							</div>
+							<div class="notify__title"><span>Заявка:</span> <?= $notification->getTask()->getTitle() ?></div>
+							<div class="notify__buttons">
+								<a class="notify__accept" href="/task/<?= $notification->getTask()->getId() ?>/">Посмотреть</a>
+								<form action="/notification/delete/" method="post">
+									<?=bitrix_sessid_post()?>
+									<input hidden="hidden" name="notificationId" value="<?= $notification->getId() ?>">
+									<button class="notify__reject" type="submit">Удалить</button>
+								</form>
+							</div>
+						</li>
 					<?php endforeach; ?>
 				</ul>
 			</article>

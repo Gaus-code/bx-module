@@ -2,7 +2,9 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine;
+use Bitrix\Main\Type\DateTime;
 use Up\Ukan\Model\EO_Response;
+use Up\Ukan\Model\EO_Notification;
 use Up\Ukan\Model\ResponseTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Service\Configuration;
@@ -10,7 +12,8 @@ use Up\Ukan\Service\Configuration;
 class Response extends Engine\Controller
 {
 	public function createAction(
-		int $taskId,
+		int    $taskId,
+		int    $clientId,
 		string $price = '',
 		string $coverLetter = '',
 	)
@@ -38,6 +41,15 @@ class Response extends Engine\Controller
 
 			$response->save();
 
+			$notification = new EO_Notification();
+			$notification->setMessage(Configuration::getOption('notification_message')['new_response'])
+						 ->setFromUserId($contractorId)
+						 ->setToUserId($clientId)
+						 ->setTaskId($taskId)
+						 ->setCreatedAt(new DateTime());
+
+			$notification->save();
+
 			LocalRedirect("/task/$taskId/");
 		}
 	}
@@ -63,7 +75,10 @@ class Response extends Engine\Controller
 			global $USER;
 			$userId = (int)$USER->getId();
 
-			$task = TaskTable::query()->setSelect(['*'])->where('ID', $taskId)->where('CLIENT_ID', $userId)
+			$task = TaskTable::query()
+							 ->setSelect(['*'])
+							 ->where('ID', $taskId)
+							 ->where('CLIENT_ID', $userId)
 							 ->fetchObject();
 			if ($task)
 			{
@@ -71,15 +86,30 @@ class Response extends Engine\Controller
 				$task->setStatus(Configuration::getOption('task_status')['at_work']);
 				$task->save();
 
-				//TODO sent notify contractor that him approved
+				$notification = new EO_Notification();
+				$notification->setMessage(Configuration::getOption('notification_message')['approve'])
+							 ->setFromUserId($userId)
+							 ->setToUserId($contractorId)
+							 ->setTaskId($taskId)
+							 ->setCreatedAt(new DateTime());
+				$notification->save();
 
-				$responseIdList = ResponseTable::query()->setSelect(['ID'])->where('TASK_ID', $taskId)->fetchCollection(
-					)->getIdList();
-				foreach ($responseIdList as $responseId)
+				$responses = ResponseTable::query()
+										  ->setSelect(['ID', 'CONTRACTOR_ID'])
+										  ->where('TASK_ID', $taskId)
+										  ->fetchCollection();
+				foreach ($responses as $response)
 				{
-					//TODO sent notify other users who response that they rejected
+					$notification = new EO_Notification();
+					$notification->setMessage(Configuration::getOption('notification_message')['reject'])
+								 ->setFromUserId($userId)
+								 ->setToUserId($response->getContractorId())
+								 ->setTaskId($taskId)
+								 ->setCreatedAt(new DateTime());
+					$notification->save();
 
-					ResponseTable::delete($responseId);
+
+					ResponseTable::delete($response->getId());
 				}
 			}
 
@@ -98,12 +128,20 @@ class Response extends Engine\Controller
 							 ->fetchObject();
 			if ($task)
 			{
-				//TODO sent notify other users who response that they rejected
+				$notification = new EO_Notification();
+				$notification->setMessage(Configuration::getOption('notification_message')['reject'])
+							 ->setFromUserId($userId)
+							 ->setToUserId($contractorId)
+							 ->setTaskId($taskId)
+							 ->setCreatedAt(new DateTime());
+				$notification->save();
 
-				$responseId = ResponseTable::query()->setSelect(['ID'])->where('CONTRACTOR_ID', $contractorId)->where(
-						'TASK_ID',
-						$taskId
-					)->fetchObject()->getId();
+				$responseId = ResponseTable::query()
+										   ->setSelect(['ID'])
+										   ->where('CONTRACTOR_ID', $contractorId)
+										   ->where('TASK_ID',	$taskId)
+										   ->fetchObject()
+										   ->getId();
 
 				ResponseTable::delete($responseId);
 			}

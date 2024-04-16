@@ -73,3 +73,22 @@ __ukanMigrate(5, function($updater, $DB)
 //    change STATUS_ID STATUS varchar(255) not null;');
 	}
 });
+
+__ukanMigrate(6, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_notification'))
+	{
+		$DB->query('CREATE TABLE IF NOT EXISTS up_ukan_notification
+					(
+						ID           int          not null auto_increment,
+						MESSAGE         varchar(255) not null,
+						FROM_USER_ID int          not null,
+						TO_USER_ID   int          not null,
+						TASK_ID      int          not null,
+						CREATED_AT   datetime     not null,
+						PRIMARY KEY (
+									 `ID`
+							)
+					);');
+	}
+});
