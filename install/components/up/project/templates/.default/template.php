@@ -47,11 +47,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						Удалить проект
 					</button>
 				</form>
-<<<<<<< HEAD:install/components/up/project/templates/.default/template.php
-				<a href="/project/1/edit/" class="userProject__edit">Редактировать проект</a>
-=======
-				<a href="/edit/project/<?= $arParams['PROJECT_ID'] ?>/" class="userProject__edit">Редактировать проект</a>
->>>>>>> 8efa28c4a87907ba9461cd95cbb4c327de8d588e:install/components/up/user.project/templates/.default/template.php
+				<a href="/edit/project/1/" class="userProject__edit">Редактировать проект</a>
 				<button class="userProject__add">Добавить задачу</button>
 			</div>
 
