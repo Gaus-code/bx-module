@@ -32,10 +32,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="projects__header">
 				<ul class="projects__tagList">
 					<li class="projects__tagItem active-project-link">
-						<a href="/profile/<?= $USER->GetID() ?>/projects/" class="projects__tag">Активные Проекты</a>
+						<a href="/profile/<?=$arParams['USER_ID']?>/projects/" class="projects__tag">Активные Проекты</a>
 					</li>
 					<li class="projects__tagItem">
-						<a href="/profile/<?= $USER->GetID() ?>/projects/done/" class="projects__tag">Завершенные Проекты</a>
+						<a href="/profile/<?=$arParams['USER_ID']?>/projects/done/" class="projects__tag">Завершенные Проекты</a>
 					</li>
 				</ul>
 			</div>

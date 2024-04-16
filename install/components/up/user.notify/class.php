@@ -40,7 +40,7 @@ class UserNotifyComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\ResponseTable::query();
 
-		$query->setSelect(['*', 'TASK', 'CONTRACTOR']);
+		$query->setSelect(['*', 'TASK', 'CONTRACTOR', 'CONTRACTOR.B_USER']);
 
 		$query->where('TASK.CLIENT_ID', $clientId);
 

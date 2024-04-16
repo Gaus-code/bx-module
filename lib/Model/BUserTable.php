@@ -108,16 +108,16 @@ class BUserTable extends DataManager
 	public static function getMap()
 	{
 		return [
-			(new Reference(
-				'USER',
-				\Up\Ukan\Model\UserTable::class,
-				Join::on('this.ID', 'ref.ID')
-			)),
 			(new IntegerField('ID',
 				[]
 			))->configureTitle(Loc::getMessage('USER_ENTITY_ID_FIELD'))
 				->configurePrimary(true)
 				->configureAutocomplete(true),
+			(new Reference(
+				'USER',
+				\Up\Ukan\Model\UserTable::class,
+				Join::on('this.ID', 'ref.ID')
+			)),
 			(new DatetimeField('TIMESTAMP_X',
 				[]
 			))->configureTitle(Loc::getMessage('USER_ENTITY_TIMESTAMP_X_FIELD')),

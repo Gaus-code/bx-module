@@ -78,7 +78,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<li class="metaContainer__item">
 					<p class="metaContainer__info">
 						<span>Заказчик:</span>
-						<?= $arResult['TASK']->getClient()->getName() . ' ' . $arResult['TASK']->getClient()->getSurname() ?>
+						<?= $arResult['TASK']->getClient()->get('B_USER')->getName() . ' ' . $arResult['TASK']->getClient()->get('B_USER')->getLastName() ?>
 					</p>
 				</li>
 			</ul>

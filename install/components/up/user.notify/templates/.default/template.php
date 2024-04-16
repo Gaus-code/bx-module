@@ -37,7 +37,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="userInfo">
 								<p class="userInfo__name">
 									<a href="/profile/<?=$response->getContractor()->getId()?>/">
-										<?= htmlspecialchars($response->getContractor()->getName() . ' ' . $response->getContractor()->getSurname()) ?>
+										<?= htmlspecialchars($response->getContractor()->getBUser()->getName() . ' ' . $response->getContractor()->getBUser()->getLastName()) ?>
 									</a>
 								</p>
 								<p class="userInfo__surname">откликнулся</p>

@@ -26,7 +26,7 @@ class UserEditProject extends CBitrixComponent
 	{
 		if ($this->arParams['PROJECT_ID'])
 		{
-			$project =  \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR'])
+			$project =  \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
 															->where('ID', $this->arParams['PROJECT_ID'])
 															->addOrder('TASKS.PROJECT_PRIORITY')
 															->fetchObject();
