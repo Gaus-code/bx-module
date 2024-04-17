@@ -23,7 +23,21 @@ class TaskDetailComponent extends CBitrixComponent
 
 		if ($this->arParams['TASK_ID'])
 		{
-			$this->arResult['TASK'] =  \Up\Ukan\Model\TaskTable::query()->setSelect(['*', 'TAGS', 'CLIENT', 'CLIENT.B_USER'])->where('ID', $this->arParams['TASK_ID'])->fetchObject();
+			$this->arResult['TASK'] =  \Up\Ukan\Model\TaskTable::query()
+															   ->setSelect(
+																   [
+																	   '*',
+																	   'TAGS',
+																	   'CLIENT',
+																	   'CLIENT.B_USER',
+																	   'FEEDBACKS',
+																	   'FEEDBACKS.FROM_USER',
+																	   'FEEDBACKS.FROM_USER.B_USER',
+																	   'FEEDBACKS.TO_USER',
+																	   'FEEDBACKS.TO_USER.B_USER',
+																   ])
+															   ->where('ID', $this->arParams['TASK_ID'])
+															   ->fetchObject();
 		}
 
 	}
@@ -34,6 +48,8 @@ class TaskDetailComponent extends CBitrixComponent
 		{
 			global $USER;
 			$userId = (int)$USER->getId();
+
+			$this->arResult['TASK_STATUSES']=\Up\Ukan\Service\Configuration::getOption('task_status');
 
 			if ($this->arResult['TASK']->getClientId() === $userId)
 			{

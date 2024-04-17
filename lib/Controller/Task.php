@@ -3,6 +3,7 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
+use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
@@ -13,6 +14,7 @@ class Task extends Controller
 		string $title,
 		string $description,
 		string $maxPrice,
+		string $useGPT = null,
 		int    $projectId = null,
 		array  $tagIds = [],
 	)
@@ -30,9 +32,17 @@ class Task extends Controller
 
 			$task = new EO_Task();
 			$task->setTitle($title)->setDescription($description)->setClientId($clientId);
-			foreach ($tagIds as $tagId)
+
+			if ($useGPT)
 			{
-				$tag = TagTable::getById($tagId)->fetchObject();
+				$tags = YandexGPT::getTagsByTaskDescription($title.$description);
+			}
+			else
+			{
+				$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+			}
+			foreach ($tags as $tag)
+			{
 				$task->addToTags($tag);
 			}
 
@@ -57,6 +67,7 @@ class Task extends Controller
 		string $title,
 		string $description,
 		string    $maxPrice,
+		string $useGPT = null,
 		int    $projectId = null,
 		array  $tagIds = [],
 
@@ -77,9 +88,18 @@ class Task extends Controller
 
 			$task->setTitle($title)->setMaxPrice($maxPrice)->setDescription($description);
 
-			foreach ($tagIds as $tagId)
+			if ($useGPT)
 			{
-				$tag = TagTable::getById($tagId)->fetchObject();
+				$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
+			}
+			else
+			{
+				$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+			}
+
+			$task->removeAllTags();
+			foreach ($tags as $tag)
+			{
 				$task->addToTags($tag);
 			}
 
@@ -96,11 +116,27 @@ class Task extends Controller
 
 	public function deleteAction(int $taskId)
 	{
+		global $USER;
 		if (check_bitrix_sessid())
 		{
+			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->fetchObject();
+			$tags = $task->getTags();
+			$responses=$task->getResponses();
+
+			foreach ($tags as $tag)
+			{
+				$task->removeFromTags($tag);
+			}
+			foreach ($responses as $response)
+			{
+				$response->delete();
+			}
+			$responses->save();
+			$task->save();
+
 			TaskTable::delete($taskId);
 
-			LocalRedirect("/client/");
+			LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
 		}
 	}
 }

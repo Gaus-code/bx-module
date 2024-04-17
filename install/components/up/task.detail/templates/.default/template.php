@@ -35,7 +35,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					case 'owner': ?>
 						<div class="detail__status">
 							<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arResult['TASK']->getId() ?>/edit/"> отредактировать</a> ее?  </span>
-							<p>Скоро здесь появиться ваши отклики!</p>
 						</div>
 						<?php break;
 					case 'wait approve this user': ?>
@@ -57,7 +56,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<form action="/response/create/" class="detail__form" method="post">
 							<?= bitrix_sessid_post() ?>
 							<input type="hidden" name="taskId" value="<?= $arResult['TASK']->getId() ?>">
-							<input type="hidden" name="clientId" value="<?= $arResult['TASK']->getClientId() ?>">
 							<label for="setPrice">Добавьте стоимость:</label>
 							<input name="price" required id="setPrice" type="number" class="create__title" placeholder="Ваша цена">
 							<label for="detail__coverLetter">Добавьте сопроводительное письмо:</label>
@@ -93,4 +91,5 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h1>Задача не найдена!</h1
 		</section>
 	</main>
-<?php endif; ?>
+<?php
+endif; ?>

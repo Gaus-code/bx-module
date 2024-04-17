@@ -79,6 +79,16 @@ class Project extends Controller
 		global $USER;
 		if (check_bitrix_sessid())
 		{
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS'])
+														   ->where('ID', $projectId)
+														   ->fetchObject();
+			$tasks = $project->getTasks();
+
+			foreach ($tasks as $task)
+			{
+				$project->removeFromTasks($task);
+			}
+			$project->save();
 			ProjectTable::delete($projectId);
 
 			LocalRedirect("/profile/" . $USER->getId() . "/projects/");

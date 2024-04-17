@@ -14,8 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <main class="subscription wrapper">
 	<div class="subscription__container animate-border">
 		<div class="subscription__main">
-			<p class="subscription__title"><?=\Up\Ukan\Options\Subscription::getTitle()?></p>
-			<p class="subscription__description"><?=\Up\Ukan\Options\Subscription::getDescription()?></p>
+			<p class="subscription__description">Какое-то гениальное описание подписки и надпись "подписка доступна <span>30 дней</span> со дня оформления"</p>
 			<p class="subscription__title">С нашей подпиской вам доступно:</p>
 			<ul class="subscription__list">
 				<li class="subscription__item">
@@ -40,14 +39,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<form action="" method="post" class="subscription__form">
 				<?=bitrix_sessid_post()?>
 				<h4>Оформить подписку</h4>
-				<p class="subscription__cost">Стоимость: 399.99 ₽</p>
+				<p class="subscription__cost">
+					Стоимость:
+					<?=\Up\Ukan\Service\Configuration::getOption('subscription')['price']?>
+					₽
+				</p>
 				<input id="requiredInput" type="checkbox" required>
 				<label for="requiredInput">Я принимаю пользовательское соглашение бла-бла-бла</label>
 				<button class="subscription__btn" type="submit">Оформить подписку</button>
 			</form>
 			<form action="/subscription/getTrialVersion" method="post" class="subscription__form">
 				<?=bitrix_sessid_post()?>
-				<h4>Оформить пробную версию подписки на 7 дней</h4>
+				<h4>
+					Оформить пробную версию на
+					<?=\Up\Ukan\Service\Configuration::getOption('subscription')['trial_subscription_period_in_days']?>
+					дней
+				</h4>
 				<button class="subscription__btn" type="submit">Оформить подписку</button>
 			</form>
 		</div>
