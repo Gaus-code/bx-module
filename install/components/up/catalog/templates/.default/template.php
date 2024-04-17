@@ -31,6 +31,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<section class="catalog__main">
 		<div class="catalog__header">
 			<h1>Рекомендованные вакансии <span>369</span></h1>
+
 			<select name="sortBy" class="catalog__sort">
 				<option value="all">Все</option>
 				<option value="new">Сначала новые</option>

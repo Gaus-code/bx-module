@@ -12,39 +12,40 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 ?>
 
-<form method="get">
+<form method="get" class="searchForm">
 	<input type="text" name="q" placeholder="Поиск...">
-	<button type="submit">Искать</button>
+	<button type="submit" class="searchBtn">
+		<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/search.svg" alt="search what you want">
+	</button>
 </form>
 <div class="content__main">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<?php foreach ($arResult['TASKS'] as $task): ?>
-			<div href="/task/<?= $task->getId() ?>/" class="task">
-				<a href="/task/<?= $task->getId() ?>/" class="task__link">
+			<div class="task">
+					<div class="task__main">
+						<h3><?= $task->getTitle() ?></h3>
+						<?php if (count($task->getTags()) > 0):?>
+						<p class="task__description"><?= $task->getDescription() ?>
+						<?php else:?>
+						<p class="task__descriptionWithoutTags"><?= $task->getDescription() ?>
+						<?php endif;?>
+					</div>
 					<div class="task__header">
 						<?php foreach ($task->getTags() as $tag): ?>
 							<p class="task__tag"><?= $tag->getTitle() ?></p>
 						<?php endforeach; ?>
 					</div>
-					<div class="task__main">
-						<h3><?= $task->getTitle() ?></h3>
-						<p class="task__description"><?= $task->getDescription() ?></p>
-					</div>
-				</a>
-				<div class="task__footer">
+					<div class="task__footer">
 
-					<?php if (!$arParams['IS_PERSONAL_ACCOUNT_PAGE']): ?>
-						<div class="task__footer_img">
-							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/people.svg" alt="count executers">
-							<p><?= $task->getClient()->fillBUser()->getName() . ' ' . $task->getClient()->fillBUser()->getLastName() ?></p>
-						</div>
-						<div class="task__respond">
-							<a href="/task/<?= $task->getId() ?>/" class="task__link">
-								<button class="task__respond__btn">Откликнуться</button>
-							</a>
-						</div>
-					<?php endif; ?>
-				</div>
+						<?php if (!$arParams['IS_PERSONAL_ACCOUNT_PAGE']): ?>
+							<div class="task__footer_img">
+								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/people.svg" alt="count executers">
+								<p><?= $task->getClient()->fillBUser()->getName() . ' ' . $task->getClient()->fillBUser()->getLastName() ?></p>
+							</div>
+						<?php endif; ?>
+					</div>
+				<div class="overlay"></div>
+				<div class="task__button"><a class="task__link" href="/task/<?= $task->getId() ?>/">Подробнее</a></div>
 			</div>
 		<?php endforeach; ?>
 </div>
