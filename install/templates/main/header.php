@@ -25,8 +25,8 @@
 		<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logo.svg" alt="logo" class="logo">
 		<a href="/" class="header__logoName">UKAN</a>
 		<nav class="header__nav">
-			<a href="/" class="header__link">Главная</a>
-			<a href="/catalog/" class="header__link">Каталог</a>
+			<a href="/" class="header__link" id="mainLink">Главная</a>
+			<a href="/catalog/" class="header__link" id="catalogLink">Каталог</a>
 		</nav>
 	</div>
 	<?php if (!$USER->IsAuthorized()): ?>
@@ -42,5 +42,6 @@
 		</div>
 	<?php endif; ?>
 </header>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/headerAnchorLinks.js"></script>
 
 

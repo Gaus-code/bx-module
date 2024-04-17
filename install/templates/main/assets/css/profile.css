@@ -39,11 +39,7 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 31px;
-}
-
-.aside__navContainer {
-    width: 100%;
+    gap: 25px;
 }
 
 .aside__btn {
@@ -73,6 +69,17 @@
 
 a.aside__btn {
     color: var(--color-primary-black);
+}
+
+.userImg {
+    display: block;
+    padding: 2px;
+    width: 24px;
+}
+
+.commentImg {
+    display: block;
+    width: 26px;
 }
 
 .active-profile-btn {
@@ -142,7 +149,8 @@ a.aside__btn {
 }
 
 .profile__logOut:active, .profile__logOut:hover {
-    background: var(--bg-color-primary-purple);
+    border-color: var(--color-warning-yellow);
+    color: var(--color-warning-yellow);
     transition: 0.5s;
 }
 
