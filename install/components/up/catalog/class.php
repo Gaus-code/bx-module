@@ -8,6 +8,11 @@ class CatalogComponent extends CBitrixComponent
 		$this->includeComponentTemplate();
 	}
 
+	public function onPrepareComponentParams($arParams)
+	{
+		$arParams['TAGS_ID'] = request()->get('tags');
+		return $arParams;
+	}
 	protected function fetchTags()
 	{
 
