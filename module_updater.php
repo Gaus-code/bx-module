@@ -92,3 +92,12 @@ __ukanMigrate(6, function($updater, $DB)
 					);');
 	}
 });
+
+__ukanMigrate(7, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_response'))
+	{
+		$DB->query('ALTER TABLE up_ukan_response
+					ADD COLUMN STATUS varchar(255) not null;');
+	}
+});

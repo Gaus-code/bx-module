@@ -23,6 +23,33 @@ class UserResponseComponent extends CBitrixComponent
 			$arParams['CURRENT_PAGE'] = (int)request()->get('PAGEN_1');
 		}
 
+		if (request()->get('show') && (request()->get('show') === 'sent' || request()->get('show') === 'receive'))
+		{
+			$arParams['SHOW'] = request()->get('show');
+		}
+		else
+		{
+			$arParams['SHOW'] = 'sent';
+		}
+
+		if (request()->get('filter') && (request()->get('filter') === 'wait' || request()->get('filter') === 'approve' || request()->get('filter') === 'reject'))
+		{
+			$arParams['FILTER'] = request()->get('filter');
+		}
+		else
+		{
+			$arParams['FILTER'] = 'wait';
+		}
+
+		if (request()->get('q'))
+		{
+			$arParams['TASK'] = request()->get('q');
+		}
+		else
+		{
+			$arParams['TASK'] = null;
+		}
+
 		$arParams['EXIST_NEXT_PAGE'] = false;
 
 		return $arParams;
@@ -32,22 +59,44 @@ class UserResponseComponent extends CBitrixComponent
 	{
 		$nav = new \Bitrix\Main\UI\PageNavigation("response");
 		$nav->allowAllRecords(true)
-			->setPageSize(4); //TODO remove hardcode
+			->setPageSize(6); //TODO remove hardcode
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		global $USER;
-		$contractorId = $USER->GetID();
+		$userId = $USER->GetID();
 
 		$query = \Up\Ukan\Model\ResponseTable::query();
 
-		$query->setSelect(['*', 'TASK'])->where('CONTRACTOR_ID', $contractorId);
+		if ($this->arParams['SHOW'] === 'sent')
+		{
+			$query->setSelect(['*', 'TASK', 'TASK.PROJECT'])
+				  ->where('CONTRACTOR_ID', $userId)
+				  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('response_status')[$this->arParams['FILTER']]);
 
+		}
+		else if ($this->arParams['SHOW'] === 'receive')
+		{
+			$query->setSelect(['*', 'TASK', 'TASK.PROJECT' , 'CONTRACTOR.B_USER'])
+				  ->where('TASK.CLIENT_ID', $userId)
+				  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('response_status')[$this->arParams['FILTER']]);
+
+			if (!is_null($this->arParams['TASK']))
+			{
+				if (($taskIdList = $this->getTaskIdList($userId)) === [])
+				{
+					$this->arResult['RESPONSES'] = [];
+					return ;
+				}
+				$query->whereIn('TASK_ID', $taskIdList);
+			}
+		}
 
 		$query->addOrder('CREATED_AT', 'DESC');
 		$query->setLimit($nav->getLimit() + 1);
 		$query->setOffset($nav->getOffset());
 
 		$result = $query->fetchCollection();
+		$result->fillTask()->fillTags();
 
 		$nav->setRecordCount($nav->getOffset() + count($result));
 
@@ -64,5 +113,15 @@ class UserResponseComponent extends CBitrixComponent
 
 		$this->arResult['RESPONSES'] = $arrayOfResponses;
 
+	}
+
+	private function getTaskIdList(int $userId)
+	{
+		$query = \Up\Ukan\Model\TaskTable::query();
+
+		$query->setSelect(['ID', 'TITLE'])
+			  ->where('CLIENT_ID', $userId)->whereLike('TITLE', "%{$this->arParams['TASK']}%");
+
+		return $query->fetchCollection()->getIdList();
 	}
 }

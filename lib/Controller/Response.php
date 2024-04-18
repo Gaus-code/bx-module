@@ -15,7 +15,7 @@ class Response extends Engine\Controller
 		int    $taskId,
 		int    $clientId,
 		string $price = '',
-		string $coverLetter = '',
+		string $coverLetter = ''
 	)
 	{
 
@@ -32,7 +32,7 @@ class Response extends Engine\Controller
 				LocalRedirect("/task/$taskId/");
 			}
 
-			$response->setContractorId($contractorId)->setTaskId($taskId)->setPrice($price);
+			$response->setContractorId($contractorId)->setTaskId($taskId)->setPrice($price)->setStatus(Configuration::getOption('response_status')['wait']);
 
 			if ($coverLetter !== '')
 			{
@@ -94,10 +94,19 @@ class Response extends Engine\Controller
 							 ->setCreatedAt(new DateTime());
 				$notification->save();
 
+				$response = ResponseTable::query()
+										  ->setSelect(['ID'])
+										  ->where('TASK_ID', $taskId)
+										  ->where('CONTRACTOR_ID', $contractorId)
+										  ->fetchObject();
+				$response->setStatus(Configuration::getOption('response_status')['approve']);
+				$response->save();
+
 				$responses = ResponseTable::query()
 										  ->setSelect(['ID', 'CONTRACTOR_ID'])
-										  ->where('TASK_ID', $taskId)
+										  ->where('TASK_ID', $taskId)->where('STATUS', Configuration::getOption('response_status')['wait'])
 										  ->fetchCollection();
+
 				foreach ($responses as $response)
 				{
 					$notification = new EO_Notification();
@@ -108,12 +117,12 @@ class Response extends Engine\Controller
 								 ->setCreatedAt(new DateTime());
 					$notification->save();
 
-
-					ResponseTable::delete($response->getId());
+					$response->setStatus(Configuration::getOption('response_status')['reject']);
+					$response->save();
 				}
 			}
 
-			LocalRedirect("/profile/$userId/notifications/");
+			LocalRedirect("/profile/$userId/responses/?show=receive&filter=approve");
 		}
 	}
 
@@ -136,17 +145,16 @@ class Response extends Engine\Controller
 							 ->setCreatedAt(new DateTime());
 				$notification->save();
 
-				$responseId = ResponseTable::query()
-										   ->setSelect(['ID'])
-										   ->where('CONTRACTOR_ID', $contractorId)
-										   ->where('TASK_ID',	$taskId)
-										   ->fetchObject()
-										   ->getId();
-
-				ResponseTable::delete($responseId);
+				$response = ResponseTable::query()
+										 ->setSelect(['ID'])
+										 ->where('TASK_ID', $taskId)
+										 ->where('CONTRACTOR_ID', $contractorId)
+										 ->fetchObject();
+				$response->setStatus(Configuration::getOption('response_status')['reject']);
+				$response->save();
 			}
 
-			LocalRedirect("/profile/$userId/notifications/");
+			LocalRedirect("/profile/$userId/responses/?show=receive&filter=approve");
 		}
 	}
 }

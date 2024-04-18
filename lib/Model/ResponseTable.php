@@ -8,6 +8,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\TextField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Fields\StringField;
+use Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
 
@@ -115,11 +117,31 @@ class ResponseTable extends DataManager
 					}
 				]
 			),
+			new StringField(
+				'STATUS',
+				[
+					'required' => true,
+					'validation' => [__CLASS__, 'validateStatus'],
+					'title' => Loc::getMessage('RESPONSE_ENTITY_STATUS_FIELD')
+				]
+			),
 			new ExpressionField(
 				'SEARCH_PRIORITY',
 				"IF (%s='Active', 1, 0)",
 				['CONTRACTOR.SUBSCRIPTION_STATUS']
 			),
+		];
+	}
+
+	/**
+	 * Returns validators for STATUS field.
+	 *
+	 * @return array
+	 */
+	public static function validateStatus()
+	{
+		return [
+			new LengthValidator(null, 255),
 		];
 	}
 }

@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_response`
 	`DESCRIPTION`   text,
 	`CREATED_AT`    datetime,
 	`UPDATED_AT`    datetime,
+	`STATUS`        varchar(255) not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -113,12 +114,12 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user_subscription`
 
 CREATE TABLE IF NOT EXISTS up_ukan_notification
 (
-	ID           int          not null auto_increment,
-	MESSAGE         varchar(255) not null,
-	FROM_USER_ID int          not null,
-	TO_USER_ID   int          not null,
-	TASK_ID      int          not null,
-	CREATED_AT   datetime     not null,
+	`ID`           int          not null auto_increment,
+	`MESSAGE`         varchar(255) not null,
+	`FROM_USER_ID` int          not null,
+	`TO_USER_ID`   int          not null,
+	`TASK_ID`      int          not null,
+	`CREATED_AT`   datetime     not null,
 	PRIMARY KEY (
 	             `ID`
 		)
