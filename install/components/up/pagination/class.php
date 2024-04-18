@@ -24,7 +24,7 @@ class ProjectCreateComponent extends CBitrixComponent
 		}
 
 		$currentUrl = request()->getRequestUri();
-		$arParams['NEW_URI'] = $currentUrl . (!str_contains($currentUrl, '?') ? '?' : '&') . 'PAGEN_1=';
+		$arParams['NEW_URI'] = $currentUrl . (!strpos($currentUrl, '?') ? '?' : '&') . 'PAGEN_1=';
 
 		return $arParams;
 	}

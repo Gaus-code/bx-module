@@ -71,12 +71,6 @@ class UserNotifyComponent extends CBitrixComponent
 
 		$notification = new Up\Ukan\Model\EO_Notification();
 
-		$notification->setMessage(Configuration::getOption('notification_message')['reject'])
-					 ->setFromUserId(4)
-					 ->setToUserId(2)
-					 ->setTaskId(6)
-					 ->setCreatedAt(new DateTime());
-		$notification->save();
 
 	}
 }
