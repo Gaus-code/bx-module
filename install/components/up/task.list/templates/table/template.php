@@ -13,7 +13,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 <div class="content__tableTask">
 	<?php if (count($arResult['TASKS']) > 0): ?>
-	<?php foreach ($arResult['TASKS'] as $task): ?>
 	<table id="taskTable">
 		<thead>
 		<tr>
@@ -26,7 +25,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</tr>
 		</thead>
 			<tbody>
-
+			<?php foreach ($arResult['TASKS'] as $task): ?>
 				<tr>
 					<td>
 						<?= $task->getTitle() ?>

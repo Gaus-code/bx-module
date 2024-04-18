@@ -6,7 +6,13 @@ use Up\Ukan\Model\BUserTable;
 
 class User
 {
-	public static function registerUser($login, $name, $lastname, $password, $email)
+	public static function registerUser(
+		string $login,
+		string $name,
+		string $lastname,
+		string $password,
+		string $email
+	)
 	{
 		global $USER;
 
@@ -23,7 +29,13 @@ class User
 		return $resultMessage['MESSAGE'];
 	}
 
-	public static function updateUser($userId, $userLogin, $userName, $userLastName, $userEmail)
+	public static function updateUser(
+		$userId,
+		string $userLogin,
+		string $userName,
+		string $userLastName,
+		string $userEmail
+	)
 	{
 		global $USER;
 		$resultMessage = $USER->Update($userId, [
@@ -43,7 +55,13 @@ class User
 		return $resultMessage['MESSAGE'];
 	}
 
-	public static function changeInfo($userName, $userLastName, $userEmail, $newLogin, $userLogin)
+	public static function changeInfo(
+		string $userName,
+		string $userLastName,
+		string $userEmail,
+		string $newLogin,
+		string $userLogin
+	)
 	{
 		return BUserTable::query()
 			->setSelect(['*'])
@@ -56,11 +74,14 @@ class User
 			->save()->getErrorMessages();
 	}
 
-	public static function checkLoginExists($login)
+	public static function checkUniqueFieldsExist(
+		string $field,
+		string $value
+	)
 	{
 		$result = BUserTable::query()
 			->setSelect(['ID'])
-			->setFilter(['LOGIN' => $login])
+			->setFilter([$field => $value])
 			->fetch();
 		if ($result)
 		{

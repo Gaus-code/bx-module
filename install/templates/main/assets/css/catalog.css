@@ -86,6 +86,7 @@
 }
 
 .catalog__main {
+    min-height: 460px;
     margin-left: 260px;
 }
 

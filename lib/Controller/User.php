@@ -7,6 +7,7 @@ use Bitrix\Main\Engine;
 use Bitrix\Main\EO_User;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\Model\UserTable;
+use Up\Ukan\Service\Validation;
 
 
 class User extends Engine\Controller
@@ -19,38 +20,37 @@ class User extends Engine\Controller
 		string $userBio
 	)
 	{
-		$errors = [];
 		global $USER;
 
-		if (empty(trim($userName)) || empty(trim($userLogin)) || empty(trim($userEmail)))
+		if (!empty(Validation::validateInputMinLength($userName, $userLastName, $userLogin, $userEmail)))
 		{
-			$errors[] =  'Не заполнены обязателные поля';
+			$errors = Validation::validateInputMinLength($userName, $userLastName, $userLogin, $userEmail);
 			Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}
 
-		if (!filter_var($userEmail, FILTER_VALIDATE_EMAIL))
+		if (!empty(Validation::validateUserEmail($userEmail)) && $USER->GetEmail() !== $userEmail)
 		{
-			$errors[] =  'Почта указана в некорректном формате';
+			$errors = Validation::validateUserEmail($userEmail);
 			Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}
 
-		if ($USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin) && !\Up\Ukan\Repository\User::checkLoginExists($userLogin))
+		if (!empty(Validation::checkLoginExists($userLogin)) && $USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin))
 		{
-			$errors[] = 'Логин занят';
+			$errors = Validation::checkLoginExists($userLogin);
 			Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}
 
 		$errorMessage = \Up\Ukan\Repository\User::changeInfo($userName, $userLastName, $userEmail, $userLogin, $USER->GetLogin());
-		if (!$errorMessage && !count($errors))
+		if (!$errorMessage)
 		{
 			$userId = $USER->GetID();
-			$result = \Up\Ukan\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName, $userEmail);
+			\Up\Ukan\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName, $userEmail);
 
 			$user = UserTable::getById($userId)->fetchObject();
-			$user->setName($userName)->setSurname($userLastName)->setEmail($userEmail)->setUpdatedAt(new DateTime());
+			$user->setUpdatedAt(new DateTime());
 
 			!empty($userBio) ? $user->setBio($userBio) : $user->setBio(null);
 			
@@ -68,15 +68,16 @@ class User extends Engine\Controller
 	{
 		global $USER;
 		$errors = [];
+		$newPasswordErrors = Validation::validateUserPassword($newPassword);
 
 		if (empty(trim($oldPassword)))
 		{
 			$errors[] = 'Введите старый пароль';
 		}
 
-		if (empty(trim($newPassword)))
+		if ($newPasswordErrors)
 		{
-			$errors[] = 'Введите новый пароль';
+			$errors = array_merge($errors, $newPasswordErrors);
 		}
 
 		if (empty(trim($confirmPassword)))
@@ -99,11 +100,7 @@ class User extends Engine\Controller
 					]);
 
 					$ukanUser = UserTable::getById($USER->GetID())->fetchObject();
-
-					$ukanPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-					$ukanUser->setHash($ukanPassword)->setUpdatedAt(new DateTime());
-
+					$ukanUser->setUpdatedAt(new DateTime());
 					$ukanUser->save();
 
 					if (!$result)

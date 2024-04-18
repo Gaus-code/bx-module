@@ -50,6 +50,10 @@
     font-size: 20px;
 }
 
+.userInfo__subscription, .userInfo__bio {
+    margin-top: 10px;
+}
+
 .content__mainBio_main {
 }
 
@@ -60,9 +64,19 @@
 }
 
 .userInfo__bio {
-    margin-top: 10px;
     font-size: 17px;
     line-height: 24px;
+}
+
+.userInfo__bio a {
+    color: var(--color-primary-purple);
+    border-bottom: 2px solid var(--color-primary-purple);
+}
+
+.userInfo__bio a:hover, .userInfo__bio a:focus {
+    color: var(--color-tag-green);
+    border-color: var(--color-tag-green);
+    transition: 0.4s;
 }
 
 .content__mainBio_footer {

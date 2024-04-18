@@ -9,7 +9,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
 ?>
 
 <main class="catalog wrapper">
@@ -20,17 +19,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<ul class="filter__list">
 				<?php foreach ($arResult['TAGS'] as $tag): ?>
 					<li class="filter__item">
+						<?php if (!empty($arParams['TAGS_ID']) && in_array($tag->getId(), $arParams['TAGS_ID'], false)): ?>
+						<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>" checked>
+						<?php else: ?>
 						<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>">
+						<?php endif;?>
 						<label class="filter__label"><?=$tag->getTitle()?></label>
 					</li>
 				<?php endforeach; ?>
 			</ul>
+			<button type="button" id="resetFilters">Очистить Мой Выбор</button>
 			<button class="filterBtn" type="submit">Отфильтровать</button>
 		</form>
 	</aside>
 	<section class="catalog__main">
 		<div class="catalog__header">
 			<h1>Рекомендованные вакансии <span>369</span></h1>
+
 			<select name="sortBy" class="catalog__sort">
 				<option value="all">Все</option>
 				<option value="new">Сначала новые</option>
@@ -46,3 +51,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		?>
 	</section>
 </main>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/catalog.js"></script>

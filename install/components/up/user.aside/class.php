@@ -5,8 +5,6 @@ class UserAsideComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->fetchUser();
-		$this->fetchTasks();
-		$this->fetchProjects();
 		$this->includeComponentTemplate();
 	}
 
@@ -20,27 +18,5 @@ class UserAsideComponent extends CBitrixComponent
 		$query->setSelect(['*', 'B_USER'])->where('ID', $userId);
 
 		$this->arResult['USER'] = $query->fetchObject();
-	}
-
-	protected function fetchTasks()
-	{
-		global $USER;
-		$userId = $USER->GetID();
-
-		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['ID', 'TITLE'])->where('CLIENT_ID', $userId);
-
-		$this->arResult['TASKS'] = $query->fetchCollection();
-	}
-
-	protected function fetchProjects()
-	{
-		global $USER;
-		$userId = $USER->GetID();
-
-		$query = \Up\Ukan\Model\ProjectTable::query();
-		$query->setSelect(['ID', 'TITLE'])->where('CLIENT_ID', $userId);
-
-		$this->arResult['PROJECTS'] = $query->fetchCollection();
 	}
 }

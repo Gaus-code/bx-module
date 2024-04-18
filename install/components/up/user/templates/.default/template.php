@@ -50,7 +50,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php
 					else: ?>
 						<p class="userInfo__bio">У вас пока нет описания. Давайте
-							<a href="/profile/edit/<?= $user->getID() ?>/">добавим</a></p>
+							<a href="/profile/<?= $user->getID() ?>/edit/">добавим</a></p>
 					<?php
 					endif; ?>
 				</div>

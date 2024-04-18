@@ -7,17 +7,26 @@ use Up\Ukan\Repository\User;
 class Validation
 {
 	public static function validateInputMinLength(
-		string $userLogin,
 		string $userName,
 		string $userSurname,
-		string $userEmail,
-		string $userPassword
+		string $userLogin,
+		string $userEmail
 	): ?array
 	{
 		$error = [];
-		if (empty(trim($userLogin)) || empty(trim($userName)) || empty(trim($userSurname)) || empty(trim($userEmail)) || empty(trim($userPassword)))
+		if (empty(trim($userName)) || empty(trim($userSurname)) ||empty(trim($userLogin)) ||  empty(trim($userEmail)))
 		{
 			$error[] = 'Пожалуйста, заполните все необхожимые поля';
+		}
+		return $error;
+	}
+
+	public static function validateUserPassword(string $userPassword): ?array
+	{
+		$error = [];
+		if (empty(trim($userPassword)) || strlen($userPassword) < 8 || !preg_match('/[0-9]/', $userPassword) || !preg_match('/[a-zA-Z]/', $userPassword))
+		{
+			$error[] = 'Пароль должен содержать минимум 8 символов, цифры и прописные латинские буквы';
 		}
 		return $error;
 	}
@@ -29,12 +38,16 @@ class Validation
 		{
 			$error[] =  'Почта указана в некорректном формате';
 		}
+		if (User::checkUniqueFieldsExist('EMAIL', $userEmail) === false)
+		{
+			$error[] = 'Пользователь с такой почтой уже существует';
+		}
 		return $error;
 	}
 	public static function checkLoginExists( string $userLogin): ?array
 	{
 		$error = [];
-		if (User::checkLoginExists($userLogin) === false)
+		if (User::checkUniqueFieldsExist('LOGIN', $userLogin) === false)
 		{
 			$error[] = 'Пользователь с таким логином уже существует';
 		}
@@ -53,7 +66,8 @@ class Validation
 
 		$errors = array_merge($errors, self::checkLoginExists($userLogin));
 		$errors = array_merge($errors, self::validateUserEmail($userEmail));
-		$errors = array_merge($errors, self::validateInputMinLength($userLogin, $userName, $userSurname, $userEmail, $userPassword));
+		$errors = array_merge($errors, self::validateInputMinLength($userLogin, $userName, $userSurname, $userEmail));
+		$errors = array_merge($errors, self::validateUserPassword($userPassword));
 
 		if (!empty($errors))
 		{
