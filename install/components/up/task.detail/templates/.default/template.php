@@ -36,20 +36,57 @@ if ($arResult['TASK']): ?>
 				<section class="detail__footer">
 					<?php
 					switch ($arResult['TASK']->getStatus()):
-						case $arResult['TASK_STATUSES']['done']:?>
+						case $arResult['TASK_STATUSES']['done']:
+							?>
 							<p class="detail__feedback_title">Отзывы:</p>
-					<?php switch ($arResult['USER_ACTIVITY']):
-								case 'owner':
-									break;
-								case 'approved this user':
-									break;
-							endswitch;
+							<?php
+							if ($arResult['USER_FEEDBACK_FLAG'])
+							{ ?>
+								<form class="create__form" action="/feedback/create/" method="post">
+									<?= bitrix_sessid_post() ?>
+									<div class="create__container">
+										<input name="toUserId" type="hidden" value="<?=$arResult['TASK']->GetId()?>">
+										<input name="fromUserId" type="hidden" value="<?=$USER->GetID()?>">
+										<input name="toUserId" type="hidden" value="<?=$USER->GetID()?>">
+										<div class="rating-area">
+											<input type="radio" id="star-5" name="rating" value="5">
+											<label for="star-5" title="Оценка «5»"></label>
+											<input type="radio" id="star-4" name="rating" value="4">
+											<label for="star-4" title="Оценка «4»"></label>
+											<input type="radio" id="star-3" name="rating" value="3">
+											<label for="star-3" title="Оценка «3»"></label>
+											<input type="radio" id="star-2" name="rating" value="2">
+											<label for="star-2" title="Оценка «2»"></label>
+											<input type="radio" id="star-1" name="rating" value="1">
+											<label for="star-1" title="Оценка «1»"></label>
+										</div>
+										<label class="create__textareaLabel" for="taskDescription">Комментарий</label>
+										<textarea name="feedback" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+									</div>
+									<button class="createBtn" type="submit">Оставить Отзыв</button>
+								</form>
+							<?php
+							}
 							foreach ($arResult['TASK']->getFeedbacks() as $feedback):?>
-<div class="detail__feedback">
-<p><?=$feedback->getFromUser()->getBUser()->getName().' '.$feedback->getFromUser()->getBUser()->getLastName()?></p>
-	<p><?=$feedback->getRating()?></p>
-	<p><?=$feedback->getFeedback()?></p>
-</div>
+								<div class="detail__feedback">
+									<p><?= $feedback->getFromUser()->getBUser()->getName()
+										. ' '
+										. $feedback->getFromUser()->getBUser()->getLastName() ?></p>
+									<div class="rating-result">
+										<?php for ($i=1;$i<=5;$i++)
+											{
+												if ($feedback->getRating()>=$i)
+												{ ?>
+													<span class="active"></span>
+												<?php }
+												else
+												{ ?>
+													<span></span>
+												<?php }
+											}?>
+									</div>
+									<p><?= $feedback->getFeedback() ?></p>
+								</div>
 							<?php
 							endforeach;
 							break;

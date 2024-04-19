@@ -6,6 +6,7 @@ class TaskDetailComponent extends CBitrixComponent
 	{
 		$this->fetchTask();
 		$this->fetchUserActivity();
+		$this->fetchUserFeedbackFlag();
 		$this->includeComponentTemplate();
 	}
 
@@ -80,7 +81,26 @@ class TaskDetailComponent extends CBitrixComponent
 				$this->arResult['USER_ACTIVITY'] = 'wait approve this user';
 			}
 		}
+	}
+	protected function fetchUserFeedbackFlag()
+	{
+		if ($this->arParams['TASK_ID'])
+		{
+			global $USER;
+			$userId = (int)$USER->getId();
 
+			$feedback = \Up\Ukan\Model\FeedbackTable::query()->setSelect(['*'])
+												 ->where('TASK_ID', $this->arParams['TASK_ID'])
+												 ->where('FROM_USER_ID', $userId)->fetchObject();
+			if (isset($feedback))
+			{
+				$this->arResult['USER_FEEDBACK_FLAG'] = true;
+			}
+			else
+			{
+				$this->arResult['USER_FEEDBACK_FLAG'] = false;
+			}
+		}
 
 	}
 }
