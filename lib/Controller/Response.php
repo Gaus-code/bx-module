@@ -5,6 +5,7 @@ use Bitrix\Main\Engine;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\Model\EO_Response;
 use Up\Ukan\Model\EO_Notification;
+use Up\Ukan\Model\NotificationTable;
 use Up\Ukan\Model\ResponseTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Service\Configuration;
@@ -60,11 +61,33 @@ class Response extends Engine\Controller
 		{
 			global $USER;
 
-			$contractorId = $USER->GetID();
+			$contractorId = (int)$USER->GetID();
 
-			ResponseTable::delete($responseId);
+			$response = ResponseTable::query()
+									 ->setSelect(['*', 'TASK.CLIENT_ID'])
+									 ->where('ID', $responseId)
+									 ->fetchObject();
 
-			LocalRedirect("/profile/$contractorId/responses/");
+			if ($response)
+			{
+				$clientId = $response->getTask()->getClientId();
+				$taskId = $response->getTaskId();
+
+				$notification = NotificationTable::query()
+												 ->setSelect(['ID'])
+												 ->where('MESSAGE', Configuration::getOption('notification_message')['new_response'])
+												 ->where('FROM_USER_ID', $contractorId)
+												 ->where('TO_USER_ID', $clientId)
+												 ->where('TASK_ID', $taskId)
+												 ->fetchObject();
+				if ($notification && NotificationTable::delete($notification->getId()) && ResponseTable::delete($responseId))
+				{
+					LocalRedirect("/task/$taskId/");
+				}
+
+			}
+
+			LocalRedirect("/404");
 		}
 	}
 

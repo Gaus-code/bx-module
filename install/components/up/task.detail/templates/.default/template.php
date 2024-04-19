@@ -38,6 +38,7 @@ if ($arResult['TASK']): ?>
 												 [
 													'USER_ACTIVITY' => $arResult['USER_ACTIVITY'],
 													'TASK' => $arResult['TASK'],
+													'RESPONSE' => $arResult['RESPONSE'],
 												]);
 			?>
 		</div>

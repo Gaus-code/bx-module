@@ -152,20 +152,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus()) ?> </p>
 								</div>
 							</a>
-							<div class="task__responseFooter">
-								<form action="/response/approve/" method="post">
-									<?= bitrix_sessid_post() ?>
-									<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
-									<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
-									<button class="task__responseDelete" type="submit">Одобрить отклик</button>
-								</form>
-								<form action="/response/reject/" method="post">
-									<?= bitrix_sessid_post() ?>
-									<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
-									<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
-									<button class="task__responseDelete" type="submit">Отклонить отклик</button>
-								</form>
-							</div>
+							<?php if (($arParams['FILTER']) === \Up\Ukan\Service\Configuration::getOption('response_status')['wait']): ?>
+								<div class="task__responseFooter">
+									<form action="/response/approve/" method="post">
+										<?= bitrix_sessid_post() ?>
+										<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
+										<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+										<button class="task__responseDelete" type="submit">Одобрить отклик</button>
+									</form>
+									<form action="/response/reject/" method="post">
+										<?= bitrix_sessid_post() ?>
+										<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
+										<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+										<button class="task__responseDelete" type="submit">Отклонить отклик</button>
+									</form>
+								</div>
+							<?php endif; ?>
 						</div>
 					<?php
 					endforeach; ?>

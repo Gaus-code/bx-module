@@ -70,7 +70,7 @@ class TaskDetailComponent extends CBitrixComponent
 			}
 
 			$response = \Up\Ukan\Model\ResponseTable::query()
-													->setSelect(['ID'])
+													->setSelect(['*'])
 													->where('TASK_ID', $this->arResult['TASK']->getId())
 													->where('CONTRACTOR_ID', $userId)
 													->fetchObject();
@@ -79,6 +79,7 @@ class TaskDetailComponent extends CBitrixComponent
 				if ($response->getStatus() === \Up\Ukan\Service\Configuration::getOption('response_status')['wait'])
 				{
 					$this->arResult['USER_ACTIVITY'] = 'wait';
+					$this->arResult['RESPONSE'] = $response;
 					return ;
 				}
 

@@ -10,6 +10,9 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 	public function onPrepareComponentParams($arParams)
 	{
+		global $USER;
+		$arParams['USER_ID'] = (int)$USER->getId();
+
 		if ($arParams['TASK'])
 		{
 			$this->arResult['TASK'] = $arParams['TASK'];
@@ -48,8 +51,6 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			case 'reject':
 			case 'wait':
 			default:
-
-
 				break;
 
 		}
