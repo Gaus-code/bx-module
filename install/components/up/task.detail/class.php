@@ -6,7 +6,6 @@ class TaskDetailComponent extends CBitrixComponent
 	{
 		$this->fetchTask();
 		$this->fetchUserActivity();
-		$this->fetchUserFeedbackFlag();
 		$this->includeComponentTemplate();
 	}
 
@@ -50,7 +49,6 @@ class TaskDetailComponent extends CBitrixComponent
 			global $USER;
 			$userId = (int)$USER->getId();
 
-			$this->arResult['TASK_STATUSES']=\Up\Ukan\Service\Configuration::getOption('task_status');
 
 			if ($this->arResult['TASK']->getClientId() === $userId)
 			{
@@ -62,11 +60,11 @@ class TaskDetailComponent extends CBitrixComponent
 			{
 				if ($this->arResult['TASK']->getContractorId() === $userId)
 				{
-					$this->arResult['USER_ACTIVITY'] = 'approved this user';
+					$this->arResult['USER_ACTIVITY'] = 'contractor_this_task';
 				}
 				else
 				{
-					$this->arResult['USER_ACTIVITY'] = 'approved other user';
+					$this->arResult['USER_ACTIVITY'] = 'contractor_from_project';
 				}
 				return ;
 			}
@@ -78,29 +76,21 @@ class TaskDetailComponent extends CBitrixComponent
 													->fetchObject();
 			if ($response)
 			{
-				$this->arResult['USER_ACTIVITY'] = 'wait approve this user';
-			}
-		}
-	}
-	protected function fetchUserFeedbackFlag()
-	{
-		if ($this->arParams['TASK_ID'])
-		{
-			global $USER;
-			$userId = (int)$USER->getId();
+				if ($response->getStatus() === \Up\Ukan\Service\Configuration::getOption('response_status')['wait'])
+				{
+					$this->arResult['USER_ACTIVITY'] = 'wait';
+					return ;
+				}
 
-			$feedback = \Up\Ukan\Model\FeedbackTable::query()->setSelect(['*'])
-												 ->where('TASK_ID', $this->arParams['TASK_ID'])
-												 ->where('FROM_USER_ID', $userId)->fetchObject();
-			if (isset($feedback))
-			{
-				$this->arResult['USER_FEEDBACK_FLAG'] = true;
+				if ($response->getStatus() === \Up\Ukan\Service\Configuration::getOption('response_status')['reject'])
+				{
+					$this->arResult['USER_ACTIVITY'] = 'reject';
+					return ;
+				}
 			}
-			else
-			{
-				$this->arResult['USER_FEEDBACK_FLAG'] = false;
-			}
-		}
 
+
+			$this->arResult['USER_ACTIVITY'] = '.default';
+		}
 	}
 }
