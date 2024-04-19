@@ -22,9 +22,9 @@ class User extends Engine\Controller
 	{
 		global $USER;
 
-		if (!empty(Validation::validateInputMinLength($userName, $userLastName, $userLogin, $userEmail)))
+		if (!empty(Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail)))
 		{
-			$errors = Validation::validateInputMinLength($userName, $userLastName, $userLogin, $userEmail);
+			$errors = Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail);
 			Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
 		}

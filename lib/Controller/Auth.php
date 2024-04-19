@@ -89,6 +89,11 @@ class Auth extends Engine\Controller
 
 			$user->save();
 		}
+		else
+		{
+			LocalRedirect('/sign-up');
+		}
+
 		global $USER;
 		LocalRedirect('/profile/'.$USER->GetID().'/');
 	}

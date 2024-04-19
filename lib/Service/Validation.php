@@ -6,7 +6,7 @@ use Up\Ukan\Repository\User;
 
 class Validation
 {
-	public static function validateInputMinLength(
+	public static function validateUserTextFields(
 		string $userName,
 		string $userSurname,
 		string $userLogin,
@@ -17,6 +17,10 @@ class Validation
 		if (empty(trim($userName)) || empty(trim($userSurname)) ||empty(trim($userLogin)) ||  empty(trim($userEmail)))
 		{
 			$error[] = 'Пожалуйста, заполните все необхожимые поля';
+		}
+		if (preg_match('/[^\w_-]/u', $userLogin) || preg_match('/[^\w_-]/u', $userName) || preg_match('/[^\w_-]/u', $userSurname))
+		{
+			$error[] = 'Логин, Имя и Фамилия не могут содержать спец.символы и пробелы';
 		}
 		return $error;
 	}
@@ -47,6 +51,10 @@ class Validation
 	public static function checkLoginExists( string $userLogin): ?array
 	{
 		$error = [];
+		if (mb_strlen ($userLogin) < 3)
+		{
+			$error[] = 'Логин должен быть длиннее 3х символов';
+		}
 		if (User::checkUniqueFieldsExist('LOGIN', $userLogin) === false)
 		{
 			$error[] = 'Пользователь с таким логином уже существует';
@@ -66,7 +74,7 @@ class Validation
 
 		$errors = array_merge($errors, self::checkLoginExists($userLogin));
 		$errors = array_merge($errors, self::validateUserEmail($userEmail));
-		$errors = array_merge($errors, self::validateInputMinLength($userLogin, $userName, $userSurname, $userEmail));
+		$errors = array_merge($errors, self::validateUserTextFields($userLogin, $userName, $userSurname, $userEmail));
 		$errors = array_merge($errors, self::validateUserPassword($userPassword));
 
 		if (!empty($errors))

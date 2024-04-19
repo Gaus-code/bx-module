@@ -76,3 +76,7 @@ th {
     background-color: var(--color-tag-purple);
     transition: 0.3s;
 }
+
+#inProgress-reviews, #doneTask-reviews {
+    display: none;
+}

@@ -60,3 +60,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	</form>
 </div>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/login.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/signUp.js"></script>
