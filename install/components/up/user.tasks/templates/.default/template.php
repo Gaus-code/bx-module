@@ -28,7 +28,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваши Заявки</h2>
 		</article>
-			<?php $APPLICATION->IncludeComponent('up:task.list', 'table', [
+		<article class="content__tasks">
+			<div class="content__header">
+				<ul class="content__tagList">
+					<li id="open-btn" class="content__tagItem active-tag-item">
+						Открытые
+					</li>
+					<li id="inProgress-btn" class="content__tagItem">
+						В работе
+					</li>
+					<li id="doneTask-btn" class="content__tagItem">
+						Завершенные
+					</li>
+				</ul>
+			</div>
+		</article>
+			<?php $APPLICATION->IncludeComponent('up:task.list', 'user', [
 				'CLIENT_ID' => (int)request()->get('user_id'),
 				'TAG_ID' => (int)request()->get('tag_id'),
 				'IS_PERSONAL_ACCOUNT_PAGE' => true,
@@ -38,3 +53,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>

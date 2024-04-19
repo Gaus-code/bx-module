@@ -43,7 +43,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</ul>
 			</div>
 			<!-- Отзывы, которые оставил сам исполнитель(не забудь УДАЛИТЬ этот коммент) !-->
-			<div id="client-reviews" class="comment__container client-reviews">
+			<div id="client-reviews" class="tab__container client-reviews">
 				<ul class="clientComment__list">
 					<!-- Жесткий HARDCODE!!!!(не забудь УДАЛИТЬ этот коммент) !-->
 					<li class="clientComment__item">
@@ -87,7 +87,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</ul>
 			</div>
 			<!-- Отзывы, которые оставлены исполнителю(не забудь УДАЛИТЬ этот коммент) !-->
-			<div id="contractor-reviews" class="comment__container contractor-reviews">
+			<div id="contractor-reviews" class="tab__container contractor-reviews">
 				<ul class="clientComment__list">
 					<!-- Жесткий HARDCODE!!!!(не забудь УДАЛИТЬ этот коммент) !-->
 					<li class="clientComment__item">
@@ -127,7 +127,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</ul>
 			</div>
 			<!-- выполненные заявки, на которые ожидается отзыв(не забудь УДАЛИТЬ этот коммент) !-->
-			<div id="waiting-reviews" class="comment__container waiting-reviews">
+			<div id="waiting-reviews" class="tab__container waiting-reviews">
 				<ul class="clientComment__list">
 					<!-- Жесткий HARDCODE!!!!(не забудь УДАЛИТЬ этот коммент) !-->
 					<li class="clientComment__item">
@@ -148,4 +148,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/comment.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>

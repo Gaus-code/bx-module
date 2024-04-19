@@ -31,15 +31,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__projects">
 			<div class="projects__header">
 				<ul class="projects__tagList">
-					<li class="projects__tagItem active-project-link">
-						<a href="/profile/<?=$arParams['USER_ID']?>/projects/" class="projects__tag">Активные Проекты</a>
+					<li id="active-btn" class="projects__tagItem active-tag-item">
+						Активные
 					</li>
-					<li class="projects__tagItem">
-						<a href="/profile/<?=$arParams['USER_ID']?>/projects/done/" class="projects__tag">Завершенные Проекты</a>
+					<li id="done-btn" class="projects__tagItem">
+						Завершенные
 					</li>
 				</ul>
 			</div>
-			<div class="projects__list">
+			<!-- Контейнер для активных проектов юзера !-->
+			<div id="active-reviews" class="projects__list tab__container">
 				<?php if (count($arResult['PROJECTS']) > 0): ?>
 				<table id="projectsTable">
 					<thead>
@@ -80,7 +81,48 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 				<?php endif; ?>
 			</div>
+			<!-- Контейнер для завершенных проектов юзера !-->
+			<div id="done-reviews" class="projects__doneList tab__container">
+				<?php if (count($arResult['PROJECTS']) > 0): ?>
+					<table id="projectsTable">
+						<thead>
+						<tr>
+							<th>Название проекта</th>
+							<th>Дата создания</th>
+							<th>Количество задач</th>
+							<th>Количество исполнителей</th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td data-label="Название проекта">HARDCODE!!!</td>
+								<td data-label="Дата создания">HARDCODE!!!</td>
+								<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
+								<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
+								<td data-label="Редактировать">
+									<a class="editProject" href="/project/HARDCODE!!!/">Редактировать проект</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<?php
+					if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+						]);
+					}
+					?>
+				<?php else: ?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>Пока что тут нет проектов</p>
+					</div>
+				<?php endif; ?>
+			</div>
 		</article>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
