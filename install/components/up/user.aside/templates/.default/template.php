@@ -38,9 +38,9 @@
 				<span>2</span>
 			</a>
 
-			<a href="/profile/<?=$user->getId()?>/comments/" id="notificationLink" class="aside__btn">
+			<a href="/profile/<?=$user->getId()?>/comments/" id="commentLink" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/comment.svg" alt="notification folder" class="commentImg">
-				Тут будут отзывы
+				Отзывы
 			</a>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>

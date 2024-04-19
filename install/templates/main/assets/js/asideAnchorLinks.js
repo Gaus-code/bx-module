@@ -3,6 +3,7 @@ const activeNotification = document.getElementById('notificationLink');
 const activeProjects = document.getElementById('projectToogle');
 const activeTasks = document.getElementById('taskToogle');
 const activeUser = document.getElementById('userLink');
+const activeComments = document.getElementById('commentLink');
 
 let asideUrl = window.location.pathname;
 function extractPathFromUrl(path, element) {
@@ -20,7 +21,7 @@ function extractPathFromUrl(path, element) {
 	}
 }
 
-const paths = ['responses', 'notifications', 'projects', 'tasks', 'edit'];
+const paths = ['responses', 'notifications', 'projects', 'tasks', 'edit', 'comments'];
 
 const userPathRegex = /\/profile\/\d+\/$/;
 const userPathMatch = userPathRegex.exec(url);
@@ -50,6 +51,10 @@ else
 				break;
 			case 'edit':
 				element = activeUser;
+				break;
+			case 'comments':
+				element = activeComments;
+				break;
 		}
 
 		if (element)

@@ -1,0 +1,162 @@
+.responses__tagList {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.responses__tagItem {
+    padding: 6px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--color-primary-purple);
+    cursor: pointer;
+}
+
+.responses__tagItem:hover, .responses__tagItem:active, .responses__tagItem:focus
+{
+    background-color: var(--color-primary-purple);
+    transition: 0.4s;
+}
+.responses__tag {
+    background-color: inherit;
+    width: 100%;
+    color: var(--color-primary-black);
+    font-weight: 500;
+}
+
+.active-tag-item {
+    background-color: var(--color-primary-purple);
+}
+
+.content__comment {
+    margin-top: 32px;
+}
+
+.clientComment__list {
+    margin-top: 20px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.clientComment__item {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-tag-purple);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 18px;
+}
+
+.comment__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.comment__footer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment__rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: relative;
+}
+
+.comment__rating img {
+    display: block;
+    width: 50px;
+}
+
+.comment__rating p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 12px;
+    transform: translate(-50%, -50%);
+}
+
+.comment__btnContainer {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.comment__btnContainer button, .comment__btnContainer a {
+    background-color: inherit;
+    border: 2px solid;
+    border-radius: 6px;
+    font-size: 16px;
+    color: var(--color-primary-black);
+}
+
+.comment__btnContainer a {
+    padding: 6px 10px;
+    border-color: var(--color-tag-purple);
+}
+
+.comment__btnContainer a:hover, .comment__btnContainer a:focus {
+    background-color: var(--color-tag-purple);
+    transition: 0.4s;
+}
+
+.comment__btnContainer button {
+    padding: 4px 10px;
+    border-color: var(--color-warning-red);
+}
+
+.comment__btnContainer button:hover, .comment__btnContainer button:focus {
+    background-color: var(--color-warning-red);
+    transition: 0.4s;
+}
+
+.comment__date span {
+    color: var(--color-primary-purple);
+}
+
+.waiting-reviews, .contractor-reviews {
+    display: none;
+}
+
+.comment__userPhoto {
+    display: block;
+    width: 30px;
+    border-radius: 50%;
+}
+
+.comment__waiting span {
+    color: var(--color-primary-purple);
+}
+
+.comment__waitingLink {
+    border: 2px solid var(--color-tag-green);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    color: var(--color-primary-black);
+    padding: 3px 5px;
+    background-color: var(--color-tag-green);
+}
+
+.comment__waitingLink:hover, .comment__waitingLink:focus {
+    background-color: #fff;
+    transition: 0.4s;
+}
