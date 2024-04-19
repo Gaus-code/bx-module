@@ -15,9 +15,7 @@ class CatalogComponent extends CBitrixComponent
 	}
 	protected function fetchTags()
 	{
-
 		$this->arResult['TAGS'] = \Up\Ukan\Model\TagTable::query()->setSelect(['*'])->fetchCollection();
-
 	}
 
 }

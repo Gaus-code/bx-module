@@ -38,3 +38,31 @@
     border-color: var(--color-tag-purple);
     transition: 0.3s;
 }
+
+#advLink {
+    max-width: 70px;
+    display: block;
+    padding: 10px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: var(--color-primary-purple);
+    position: fixed;
+    right: 3%;
+    bottom: 4%;
+}
+
+#advLink img {
+    width: 50px;
+    margin: 0 auto;
+    animation: animUfo 3s linear infinite;
+}
+
+@keyframes animUfo {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

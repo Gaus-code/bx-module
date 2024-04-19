@@ -9,7 +9,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
 ?>
 
 <form method="get" class="searchForm">
@@ -21,7 +20,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <div class="content__main">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<?php foreach ($arResult['TASKS'] as $task): ?>
+			<?php if($task->getClient()->getSubscriptionEndDate() !== null):?>
+			<div class="task subscriberTask">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/catalogCrown.svg" alt="star image" class="subscriberStar">
+			<?php else:?>
 			<div class="task">
+			<?php endif;?>
 					<div class="task__main">
 						<h3><?= $task->getTitle() ?></h3>
 						<?php if (count($task->getTags()) > 0):?>

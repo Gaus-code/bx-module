@@ -49,6 +49,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			'CLIENT_ID' => (int)request()->get('user_id'),
 		]);
 		?>
+		<div class="adv">
+			<a href="/subscription/" id="advLink">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/ufo.svg" alt="ufo image">
+			</a>
+		</div>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/catalog.js"></script>
