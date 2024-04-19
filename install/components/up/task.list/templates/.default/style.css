@@ -58,3 +58,16 @@
     border: none;
     z-index: 3;
 }
+
+.subscriberStar {
+    display: block;
+    width: 25px;
+    position: absolute;
+    top: 5px;
+    right: 9px;
+}
+
+.subscriberTask {
+    position: relative;
+    border: 2px solid var(--color-primary-purple);
+}

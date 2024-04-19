@@ -13,34 +13,30 @@
 
 }
 
-.tableTask__link {
+.content__tagList {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
 }
 
-.tableTask__header {
+.content__tagItem {
+    padding: 6px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--color-primary-purple);
+    cursor: pointer;
 }
 
-.tableTask__tag {
+.content__tagItem:hover, .content__tagItem:active, .content__tagItem:focus
+{
+    background-color: var(--color-primary-purple);
+    transition: 0.4s;
 }
 
-.tableTask__main {
-}
-
-.tableTask__description {
-}
-
-.tableTask__footer {
-}
-
-.tableTask__footer_img {
-}
-
-.tableTask__respond {
-}
-
-.tableTask__respond_btn {
-}
-
-.content__image {
+.active-tag-item {
+    background-color: var(--color-primary-purple);
 }
 
 table {
@@ -79,4 +75,8 @@ th {
 .editTask:hover, .editTask:focus  {
     background-color: var(--color-tag-purple);
     transition: 0.3s;
+}
+
+#inProgress-reviews, #doneTask-reviews {
+    display: none;
 }

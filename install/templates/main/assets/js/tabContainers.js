@@ -1,5 +1,5 @@
 const reviewsBtns = document.querySelectorAll('li[id$="-btn"]');
-const reviewsContainers = document.querySelectorAll('.comment__container');
+const reviewsContainers = document.querySelectorAll('.tab__container');
 
 reviewsBtns.forEach(btn => {
 	btn.addEventListener('click', () => {
