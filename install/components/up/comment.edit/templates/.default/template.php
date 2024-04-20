@@ -25,7 +25,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Реадктировать отзыв для заявки <span>HARDCODE!!! HARDCODE!!! HARDCODE!!! HARDCODE!!! HARDCODE!!!</span></h2>
+			<h2 class="content__tittle">Редактировать отзыв для заявки <span><?= $arResult['COMMENT']->getTask()->getTitle() ?></span></h2>
 		</article>
 		<article class="content__editComment">
 			<form action="" method="post" class="edit__commentForm">
@@ -38,7 +38,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<input type="radio" class="star" id="five" name="starRate" >
 					</div>
 				</div>
-				<textarea class="edit__commentText" name="editTitle">HARDCODE!!!</textarea>
+				<textarea class="edit__commentText" name="editTitle"><?= $arResult['COMMENT']->getFeedback() ?></textarea>
 				<button class="edit__commentBtn" type="submit">Редактировать</button>
 			</form>
 		</article>

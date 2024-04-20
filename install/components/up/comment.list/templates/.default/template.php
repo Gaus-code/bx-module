@@ -32,10 +32,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="comment__categories">
 				<ul class="responses__tagList">
 					<li id="client-btn" class="responses__tagItem active-tag-item">
-						Ваши отзывы
+						Отправленные отзывы
 					</li>
 					<li id="contractor-btn" class="responses__tagItem">
-						Отзывы исполнителей
+						Полученные отзывы
 					</li>
 					<li id="waiting-btn" class="responses__tagItem">
 						Ждут отзыва
@@ -44,105 +44,74 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Отзывы, которые оставил сам исполнитель(не забудь УДАЛИТЬ этот коммент) !-->
 			<div id="client-reviews" class="tab__container client-reviews">
-				<ul class="clientComment__list">
-					<!-- Жесткий HARDCODE!!!!(не забудь УДАЛИТЬ этот коммент) !-->
-					<li class="clientComment__item">
-						<div class="comment__header">
-							<p class="comment__title">Заявка и ее тайтл какой-то</p>
-							<div class="comment__rating">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
-								<p>4.8</p>
-							</div>
-						</div>
-						<p class="comment__body">спасибо за индивидуальную упаковку, она спасла книгу от перевозки :) спасибо за индивидуальную упаковку, она спасла книгу от перевозки :) спасибо за индивидуальную упаковку, она спасла книгу от перевозки :)</p>
-						<div class="comment__footer">
-							<p class="comment__date"> <span>Опубликован:</span> 18.04.2024</p>
-							<div class="comment__btnContainer">
-								<a href="/comment/1/edit/">Редактировать</a>
-								<form method="post" action="/comment/delete">
-									<button type="submit">Удалить</button>
-								</form>
-							</div>
-						</div>
-					</li>
-					<li class="clientComment__item">
-						<div class="comment__header">
-							<p class="comment__title">Заявка и ее тайтл какой-то</p>
-							<div class="comment__rating">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
-								<p>5</p>
-							</div>
-						</div>
-						<p class="comment__body">спасибо за индивидуальную упаковку, она спасла книгу от перевозки :)</p>
-						<div class="comment__footer">
-							<p class="comment__date"> <span>Опубликован:</span> 18.04.2024</p>
-							<div class="comment__btnContainer">
-								<a href="/comment/1/edit/">Редактировать</a>
-								<form method="post" action="/comment/delete/">
-									<button type="submit">Удалить</button>
-								</form>
-							</div>
-						</div>
-					</li>
-				</ul>
+				<?php if (count($arResult['SENT_FEEDBACKS']) > 0): ?>
+					<ul class="clientComment__list">
+						<?php foreach ($arResult['SENT_FEEDBACKS'] as $feedback) :?>
+							<li class="clientComment__item">
+								<div class="comment__header">
+									<p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p>
+									<div class="comment__rating">
+										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
+										<p><?= $feedback->getRating() ?></p>
+									</div>
+								</div>
+								<p class="comment__body"><?= $feedback->getFeedback() ?></p>
+								<div class="comment__footer">
+									<p class="comment__date"> <span>Опубликован:</span> <?= $feedback->getCreatedAt() ?></p>
+									<div class="comment__btnContainer">
+										<a href="/comment/<?= $feedback->getId() ?>/edit/">Редактировать</a>
+										<form method="post" action="/comment/delete">
+											<?= bitrix_sessid_post() ?>
+											<input hidden="hidden" name="feedbackId" value="<?= $feedback->getId() ?>">
+											<button type="submit">Удалить</button>
+										</form>
+									</div>
+								</div>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
 			</div>
 			<!-- Отзывы, которые оставлены исполнителю(не забудь УДАЛИТЬ этот коммент) !-->
 			<div id="contractor-reviews" class="tab__container contractor-reviews">
+				<?php if (count($arResult['SENT_FEEDBACKS']) > 0): ?>
 				<ul class="clientComment__list">
-					<!-- Жесткий HARDCODE!!!!(не забудь УДАЛИТЬ этот коммент) !-->
+					<?php foreach ($arResult['RECEIVE_FEEDBACKS'] as $feedback) :?>
 					<li class="clientComment__item">
 						<div class="comment__header">
-							<p class="comment__title">Заявка и ее тайтл какой-то</p>
+							<p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p>
 							<div class="comment__rating">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
-								<p>5</p>
+								<p><?= $feedback->getRating() ?></p>
 							</div>
 						</div>
-						<p class="comment__body">тут текст отзыва исполнителя вставляется Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam commodi consequatur delectus dicta dolore doloremque eaque enim, et eveniet excepturi exercitationem facere fuga harum laudantium molestiae natus obcaecati perspiciatis quam quasi quis quisquam ratione reprehenderit sequi sunt suscipit vel.</p>
+						<p class="comment__body"><?= $feedback->getFeedback() ?></p>
 						<div class="comment__footer">
-							<p class="comment__date"> <span>Опубликован:</span> 18.04.2024</p>
+							<p class="comment__date"> <span>Опубликован: </span><?= $feedback->getCreatedAt() ?></p>
 							<div class="comment__btnContainer">
 								<img class="comment__userPhoto" src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="contractor photo">
-								<p>Исполнительный исполнитель</p>
+								<p><?= $feedback->getFromUser()->getBUser()->getName() . ' ' . $feedback->getFromUser()->getBUser()->getLastName() ?></p>
 							</div>
 						</div>
 					</li>
-					<li class="clientComment__item">
-						<div class="comment__header">
-							<p class="comment__title">Заявка и ее тайтл какой-то</p>
-							<div class="comment__rating">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
-								<p>5</p>
-							</div>
-						</div>
-						<p class="comment__body">спасибо за индивидуальную упаковку, она спасла книгу от перевозки :)</p>
-						<div class="comment__footer">
-							<p class="comment__date"> <span>Опубликован:</span> 18.04.2024</p>
-							<div class="comment__btnContainer">
-								<img class="comment__userPhoto" src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="contractor photo">
-								<p>Исполнительный исполнитель</p>
-							</div>
-						</div>
-					</li>
+					<?php endforeach; ?>
 				</ul>
+				<?php endif; ?>
 			</div>
 			<!-- выполненные заявки, на которые ожидается отзыв(не забудь УДАЛИТЬ этот коммент) !-->
 			<div id="waiting-reviews" class="tab__container waiting-reviews">
+				<?php if (count($arResult['TASKS_WITHOUT_FEEDBACKS']) > 0) : ?>
 				<ul class="clientComment__list">
-					<!-- Жесткий HARDCODE!!!!(не забудь УДАЛИТЬ этот коммент) !-->
+					<?php foreach ($arResult['TASKS_WITHOUT_FEEDBACKS'] as $task) : ?>
 					<li class="clientComment__item">
 						<div class="comment__header">
-							<p class="comment__waiting">Заявка и ее тайтл какой-то <span>выполнена</span></p>
-							<a class="comment__waitingLink" href="/task/1/">Отставить отзыв</a>
+							<p class="comment__waiting"> <?= $task->getTitle() ?> <span>выполнена</span></p>
+							<a class="comment__waitingLink" href="/task/<?= $task->getId() ?>/">Оставить отзыв</a>
 						</div>
 					</li>
-					<li class="clientComment__item">
-						<div class="comment__header">
-							<p class="comment__waiting">Заявка и ее тайтл какой-то <span>выполнена</span></p>
-							<a class="comment__waitingLink" href="/task/1/">Отставить отзыв</a>
-						</div>
-					</li>
+					<?php endforeach; ?>
 				</ul>
+				<?php endif; ?>
 			</div>
 		</div>
 	</section>
