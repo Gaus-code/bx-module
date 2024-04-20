@@ -97,6 +97,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<button class="changePassword__btn" type="submit">Изменить пароль</button>
 			</form>
 		</article>
+		<article class="profile__changeContacts">
+			<h2 class="profile__changeBio_title">Пожелания по сбособу для связи</h2>
+			<p>*этот текст будет виден вашим исполнителям</p>
+			<form action="/profile/changeContacts" method="post" class="profile__changeContacts_form">
+				<?= bitrix_sessid_post() ?>
+				<input type="text" name="contacts" value="<?= $user->getContacts(); ?>" placeholder="Пожелания по способу связи">
+				<button type="submit">Редактировать</button>
+			</form>
+		</article>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
