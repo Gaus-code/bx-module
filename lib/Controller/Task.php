@@ -7,6 +7,7 @@ use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Service\Configuration;
 
 class Task extends Controller
 {
@@ -137,6 +138,29 @@ class Task extends Controller
 			TaskTable::delete($taskId);
 
 			LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
+		}
+	}
+
+	public function finishTaskAction(int $taskId)
+	{
+		if (check_bitrix_sessid())
+		{
+			global $USER;
+			$clientId = (int)$USER->getId();
+
+			$task = TaskTable::query()
+							 ->setSelect(['*'])
+							 ->where('ID', $taskId)
+							 ->where('CLIENT_ID', $clientId)
+							 ->fetchObject();
+
+			if ($task)
+			{
+				$task->setStatus(Configuration::getOption('task_status')['done']);
+				$task->save();
+			}
+
+			LocalRedirect("/task/$taskId/");
 		}
 	}
 }

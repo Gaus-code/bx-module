@@ -4,9 +4,10 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user`
 	`BIO`                   text,
 	`SUBSCRIPTION_END_DATE` date,
 	`UPDATED_AT`            datetime,
-    PRIMARY KEY (
-                 `ID`
-        )
+	`CONTACTS`              text NOT NULL,
+	PRIMARY KEY (
+	             `ID`
+		)
 );
 
 CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
@@ -43,17 +44,17 @@ CREATE TABLE IF NOT EXISTS `up_ukan_tag_task`
 
 CREATE TABLE IF NOT EXISTS `up_ukan_task`
 (
-	`ID`            int AUTO_INCREMENT NOT NULL,
-	`TITLE`         varchar(255)       NOT NULL,
-	`DESCRIPTION`   text               NOT NULL,
-	`MAX_PRICE`     int,
-	`PROJECT_PRIORITY`      int                NOT NULL,
-	`CLIENT_ID`     int                NOT NULL,
-	`CONTRACTOR_ID` int,
-	`STATUS_ID`     int                NOT NULL,
-	`PROJECT_ID`    int,
-	`CREATED_AT`    datetime,
-	`UPDATED_AT`    datetime,
+	`ID`               int AUTO_INCREMENT NOT NULL,
+	`TITLE`            varchar(255)       NOT NULL,
+	`DESCRIPTION`      text               NOT NULL,
+	`MAX_PRICE`        int,
+	`PROJECT_PRIORITY` int                NOT NULL,
+	`CLIENT_ID`        int                NOT NULL,
+	`CONTRACTOR_ID`    int,
+	`STATUS_ID`        int                NOT NULL,
+	`PROJECT_ID`       int,
+	`CREATED_AT`       datetime,
+	`UPDATED_AT`       datetime,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_response`
 	`DESCRIPTION`   text,
 	`CREATED_AT`    datetime,
 	`UPDATED_AT`    datetime,
-	`STATUS`        varchar(255) not null,
+	`STATUS`        varchar(255)       not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -115,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user_subscription`
 CREATE TABLE IF NOT EXISTS up_ukan_notification
 (
 	`ID`           int          not null auto_increment,
-	`MESSAGE`         varchar(255) not null,
+	`MESSAGE`      varchar(255) not null,
 	`FROM_USER_ID` int          not null,
 	`TO_USER_ID`   int          not null,
 	`TASK_ID`      int          not null,
@@ -127,14 +128,13 @@ CREATE TABLE IF NOT EXISTS up_ukan_notification
 
 -- Заполнение таблицы up_ukan_tag
 INSERT INTO up_ukan_tag (TITLE)
-VALUES
-	('HTML'),
-	('CSS'),
-	('JavaScript'),
-	('Безопасность'),
-	('Тестирование'),
-	('Сервер'),
-	('API'),
-	('React'),
-	('SQL'),
-	('OWASP');
+VALUES ('HTML'),
+       ('CSS'),
+       ('JavaScript'),
+       ('Безопасность'),
+       ('Тестирование'),
+       ('Сервер'),
+       ('API'),
+       ('React'),
+       ('SQL'),
+       ('OWASP');

@@ -145,7 +145,7 @@ class Response extends Engine\Controller
 				}
 			}
 
-			LocalRedirect("/profile/$userId/responses/?show=receive&filter=approve");
+			LocalRedirect("/task/$taskId/");
 		}
 	}
 

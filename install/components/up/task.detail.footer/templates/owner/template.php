@@ -10,68 +10,106 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 }
 ?>
 
-
 <section class="detail__footer">
 	<div class="detail__status">
-		<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arResult['TASK']->getId(
-			) ?>/edit/"> отредактировать</a> ее?  </span>
+		<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arParams['TASK']->getId() ?>/edit/"> отредактировать</a> ее?  </span>
 	</div>
-	<?php
-	if ($arResult['TASK']->getStatus() === $arResult['TASK_STATUSES']['done']): ?>
 
+	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['new']): ?>
+		<?php if (count($arResult['RESPONSES']) > 0): ?>
+			<div class="detail__status">
+				<p> Вы можете просмотреть несколько ваших откликов здесь!</p>
+				<p> (Хотите посмотреть все? Тогда нажмите <a href="/profile/<?= $arParams['USER_ID']?>/responses/?show=receive&filter=wait&q=<?= $arParams['TASK']->getTitle() ?>"> сюда </a> )</p>
+			</div>
+			<?php foreach ($arResult['RESPONSES'] as $response): ?>
+				<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
+					<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
+						<div class="task__responseMain">
+							<p class="task__responseCreated">
+								<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
+							<p class="task__responseCreated">
+								<span>Предложенная цена:</span> <?= $response->getPrice() ?> </p>
+							<p class="task__responseCreated">
+								<span>Исполнитель:</span> <?= $response->getContractor()->getBUser()->getName()
+								. ' ' . $response->getContractor()->getBUser()->getLastName() ?> </p>
+							<p class="task__responseCreated">
+								<span>Сопроводительное письмо:</span> <?= $response->getDescription() ?> </p>
+						</div>
+					</a>
+					<div class="task__responseFooter">
+						<form action="/response/approve/" method="post">
+							<?= bitrix_sessid_post() ?>
+							<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
+							<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+							<button class="task__responseDelete" type="submit">Одобрить отклик</button>
+						</form>
+						<form action="/response/reject/" method="post">
+							<?= bitrix_sessid_post() ?>
+							<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
+							<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+							<button class="task__responseDelete" type="submit">Отклонить отклик</button>
+						</form>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	<?php endif; ?>
+
+	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['at_work']): ?>
+		<div class="detail__status">
+			<span> Отлично, Ваша задача имеет исполнителя! Если Вы с ним еще не связались, то скорее сделайте это! </span>
+			<p> Вот его имя и контакты: </p> <?= $arResult['CONTRACTOR']->getBUser()->getName()
+			. ' ' .
+			$arResult['CONTRACTOR']->getBUser()->getLastName() ?>
+			<p> <?= $arResult['CONTRACTOR']->getContacts() ?> </p>
+		</div>
+		<form class="create__form" action="/task/finish/" method="post">
+			<?= bitrix_sessid_post() ?>
+			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
+			<button class="createBtn" type="submit">Завершить задачу!</button>
+		</form>
+	<?php endif; ?>
+
+	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['done']): ?>
 		<p class="detail__feedback_title">Отзывы:</p>
-		<?php
-		if ($arResult['USER_FEEDBACK_FLAG']): ?>
+		<?php if (!$arResult['USER_SENT_FEEDBACK']): ?>
 			<form class="create__form" action="/feedback/create/" method="post">
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
-					<input name="toUserId" type="hidden" value="<?= $arResult['TASK']->GetId() ?>">
+					<input name="toUserId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
 					<input name="fromUserId" type="hidden" value="<?= $USER->GetID() ?>">
 					<input name="toUserId" type="hidden" value="<?= $USER->GetID() ?>">
 					<div class="rating-area">
-						<input type="radio" id="star-5" name="rating" value="5">
-						<label for="star-5" title="Оценка «5»"></label>
-						<input type="radio" id="star-4" name="rating" value="4">
-						<label for="star-4" title="Оценка «4»"></label>
-						<input type="radio" id="star-3" name="rating" value="3">
-						<label for="star-3" title="Оценка «3»"></label>
-						<input type="radio" id="star-2" name="rating" value="2">
-						<label for="star-2" title="Оценка «2»"></label>
-						<input type="radio" id="star-1" name="rating" value="1">
-						<label for="star-1" title="Оценка «1»"></label>
+						<?php for ($rating = 5; $rating > 0; $rating--): ?>
+							<input type="radio" id="star-<?= $rating ?>" name="rating" value="<?= $rating ?>">
+							<label for="star-<?= $rating ?>" title="Оценка «<?= $rating ?>»"></label>
+						<?php endfor; ?>
 					</div>
 					<label class="create__textareaLabel" for="taskDescription">Комментарий</label>
 					<textarea name="feedback" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
 				</div>
 				<button class="createBtn" type="submit">Оставить Отзыв</button>
 			</form>
-		<?php
-		endif;
-		foreach ($arResult['TASK']->getFeedbacks() as $feedback):?>
+		<?php endif; ?>
+		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<div class="detail__feedback">
-				<p><?= $feedback->getFromUser()->getBUser()->getName() . ' ' . $feedback->getFromUser()->getBUser()
-																						->getLastName() ?></p>
+				<p>
+					<?= $feedback->getFromUser()->getBUser()->getName()
+					. ' ' .
+					$feedback->getFromUser()->getBUser()->getLastName() ?>
+				</p>
 				<div class="rating-result">
-					<?php
-					for ($i = 1; $i <= 5; $i++)
-					{
-						if ($feedback->getRating() >= $i)
-						{ ?>
+					<?php for ($i = 1; $i <= 5; $i++): ?>
+						<?php if ($feedback->getRating() >= $i): ?>
 							<span class="active"></span>
-						<?php
-						}
-						else
-						{ ?>
+						<?php else : ?>
 							<span></span>
-						<?php
-						}
-					} ?>
+						<?php endif; ?>
+					<?php endfor; ?>
 				</div>
 				<p><?= $feedback->getFeedback() ?></p>
 			</div>
-		<?php
-		endforeach; ?>
-	<?php
-	endif; ?>
+		<?php endforeach; ?>
+	<?php endif; ?>
 
 </section>

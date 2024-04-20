@@ -14,8 +14,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 <section class="detail__footer">
 	<div class="detail__status">
-		<span> Эта задача уже имеет исполнителя </span>
-<!-- СДЕЛАТЬ ВЫВОД КОНТАКТОВ -->
-<!--		<p> --><?php //= $arResult['CONTACTS'] ?><!--</p>-->
+		<span> Эта задача уже выполняется им:  </span>
+		<p> Имя: <?= $arResult['CONTRACTOR']->getBUser()->getName() . ' ' .  $arResult['CONTRACTOR']->getBUser()->getLastName()?></p>
+		<p> Как связаться: <?= $arResult['CONTRACTOR']->getContacts() ?></p>
 	</div>
 </section>

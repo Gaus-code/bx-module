@@ -89,6 +89,12 @@ class UserTable extends DataManager
 					'title' => Loc::getMessage('USER_ENTITY_BIO_FIELD')
 				]
 			),
+			new TextField(
+				'CONTACTS',
+				[
+					'title' => Loc::getMessage('USER_ENTITY_CONTACTS_FIELD')
+				]
+			),
 			new DatetimeField(
 				'UPDATED_AT',
 				[

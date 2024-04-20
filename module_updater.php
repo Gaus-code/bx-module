@@ -101,3 +101,11 @@ __ukanMigrate(7, function($updater, $DB)
 					ADD COLUMN STATUS varchar(255) not null;');
 	}
 });
+
+__ukanMigrate(8, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query('ALTER TABLE up_ukan_user ADD COLUMN CONTACTS text not null;');
+	}
+});
