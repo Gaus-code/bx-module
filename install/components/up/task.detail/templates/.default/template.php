@@ -33,6 +33,7 @@ if ($arResult['TASK']): ?>
 				</div>
 			</section>
 
+			<?php if ($USER->IsAuthorized()): ?>
 			<?php $APPLICATION->IncludeComponent('up:task.detail.footer',
 												 ($arResult['USER_ACTIVITY']),
 												 [
@@ -41,6 +42,7 @@ if ($arResult['TASK']): ?>
 													'RESPONSE' => $arResult['RESPONSE'],
 												]);
 			?>
+			<?php endif; ?>
 		</div>
 		<div class="detail__metaContainer">
 			<section class="metaContainer__header">

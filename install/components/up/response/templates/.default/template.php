@@ -152,7 +152,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus()) ?> </p>
 								</div>
 							</a>
-							<?php if (($arParams['FILTER']) === \Up\Ukan\Service\Configuration::getOption('response_status')['wait']): ?>
+							<?php if (($arParams['FILTER']) === 'wait'): ?>
 								<div class="task__responseFooter">
 									<form action="/response/approve/" method="post">
 										<?= bitrix_sessid_post() ?>

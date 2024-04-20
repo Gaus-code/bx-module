@@ -11,11 +11,14 @@ class TaskDetailComponent extends CBitrixComponent
 
 	public function onPrepareComponentParams($arParams)
 	{
-		if (!isset($arParams['TASK_ID']) || $arParams['TASK_ID'] <= 0)
+		if (!request()->get('task_id') || (int)request()->get('task_id') <= 0)
 		{
 			$arParams['TASK_ID'] = null;
 		}
-
+		else
+		{
+			$arParams['TASK_ID'] = (int)request()->get('task_id');
+		}
 		return $arParams;
 	}
 	protected function fetchTask()
