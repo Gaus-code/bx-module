@@ -21,6 +21,7 @@ return array(
 		'reject' => 'Ваш отклик отклонен',
 		'new_feedback' => 'Новый отзыв',
 		'new_response' => 'Новый отклик',
+		'task_finished' => 'Задача выполена'
 	),
 	'response_status' => array(
 		'wait' => 'Ожидает',

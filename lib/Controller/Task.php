@@ -3,11 +3,13 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
+use Bitrix\Main\Type\DateTime;
 use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Service\Configuration;
+use Up\Ukan\Model\EO_Notification;
 
 class Task extends Controller
 {
@@ -158,6 +160,14 @@ class Task extends Controller
 			{
 				$task->setStatus(Configuration::getOption('task_status')['done']);
 				$task->save();
+
+				$notification = new EO_Notification();
+				$notification->setMessage(Configuration::getOption('notification_message')['task_finished'])
+							 ->setFromUserId($clientId)
+							 ->setToUserId($task->getContractorId())
+							 ->setTaskId($taskId)
+							 ->setCreatedAt(new DateTime());
+				$notification->save();
 			}
 
 			LocalRedirect("/task/$taskId/");
