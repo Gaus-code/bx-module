@@ -64,6 +64,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 		elseif ($this->arParams['TASK']->getStatus() === $this->arParams['TASK_STATUSES']['done'])
 		{
 			$this->setUserSentFeedback();
+			$this->fetchLeaveFeedbackForm();
 			$this->fillFeedbacks();
 		}
 	}
@@ -131,5 +132,25 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			$this->arResult['CONTRACTOR'] = $this->arParams['TASK']->getContractor();
 		}
 	}
+	private function fetchLeaveFeedbackForm()
+	{
+		if (!$this->arResult['USER_SENT_FEEDBACK'])
+		{
+			$fromUserId = $this->arParams['USER_ID'];
 
+			if ($this->arParams['USER_ACTIVITY']==='owner')
+			{
+				$toUserId=$this->arParams['TASK']->getContractorId();
+			}
+			elseif ($this->arParams['USER_ACTIVITY']==='contractor_this_task')
+			{
+				$toUserId=$this->arParams['TASK']->getClientId();
+			}
+
+			$this->arResult['LEAVE_FEEDBACK_FORM'] = [
+				"FROM_USER_ID"=>$fromUserId,
+				"TO_USER_ID"=>$toUserId,
+			];
+		}
+	}
 }

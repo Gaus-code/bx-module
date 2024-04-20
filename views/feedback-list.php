@@ -11,7 +11,7 @@ if (!$USER->IsAuthorized())
 	LocalRedirect('/sign-in');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:comment.list', '', [
+<?php $APPLICATION->IncludeComponent('up:feedback.list', '', [
 	'USER_ID' => (int)request()->get('user_id')
 ]); ?>
 

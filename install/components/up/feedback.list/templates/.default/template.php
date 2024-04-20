@@ -55,12 +55,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 										<p><?= $feedback->getRating() ?></p>
 									</div>
 								</div>
-								<p class="comment__body"><?= $feedback->getFeedback() ?></p>
+								<p class="comment__body"><?= $feedback->getComment() ?></p>
 								<div class="comment__footer">
 									<p class="comment__date"> <span>Опубликован:</span> <?= $feedback->getCreatedAt() ?></p>
 									<div class="comment__btnContainer">
-										<a href="/comment/<?= $feedback->getId() ?>/edit/">Редактировать</a>
-										<form method="post" action="/comment/delete">
+										<a href="/feedback/<?= $feedback->getId() ?>/edit/">Редактировать</a>
+										<form method="post" action="/feedback/delete/">
 											<?= bitrix_sessid_post() ?>
 											<input hidden="hidden" name="feedbackId" value="<?= $feedback->getId() ?>">
 											<button type="submit">Удалить</button>
@@ -85,7 +85,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<p><?= $feedback->getRating() ?></p>
 							</div>
 						</div>
-						<p class="comment__body"><?= $feedback->getFeedback() ?></p>
+						<p class="comment__body"><?= $feedback->getComment() ?></p>
 						<div class="comment__footer">
 							<p class="comment__date"> <span>Опубликован: </span><?= $feedback->getCreatedAt() ?></p>
 							<div class="comment__btnContainer">

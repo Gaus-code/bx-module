@@ -26,9 +26,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<form class="create__form" action="/feedback/create/" method="post">
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
-					<input name="toUserId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
-					<input name="fromUserId" type="hidden" value="<?= $USER->GetID() ?>">
-					<input name="toUserId" type="hidden" value="<?= $USER->GetID() ?>">
+					<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
+					<input name="toUserId" type="hidden" value="<?= $arResult['LEAVE_FEEDBACK_FORM']['TO_USER_ID'] ?>">
+					<input name="fromUserId" type="hidden" value="<?= $arResult['LEAVE_FEEDBACK_FORM']['FROM_USER_ID'] ?>">
 					<div class="rating-area">
 						<?php for ($rating = 5; $rating > 0; $rating--): ?>
 							<input type="radio" id="star-<?= $rating ?>" name="rating" value="<?= $rating ?>">
@@ -36,7 +36,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endfor; ?>
 					</div>
 					<label class="create__textareaLabel" for="taskDescription">Комментарий</label>
-					<textarea name="feedback" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+					<textarea name="comment" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
 				</div>
 				<button class="createBtn" type="submit">Оставить Отзыв</button>
 			</form>
@@ -57,7 +57,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endif; ?>
 					<?php endfor; ?>
 				</div>
-				<p><?= $feedback->getFeedback() ?></p>
+				<p><?= $feedback->getComment() ?></p>
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>

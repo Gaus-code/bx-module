@@ -11,8 +11,9 @@ if (!$USER->IsAuthorized())
 	LocalRedirect('/sign-in');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:comment.edit', '', [
-	'USER_ID' => (int)request()->get('user_id')
+<?php $APPLICATION->IncludeComponent('up:feedback.edit', '', [
+	'USER_ID' => (int)$USER->GetID(),
+	'FEEDBACK_ID' => (int)request()->get('feedback_id'),
 ]); ?>
 
 <?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

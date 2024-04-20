@@ -108,4 +108,15 @@ __ukanMigrate(8, function($updater, $DB)
 	{
 		$DB->query('ALTER TABLE up_ukan_user ADD COLUMN CONTACTS text not null;');
 	}
+
+});
+
+__ukanMigrate(9, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query('alter table up_ukan_feedback
+    change FEEDBACK COMMENT text null;');
+	};
+
 });

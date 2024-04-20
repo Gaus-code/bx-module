@@ -122,7 +122,7 @@ class Task extends Controller
 		global $USER;
 		if (check_bitrix_sessid())
 		{
-			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->fetchObject();
+			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->where('ID', $taskId)->fetchObject();
 			$tags = $task->getTags();
 			$responses=$task->getResponses();
 
