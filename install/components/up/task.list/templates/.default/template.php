@@ -9,11 +9,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-foreach ($arResult['TASKS'] as $task)
-{
-	var_dump($task->getClient()->get('SUBSCRIPTION_STATUS'));
-}
-
 ?>
 
 <form method="get" class="searchForm">
