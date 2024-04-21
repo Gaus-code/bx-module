@@ -43,24 +43,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Контейнер для активных проектов юзера !-->
 			<div id="active-reviews" class="projects__list tab__container">
-				<?php if (count($arResult['PROJECTS']) > 0): ?>
+				<?php if (count($arResult['AT_WORK_PROJECTS']) > 0): ?>
 				<table id="projectsTable">
 					<thead>
 						<tr>
 							<th>Название проекта</th>
+							<th>Описание</th>
 							<th>Дата создания</th>
-							<th>Количество задач</th>
-							<th>Количество исполнителей</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($arResult['PROJECTS'] as $project): ?>
+					<?php foreach ($arResult['AT_WORK_PROJECTS'] as $project): ?>
 						<tr>
 							<td data-label="Название проекта"><?=htmlspecialcharsbx($project->getTitle())  ?></td>
-							<td data-label="Дата создания"><?= $project->getCreatedAt() ?></td>
-							<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
-							<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
+							<td data-label="Описание"><?= $project->getDescription() ?></td>
+							<td data-label="Дата создания"><?= $project->getCreatedAt()->format('d.m.Y') ?></td>
 							<td data-label="Редактировать">
 								<a class="editProject" href="/project/<?= $project->getId() ?>/">Редактировать проект</a>
 							</td>
@@ -85,27 +83,27 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Контейнер для завершенных проектов юзера !-->
 			<div id="done-reviews" class="projects__doneList tab__container">
-				<?php if (count($arResult['PROJECTS']) > 0): ?>
+				<?php if (count($arResult['DONE_PROJECTS']) > 0): ?>
 					<table id="projectsTable">
 						<thead>
 						<tr>
 							<th>Название проекта</th>
+							<th>Описание</th>
 							<th>Дата создания</th>
-							<th>Количество задач</th>
-							<th>Количество исполнителей</th>
 							<th></th>
 						</tr>
 						</thead>
 						<tbody>
+						<?php foreach ($arResult['DONE_PROJECTS'] as $project): ?>
 							<tr>
-								<td data-label="Название проекта">HARDCODE!!!</td>
-								<td data-label="Дата создания">HARDCODE!!!</td>
-								<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
-								<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
+								<td data-label="Название проекта"><?=htmlspecialcharsbx($project->getTitle())  ?></td>
+								<td data-label="Описание"><?= $project->getDescription() ?></td>
+								<td data-label="Дата создания"><?= $project->getCreatedAt()->format('d.m.Y') ?></td>
 								<td data-label="Редактировать">
-									<a class="editProject" href="/project/HARDCODE!!!/">Редактировать проект</a>
+									<a class="editProject" href="/project/<?= $project->getId() ?>/">Редактировать проект</a>
 								</td>
 							</tr>
+						<?php endforeach; ?>
 						</tbody>
 					</table>
 					<?php

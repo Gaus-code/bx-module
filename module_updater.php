@@ -133,3 +133,13 @@ __ukanMigrate(10, function($updater, $DB)
 	};
 
 });
+
+__ukanMigrate(11, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_project'))
+	{
+		$DB->query('alter table up_ukan_project
+    add STATUS varchar(255) not null;');
+	};
+
+});

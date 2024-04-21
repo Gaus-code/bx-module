@@ -4,7 +4,8 @@ class UserProjectsComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->fetchProjects();
+		$this->fetchAtWorkProjects();
+		$this->fetchDoneProjects();
 		$this->includeComponentTemplate();
 	}
 
@@ -29,25 +30,22 @@ class UserProjectsComponent extends CBitrixComponent
 		return $arParams;
 	}
 
-	private function fetchProjects()
+	private function fetchAtWorkProjects()
 	{
 		$nav = new \Bitrix\Main\UI\PageNavigation("project.list");
 		$nav->allowAllRecords(true)
-			->setPageSize(7); //TODO remove hardcode
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['projects_list']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
-		global $USER;
-		$clientId = $USER->GetID();
 
 		$query = \Up\Ukan\Model\ProjectTable::query();
 
-		$query->setSelect(['*', 'CLIENT']);
-
-		$query->where('CLIENT_ID', $clientId);
-
-		$query->addOrder('CREATED_AT', 'DESC');
-		$query->setLimit($nav->getLimit() + 1);
-		$query->setOffset($nav->getOffset());
+		$query->setSelect(['*'])
+			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('project_status')['at_work'])
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset());
 
 		$result = $query->fetchCollection();
 		$nav->setRecordCount($nav->getOffset() + count($result));
@@ -63,6 +61,41 @@ class UserProjectsComponent extends CBitrixComponent
 			$this->arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
-		$this->arResult['PROJECTS'] = $arrayOfProjects;
+		$this->arResult['AT_WORK_PROJECTS'] = $arrayOfProjects;
+	}
+
+	private function fetchDoneProjects()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("project.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['projects_list']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+
+		$query = \Up\Ukan\Model\ProjectTable::query();
+
+		$query->setSelect(['*'])
+			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('project_status')['done'])
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset());
+
+		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
+
+		$arrayOfProjects = $result->getAll();
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($arrayOfProjects);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['DONE_PROJECTS'] = $arrayOfProjects;
+
 	}
 }

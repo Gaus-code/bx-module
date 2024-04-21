@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_project`
 	`TITLE`       varchar(255)       NOT NULL,
 	`DESCRIPTION` text               NOT NULL,
 	`CLIENT_ID`   int                NOT NULL,
+	`STATUS`       varchar(255)       NOT NULL,
 	`CREATED_AT`  datetime,
 	`UPDATED_AT`  datetime,
 	PRIMARY KEY (
