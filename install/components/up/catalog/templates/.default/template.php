@@ -33,18 +33,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</form>
 	</aside>
 	<section class="catalog__main">
-		<div class="catalog__header">
-			<h1>Рекомендованные вакансии <span>369</span></h1>
-
-			<select name="sortBy" class="catalog__sort">
-				<option value="all">Все</option>
-				<option value="new">Сначала новые</option>
-				<option value="old">Сначала старые</option>
-				<option value="low">Сначала высокая цена</option>
-				<option value="high">Сначала низкая цена</option>
-			</select>
-		</div>
-
 		<?php $APPLICATION->IncludeComponent('up:task.list', '', [
 			'CLIENT_ID' => (int)request()->get('user_id'),
 		]);

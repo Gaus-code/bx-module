@@ -9,6 +9,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
+foreach ($arResult['TASKS'] as $task)
+{
+	var_dump($task->getClient()->get('SUBSCRIPTION_STATUS'));
+}
+
 ?>
 
 <form method="get" class="searchForm">
@@ -20,7 +25,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <div class="content__main">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<?php foreach ($arResult['TASKS'] as $task): ?>
-			<?php if($task->getClient()->getSubscriptionEndDate() !== null):?>
+			<?php if($task->getClient()->getSubscriptionEndDate() >= date("Y-m-d")):?>
 			<div class="task subscriberTask">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/catalogCrown.svg" alt="star image" class="subscriberStar">
 			<?php else:?>

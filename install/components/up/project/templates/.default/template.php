@@ -33,6 +33,31 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="content__userProject">
 			<article class="content__editProject">
+
+
+
+			</article>
+			<article class="content__tagButtons">
+				<div class="content__header">
+					<ul class="content__tagList">
+						<li id="edit-btn" class="content__tagItem">
+							Редактировать заявки в проекте
+						</li>
+						<li id="addTask-btn" class="content__tagItem">
+							Добавить существующую заявку
+						</li>
+						<li id="createTask-btn" class="content__tagItem active-tag-item">
+							Создать заявку
+						</li>
+						<li id="delete-btn" class="content__tagItem">
+							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
+							Удалить проект
+						</li>
+					</ul>
+				</div>
+			</article>
+			<!-- Контейнер для редактирования проекта !-->
+			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
 				<form action="/project/update/" method="post" class="editProject__form">
 					<?= bitrix_sessid_post() ?>
 					<input type="hidden" name="projectId" value='<?=$arParams['PROJECT_ID']?>'>
@@ -63,81 +88,54 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						</div>
 						<div class="tbl-content">
 							<?php if (count($arParams['PROJECT']->getTasks()) > 0): ?>
-							<table>
-								<tbody>
-								<?php
-								foreach ($arParams['PROJECT']->getTasks() as $task)
-								{
-									?>
-									<tr>
-										<td>
-											<input class="withoutPriority" type="checkbox" name="withoutPriorityFlags[<?=$task->getId()?>]" value="on" <?php if ($task->getProjectPriority()==0) { echo "checked";}?>>
-										</td>
-										<td>
-											<input class="editTaskPriority" type="number" min="1" name="priorityNumbers[<?=$task->getId()?>]" value="<?=$task->getProjectPriority()?>">
-										</td>
-
-										<td><?=htmlspecialcharsbx($task->getTitle())  ?></td>
-
-										<?php
-										if ($task->getContractor() !== null)
-										{
-											?>
-											<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
-											<?php
-										}
-										else
-										{ ?>
-											<td> Исполнителя нет</td> <?php
-										}
-										?>
-										<td><?= $task->getStatus() ?></td>
-										<td><?= $task->getUpdatedAt() ?></td>
-										<td>
-											<input class="deleteTask" type="checkbox" name="deleteTaskFlags[<?=$task->getId()?>]">
-										</td>
-									</tr>
+								<table>
+									<tbody>
 									<?php
-								} ?>
-								</tbody>
-							</table>
+									foreach ($arParams['PROJECT']->getTasks() as $task)
+									{
+										?>
+										<tr>
+											<td>
+												<input class="withoutPriority" type="checkbox" name="withoutPriorityFlags[<?=$task->getId()?>]" value="on" <?php if ($task->getProjectPriority()==0) { echo "checked";}?>>
+											</td>
+											<td>
+												<input class="editTaskPriority" type="number" min="1" name="priorityNumbers[<?=$task->getId()?>]" value="<?=$task->getProjectPriority()?>">
+											</td>
+
+											<td><?=htmlspecialcharsbx($task->getTitle())  ?></td>
+
+											<?php
+											if ($task->getContractor() !== null)
+											{
+												?>
+												<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
+												<?php
+											}
+											else
+											{ ?>
+												<td> Исполнителя нет</td> <?php
+											}
+											?>
+											<td><?= $task->getStatus() ?></td>
+											<td><?= $task->getUpdatedAt() ?></td>
+											<td>
+												<input class="deleteTask" type="checkbox" name="deleteTaskFlags[<?=$task->getId()?>]">
+											</td>
+										</tr>
+										<?php
+									} ?>
+									</tbody>
+								</table>
 							<?php else: ?>
-							<p id="noTasks">у вас пока нет заявок в проекте</p>
+								<p id="noTasks">у вас пока нет заявок в проекте</p>
 							<?php endif; ?>
 						</div>
 					</div>
 					<button class="createBtn" type="submit">Сохранить Изменения</button>
 				</form>
-			</article>
-			<article class="content__tagButtons">
-				<div class="content__header">
-					<ul class="content__tagList">
-						<li id="createTask-btn" class="content__tagItem active-tag-item">
-							Создать заявку
-						</li>
-						<li id="addTask-btn" class="content__tagItem active-tag-item">
-							Добавить существующую заявку
-						</li>
-						<li id="edit-btn" class="content__tagItem">
-							Редактировать заявки в проекте
-						</li>
-						<li id="delete-btn" class="content__tagItem">
-							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
-							Удалить проект
-						</li>
-					</ul>
-				</div>
-			</article>
-			<!-- Контейнер для создания заявки сразу в проекте!-->
-			<div id="createTask-reviews" class="content__priorityContainer tab__container">
-				<form action="" method="post" class="createTask__form">
-					<input type="text" placeholder="название заявки">
-					<input type="text" placeholder="описание заявки">
-					<button type="submit">Создать заявку</button>
-				</form>
 			</div>
 			<!-- Контейнер для добавления существующей заявки !-->
-			<div id="addTask-reviews" class="content__priorityContainer tab__container">
+			<div id="addTask-reviews" class="content__nonPriorityContainer tab__container">
 				<form action="" method="post" class="addTask__form">
 					<fieldset>
 						<legend>Выберите заявки для добавления в проект</legend>
@@ -157,9 +155,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<button type="submit">Добавить заявки</button>
 				</form>
 			</div>
-			<!-- Контейнер для редактирования проекта !-->
-			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
-				<h4>тут нужен какой-то drag&drop, либо он будет сверху и эту вкладку удалят</h4>
+			<!-- Контейнер для создания заявки сразу в проекте!-->
+			<div id="createTask-reviews" class="content__priorityContainer tab__container">
+				<form action="" method="post" class="createTask__form">
+					<input type="text" placeholder="название заявки">
+					<input type="text" placeholder="описание заявки">
+					<button type="submit">Создать заявку</button>
+				</form>
 			</div>
 			<!-- Контейнер для удаления проекта(работает!) !-->
 			<div id="delete-reviews" class="content__nonPriorityContainer tab__container">
