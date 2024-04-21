@@ -11,5 +11,5 @@ if (!$USER->IsAuthorized())
 }
 ?>
 <?php $APPLICATION->IncludeComponent('up:user', '', [
-	'USER_ID' => (int)$USER->GetID()
+	'USER_ID' => (int)request()->get('user_id'),
 ]); ?>

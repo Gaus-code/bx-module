@@ -10,6 +10,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\DateField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Fields\ExpressionField;
+use Bitrix\Main\ORM\Fields\FloatField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
@@ -103,6 +104,22 @@ class UserTable extends DataManager
 					'default_value' => function () {
 						return new DateTime();
 					}
+				]
+			),
+			new FloatField(
+				'RATING',
+				[
+					'required' => true,
+					'title' => Loc::getMessage('USER_ENTITY_RATING_FIELD'),
+					'default_value'=>0,
+				]
+			),
+			new IntegerField(
+				'FEEDBACK_COUNT',
+				[
+					'required' => true,
+					'title' => Loc::getMessage('USER_ENTITY_FEEDBACK_COUNT_FIELD'),
+					'default_value'=>0,
 				]
 			),
 			new ExpressionField(

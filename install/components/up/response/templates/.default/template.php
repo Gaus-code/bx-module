@@ -13,7 +13,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 <main class="profile__main">
 	<?php
-	$APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	$APPLICATION->IncludeComponent('up:user.aside', '', [
+		'USER_ID' => $arParams['USER_ID'],
+	]); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
@@ -66,17 +68,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task__header">
 									<?php
 									foreach ($response->getTask()->getTags() as $tag): ?>
-										<p class="task__tag"><?= $tag->getTitle() ?></p>
+										<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 									<?php
 									endforeach; ?>
 								</div>
 								<div class="task__responseMain">
-									<h3 class="task__responseTitle"><?= $response->getTask()->getTitle() ?></h3>
+									<h3 class="task__responseTitle"><?= htmlspecialcharsbx($response->getTask()->getTitle()) ?></h3>
 									<p class="task__responseCreated">
 										<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
 									<p class="task__responseCreated"><span>Ваша цена:</span> <?= $response->getPrice() ?> </p>
 									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()->getProject())
-											? $response->getTask()->getProject()->getTitle() : 'Без проекта' ?> </p>
+											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle()) : 'Без проекта' ?> </p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
 										)) ?> </p>
 								</div>
@@ -131,24 +133,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task__header">
 									<?php
 									foreach ($response->getTask()->getTags() as $tag): ?>
-										<p class="task__tag"><?= $tag->getTitle() ?></p>
+										<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle() )?></p>
 									<?php
 									endforeach; ?>
 								</div>
 								<div class="task__responseMain">
-									<h3 class="task__responseTitle"><?= $response->getTask()->getTitle() ?></h3>
+									<h3 class="task__responseTitle"><?=htmlspecialcharsbx($response->getTask()->getTitle())  ?></h3>
 									<p class="task__responseCreated">
 										<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
 									<p class="task__responseCreated">
 										<span>Предложенная цена:</span> <?= $response->getPrice() ?> </p>
 									<p class="task__responseCreated">
-										<span>Исполнитель:</span> <?= $response->getContractor()->getBUser()->getName()
-										. ' ' . $response->getContractor()->getBUser()->getLastName() ?> </p>
+										<span>Исполнитель:</span> <?= htmlspecialcharsbx($response->getContractor()->getBUser()->getName()
+																						 . ' ' . $response->getContractor()->getBUser()->getLastName()) ?> </p>
 									<p class="task__responseCreated">
-										<span>Сопроводительное письмо:</span> <?= $response->getDescription() ?> </p>
+										<span>Сопроводительное письмо:</span> <?= htmlspecialcharsbx($response->getDescription()) ?> </p>
 									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
 																										->getProject())
-											? $response->getTask()->getProject()->getTitle() : 'Без проекта' ?> </p>
+											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle()) : 'Без проекта' ?> </p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus()) ?> </p>
 								</div>
 							</a>

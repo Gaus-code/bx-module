@@ -19,6 +19,10 @@ class TaskListComponent extends CBitrixComponent
 		{
 			$arParams['CURRENT_PAGE'] = (int)request()->get('PAGEN_1');
 		}
+		if (!isset($arParams['USER_ID']) || $arParams['USER_ID'] <= 0)
+		{
+			$arParams['USER_ID'] = null;
+		}
 
 		if (!isset($arParams['IS_PERSONAL_ACCOUNT_PAGE']))
 		{
@@ -45,9 +49,7 @@ class TaskListComponent extends CBitrixComponent
 
 		if ($this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
-			global $USER;
-			$userId = $USER->getId();
-			$query->where('CLIENT_ID', $userId);
+			$query->where('CLIENT_ID', $this->arParams['USER_ID']);
 		}
 		else
 		{

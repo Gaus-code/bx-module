@@ -15,18 +15,18 @@ if ($arResult['TASK']): ?>
 	<main class="detail wrapper">
 		<div class="detail__mainContainer">
 			<section class="detail__header">
-				<h1><?= $arResult['TASK']->getTitle() ?></h1>
+				<h1><?= htmlspecialcharsbx($arResult['TASK']->getTitle()) ?></h1>
 				<div class="detail__tags">
 					<?php
 					foreach ($arResult['TASK']->getTags() as $tag): ?>
-						<p class="task__tag"><?= $tag->getTitle() ?></p>
+						<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 					<?php
 					endforeach; ?>
 				</div>
 			</section>
 			<section class="detail__main">
 				<div class="detail__description">
-					<?= $arResult['TASK']->getDescription() ?>
+					<?= htmlspecialcharsbx($arResult['TASK']->getDescription()) ?>
 				</div>
 				<div class="detail__container">
 					<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
@@ -57,9 +57,9 @@ if ($arResult['TASK']): ?>
 					<li class="metaContainer__item">
 						<p class="metaContainer__info">
 							<span>Заказчик:</span>
-							<?= $arResult['TASK']->getClient()->get('B_USER')->getName()
-							. ' '
-							. $arResult['TASK']->getClient()->get('B_USER')->getLastName() ?>
+							<?= htmlspecialcharsbx($arResult['TASK']->getClient()->get('B_USER')->getName()
+												   . ' '
+												   . $arResult['TASK']->getClient()->get('B_USER')->getLastName()) ?>
 						</p>
 					</li>
 				</ul>

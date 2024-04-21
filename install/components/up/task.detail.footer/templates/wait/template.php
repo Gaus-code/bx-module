@@ -14,7 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<div class="detail__status">
 		<span> Заказчик этой задачи уже получил уведомление, ждите его решения! </span>
 		<p><span> Ваше отправленное письмо: </span></p>
-		<p> <?= $arParams['RESPONSE']->getDescription() ?> </p>
+		<p> <?=htmlspecialcharsbx($arParams['RESPONSE']->getDescription())  ?> </p>
 	</div>
 	<form action="/response/delete/" method="post">
 		<?= bitrix_sessid_post() ?>

@@ -4,6 +4,7 @@ class CommentListComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchUserActivity();
 		$this->fetchSentFeedbacks();
 		$this->fetchReceiveFeedbacks();
 		$this->fetchFinishedTaskWithoutFeedback();
@@ -12,8 +13,10 @@ class CommentListComponent extends CBitrixComponent
 
 	public function onPrepareComponentParams($arParams)
 	{
-		global $USER;
-		$arParams['USER_ID'] = (int)$USER->GetID();
+		if (!isset($arParams['USER_ID']) || $arParams['USER_ID'] <= 0)
+		{
+			$arParams['USER_ID'] = null;
+		}
 
 		return $arParams;
 	}
@@ -59,5 +62,21 @@ class CommentListComponent extends CBitrixComponent
 
 		$this->arResult['TASKS_WITHOUT_FEEDBACKS'] = $finishedTask;
 
+	}
+
+	protected function fetchUserActivity()
+	{
+		global $USER;
+		$userId = (int)$USER->getId();
+
+
+		if ($this->arParams['USER_ID'] === $userId)
+		{
+			$this->arResult['USER_ACTIVITY'] = 'owner';
+		}
+		else
+		{
+			$this->arResult['USER_ACTIVITY'] = 'other_user';
+		}
 	}
 }

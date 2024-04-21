@@ -8,6 +8,8 @@ if (!$USER->IsAuthorized())
 }
 ?>
 
-<?php $APPLICATION->IncludeComponent('up:project.create', '', []); ?>
+<?php $APPLICATION->IncludeComponent('up:project.create', '', [
+	'USER_ID' => (int)$USER->GetID(),
+]); ?>
 
 <?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

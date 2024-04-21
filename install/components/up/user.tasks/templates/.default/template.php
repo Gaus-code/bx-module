@@ -13,8 +13,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <main class="profile__main">
-	<?php $APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	<?php $APPLICATION->IncludeComponent('up:user.aside', '', [
+		'USER_ID' => $arParams['USER_ID'],
+	]); ?>
 	<section class="content">
+		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 		<article class="content__header">
 			<h1>Рабочая область</h1>
 			<button type="button" class="plus-link">
@@ -25,8 +28,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<a href="/task/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
+		<?php endif;?>
 		<article class="content__name">
-			<h2 class="content__tittle">Ваши Заявки</h2>
+			<h2 class="content__tittle">Заявки</h2>
 		</article>
 		<article class="content__tasks">
 			<div class="content__header">
@@ -34,9 +38,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<li id="open-btn" class="content__tagItem active-tag-item">
 						Открытые
 					</li>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 					<li id="inProgress-btn" class="content__tagItem">
 						В работе
 					</li>
+					<?php endif; ?>
 					<li id="doneTask-btn" class="content__tagItem">
 						Завершенные
 					</li>
@@ -44,8 +50,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 			<?php $APPLICATION->IncludeComponent('up:task.list', 'user', [
-				'CLIENT_ID' => (int)request()->get('user_id'),
-				'TAG_ID' => (int)request()->get('tag_id'),
+				'USER_ID' => $arParams['USER_ID'],
 				'IS_PERSONAL_ACCOUNT_PAGE' => true,
 			]);
 			?>

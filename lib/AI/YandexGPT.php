@@ -8,6 +8,26 @@ use Up\Ukan\Service\Configuration;
 
 class YandexGPT
 {
+	public static function censorshipCheck(string $text)
+	{
+		$messages = [
+			[
+				"role" => "system",
+				"text" => "Далее ты получишь текст. 
+				Его нужно проверить на цензуру. 
+				Если текст проходит цензуру напиши  \"true\", иначе напиши \"false\".",
+			],
+			[
+				"role" => "user",
+				"text" => "Текст: \"{$text}\"",
+			],
+		];
+
+		$response = self::getResponse($messages);
+		$responseMessageText = self::getMessageTextFromResponse($response);
+
+		return $responseMessageText === 'true';
+	}
 	public static function getTagsByTaskDescription(string $taskDescription)
 	{
 

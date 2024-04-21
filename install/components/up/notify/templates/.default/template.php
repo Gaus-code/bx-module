@@ -12,7 +12,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 ?>
 <main class="profile__main">
-	<?php $APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	<?php $APPLICATION->IncludeComponent('up:user.aside', '', [
+		'USER_ID' => $arParams['USER_ID'],
+	]); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
@@ -37,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="userInfo">
 									<p class="userInfo__name">
 										<a href="/profile/<?=$notification->getFromUserId()?>/">
-											<?= htmlspecialchars($notification->getFromUser()->fillBUser()->getName() . ' ' . $notification->getFromUser()->fillBUser()->getLastName()) ?>
+											<?= htmlspecialcharsbx($notification->getFromUser()->fillBUser()->getName() . ' ' . $notification->getFromUser()->fillBUser()->getLastName()) ?>
 										</a>
 									</p>
 								</div>
@@ -45,7 +47,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="notify__profile">
 								<p><?=$notification->getMessage()?></p>
 							</div>
-							<div class="notify__title"><span>Заявка:</span> <?= $notification->getTask()->getTitle() ?></div>
+							<div class="notify__title"><span>Заявка:</span> <?=htmlspecialcharsbx($notification->getTask()->getTitle())  ?></div>
 							<div class="notify__buttons">
 								<a class="notify__accept" href="/task/<?= $notification->getTask()->getId() ?>/">Посмотреть</a>
 								<form action="/notification/delete/" method="post">

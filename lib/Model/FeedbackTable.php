@@ -8,6 +8,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\TextField;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
+use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
 
@@ -21,7 +22,7 @@ Loc::loadMessages(__FILE__);
  * <li> FROM_USER_ID int mandatory
  * <li> TO_USER_ID int mandatory
  * <li> TASK_ID int mandatory
- * <li> FEEDBACK text optional
+ * <li> COMMENT text optional
  * <li> CREATED_AT datetime mandatory
  * </ul>
  *
@@ -100,16 +101,19 @@ class FeedbackTable extends DataManager
 				Join::on('this.TASK_ID', 'ref.ID')
 			),
 			new TextField(
-				'FEEDBACK',
+				'COMMENT',
 				[
-					'title' => Loc::getMessage('FEEDBACK_ENTITY_FEEDBACK_FIELD')
+					'title' => Loc::getMessage('FEEDBACK_ENTITY_COMMENT_FIELD')
 				]
 			),
 			new DatetimeField(
 				'CREATED_AT',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('FEEDBACK_ENTITY_CREATED_AT_FIELD')
+					'title' => Loc::getMessage('FEEDBACK_ENTITY_CREATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 		];

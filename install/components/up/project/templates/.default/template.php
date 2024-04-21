@@ -14,7 +14,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 <main class="profile__main">
 	<?php
-	$APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	$APPLICATION->IncludeComponent('up:user.aside', '', [
+		'USER_ID' => $arParams['USER_ID'],
+	]); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
@@ -31,11 +33,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="content__userProject">
 			<div class="userProject__title">
-				<h2><?= $arParams['PROJECT']->getTitle() ?></h2>
+				<h2><?= htmlspecialcharsbx($arParams['PROJECT']->getTitle()) ?></h2>
 			</div>
 			<div class="userProject__main">
 				<p class="userProject__description">
-					<?= $arParams['PROJECT']->getDescription() ?>
+					<?=htmlspecialcharsbx($arParams['PROJECT']->getDescription())  ?>
 				</p>
 			</div>
 			<div class="userProject__btnContainer">
@@ -77,14 +79,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							?>
 							<tr>
 								<td><?= $task->getProjectPriority() ?></td>
-								<td><?= $task->getTitle() ?></td>
+								<td><?= htmlspecialcharsbx($task->getTitle()) ?></td>
 
 
 								<?php
 								if ($task->getContractor() !== null)
 								{
 									?>
-									<td><?= $task->getContractor()->getBUser()->getName() ?></td>
+									<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
 									<?php
 								}
 								else

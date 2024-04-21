@@ -24,7 +24,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php else: ?>
 						<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>">
 						<?php endif;?>
-						<label class="filter__label"><?=$tag->getTitle()?></label>
+						<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
 					</li>
 				<?php endforeach; ?>
 			</ul>

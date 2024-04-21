@@ -13,7 +13,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 ?>
 <main class="profile__main">
-	<?php $APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	<?php $APPLICATION->IncludeComponent('up:user.aside', '', [
+		'USER_ID' => $arParams['USER_ID'],
+	]); ?>
 	<section class="content">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
@@ -32,8 +34,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<form action="/project/update/" method="post" class="create__form">
 				<?= bitrix_sessid_post() ?>
 				<input type="hidden" name="projectId" value='<?=$arParams['PROJECT_ID']?>'>
-				<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="<?=$arParams['PROJECT']->getTitle()?>" required>
-				<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="<?=$arParams['PROJECT']->getDescription()?>" required>
+				<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="<?=htmlspecialcharsbx($arParams['PROJECT']->getTitle())?>" required>
+				<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="<?=htmlspecialcharsbx($arParams['PROJECT']->getDescription())?>" required>
 				<div class="content__projectEditContainer">
 					<h2>Редактируйте заявки в проекте</h2>
 					<div class="tbl-header">
@@ -66,13 +68,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 										<input class="editTaskPriority" type="number" min="1" name="priorityNumbers[<?=$task->getId()?>]" value="<?=$task->getProjectPriority()?>">
 									</td>
 
-									<td><?= $task->getTitle() ?></td>
+									<td><?=htmlspecialcharsbx($task->getTitle())  ?></td>
 
 									<?php
 									if ($task->getContractor() !== null)
 									{
 										?>
-										<td><?= $task->getContractor()->getBUser()->getName() ?></td>
+										<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
 										<?php
 									}
 									else

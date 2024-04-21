@@ -87,33 +87,42 @@ class Task extends Controller
 				LocalRedirect("/task/".$clientId."/create/");
 			}
 
-			$task = TaskTable::getById($taskId)->fetchObject();
+			$task = TaskTable::query()
+							 ->setSelect(['*'])
+							 ->where('CLIENT_ID', $clientId)
+							 ->where('ID', $taskId)
+							 ->fetchObject();
 
-			$task->setTitle($title)->setMaxPrice($maxPrice)->setDescription($description);
-
-			if ($useGPT)
+			if ($task)
 			{
-				$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
-			}
-			else
-			{
-				$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+				$task->setTitle($title)->setMaxPrice($maxPrice)->setDescription($description);
+
+				if ($useGPT)
+				{
+					$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
+				}
+				else
+				{
+					$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+				}
+
+				$task->removeAllTags();
+				foreach ($tags as $tag)
+				{
+					$task->addToTags($tag);
+				}
+
+				if (isset($projectId))
+				{
+					$task->setProjectId($projectId);
+				}
+
+				$task->save();
+
+				LocalRedirect("/task/".$task->getId()."/");
 			}
 
-			$task->removeAllTags();
-			foreach ($tags as $tag)
-			{
-				$task->addToTags($tag);
-			}
-
-			if (isset($projectId))
-			{
-				$task->setProjectId($projectId);
-			}
-
-			$task->save();
-
-			LocalRedirect("/task/".$task->getId()."/");
+			LocalRedirect("/404/");
 		}
 	}
 
@@ -122,7 +131,7 @@ class Task extends Controller
 		global $USER;
 		if (check_bitrix_sessid())
 		{
-			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->fetchObject();
+			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->where('ID', $taskId)->fetchObject();
 			$tags = $task->getTags();
 			$responses=$task->getResponses();
 
