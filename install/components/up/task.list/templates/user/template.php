@@ -9,11 +9,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
 ?>
 <!-- Открытые заявки без исполнителя(УДАЛИ потом этот коммент) !-->
 <div id="open-reviews" class="content__tableTask tab__container">
-	<?php if (count($arResult['TASKS']) > 0): ?>
+	<?php if (count($arResult['OPEN_TASKS']) > 0): ?>
 	<table id="taskTable">
 		<thead>
 		<tr>
@@ -22,22 +21,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<th>Дата создания заявки</th>
 			<th>Исполнитель</th>
 			<th>Статус</th>
-			<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+			<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
 			<th></th>
 			<?php endif;?>
 		</tr>
 		</thead>
 			<tbody>
-			<?php foreach ($arResult['TASKS'] as $task): ?>
+			<?php foreach ($arResult['OPEN_TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<?= htmlspecialcharsbx($task->getTitle()) ?>
+						<a href="/task/<?= $task->getId() ?>/">
+							<?= htmlspecialcharsbx($task->getTitle()) ?>
+						</a>
 					</td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>В поиске исполнителя</td>
 					<td><?= $task->getStatus() ?></td>
-					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+					<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
@@ -62,9 +63,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	?>
 </div>
 <!-- Заявки с исполнителем(УДАЛИ потом этот коммент) !-->
-<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
 <div id="inProgress-reviews" class="content__tableTask tab__container">
-	<?php if (count($arResult['TASKS']) > 0): ?>
+	<?php if (count($arResult['AT_WORK_TASKS']) > 0): ?>
 		<table id="taskTable">
 			<thead>
 			<tr>
@@ -77,18 +78,26 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($arResult['TASKS'] as $task): ?>
+			<?php foreach ($arResult['AT_WORK_TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<?= htmlspecialcharsbx($task->getTitle()) ?>
+						<a href="/task/<?= $task->getId() ?>/">
+							<?= htmlspecialcharsbx($task->getTitle()) ?>
+						</a>
 					</td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
-					<td>CONTRACTOR HARDCODE!!!</td>
+					<td>
+						<a href="/profile/<?= $task->getContractorId() ?>/">
+							<?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()
+												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
+						</a>
+					</td>
 					<td><?= $task->getStatus() ?></td>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
+
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
@@ -111,7 +120,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <?php endif;?>
 <!-- Завершенные заявки(УДАЛИ потом этот коммент) !-->
 <div id="doneTask-reviews" class="content__tableTask tab__container">
-	<?php if (count($arResult['TASKS']) > 0): ?>
+	<?php if (count($arResult['DONE_TASKS']) > 0): ?>
 		<table id="taskTable">
 			<thead>
 			<tr>
@@ -123,15 +132,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($arResult['TASKS'] as $task): ?>
+			<?php foreach ($arResult['DONE_TASKS'] as $task): ?>
 				<tr>
 					<td>
-						TITLE HARDCODE!!!
+						<a href="/task/<?= $task->getId() ?>/">
+							<?= htmlspecialcharsbx($task->getTitle()) ?>
+						</a>
 					</td>
-					<td>DESCRIPTION HARDCODE!!!</td>
-					<td>DATE HARDCODE!!!</td>
-					<td>CONTRACTOR HARDCODE!!!</td>
-					<td>Завершена</td>
+					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
+					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
+					<td>
+						<a href="/profile/<?= $task->getContractorId() ?>/">
+							<?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()
+												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
+						</a>
+					</td>
+					<td><?= $task->getStatus() ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

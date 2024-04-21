@@ -59,7 +59,7 @@ class UserResponseComponent extends CBitrixComponent
 	{
 		$nav = new \Bitrix\Main\UI\PageNavigation("response");
 		$nav->allowAllRecords(true)
-			->setPageSize(6); //TODO remove hardcode
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['responses_list']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		global $USER;

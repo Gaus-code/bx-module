@@ -52,6 +52,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php $APPLICATION->IncludeComponent('up:task.list', 'user', [
 				'USER_ID' => $arParams['USER_ID'],
 				'IS_PERSONAL_ACCOUNT_PAGE' => true,
+				'USER_ACTIVITY' => $arResult['USER_ACTIVITY'],
 			]);
 			?>
 

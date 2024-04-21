@@ -6,17 +6,7 @@ use Up\Ukan\Model\NotificationTable;
 
 class Notification extends Engine\Controller
 {
-	public function createAction(
-
-	)
-	{
-
-		if (check_bitrix_sessid())
-		{
-			//TODO
-		}
-	}
-
+	
 	public function deleteAction(int $notificationId)
 	{
 		if (check_bitrix_sessid())

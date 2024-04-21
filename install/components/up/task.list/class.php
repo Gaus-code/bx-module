@@ -29,6 +29,7 @@ class TaskListComponent extends CBitrixComponent
 			$arParams['IS_PERSONAL_ACCOUNT_PAGE'] = false;
 		}
 
+
 		$arParams['TAGS_ID'] = request()->get('tags');
 		$arParams['SEARCH'] = request()->get('q');
 		$arParams['EXIST_NEXT_PAGE'] = false;
@@ -39,39 +40,54 @@ class TaskListComponent extends CBitrixComponent
 
 	protected function fetchTasks()
 	{
-		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
-		$nav->allowAllRecords(true)
-			->setPageSize(9); //TODO remove hardcode
-		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
-
-		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['ID'])
-			  ->addOrder('SEARCH_PRIORITY', 'DESC')
-			  ->addOrder('CREATED_AT', 'DESC');
-
-		if ($this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
+		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
-			$query->where('CLIENT_ID', $this->arParams['USER_ID']);
+			$this->fetchTasksForCatalog();
 		}
 		else
 		{
-			$query->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
+			$this->fetchOpenTasksForPersonalPage();
+			$this->fetchAtWorkTasksForPersonalPage();
+			$this->fetchDoneTasksForPersonalPage();
 		}
+
+	}
+
+	private function fetchTasksForCatalog()
+	{
+		//настройка пагинации
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_catalog']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		//настройка выборки и добавление условий (со статусом 'new'  и при необходимости фильтры по тэгам + поиск по нахванию/описанию)
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['ID'])
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
+
 		if (!is_null($this->arParams['TAGS_ID']))
 		{
 			$query->whereIn('TAGS.ID', $this->arParams['TAGS_ID']);
 		}
+
 		if (!is_null($this->arParams['SEARCH']))
 		{
-			$query->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%');
+			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
+				->logic('or')
+				->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
+				->whereLike('DESCRIPTION', '%' . $this->arParams['SEARCH'] . '%')
+			);
 		}
 
-		$query->addGroup('ID');
-		$query->setLimit($nav->getLimit() + 1);
-		$query->setOffset($nav->getOffset());
+		$query->addGroup('ID') //группировка по айди (необходима при фильтрах по тэгам, без нее некорректно работает пагинация)
+			  ->setLimit($nav->getLimit() + 1) //пагинация
+			  ->setOffset($nav->getOffset()) //пагинация
+			  ->addOrder('SEARCH_PRIORITY', 'DESC') //сортировка по подписке
+			  ->addOrder('CREATED_AT', 'DESC'); //сортировка по дате
 
 		$idList = [];
-		$result = $query->exec();
+		$result = $query->exec(); //при фильтрах нам сначала надо достать айдишники (далле весь блок - пагинация)
 		while ($row = $result->fetch())
 		{
 			$idList[] = $row['ID'];
@@ -93,22 +109,115 @@ class TaskListComponent extends CBitrixComponent
 			$this->arResult['TASKS'] = [];
 			return;
 		}
+
+		//делаем второй запрос
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'TAGS'])
-			  ->addOrder('SEARCH_PRIORITY', 'DESC')
-			  ->addOrder('CREATED_AT', 'DESC');
+		$query->setSelect(['*', 'TAGS', 'CLIENT', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME'])
+			  ->whereIn('ID', $idList)
+			  ->addOrder('SEARCH_PRIORITY', 'DESC');
 
-		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
-		{
-			$query->addSelect('CLIENT');
-		}
-
-		$query->whereIn('ID', $idList);
-
-		$result = $query->fetchCollection();
-
-		$this->arResult['TASKS'] = $result;
+		$this->arResult['TASKS'] = $query->fetchCollection();
 
 	}
+
+	private function fetchOpenTasksForPersonalPage()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset())
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
+
+		$openTasks = $query->fetchCollection()->getAll();
+
+		$nav->setRecordCount($nav->getOffset() + count($openTasks));
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($openTasks);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['OPEN_TASKS'] = $openTasks;
+
+	}
+
+	private function fetchAtWorkTasksForPersonalPage()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset())
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['at_work']);
+
+		$atWorkTasks = $query->fetchCollection()->getAll();
+
+		$nav->setRecordCount($nav->getOffset() + count($atWorkTasks));
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($atWorkTasks);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['AT_WORK_TASKS'] = $atWorkTasks;
+
+	}
+
+	private function fetchDoneTasksForPersonalPage()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset())
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['done']);
+
+		$doneTasks = $query->fetchCollection()->getAll();
+
+		$nav->setRecordCount($nav->getOffset() + count($doneTasks));
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($doneTasks);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['DONE_TASKS'] = $doneTasks;
+	}
+
+
 
 }

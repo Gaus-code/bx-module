@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <div class="content__main">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<?php foreach ($arResult['TASKS'] as $task): ?>
-			<?php if($task->getClient()->getSubscriptionEndDate() !== null):?>
+			<?php if($task->getClient()->getSubscriptionEndDate() > new \Bitrix\Main\Type\Date()):?>
 			<div class="task subscriberTask">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/catalogCrown.svg" alt="star image" class="subscriberStar">
 			<?php else:?>
@@ -44,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php if (!$arParams['IS_PERSONAL_ACCOUNT_PAGE']): ?>
 							<div class="task__footer_img">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/people.svg" alt="count executers">
-								<p><?= htmlspecialcharsbx($task->getClient()->fillBUser()->getName() . ' ' . $task->getClient()->fillBUser()->getLastName()) ?></p>
+								<p><?= htmlspecialcharsbx($task->getClient()->getBUser()->getName() . ' ' . $task->getClient()->getBUser()->getLastName()) ?></p>
 							</div>
 						<?php endif; ?>
 					</div>

@@ -38,7 +38,7 @@ class UserNotifyComponent extends CBitrixComponent
 
 		$nav = new \Bitrix\Main\UI\PageNavigation("notify");
 		$nav->allowAllRecords(true)
-			->setPageSize(5); //TODO remove hardcode
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['notification_list']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 
