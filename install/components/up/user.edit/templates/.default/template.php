@@ -40,7 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<h2 class="editData__title">Имя</h2>
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit name" class="editData__img">
-								<input type="text" class="editData__input" name="userName" value="<?= $user->getBUser()->getName() ?>">
+								<input type="text" class="editData__input" name="userName" value="<?=htmlspecialcharsbx($user->getBUser()->getName())  ?>">
 							</div>
 						</li>
 						<li class="editData__item">
@@ -48,7 +48,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit surname"
 									 class="editData__img">
-								<input type="text" class="editData__input" name="userLastName" value="<?= $user->getBUser()->getLastName() ?>">
+								<input type="text" class="editData__input" name="userLastName" value="<?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?>">
 							</div>
 						</li>
 						<li class="editData__item">
@@ -56,7 +56,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="edit email"
 									 class="editData__img">
-								<input type="text" class="editData__input" name="userEmail" value="<?= $user->getBUser()->getEmail() ?>">
+								<input type="text" class="editData__input" name="userEmail" value="<?= htmlspecialcharsbx($user->getBUser()->getEmail()) ?>">
 							</div>
 						</li>
 						<li class="editData__item">
@@ -64,14 +64,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="editData__form">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit login"
 									 class="editData__img">
-								<input type="text" class="editData__input" name="userLogin" value="<?= $user->getBUser()->getLogin() ?>">
+								<input type="text" class="editData__input" name="userLogin" value="<?= htmlspecialcharsbx($user->getBUser()->getLogin()) ?>">
 							</div>
 						</li>
 					</ul>
 					<div class="editData__bioContainer">
 						<div class="editData__textArea">
 							<h2 class="editData__title">Описание профиля</h2>
-							<textarea class="editData__bio" name="userBio"><?=$user->getBio()?></textarea>
+							<textarea class="editData__bio" name="userBio"><?=htmlspecialcharsbx($user->getBio())?></textarea>
 						</div>
 						<input type="hidden" value="<?= $user->getID() ?>" name="userId">
 						<button type="submit">Изменить основную информацию</button>

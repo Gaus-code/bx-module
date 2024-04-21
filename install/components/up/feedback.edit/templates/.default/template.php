@@ -28,7 +28,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="content__name">
 			<h2 class="content__tittle">Редактировать отзыв для заявки <span>
-					<a href="/task/<?=$arResult['FEEDBACK']->getTaskId()?>/"><?= $arResult['FEEDBACK']->getTask()->getTitle() ?></a>
+					<a href="/task/<?=$arResult['FEEDBACK']->getTaskId()?>/"><?= htmlspecialcharsbx($arResult['FEEDBACK']->getTask()->getTitle()) ?></a>
 				</span></h2>
 		</article>
 		<article class="content__editComment">
@@ -42,7 +42,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<label for="star-<?= $rating ?>" title="Оценка «<?= $rating ?>»"></label>
 					<?php endfor; ?>
 				</div>
-				<textarea class="edit__commentText" name="comment"><?= $arResult['FEEDBACK']->getComment() ?></textarea>
+				<textarea class="edit__commentText" name="comment"><?= htmlspecialcharsbx($arResult['FEEDBACK']->getComment()) ?></textarea>
 				<button class="edit__commentBtn" type="submit">Сохранить</button>
 			</form>
 		</article>

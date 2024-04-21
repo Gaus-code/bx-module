@@ -37,11 +37,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Редактируйте Название</label>
-						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=$arResult['TASK']->getTitle()?>">
+						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=htmlspecialcharsbx($arResult['TASK']->getTitle())?>">
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="taskDescription">Редактируйте Описание</label>
-						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"><?=$arResult['TASK']->getDescription()?></textarea>
+						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"><?=htmlspecialcharsbx($arResult['TASK']->getDescription())?></textarea>
 					</div>
 					<div class="splitContainer">
 						<div class="create__container">
@@ -70,7 +70,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 										<li class="filter__item">
 											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>"
 												<?php if ($arResult['TASK']->getTags()->hasByPrimary($tag->getId())) { echo 'checked'; } ?>>
-											<label class="filter__label"><?=$tag->getTitle()?></label>
+											<label class="filter__label"><?=htmlspecialcharsbx($tag->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
 								</ul>
@@ -86,7 +86,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 										<li class="filter__item">
 											<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>"
 												<?php if ($arResult['TASK']->hasProjectId($project->getId())) { echo 'checked'; } ?>>
-											<label class="filter__label"><?=$project->getTitle()?></label>
+											<label class="filter__label"><?=htmlspecialcharsbx($project->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
 								</ul>

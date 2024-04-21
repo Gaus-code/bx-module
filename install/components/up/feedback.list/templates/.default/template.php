@@ -55,18 +55,18 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['RECEIVE_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p></a>
+									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= htmlspecialcharsbx($feedback->getTask()->getTitle()) ?></p></a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
 									</div>
 								</div>
-								<p class="comment__body"><?= $feedback->getComment() ?></p>
+								<p class="comment__body"><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
 								<div class="comment__footer">
 									<p class="comment__date"> <span>Опубликован: </span><?= $feedback->getCreatedAt() ?></p>
 									<div class="comment__btnContainer">
 										<img class="comment__userPhoto" src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="contractor photo">
-										<p><?= $feedback->getFromUser()->getBUser()->getName() . ' ' . $feedback->getFromUser()->getBUser()->getLastName() ?></p>
+										<p><?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName() . ' ' . $feedback->getFromUser()->getBUser()->getLastName()) ?></p>
 									</div>
 								</div>
 							</li>
@@ -82,13 +82,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['SENT_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p></a>
+									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= htmlspecialcharsbx($feedback->getTask()->getTitle())  ?></p></a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
 									</div>
 								</div>
-								<p class="comment__body"><?= $feedback->getComment() ?></p>
+								<p class="comment__body"><?= htmlspecialcharsbx($feedback->getComment())  ?></p>
 								<div class="comment__footer">
 									<p class="comment__date"> <span>Опубликован:</span> <?= $feedback->getCreatedAt() ?></p>
 									<div class="comment__btnContainer">
@@ -112,7 +112,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php foreach ($arResult['TASKS_WITHOUT_FEEDBACKS'] as $task) : ?>
 					<li class="clientComment__item">
 						<div class="comment__header">
-							<p class="comment__waiting"> <?= $task->getTitle() ?> <span>выполнена</span></p>
+							<p class="comment__waiting"> <?= htmlspecialcharsbx($task->getTitle())  ?> <span>выполнена</span></p>
 							<a class="comment__waitingLink" href="/task/<?= $task->getId() ?>/">Оставить отзыв</a>
 						</div>
 					</li>

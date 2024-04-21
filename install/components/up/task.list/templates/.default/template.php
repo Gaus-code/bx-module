@@ -27,16 +27,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="task">
 			<?php endif;?>
 					<div class="task__main">
-						<h3><?= $task->getTitle() ?></h3>
+						<h3><?= htmlspecialcharsbx($task->getTitle()) ?></h3>
 						<?php if (count($task->getTags()) > 0):?>
-						<p class="task__description"><?= $task->getDescription() ?>
+						<p class="task__description"><?= htmlspecialcharsbx($task->getDescription()) ?>
 						<?php else:?>
-						<p class="task__descriptionWithoutTags"><?= $task->getDescription() ?>
+						<p class="task__descriptionWithoutTags"><?= htmlspecialcharsbx($task->getDescription()) ?>
 						<?php endif;?>
 					</div>
 					<div class="task__header">
 						<?php foreach ($task->getTags() as $tag): ?>
-							<p class="task__tag"><?= $tag->getTitle() ?></p>
+							<p class="task__tag"><?=htmlspecialcharsbx($tag->getTitle())  ?></p>
 						<?php endforeach; ?>
 					</div>
 					<div class="task__footer">
@@ -44,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php if (!$arParams['IS_PERSONAL_ACCOUNT_PAGE']): ?>
 							<div class="task__footer_img">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/people.svg" alt="count executers">
-								<p><?= $task->getClient()->fillBUser()->getName() . ' ' . $task->getClient()->fillBUser()->getLastName() ?></p>
+								<p><?= htmlspecialcharsbx($task->getClient()->fillBUser()->getName() . ' ' . $task->getClient()->fillBUser()->getLastName()) ?></p>
 							</div>
 						<?php endif; ?>
 					</div>

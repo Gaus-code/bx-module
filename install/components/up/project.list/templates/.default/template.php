@@ -57,7 +57,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<tbody>
 					<?php foreach ($arResult['PROJECTS'] as $project): ?>
 						<tr>
-							<td data-label="Название проекта"><?= $project->getTitle() ?></td>
+							<td data-label="Название проекта"><?=htmlspecialcharsbx($project->getTitle())  ?></td>
 							<td data-label="Дата создания"><?= $project->getCreatedAt() ?></td>
 							<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
 							<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>

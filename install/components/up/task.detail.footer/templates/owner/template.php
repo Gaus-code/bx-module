@@ -30,10 +30,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<p class="task__responseCreated">
 								<span>Предложенная цена:</span> <?= $response->getPrice() ?> </p>
 							<p class="task__responseCreated">
-								<span>Исполнитель:</span> <?= $response->getContractor()->getBUser()->getName()
-								. ' ' . $response->getContractor()->getBUser()->getLastName() ?> </p>
+								<span>Исполнитель:</span> <?= htmlspecialcharsbx($response->getContractor()->getBUser()->getName()
+																				 . ' ' . $response->getContractor()->getBUser()->getLastName()) ?> </p>
 							<p class="task__responseCreated">
-								<span>Сопроводительное письмо:</span> <?= $response->getDescription() ?> </p>
+								<span>Сопроводительное письмо:</span> <?= htmlspecialcharsbx($response->getDescription()) ?> </p>
 						</div>
 					</a>
 					<div class="task__responseFooter">
@@ -58,9 +58,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['at_work']): ?>
 		<div class="detail__status">
 			<span> Отлично, Ваша задача имеет исполнителя! Если Вы с ним еще не связались, то скорее сделайте это! </span>
-			<p> Вот его имя и контакты: </p> <?= $arResult['CONTRACTOR']->getBUser()->getName()
-			. ' ' .
-			$arResult['CONTRACTOR']->getBUser()->getLastName() ?>
+			<p> Вот его имя и контакты: </p> <?= htmlspecialcharsbx($arResult['CONTRACTOR']->getBUser()->getName()
+																	. ' ' .
+																	$arResult['CONTRACTOR']->getBUser()->getLastName()) ?>
 			<p> <?= $arResult['CONTRACTOR']->getContacts() ?> </p>
 		</div>
 		<form class="create__form" action="/task/finish/" method="post">
@@ -94,9 +94,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<div class="detail__feedback">
 				<p>
-					<?= $feedback->getFromUser()->getBUser()->getName()
-					. ' ' .
-					$feedback->getFromUser()->getBUser()->getLastName() ?>
+					<?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName()
+										   . ' ' .
+										   $feedback->getFromUser()->getBUser()->getLastName() )?>
 				</p>
 				<div class="rating-result">
 					<?php for ($i = 1; $i <= 5; $i++): ?>
@@ -107,7 +107,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endif; ?>
 					<?php endfor; ?>
 				</div>
-				<p><?= $feedback->getComment() ?></p>
+				<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>

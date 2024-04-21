@@ -15,10 +15,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php if ($arParams['TASK']->getStatus() !== $arParams['TASK_STATUSES']['done']): ?>
 		<div class="detail__status">
 			<span> Круто, ваш отклик подтвердили! Если Вы еще не связались с заказчиком, скорее сделайте это! </span>
-			<p> Вот его имя и контакты: </p> <?= $arResult['CLIENT']->getBUser()->getName()
-			. ' ' .
-			$arResult['CLIENT']->getBUser()->getLastName() ?>
-			<p> <?= $arResult['CLIENT']->getContacts() ?> </p>
+			<p> Вот его имя и контакты: </p> <?= htmlspecialcharsbx($arResult['CLIENT']->getBUser()->getName()
+																	. ' ' .
+																	$arResult['CLIENT']->getBUser()->getLastName()) ?>
+			<p> <?= htmlspecialcharsbx($arResult['CLIENT']->getContacts()) ?> </p>
 		</div>
 	<?php else: ?>
 		<p class="detail__feedback_title">Отзывы:</p>
@@ -44,9 +44,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<div class="detail__feedback">
 				<p>
-					<?= $feedback->getFromUser()->getBUser()->getName()
-					. ' ' .
-					$feedback->getFromUser()->getBUser()->getLastName() ?>
+					<?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName()
+										   . ' ' .
+										   $feedback->getFromUser()->getBUser()->getLastName()) ?>
 				</p>
 				<div class="rating-result">
 					<?php for ($i = 1; $i <= 5; $i++): ?>
@@ -57,7 +57,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endif; ?>
 					<?php endfor; ?>
 				</div>
-				<p><?= $feedback->getComment() ?></p>
+				<p><?=htmlspecialcharsbx($feedback->getComment())  ?></p>
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>

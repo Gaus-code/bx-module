@@ -29,9 +29,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult['TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<?= $task->getTitle() ?>
+						<?= htmlspecialcharsbx($task->getTitle()) ?>
 					</td>
-					<td><?= $task->getDescription() ?></td>
+					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>В поиске исполнителя</td>
 					<td><?= $task->getStatus() ?></td>
@@ -76,9 +76,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult['TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<?= $task->getTitle() ?>
+						<?= htmlspecialcharsbx($task->getTitle()) ?>
 					</td>
-					<td><?= $task->getDescription() ?></td>
+					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>CONTRACTOR HARDCODE!!!</td>
 					<td><?= $task->getStatus() ?></td>

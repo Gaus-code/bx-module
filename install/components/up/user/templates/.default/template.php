@@ -39,9 +39,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
 					<div class="userInfo">
 
-						<p class="userInfo__name"><?= htmlspecialchars($user->getBUser()->getName()) ?></p>
-						<p class="userInfo__surname"><?= htmlspecialchars($user->getBUser()->getLastName()) ?></p>
-						<p class="userInfo__surname">Рейтинг: <?= htmlspecialchars($user->getRating()) ?> (<?= htmlspecialchars($user->getFeedbackCount()) ?> оценки)</p>
+						<p class="userInfo__name"><?= htmlspecialcharsbx($user->getBUser()->getName()) ?></p>
+						<p class="userInfo__surname"><?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?></p>
+						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($user->getRating()) ?> (<?= htmlspecialcharsbx($user->getFeedbackCount()) ?> оценки)</p>
 
 					</div>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
@@ -54,7 +54,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<h4>Описание профиля:</h4>
 					<?php
 					if (!empty($user->getBio())): ?>
-						<p class="userInfo__bio"><?= htmlspecialchars($user->getBio()) ?></p>
+						<p class="userInfo__bio"><?= htmlspecialcharsbx($user->getBio()) ?></p>
 					<?php
 					else: ?>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
