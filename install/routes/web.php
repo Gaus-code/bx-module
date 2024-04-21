@@ -26,7 +26,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/task/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
 	$routes->get('/project/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
 	$routes->get('/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
-	$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
+	//$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
 	$routes->get('/task/{task_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/task-edit.php'));
 	$routes->get('/feedback/{feedback_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/feedback-edit.php'));
 
@@ -57,7 +57,7 @@ return function (RoutingConfigurator $routes)
 	//edit profile
 	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);
 	$routes->post('/profile/changePassword', [\Up\Ukan\Controller\User::class, 'changePassword']);
-	$routes->post('/profile/changePassword', [\Up\Ukan\Controller\Auth::class, 'changePassword']);
+	$routes->post('/profile/changeContacts', [\Up\Ukan\Controller\User::class, 'changeContacts']);
 
 	//subscription
 	$routes->post('/subscription/getTrialVersion', [\Up\Ukan\Controller\Subscription::class, 'getTrialVersion']);

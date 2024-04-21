@@ -85,7 +85,7 @@ class Auth extends Engine\Controller
 
 			$user = new EO_User();
 
-			$user->setId($userId)->setUpdatedAt(new \Bitrix\Main\Type\DateTime());
+			$user->setId($userId)->setUpdatedAt(new \Bitrix\Main\Type\DateTime())->setContacts($email);
 
 			$user->save();
 		}

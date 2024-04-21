@@ -122,4 +122,21 @@ class User extends Engine\Controller
 		Application::getInstance()->getSession()->set('errors', $errors);
 		LocalRedirect('/profile/'.$USER->GetID().'/edit/');
 	}
+
+	public static function changeContactsAction(
+		string $contacts = null
+	)
+	{
+		global $USER;
+		$userId = $USER->GetID();
+
+		if(!empty($contacts))
+		{
+			$user = \Up\Ukan\Model\UserTable::getById($userId)->fetchObject();
+			$user->setContacts($contacts);
+			$user->save();
+		}
+
+		LocalRedirect('/profile/'. $USER->GetID() .'/');
+	}
 }

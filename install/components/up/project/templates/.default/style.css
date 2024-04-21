@@ -14,11 +14,18 @@
     font-size: 32px;
 }
 
+.userProject__title input {
+    width: 100%;
+    background-color: inherit;
+}
+
 .userProject__main {
+    width: 100%;
     margin-top: 20px;
 }
 
 .userProject__description {
+    width: 100%;
     line-height: 24px;
     font-size: 16px;
 }
@@ -32,7 +39,7 @@
 }
 
 
-.userProject__edit, .deleteProject, .userProject__add {
+#edit-btn, #delete-btn, #createTask-btn, #addTask-btn {
     padding: 5px 10px;
     font-size: 15px;
     font-weight: 600;
@@ -46,41 +53,54 @@
     color: var(--color-primary-black);
 }
 
-.deleteProject {
+#delete-btn {
     border: 2px solid var(--color-warning-red);
     background-color: var(--color-warning-red);
 }
 
-.userProject__add {
+#createTask-btn {
     border: 2px solid var(--color-tag-green);
     background-color: var(--color-tag-green);
     min-height: 38px;
 }
-.userProject__edit {
+
+#addTask-btn {
+    border: 2px solid var(--color-warning-yellow);
+    background-color: var(--color-warning-yellow);
+    min-height: 38px;
+}
+
+#edit-btn {
     border: 2px solid var(--color-primary-purple);
     background-color: var(--color-primary-purple);
     min-height: 38px;
 }
 
-.userProject__add:hover, .userProject__add:active, .userProject__add:focus {
+#createTask-btn:hover, #createTask-btn:active, #createTask-btn:focus {
     background-color: var(--color-primary-white);
     transition: 0.3s;
     color: var(--color-tag-green);
 }
 
-.userProject__edit:hover, .userProject__edit:active, .userProject__edit:focus {
+#addTask-btn:hover, #addTask-btn:active, #addTask-btn:focus {
+    background-color: var(--color-primary-white);
+    transition: 0.3s;
+    color: var(--color-warning-yellow);
+}
+
+#edit-btn:hover, #edit-btn:active, #edit-btn:focus {
     background-color: var(--color-primary-white);
     transition: 0.3s;
     color: var(--color-primary-purple);
 }
 
-.deleteProject:hover, .deleteProject:active, .deleteProject:focus {
+#delete-btn:hover, #delete-btn:active, #delete-btn:focus {
     background-color: var(--color-primary-white);
     transition: 0.3s;
     color: var(--color-warning-red);
 }
 
-.deleteProject img {
+#delete-btn img {
     display: block;
     width: 25px;
 }
@@ -96,7 +116,17 @@
 }
 
 .content__editProject {
+    width: 100%;
     margin-top: 20px;
+}
+
+.editProject__form {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .content__editInput {
@@ -160,4 +190,173 @@ section.editPriority {
 }
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgb(115, 103, 240);
+}
+
+.content__tagList {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.content__tagItem {
+    padding: 6px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--color-primary-purple);
+    cursor: pointer;
+}
+
+.content__tagItem:hover, .content__tagItem:active, .content__tagItem:focus
+{
+    background-color: var(--color-primary-purple);
+    transition: 0.4s;
+}
+
+.active-tag-item {
+    background-color: var(--color-primary-white) !important;
+}
+
+.content__nonPriorityContainer {
+    display: none;
+}
+
+.createTask__form, .deleteTask__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.createTask__form input {
+    width: 50%;
+    margin: 0 auto;
+    border: 3px solid var(--color-tag-green);
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.createTask__form button, .deleteTask__form button, .addTask__form button {
+    padding: 10px 15px;
+    border-radius: 6px;
+    width: 50%;
+    margin: 0 auto;
+    font-weight: 600;
+}
+
+.deleteTask__form button {
+    background-color: var(--color-warning-red);
+}
+
+.createTask__form button {
+    background-color: var(--color-tag-green);
+}
+
+.addTask__form button {
+    background-color: var(--color-warning-yellow);
+}
+
+.editTaskPriority {
+    max-width: 50px;
+}
+
+.deleted-task {
+    text-decoration: line-through;
+}
+
+.content__projectEditContainer {
+    position: relative;
+}
+
+.content__projectEditContainer h2 {
+    font-size: 21px;
+    color: var(--color-tag-purple);
+    margin: 10px 0;
+}
+
+#noTasks {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.addTask__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.addTask__form fieldset {
+    border: 2px solid var(--color-warning-yellow);
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 6px;
+}
+
+.addTask__form fieldset legend {
+    text-align: center;
+    color: var(--color-warning-yellow);
+}
+
+.filter__list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.filter__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.filter__checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: 1px solid var(--color-primary-purple);
+    border-radius: 2px;
+    background-color: var(--color-primary-white);
+    width: 15px;
+    height: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.filter__checkbox:checked {
+    background-color: var(--color-primary-purple);
+
+    &::before {
+        content: "\2713";
+        color: #fff;
+        position: absolute;
+        font-size: 12px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(5deg);
+
+    }
+}
+
+.filter__label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 1%;
+    text-align: left;
+    text-transform: capitalize;
 }

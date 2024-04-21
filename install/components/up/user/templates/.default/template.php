@@ -87,6 +87,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					} ?>
 				</div>
 				<?php endif;?>
+				<div class="content__mainBio_footer">
+					<h4>Пожелания по сбособу для связи:</h4>
+					<p class="userInfo__bio"><?= $user->getContacts() ?></p>
+				</div>
 			</article>
 
 	</section>
