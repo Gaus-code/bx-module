@@ -49,7 +49,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['SENT_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p>
+									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p></a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
@@ -74,12 +74,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Отзывы, которые оставлены исполнителю(не забудь УДАЛИТЬ этот коммент) !-->
 			<div id="contractor-reviews" class="tab__container contractor-reviews">
-				<?php if (count($arResult['SENT_FEEDBACKS']) > 0): ?>
+				<?php if (count($arResult['RECEIVE_FEEDBACKS']) > 0): ?>
 				<ul class="clientComment__list">
 					<?php foreach ($arResult['RECEIVE_FEEDBACKS'] as $feedback) :?>
 					<li class="clientComment__item">
 						<div class="comment__header">
-							<p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p>
+							<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= $feedback->getTask()->getTitle() ?></p></a>
 							<div class="comment__rating">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 								<p><?= $feedback->getRating() ?></p>

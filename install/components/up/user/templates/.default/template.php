@@ -37,6 +37,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 						<p class="userInfo__name"><?= htmlspecialchars($user->getBUser()->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialchars($user->getBUser()->getLastName()) ?></p>
+						<p class="userInfo__surname">Рейтинг: <?= htmlspecialchars($user->getRating()) ?> (<?= htmlspecialchars($user->getFeedbackCount()) ?> оценки)</p>
+
 					</div>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
