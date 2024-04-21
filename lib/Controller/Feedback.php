@@ -8,6 +8,7 @@ use Up\Ukan\Model\EO_Feedback;
 use Up\Ukan\Model\EO_Feedback_Entity;
 use Up\Ukan\Model\FeedbackTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Model\UserTable;
 
 class Feedback extends Controller
 {
@@ -31,6 +32,8 @@ class Feedback extends Controller
 				 ->setComment($comment);
 
 		$feedback->save();
+
+		$this->updateUserRating($toUserId, $rating, 'addFeedback');
 
 		LocalRedirect("/task/" . $taskId . "/");
 	}
@@ -56,6 +59,8 @@ class Feedback extends Controller
 
 		$feedback->save();
 
+		$this->updateUserRating($feedback->getToUserId(), $rating, 'editFeedback');
+
 		LocalRedirect("/profile/".$userId."/feedbacks/");
 	}
 
@@ -72,6 +77,8 @@ class Feedback extends Controller
 		{
 			LocalRedirect("/profile/".$userId."/feedbacks/");
 		}
+
+		$this->updateUserRating($feedback->getToUserId(), $feedback->getRating(), 'deleteFeedback');
 
 		$feedback->delete();
 
@@ -102,5 +109,33 @@ class Feedback extends Controller
 		}
 
 		return true;
+	}
+
+	private function updateUserRating($userId, $rating, string $action)
+	{
+		$user = UserTable::getByPrimary($userId)->fetchObject();
+		switch ($action){
+			case 'addFeedback':
+				$oldFeedbackCount=$user->getFeedbackCount();
+				$oldRating=$user->getRating();
+				$newFeedbackCount=$oldFeedbackCount+1;
+				$newRating=($oldRating*$oldFeedbackCount+$rating)/$newFeedbackCount;
+				$user->setRating($newRating)->setFeedbackCount($newFeedbackCount);
+				break;
+			case 'editFeedback':
+				$feedbackCount=$user->GetFeedbackCount();
+				$oldRating=$user->getRating();
+				$newRating=($oldRating*$feedbackCount-$oldRating+$rating)/$feedbackCount;
+				$user->setRating($newRating);
+				break;
+			case 'deleteFeedback':
+				$oldFeedbackCount=$user->GetFeedbackCount();
+				$oldRating=$user->getRating();
+				$newFeedbackCount=$oldFeedbackCount-1;
+				$newRating=($oldRating*$oldFeedbackCount-$rating)/$newFeedbackCount;
+				$user->setRating($newRating)->setFeedbackCount($newFeedbackCount);
+				break;
+		}
+		$user->save();
 	}
 }

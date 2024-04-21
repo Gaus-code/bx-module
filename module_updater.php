@@ -120,3 +120,16 @@ __ukanMigrate(9, function($updater, $DB)
 	};
 
 });
+
+__ukanMigrate(10, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query('alter table up_ukan_user
+    add RATING FLOAT not null;');
+
+		$DB->query('alter table up_ukan_user
+    add FEEDBACK_COUNT int not null;');
+	};
+
+});
