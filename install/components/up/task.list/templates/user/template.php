@@ -22,7 +22,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<th>Дата создания заявки</th>
 			<th>Исполнитель</th>
 			<th>Статус</th>
+			<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 			<th></th>
+			<?php endif;?>
 		</tr>
 		</thead>
 			<tbody>
@@ -35,9 +37,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>В поиске исполнителя</td>
 					<td><?= $task->getStatus() ?></td>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
+					<?php endif;?>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>

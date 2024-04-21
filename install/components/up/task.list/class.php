@@ -45,7 +45,9 @@ class TaskListComponent extends CBitrixComponent
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['ID']);
+		$query->setSelect(['ID'])
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC');
 
 		if ($this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
@@ -92,15 +94,15 @@ class TaskListComponent extends CBitrixComponent
 			return;
 		}
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'TAGS']);
+		$query->setSelect(['*', 'TAGS'])
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC');
 
 		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
 		{
 			$query->addSelect('CLIENT');
-			$query->addOrder('SEARCH_PRIORITY', 'DESC');
 		}
 
-		$query->addOrder('CREATED_AT', 'DESC');
 		$query->whereIn('ID', $idList);
 
 		$result = $query->fetchCollection();
