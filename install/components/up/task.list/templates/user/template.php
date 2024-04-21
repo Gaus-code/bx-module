@@ -58,6 +58,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	?>
 </div>
 <!-- Заявки с исполнителем(УДАЛИ потом этот коммент) !-->
+<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 <div id="inProgress-reviews" class="content__tableTask tab__container">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<table id="taskTable">
@@ -103,6 +104,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	}
 	?>
 </div>
+<?php endif;?>
 <!-- Завершенные заявки(УДАЛИ потом этот коммент) !-->
 <div id="doneTask-reviews" class="content__tableTask tab__container">
 	<?php if (count($arResult['TASKS']) > 0): ?>

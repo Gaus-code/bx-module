@@ -4,6 +4,7 @@ class UserComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchUserActivity();
 		$this->includeComponentTemplate();
 	}
 
@@ -15,5 +16,20 @@ class UserComponent extends CBitrixComponent
 		}
 
 		return $arParams;
+	}
+	protected function fetchUserActivity()
+	{
+		global $USER;
+		$userId = (int)$USER->getId();
+
+
+		if ($this->arParams['USER_ID'] === $userId)
+		{
+			$this->arResult['USER_ACTIVITY'] = 'owner';
+		}
+		else
+		{
+			$this->arResult['USER_ACTIVITY'] = 'other_user';
+		}
 	}
 }

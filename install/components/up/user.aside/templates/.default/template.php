@@ -22,11 +22,12 @@
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/task.svg" alt="task folder">
 				Заявки
 			</a>
-
+			<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 			<a href="/profile/<?=$user->getId()?>/projects/" id="projectToogle" class="aside__btn" >
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/folder.svg" alt="project folder">
 				Проекты
 			</a>
+
 			<a href="/profile/<?=$user->getId()?>/responses/" class="aside__btn" id="responsesLink">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/dashboard.svg" alt="project folder" class="userImg">
 				Отклики
@@ -36,14 +37,16 @@
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
 				Уведомления
 				<span>2</span>
-			</a>
+			</a><?php endif;?>
 
 			<a href="/profile/<?=$user->getId()?>/feedbacks/" id="commentLink" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/comment.svg" alt="notification folder" class="commentImg">
 				Отзывы
 			</a>
 		</nav>
+		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
+		<?php endif; ?>
 	</div>
 </aside>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/asideAnchorLinks.js"></script>

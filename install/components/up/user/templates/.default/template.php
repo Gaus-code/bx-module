@@ -14,8 +14,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 <main class="profile__main">
 	<?php
-	$APPLICATION->IncludeComponent('up:user.aside', '', []); ?>
+	$APPLICATION->IncludeComponent('up:user.aside', '', [
+		'USER_ID' => $arParams['USER_ID'],
+	]); ?>
 	<section class="content">
+		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 		<article class="content__header">
 			<h1>Рабочая область</h1>
 			<button type="button" class="plus-link">
@@ -26,8 +29,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<a href="/task/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
+		<?php endif;?>
 		<article class="content__name">
-			<h2 class="content__tittle">Ваш профиль</h2>
+			<h2 class="content__tittle">Профиль</h2>
 		</article>
 	<?php $user=$arResult['USER']?>
 			<article class="content__mainBio">
@@ -40,19 +44,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p class="userInfo__surname">Рейтинг: <?= htmlspecialchars($user->getRating()) ?> (<?= htmlspecialchars($user->getFeedbackCount()) ?> оценки)</p>
 
 					</div>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 					</a>
+					<?php endif;?>
 				</div>
 				<div class="content__mainBio_main">
-					<h4>Ваше описание:</h4>
+					<h4>Описание профиля:</h4>
 					<?php
 					if (!empty($user->getBio())): ?>
 						<p class="userInfo__bio"><?= htmlspecialchars($user->getBio()) ?></p>
 					<?php
 					else: ?>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 						<p class="userInfo__bio">У вас пока нет описания. Давайте
 							<a href="/profile/<?= $user->getID() ?>/edit/">добавим</a></p>
+						<?php endif;?>
 					<?php
 					endif; ?>
 				</div>
@@ -60,6 +68,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<h4>Аккаунт создан:</h4>
 					<p class="userInfo__createdAt"><?= $user->getBUser()->getDateRegister()->format('d.m.Y') ?></p>
 				</div>
+				<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 				<div class="content__mainBio_footer">
 					<h4>Подписка активна до:</h4>
 					<?php
@@ -77,6 +86,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php
 					} ?>
 				</div>
+				<?php endif;?>
 			</article>
 
 	</section>
