@@ -9,7 +9,7 @@ if (!$USER->IsAuthorized())
 ?>
 
 <?php $APPLICATION->IncludeComponent('up:task.create', '', [
-	'USER_ID' => (int)request()->get('user_id'),
+	'USER_ID' => (int)$USER->GetID()
 ]);?>
 
 <?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
