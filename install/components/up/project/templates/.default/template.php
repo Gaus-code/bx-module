@@ -32,80 +32,125 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Ваш проект</h2>
 		</article>
 		<article class="content__userProject">
-			<div class="userProject__title">
-				<h2><?= htmlspecialcharsbx($arParams['PROJECT']->getTitle()) ?></h2>
-			</div>
-			<div class="userProject__main">
-				<p class="userProject__description">
-					<?=htmlspecialcharsbx($arParams['PROJECT']->getDescription())  ?>
-				</p>
-			</div>
-			<div class="userProject__btnContainer">
-				<form action="/project/delete/" method="post">
+			<article class="content__editProject">
+				<form action="/project/update/" method="post" class="editProject__form">
 					<?= bitrix_sessid_post() ?>
+					<input type="hidden" name="projectId" value='<?=$arParams['PROJECT_ID']?>'>
+					<div class="userProject__title">
+						<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="<?=htmlspecialcharsbx($arParams['PROJECT']->getTitle())?>" required>
+					</div>
+					<div class="userProject__main">
+						<p class="userProject__description">
+							<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="<?=htmlspecialcharsbx($arParams['PROJECT']->getDescription())?>" required>
+						</p>
+					</div>
+					<div class="content__projectEditContainer">
+						<h2>Заявки в проекте:</h2>
+						<div class="tbl-header">
+							<table>
+								<thead>
+								<tr>
+									<th>Независимый порядок</th>
+									<th class="test">Порядок Выполнения</th>
+									<th>Название задачи</th>
+									<th>Исполнитель</th>
+									<th>Статус</th>
+									<th>Последние изменения</th>
+									<th>Удалить задачу</th>
+								</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="tbl-content">
+							<?php if (count($arParams['PROJECT']->getTasks()) > 0): ?>
+							<table>
+								<tbody>
+								<?php
+								foreach ($arParams['PROJECT']->getTasks() as $task)
+								{
+									?>
+									<tr>
+										<td>
+											<input class="withoutPriority" type="checkbox" name="withoutPriorityFlags[<?=$task->getId()?>]" value="on" <?php if ($task->getProjectPriority()==0) { echo "checked";}?>>
+										</td>
+										<td>
+											<input class="editTaskPriority" type="number" min="1" name="priorityNumbers[<?=$task->getId()?>]" value="<?=$task->getProjectPriority()?>">
+										</td>
+
+										<td><?=htmlspecialcharsbx($task->getTitle())  ?></td>
+
+										<?php
+										if ($task->getContractor() !== null)
+										{
+											?>
+											<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
+											<?php
+										}
+										else
+										{ ?>
+											<td> Исполнителя нет</td> <?php
+										}
+										?>
+										<td><?= $task->getStatus() ?></td>
+										<td><?= $task->getUpdatedAt() ?></td>
+										<td>
+											<input class="deleteTask" type="checkbox" name="deleteTaskFlags[<?=$task->getId()?>]">
+										</td>
+									</tr>
+									<?php
+								} ?>
+								</tbody>
+							</table>
+							<?php else: ?>
+							<p id="noTasks">у вас пока нет заявок в проекте</p>
+							<?php endif; ?>
+						</div>
+					</div>
+					<button class="createBtn" type="submit">Сохранить Изменения</button>
+				</form>
+			</article>
+			<article class="content__tagButtons">
+				<div class="content__header">
+					<ul class="content__tagList">
+						<li id="addTask-btn" class="content__tagItem active-tag-item">
+							Добавить заявку
+						</li>
+						<li id="edit-btn" class="content__tagItem">
+							Редактировать заявки в проекте
+						</li>
+						<li id="delete-btn" class="content__tagItem">
+							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
+							Удалить проект
+						</li>
+					</ul>
+				</div>
+			</article>
+			<!-- Контейнер для создания заявки !-->
+			<div id="addTask-reviews" class="content__priorityContainer tab__container">
+				<form action="" method="post" class="addTask__form">
+					<input type="text" placeholder="название заявки">
+					<input type="text" placeholder="описание заявки">
+					<button type="submit">Добавить заявку</button>
+				</form>
+			</div>
+			<!-- Контейнер для редактирования проекта !-->
+			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
+				<h4>тут нужен какой-то drag&drop, либо он будет сверху и эту вкладку удалят</h4>
+			</div>
+			<!-- Контейнер для удаления проекта(работает!) !-->
+			<div id="delete-reviews" class="content__nonPriorityContainer tab__container">
+				<form action="/project/delete/" method="post" class="deleteTask__form">
+					<?= bitrix_sessid_post() ?>
+					<h4>Вы действительно хотите удалить проект?</h4>
 					<input type="hidden" name="projectId" value='<?= $arParams['PROJECT_ID'] ?>'>
 					<button class="deleteProject">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
 						Удалить проект
 					</button>
 				</form>
-				<a href="/project/1/edit/" class="userProject__edit">Редактировать проект</a>
-				<button class="userProject__add">Добавить задачу</button>
-			</div>
-
-
-			<div class="userProject__tasks">
-				<h2>Задачи в проекте:</h2>
-				<div class="tbl-header">
-					<table>
-						<thead>
-						<tr>
-							<th>Порядок выполнения</th>
-							<th>Название</th>
-							<th>Исполнитель</th>
-							<th>Статус</th>
-							<th>Последние изменения</th>
-							<th>Дедлайн</th>
-						</tr>
-						</thead>
-					</table>
-				</div>
-				<div class="tbl-content">
-					<table>
-						<tbody>
-						<?php
-						foreach ($arParams['PROJECT']->getTasks() as $task)
-						{
-							?>
-							<tr>
-								<td><?= $task->getProjectPriority() ?></td>
-								<td><?= htmlspecialcharsbx($task->getTitle()) ?></td>
-
-
-								<?php
-								if ($task->getContractor() !== null)
-								{
-									?>
-									<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
-									<?php
-								}
-								else
-								{ ?>
-									<td> Исполнителя нет</td> <?php
-								}
-								?>
-								<td><?= $task->getStatus() ?></td>
-								<td><?= $task->getUpdatedAt() ?></td>
-								<td>Дедлайн</td>
-							</tr>
-
-							<?php
-						} ?>
-						</tbody>
-					</table>
-				</div>
 			</div>
 		</article>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/deleteTaskFromProject.js"></script>
