@@ -4,6 +4,7 @@ namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
 use GeoIp2\Record\Location;
+use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Feedback;
 use Up\Ukan\Model\EO_Feedback_Entity;
 use Up\Ukan\Model\FeedbackTable;
@@ -24,6 +25,11 @@ class Feedback extends Controller
 		{
 			LocalRedirect("/task/" . $taskId . "/");
 		}
+		if (!YandexGPT::censorshipCheck($comment))
+		{
+			LocalRedirect("/task/" . $taskId . "/");
+		}
+
 		$feedback = new EO_Feedback();
 		$feedback->setFromUserId($fromUserId)
 				 ->setToUserId($toUserId)
@@ -50,6 +56,10 @@ class Feedback extends Controller
 		$feedback=FeedbackTable::getById($feedbackId)->fetchObject();
 
 		if ($feedback->getFromUserId()!==$userId)
+		{
+			LocalRedirect("/profile/".$userId."/feedbacks/");
+		}
+		if (!YandexGPT::censorshipCheck($comment))
 		{
 			LocalRedirect("/profile/".$userId."/feedbacks/");
 		}
