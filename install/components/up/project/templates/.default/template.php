@@ -112,8 +112,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<article class="content__tagButtons">
 				<div class="content__header">
 					<ul class="content__tagList">
+						<li id="createTask-btn" class="content__tagItem active-tag-item">
+							Создать заявку
+						</li>
 						<li id="addTask-btn" class="content__tagItem active-tag-item">
-							Добавить заявку
+							Добавить существующую заявку
 						</li>
 						<li id="edit-btn" class="content__tagItem">
 							Редактировать заявки в проекте
@@ -125,12 +128,33 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</ul>
 				</div>
 			</article>
-			<!-- Контейнер для создания заявки !-->
-			<div id="addTask-reviews" class="content__priorityContainer tab__container">
-				<form action="" method="post" class="addTask__form">
+			<!-- Контейнер для создания заявки сразу в проекте!-->
+			<div id="createTask-reviews" class="content__priorityContainer tab__container">
+				<form action="" method="post" class="createTask__form">
 					<input type="text" placeholder="название заявки">
 					<input type="text" placeholder="описание заявки">
-					<button type="submit">Добавить заявку</button>
+					<button type="submit">Создать заявку</button>
+				</form>
+			</div>
+			<!-- Контейнер для добавления существующей заявки !-->
+			<div id="addTask-reviews" class="content__priorityContainer tab__container">
+				<form action="" method="post" class="addTask__form">
+					<fieldset>
+						<legend>Выберите заявки для добавления в проект</legend>
+						<?php if (isset($arResult['TASK'])): ?>
+							<ul class="filter__list">
+								<?php foreach ($arResult['TAGS'] as $task): ?>
+									<li class="filter__item">
+										<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$task->getId()?>]" value="<?=$task->getId()?>">
+										<label class="filter__label"><?=htmlspecialcharsbx($task->getTitle())?></label>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						<?php else: ?>
+							<p class="empty">У вас пока нет заявок</p>
+						<?php endif;?>
+					</fieldset>
+					<button type="submit">Добавить заявки</button>
 				</form>
 			</div>
 			<!-- Контейнер для редактирования проекта !-->

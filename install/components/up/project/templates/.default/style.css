@@ -39,7 +39,7 @@
 }
 
 
-#edit-btn, #delete-btn, #addTask-btn {
+#edit-btn, #delete-btn, #createTask-btn, #addTask-btn {
     padding: 5px 10px;
     font-size: 15px;
     font-weight: 600;
@@ -58,21 +58,34 @@
     background-color: var(--color-warning-red);
 }
 
-#addTask-btn {
+#createTask-btn {
     border: 2px solid var(--color-tag-green);
     background-color: var(--color-tag-green);
     min-height: 38px;
 }
+
+#addTask-btn {
+    border: 2px solid var(--color-warning-yellow);
+    background-color: var(--color-warning-yellow);
+    min-height: 38px;
+}
+
 #edit-btn {
     border: 2px solid var(--color-primary-purple);
     background-color: var(--color-primary-purple);
     min-height: 38px;
 }
 
-#addTask-btn:hover, #addTask-btn:active, #addTask-btn:focus {
+#createTask-btn:hover, #createTask-btn:active, #createTask-btn:focus {
     background-color: var(--color-primary-white);
     transition: 0.3s;
     color: var(--color-tag-green);
+}
+
+#addTask-btn:hover, #addTask-btn:active, #addTask-btn:focus {
+    background-color: var(--color-primary-white);
+    transition: 0.3s;
+    color: var(--color-warning-yellow);
 }
 
 #edit-btn:hover, #edit-btn:active, #edit-btn:focus {
@@ -209,7 +222,7 @@ section.editPriority {
     display: none;
 }
 
-.addTask__form, .deleteTask__form {
+.createTask__form, .deleteTask__form {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -218,15 +231,15 @@ section.editPriority {
     gap: 20px;
 }
 
-.addTask__form input {
+.createTask__form input {
     width: 50%;
     margin: 0 auto;
-    border: 3px solid var(--color-primary-purple);
+    border: 3px solid var(--color-tag-green);
     padding: 5px;
     border-radius: 6px;
 }
 
-.addTask__form button, .deleteTask__form button {
+.createTask__form button, .deleteTask__form button, .addTask__form button {
     padding: 10px 15px;
     border-radius: 6px;
     width: 50%;
@@ -238,8 +251,12 @@ section.editPriority {
     background-color: var(--color-warning-red);
 }
 
+.createTask__form button {
+    background-color: var(--color-tag-green);
+}
+
 .addTask__form button {
-    background-color: var(--color-primary-purple);
+    background-color: var(--color-warning-yellow);
 }
 
 .editTaskPriority {
@@ -268,4 +285,78 @@ section.editPriority {
     text-transform: capitalize;
     font-size: 16px;
     font-weight: 600;
+}
+
+.addTask__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.addTask__form fieldset {
+    border: 2px solid var(--color-warning-yellow);
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 6px;
+}
+
+.addTask__form fieldset legend {
+    text-align: center;
+    color: var(--color-warning-yellow);
+}
+
+.filter__list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.filter__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.filter__checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: 1px solid var(--color-primary-purple);
+    border-radius: 2px;
+    background-color: var(--color-primary-white);
+    width: 15px;
+    height: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.filter__checkbox:checked {
+    background-color: var(--color-primary-purple);
+
+    &::before {
+        content: "\2713";
+        color: #fff;
+        position: absolute;
+        font-size: 12px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(5deg);
+
+    }
+}
+
+.filter__label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 1%;
+    text-align: left;
+    text-transform: capitalize;
 }
