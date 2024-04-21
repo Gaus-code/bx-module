@@ -78,6 +78,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 		else
 		{
 			$this->setUserSentFeedback();
+			$this->fetchLeaveFeedbackForm();
 			$this->fillFeedbacks();
 		}
 	}
