@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <div class="content__main">
 	<?php if (count($arResult['TASKS']) > 0): ?>
 		<?php foreach ($arResult['TASKS'] as $task): ?>
-			<?php if($task->getClient()->getSubscriptionEndDate() > new \Bitrix\Main\Type\Date()):?>
+			<?php if($task->getClient()->getSubscriptionEndDate() >= date("Y-m-d")):?>
 			<div class="task subscriberTask">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/catalogCrown.svg" alt="star image" class="subscriberStar">
 			<?php else:?>
