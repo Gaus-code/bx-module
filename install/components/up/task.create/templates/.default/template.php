@@ -81,36 +81,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</div>
 						<?php endif;?>
 					</fieldset>
-					<!--				<fieldset>-->
-					<!--					<legend>Добавьте Приоритетность</legend>-->
-					<!--					<ul class="filter__list">-->
-					<!--						<li class="filter__item">-->
-					<!--							<input type="radio" name="priority" class="filter__checkbox">-->
-					<!--							<label class="filter__label">Высокая</label>-->
-					<!--						</li>-->
-					<!--						<li class="filter__item">-->
-					<!--							<input type="radio" name="priority" class="filter__checkbox">-->
-					<!--							<label class="filter__label">Средняя</label>-->
-					<!--						</li>-->
-					<!--						<li class="filter__item">-->
-					<!--							<input type="radio" name="priority" class="filter__checkbox">-->
-					<!--							<label class="filter__label">Низкая</label>-->
-					<!--						</li>-->
-					<!--					</ul>-->
-					<!--				</fieldset>-->
-					<!--				<fieldset>-->
-					<!--					<legend>Добавьте Статаус</legend>-->
-					<!--					<ul class="filter__list">-->
-					<!--						<li class="filter__item">-->
-					<!--							<input type="radio" name="status" class="filter__checkbox">-->
-					<!--							<label class="filter__label">Новая</label>-->
-					<!--						</li>-->
-					<!--						<li class="filter__item">-->
-					<!--							<input type="radio" name="status" class="filter__checkbox">-->
-					<!--							<label class="filter__label">В заморозке??</label>-->
-					<!--						</li>-->
-					<!--					</ul>-->
-					<!--				</fieldset>-->
 				</div>
 				<button class="createBtn" type="submit">Создать заявку</button>
 			</form>

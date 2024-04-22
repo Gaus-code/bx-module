@@ -82,6 +82,10 @@ class Project extends Controller
 			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS'])
 														   ->where('ID', $projectId)
 														   ->fetchObject();
+			if ($project->getClientId()!==(int)$USER->GetID())
+			{
+				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			}
 			$tasks = $project->getTasks();
 
 			foreach ($tasks as $task)
@@ -93,5 +97,25 @@ class Project extends Controller
 
 			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
 		}
+	}
+
+	public function addTasksAction(int $projectId, array $taskIds)
+	{
+		global $USER;
+
+		$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'TASKS.ID'])
+											  ->where('ID', $projectId)
+											  ->fetchObject();
+		if ($project->getClientId()!==(int)$USER->GetID())
+		{
+			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+		}
+		$tasks = TaskTable::query()->setSelect(['ID'])->whereIn('ID', $taskIds)->fetchCollection();
+		foreach ($tasks as $task)
+		{
+			$project->addToTasks($task);
+		}
+		$project->save();
+		LocalRedirect("/project/" . $projectId . "/");
 	}
 }

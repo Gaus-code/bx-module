@@ -136,14 +136,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Контейнер для добавления существующей заявки !-->
 			<div id="addTask-reviews" class="content__nonPriorityContainer tab__container">
-				<form action="" method="post" class="addTask__form">
+				<form action="/project/add-tasks/" method="post" class="addTask__form">
+					<?= bitrix_sessid_post() ?>
+					<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
 					<fieldset>
 						<legend>Выберите заявки для добавления в проект</legend>
-						<?php if (isset($arResult['TASK'])): ?>
+						<?php if (isset($arResult['ADD_TASK_LIST'])): ?>
 							<ul class="filter__list">
-								<?php foreach ($arResult['TAGS'] as $task): ?>
+								<?php foreach ($arResult['ADD_TASK_LIST'] as $task): ?>
 									<li class="filter__item">
-										<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$task->getId()?>]" value="<?=$task->getId()?>">
+										<input type="checkbox" class="filter__checkbox" name="taskIds[<?=$task->getId()?>]" value="<?=$task->getId()?>">
 										<label class="filter__label"><?=htmlspecialcharsbx($task->getTitle())?></label>
 									</li>
 								<?php endforeach; ?>
@@ -157,10 +159,45 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Контейнер для создания заявки сразу в проекте!-->
 			<div id="createTask-reviews" class="content__priorityContainer tab__container">
-				<form action="" method="post" class="createTask__form">
-					<input type="text" placeholder="название заявки">
-					<input type="text" placeholder="описание заявки">
-					<button type="submit">Создать заявку</button>
+				<form class="create__form" action="/task/create/" method="post">
+					<?=bitrix_sessid_post()?>
+					<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
+					<div class="create__text">
+						<div class="create__container">
+							<label class="create__textareaLabel" for="createTitle">Добавьте Название</label>
+							<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки">
+						</div>
+						<div class="create__container">
+							<label class="create__textareaLabel" for="taskDescription">Добавьте Описание</label>
+							<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+						</div>
+						<div class="create__container">
+							<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость</label>
+							<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
+						</div>
+					</div>
+					<li class="filter__item">
+						<input class="filter__checkbox" name = "useGPT" type = "checkbox">
+						<label class="filter__label">Автоматичемкое проставление тегов по описанию</label>
+					</li>
+					<div class="create__fieldsetContainer">
+						<fieldset>
+							<legend>Добавьте Теги</legend>
+							<?php if (count($arResult['TAGS']) > 0): ?>
+								<ul class="filter__list">
+									<?php foreach ($arResult['TAGS'] as $tag): ?>
+										<li class="filter__item">
+											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>">
+											<label class="filter__label"><?=htmlspecialcharsbx($tag->getTitle())?></label>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							<?php else: ?>
+								<p class="empty">У вас пока нет тегов</p>
+							<?php endif;?>
+						</fieldset>
+					</div>
+					<button class="createBtn" type="submit">Создать заявку</button>
 				</form>
 			</div>
 			<!-- Контейнер для удаления проекта(работает!) !-->
