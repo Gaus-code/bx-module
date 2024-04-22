@@ -58,81 +58,66 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</article>
 			<!-- Контейнер для редактирования проекта !-->
 			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
-				<form action="/project/update/" method="post" class="editProject__form">
-					<?= bitrix_sessid_post() ?>
-					<input type="hidden" name="projectId" value='<?=$arParams['PROJECT_ID']?>'>
-					<div class="userProject__title">
-						<input type="text" class="content__editInput" name="title" placeholder="Название проекта" value="<?=htmlspecialcharsbx($arParams['PROJECT']->getTitle())?>" required>
-					</div>
-					<div class="userProject__main">
-						<p class="userProject__description">
-							<input type="text" class="content__editInput" name="description" placeholder="Описание проекта" value="<?=htmlspecialcharsbx($arParams['PROJECT']->getDescription())?>" required>
-						</p>
-					</div>
-					<div class="content__projectEditContainer">
-						<h2>Заявки в проекте:</h2>
-						<div class="tbl-header">
-							<table>
-								<thead>
-								<tr>
-									<th>Независимый порядок</th>
-									<th class="test">Порядок Выполнения</th>
-									<th>Название задачи</th>
-									<th>Исполнитель</th>
-									<th>Статус</th>
-									<th>Последние изменения</th>
-									<th>Удалить задачу</th>
-								</tr>
-								</thead>
-							</table>
-						</div>
-						<div class="tbl-content">
-							<?php if (count($arParams['PROJECT']->getTasks()) > 0): ?>
-								<table>
-									<tbody>
-									<?php
-									foreach ($arParams['PROJECT']->getTasks() as $task)
-									{
-										?>
-										<tr>
-											<td>
-												<input class="withoutPriority" type="checkbox" name="withoutPriorityFlags[<?=$task->getId()?>]" value="on" <?php if ($task->getProjectPriority()==0) { echo "checked";}?>>
-											</td>
-											<td>
-												<input class="editTaskPriority" type="number" min="1" name="priorityNumbers[<?=$task->getId()?>]" value="<?=$task->getProjectPriority()?>">
-											</td>
+				<div class="board">
+					<form id="drag-form" method="post">
+						<?= bitrix_sessid_post() ?>
+						<button class="submitDrag" type="submit">Сохранить изменения</button>
 
-											<td><?=htmlspecialcharsbx($task->getTitle())  ?></td>
+						<div class="lanes">
+							<!--Контейнер для независимых заявок. у него id=0 !-->
+							<div class="swim-lane" id="todo-lane" data-zone-id="0">
+								<h3 class="heading">Независимые заявки</h3>
 
-											<?php
-											if ($task->getContractor() !== null)
-											{
-												?>
-												<td><?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()) ?></td>
-												<?php
-											}
-											else
-											{ ?>
-												<td> Исполнителя нет</td> <?php
-											}
-											?>
-											<td><?= $task->getStatus() ?></td>
-											<td><?= $task->getUpdatedAt() ?></td>
-											<td>
-												<input class="deleteTask" type="checkbox" name="deleteTaskFlags[<?=$task->getId()?>]">
-											</td>
-										</tr>
-										<?php
-									} ?>
-									</tbody>
-								</table>
-							<?php else: ?>
-								<p id="noTasks">у вас пока нет заявок в проекте</p>
-							<?php endif; ?>
+								<div class="task" draggable="true">
+									<input type="hidden" name="tasks[0][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<input type="hidden" name="tasks[0][zoneId]">
+									<p>task bla-bla-bla</p>
+								</div>
+								<div class="task" draggable="true">
+									<input type="hidden" name="tasks[1][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<input type="hidden" name="tasks[1][zoneId]">
+									<p>task 2</p>
+								</div>
+								<div class="task" draggable="true">
+									<input type="hidden" name="tasks[2][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<input type="hidden" name="tasks[2][zoneId]">
+									<p>task 3 he-he-he</p>
+								</div>
+
+							</div>
+							<!--Контейнер для заявок 1 этапа. у него id=1 !-->
+							<div class="swim-lane" id="todo-lane" data-zone-id="1">
+								<h3 class="heading">1 этап</h3>
+
+								<div class="task" draggable="true">
+									<input type="hidden" name="tasks[3][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<input type="hidden" name="tasks[3][zoneId]">
+									<p>task 666 he-he-he</p>
+								</div>
+							</div>
+							<!--Контейнер для заявок 2 этапа. у него id=2 !-->
+							<div class="swim-lane" id="todo-lane" data-zone-id="2">
+								<h3 class="heading">2 этап</h3>
+
+								<div class="task" draggable="true">
+									<input type="hidden" name="tasks[4][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<input type="hidden" name="tasks[4][zoneId]">
+									<p>task 88 superTask for superCute :)</p>
+								</div>
+							</div>
+							<!--Контейнер для заявок 3 этапа. у него id=3 !-->
+							<div class="swim-lane" id="todo-lane" data-zone-id="3">
+								<h3 class="heading">3 этап</h3>
+
+								<div class="task" draggable="true">
+									<input type="hidden" name="tasks[5][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<input type="hidden" name="tasks[5][zoneId]">
+									<p>task 2 hours later...</p>
+								</div>
+							</div>
 						</div>
-					</div>
-					<button class="createBtn" type="submit">Сохранить Изменения</button>
-				</form>
+					</form>
+				</div>
 			</div>
 			<!-- Контейнер для добавления существующей заявки !-->
 			<div id="addTask-reviews" class="content__nonPriorityContainer tab__container">
@@ -217,3 +202,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/deleteTaskFromProject.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/dragAndDrop.js"></script>
