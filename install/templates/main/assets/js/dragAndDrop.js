@@ -79,3 +79,15 @@ const insertAboveTask = (zone, mouseY) => {
 // 	dragLane.appendChild(newZone);
 // 	dragInput.value = '';
 // });
+
+//delete task from project
+const projectTaskDeletes = document.querySelectorAll('.projectTaskDelete');
+
+projectTaskDeletes.forEach(projectTaskDelete => {
+	projectTaskDelete.addEventListener('click', () => {
+		projectTaskDelete.classList.toggle('checked');
+		projectTaskDelete.closest('.task').classList.toggle('checked');
+		const taskSelect = projectTaskDelete.closest('.task').querySelector('select');
+		taskSelect.disabled = projectTaskDelete.checked;
+	});
+});

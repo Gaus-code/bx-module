@@ -71,17 +71,38 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task" draggable="true">
 									<input type="hidden" name="tasks[0][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
 									<input type="hidden" name="tasks[0][zoneId]">
+
 									<p>task bla-bla-bla</p>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[0][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<select name="tasks[0][taskStatus]">
+										<option value="new">Новая</option>
+										<option value="inProgress">В работе</option>
+										<option value="done">Завершена</option>
+									</select>
 								</div>
 								<div class="task" draggable="true">
 									<input type="hidden" name="tasks[1][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
 									<input type="hidden" name="tasks[1][zoneId]">
+
 									<p>task 2</p>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[1][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<select name="tasks[1][taskStatus]">
+										<option value="new">Новая</option>
+										<option value="inProgress">В работе</option>
+										<option value="done">Завершена</option>
+									</select>
 								</div>
 								<div class="task" draggable="true">
 									<input type="hidden" name="tasks[2][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
 									<input type="hidden" name="tasks[2][zoneId]">
+
 									<p>task 3 he-he-he</p>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[2][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<select name="tasks[2][taskStatus]">
+										<option value="new">Новая</option>
+										<option value="inProgress">В работе</option>
+										<option value="done">Завершена</option>
+									</select>
 								</div>
 
 							</div>
@@ -92,7 +113,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task" draggable="true">
 									<input type="hidden" name="tasks[3][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
 									<input type="hidden" name="tasks[3][zoneId]">
+
 									<p>task 666 he-he-he</p>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[3][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<select name="tasks[3][taskStatus]">
+										<option value="new">Новая</option>
+										<option value="inProgress">В работе</option>
+										<option value="done">Завершена</option>
+									</select>
 								</div>
 							</div>
 							<!--Контейнер для заявок 2 этапа. у него id=2 !-->
@@ -102,7 +130,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task" draggable="true">
 									<input type="hidden" name="tasks[4][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
 									<input type="hidden" name="tasks[4][zoneId]">
+
 									<p>task 88 superTask for superCute :)</p>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[4][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<select name="tasks[4][taskStatus]">
+										<option value="new">Новая</option>
+										<option value="inProgress">В работе</option>
+										<option value="done">Завершена</option>
+									</select>
 								</div>
 							</div>
 							<!--Контейнер для заявок 3 этапа. у него id=3 !-->
@@ -112,7 +147,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task" draggable="true">
 									<input type="hidden" name="tasks[5][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
 									<input type="hidden" name="tasks[5][zoneId]">
+
 									<p>task 2 hours later...</p>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[5][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
+									<select name="tasks[5][taskStatus]">
+										<option value="new">Новая</option>
+										<option value="inProgress">В работе</option>
+										<option value="done">Завершена</option>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -201,5 +243,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/deleteTaskFromProject.js"></script>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/dragAndDrop.js"></script>

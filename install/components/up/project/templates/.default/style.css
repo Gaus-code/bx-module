@@ -395,6 +395,8 @@ section.editPriority {
 }
 
 .heading {
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .task {
@@ -406,6 +408,12 @@ section.editPriority {
     border-radius: 6px;
     font-size: 16px;
     cursor: move;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    gap: 10px;
 }
 
 #drag-form {
@@ -450,4 +458,31 @@ section.editPriority {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     background-color: rgb(50, 50, 50);
     color: white;
+}
+
+.projectTaskDelete {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+}
+
+.projectTaskDelete:after {
+    content: '🗑️';
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.task.checked {
+    text-decoration: line-through;
+    background-color: #e4d8d866;
+}
+
+.task select {
+    border-radius: 6px;
+    border: 1px solid var(--color-tag-purple);
 }
