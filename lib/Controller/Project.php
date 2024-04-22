@@ -41,13 +41,22 @@ class Project extends Controller
 		array  $withoutPriorityFlags = [],
 		array  $priorityNumbers = [],
 		array  $deleteTaskFlags = [],
-
 	)
 	{
 		if (check_bitrix_sessid())
 		{
+			global $USER;
+			$userId = (int)$USER->GetID();
 
-			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS'])->where('ID', $projectId)->fetchObject();
+			$project = \Up\Ukan\Model\ProjectTable::query()
+												  ->setSelect(['*', 'TASKS'])
+												  ->where('ID', $projectId)
+												  ->fetchObject();
+
+			if ($project->getClientId()!==$userId)
+			{
+				LocalRedirect("/profile/" . $userId . "/projects/");
+			}
 
 			$project->setTitle($title)->setDescription($description);
 

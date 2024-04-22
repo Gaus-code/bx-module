@@ -49,7 +49,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</ul>
 			</div>
 			<!-- Отзывы, которые оставлены исполнителю(не забудь УДАЛИТЬ этот коммент) !-->
-			<div id="contractor-reviews" class="tab__container contractor-reviews">
+			<div id="contractor-reviews" class="tab__container <?php
+			if ($arResult['USER_ACTIVITY'] === 'owner'):echo "contractor-reviews"; endif;?>">
 				<?php if (count($arResult['RECEIVE_FEEDBACKS']) > 0): ?>
 					<ul class="clientComment__list">
 						<?php foreach ($arResult['RECEIVE_FEEDBACKS'] as $feedback) :?>
@@ -125,4 +126,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
+<?php endif;?>

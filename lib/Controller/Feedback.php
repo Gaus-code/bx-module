@@ -14,11 +14,11 @@ use Up\Ukan\Model\UserTable;
 class Feedback extends Controller
 {
 	public function createAction(
-		$taskId,
-		$fromUserId,
-		$toUserId,
-		$rating,
-		$comment
+		int $taskId,
+		int $fromUserId,
+		int $toUserId,
+		int $rating,
+		string $comment
 	)
 	{
 		if (!$this->dataValidation($taskId, $fromUserId, $toUserId))
@@ -45,9 +45,9 @@ class Feedback extends Controller
 	}
 
 	public function editAction(
-		$feedbackId,
-		$rating,
-		$comment
+		int $feedbackId,
+		int $rating,
+		string $comment
 	)
 	{
 		global $USER;
@@ -75,7 +75,7 @@ class Feedback extends Controller
 	}
 
 	public function deleteAction(
-		$feedbackId,
+		int $feedbackId,
 	)
 	{
 		global $USER;
@@ -96,9 +96,9 @@ class Feedback extends Controller
 	}
 
 	private function dataValidation(
-		$taskId,
-		$fromUserId,
-		$toUserId
+		int $taskId,
+		int $fromUserId,
+		int $toUserId
 	)
 	{
 		global $USER;
@@ -108,12 +108,23 @@ class Feedback extends Controller
 			return false;
 		}
 
-		$task = TaskTable::query()->setSelect(['ID', 'CLIENT_ID', 'CONTRACTOR_ID'])->where('ID', $taskId)->whereIn(
-				'CLIENT_ID',
-				[$fromUserId, $toUserId]
-			)->whereIn('CONTRACTOR_ID', [$fromUserId, $toUserId])->fetchObject();
+		$task = TaskTable::query()->setSelect(['ID', 'CLIENT_ID', 'CONTRACTOR_ID'])
+								  ->where('ID', $taskId)
+								  ->whereIn('CLIENT_ID', [$fromUserId, $toUserId])
+								  ->whereIn('CONTRACTOR_ID', [$fromUserId, $toUserId])
+								  ->fetchObject();
 
 		if (!isset($task))
+		{
+			return false;
+		}
+
+		$feedback = FeedbackTable::query()->setSelect(['ID'])
+										  ->where('TO_USER_ID', $toUserId)
+										  ->where('TASK_ID', $taskId)
+										  ->fetchObject();
+
+		if (isset($feedback))
 		{
 			return false;
 		}
@@ -121,7 +132,11 @@ class Feedback extends Controller
 		return true;
 	}
 
-	private function updateUserRating($userId, $rating, string $action)
+	private function updateUserRating(
+		int $userId,
+		int $rating,
+		string $action
+	)
 	{
 		$user = UserTable::getByPrimary($userId)->fetchObject();
 		switch ($action){

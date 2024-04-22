@@ -35,7 +35,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__tasks">
 			<div class="content__header">
 				<ul class="content__tagList">
-					<li id="open-btn" class="content__tagItem active-tag-item">
+					<li
+						<?php if ($arResult['USER_ACTIVITY'] === 'owner') {echo "id=\"openForOwner-btn\"";}
+						else {echo "id=\"open-btn\"";}?>
+						class="content__tagItem active-tag-item">
 						Открытые
 					</li>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
@@ -43,7 +46,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						В работе
 					</li>
 					<?php endif; ?>
-					<li id="doneTask-btn" class="content__tagItem">
+					<li
+						<?php if ($arResult['USER_ACTIVITY'] === 'owner') {echo "id=\"doneTaskForOwner-btn\"";}
+						else {echo "id=\"doneTask-btn\"";}?>
+						class="content__tagItem">
 						Завершенные
 					</li>
 				</ul>

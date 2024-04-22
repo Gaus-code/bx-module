@@ -11,7 +11,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 }
 ?>
 <!-- Открытые заявки без исполнителя(УДАЛИ потом этот коммент) !-->
-<div id="open-reviews" class="content__tableTask tab__container">
+<div
+	<?php if ($arResult['USER_ACTIVITY'] === 'owner')
+	{
+		echo "id=\"openForOwner-reviews\"";
+	}
+	else {
+		var_dump($arResult['USER_ACTIVITY']);
+		echo "id=\"open-reviews\"";
+	}
+	?>
+	 class="content__tableTask tab__container">
 	<?php if (count($arResult['OPEN_TASKS']) > 0): ?>
 	<table id="taskTable">
 		<thead>
@@ -119,7 +129,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 </div>
 <?php endif;?>
 <!-- Завершенные заявки(УДАЛИ потом этот коммент) !-->
-<div id="doneTask-reviews" class="content__tableTask tab__container">
+<div
+	<?php if ($arResult['USER_ACTIVITY'] === 'owner') {echo "id=\"doneTaskForOwner-reviews\"";}
+	else {echo "id=\"doneTask-reviews\"";}?>
+	class="content__tableTask tab__container">
 	<?php if (count($arResult['DONE_TASKS']) > 0): ?>
 		<table id="taskTable">
 			<thead>

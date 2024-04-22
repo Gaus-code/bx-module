@@ -4,6 +4,7 @@ class TaskListComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchUserActivity();
 		$this->fetchTasks();
 		$this->includeComponentTemplate();
 	}
@@ -218,6 +219,20 @@ class TaskListComponent extends CBitrixComponent
 		$this->arResult['DONE_TASKS'] = $doneTasks;
 	}
 
+	protected function fetchUserActivity()
+	{
+		global $USER;
+		$userId = (int)$USER->getId();
 
+
+		if ($this->arParams['USER_ID'] === $userId)
+		{
+			$this->arResult['USER_ACTIVITY'] = 'owner';
+		}
+		else
+		{
+			$this->arResult['USER_ACTIVITY'] = 'other_user';
+		}
+	}
 
 }

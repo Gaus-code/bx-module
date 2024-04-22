@@ -6,18 +6,6 @@ use Bitrix\Main\Type\Date;
 
 class Subscription extends Controller
 {
-	public function createAction()
-	{
-		if (check_bitrix_sessid())
-		{
-			global $USER;
-
-			$clientId = $USER->GetID();
-
-
-		}
-	}
-
 	public function getTrialVersionAction()
 	{
 		global $USER;

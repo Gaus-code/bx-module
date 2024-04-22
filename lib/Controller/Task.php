@@ -79,7 +79,6 @@ class Task extends Controller
 		if (check_bitrix_sessid())
 		{
 			global $USER;
-
 			$clientId = $USER->GetID();
 
 			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
@@ -129,9 +128,19 @@ class Task extends Controller
 	public function deleteAction(int $taskId)
 	{
 		global $USER;
+		$userId = (int)$USER->GetID();
 		if (check_bitrix_sessid())
 		{
-			$task = TaskTable::query()->setSelect(['*', 'RESPONSES', 'TAGS'])->where('ID', $taskId)->fetchObject();
+			$task = TaskTable::query()
+							 ->setSelect(['*', 'RESPONSES', 'TAGS'])
+							 ->where('ID', $taskId)
+							 ->fetchObject();
+
+			if ($userId!==$task->getClientId())
+			{
+				LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
+			}
+
 			$tags = $task->getTags();
 			$responses=$task->getResponses();
 
