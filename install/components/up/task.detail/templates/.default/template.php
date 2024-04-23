@@ -62,6 +62,19 @@ if ($arResult['TASK']): ?>
 												   . $arResult['TASK']->getClient()->get('B_USER')->getLastName()) ?>
 						</p>
 					</li>
+					<?php if ($USER->IsAdmin()):?>
+						<li class="metaContainer__item">
+							<form class="banForm" action="">
+								<button type="submit">Заблокировать</button>
+							</form>
+						</li>
+					<?php else :?>
+						<li class="metaContainer__item">
+							<form class="banForm" action="">
+								<button type="submit">Пожаловаться на заявку</button>
+							</form>
+						</li>
+					<?php endif; ?>
 				</ul>
 			</section>
 		</div>

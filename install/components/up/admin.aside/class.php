@@ -1,15 +1,13 @@
 <?php
 
-class UserComponent extends CBitrixComponent
+class AdminAsideComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
 		$this->fetchUserActivity();
 		$this->fetchUser();
 		$this->includeComponentTemplate();
-
 	}
-
 	public function onPrepareComponentParams($arParams)
 	{
 		if (!isset($arParams['USER_ID']) || $arParams['USER_ID'] <= 0)
@@ -24,8 +22,9 @@ class UserComponent extends CBitrixComponent
 	{
 		$query = \Up\Ukan\Model\UserTable::query();
 
-		$this->arResult['USER'] = $query->setSelect(['*', 'B_USER', 'SUBSCRIPTION_STATUS'])->where('ID', $this->arParams['USER_ID'])->fetchObject();
+		$query->setSelect(['*', 'B_USER'])->where('ID', $this->arParams['USER_ID']);
 
+		$this->arResult['USER'] = $query->fetchObject();
 	}
 
 	protected function fetchUserActivity()
@@ -43,5 +42,4 @@ class UserComponent extends CBitrixComponent
 			$this->arResult['USER_ACTIVITY'] = 'other_user';
 		}
 	}
-
 }

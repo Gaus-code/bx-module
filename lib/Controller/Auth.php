@@ -51,6 +51,10 @@ class Auth extends Engine\Controller
 			$userId = $USER->GetID();
 			$this->setUserSession($userId);
 
+			if ($USER->IsAdmin())
+			{
+				LocalRedirect('/admin/');
+			}
 			LocalRedirect('/profile/'.$userId.'/');
 		}
 		else

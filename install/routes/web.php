@@ -10,6 +10,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/', new PublicPageController('/local/modules/up.ukan/views/main.php'));
 	$routes->get('/catalog/', new PublicPageController('/local/modules/up.ukan/views/catalog.php'));
 	$routes->get('/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
+	$routes->get('/access/denied/', new PublicPageController('/local/modules/up.ukan/views/403.php'));
 
 	//profile
 	$routes->get('/profile/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/user.php'));
@@ -68,4 +69,10 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/feedback/create/', [\Up\Ukan\Controller\Feedback::class, 'create']);
 	$routes->post('/feedback/edit/', [\Up\Ukan\Controller\Feedback::class, 'edit']);
 	$routes->post('/feedback/delete/', [\Up\Ukan\Controller\Feedback::class, 'delete']);
+
+	//admin
+	$routes->get('/admin/', new PublicPageController('/local/modules/up.ukan/views/admin.php'));
+	$routes->get('/admin/tags/', new PublicPageController('/local/modules/up.ukan/views/admin-tags.php'));
+	$routes->get('/admin/notifications/', new PublicPageController('/local/modules/up.ukan/views/admin-notify.php'));
+	$routes->get('/admin/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/admin-feedback.php'));
 };
