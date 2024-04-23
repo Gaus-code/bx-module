@@ -36,7 +36,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<li class="responses__tagItem <?= ($arParams['SHOW'] === 'sent') ? 'active-responses-link' : '' ?>">
 						<a href="/profile/<?= $arParams['USER_ID'] ?>/responses/?show=sent" class="responses__tag">Отправленные отклики</a>
 					</li>
-					<li class="responses__tagItem <?= ($arParams['SHOW'] === 'receive') ? 'active-responses-link' : '' ?>">
+					<li class="responses__tagItem <?= ($arParams['SHOW'] === 'receive') ? 'active-responses-link'
+						: '' ?>">
 						<a href="/profile/<?= $arParams['USER_ID'] ?>/responses/?show=receive" class="responses__tag">Пришедшие отклики</a>
 					</li>
 				</ul>
@@ -60,9 +61,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php
 			if ($arParams['SHOW'] === 'sent'): ?>
 				<?php
-				if (count($arResult['RESPONSES']) > 0): ?>
+				if (count($arResult['SENT_RESPONSES']) > 0): ?>
 					<?php
-					foreach ($arResult['RESPONSES'] as $response): ?>
+					foreach ($arResult['SENT_RESPONSES'] as $response): ?>
 						<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
 							<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
 								<div class="task__header">
@@ -73,12 +74,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									endforeach; ?>
 								</div>
 								<div class="task__responseMain">
-									<h3 class="task__responseTitle"><?= htmlspecialcharsbx($response->getTask()->getTitle()) ?></h3>
+									<h3 class="task__responseTitle"><?= htmlspecialcharsbx(
+											$response->getTask()->getTitle()
+										) ?></h3>
 									<p class="task__responseCreated">
 										<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
-									<p class="task__responseCreated"><span>Ваша цена:</span> <?= $response->getPrice() ?> </p>
-									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()->getProject())
-											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle()) : 'Без проекта' ?> </p>
+									<p class="task__responseCreated"><span>Ваша цена:</span> <?= $response->getPrice(
+										) ?> </p>
+									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
+																										->getProject())
+											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle())
+											: 'Без проекта' ?> </p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
 										)) ?> </p>
 								</div>
@@ -101,6 +107,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						</div>
 					<?php
 					endforeach; ?>
+					<?php
+					if (
+						$arParams['CURRENT_PAGE' . '_SENT_RESPONSE'] !== 1
+						|| $arParams['EXIST_NEXT_PAGE'
+						. '_SENT_RESPONSE']
+					)
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_SENT_RESPONSE'],
+							'NAME_OF_PAGE' => '_SENT_RESPONSE',
+						]);
+					}
+					?>
 				<?php
 				else: ?>
 					<div class="contractor__emptyContainer">
@@ -125,54 +144,80 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</button>
 				</form>
 				<?php
-				if (count($arResult['RESPONSES']) > 0): ?>
+				if (count($arResult['RECEIVE_RESPONSES']) > 0): ?>
 					<?php
-					foreach ($arResult['RESPONSES'] as $response): ?>
+					foreach ($arResult['RECEIVE_RESPONSES'] as $response): ?>
 						<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
 							<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
 								<div class="task__header">
 									<?php
 									foreach ($response->getTask()->getTags() as $tag): ?>
-										<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle() )?></p>
+										<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 									<?php
 									endforeach; ?>
 								</div>
 								<div class="task__responseMain">
-									<h3 class="task__responseTitle"><?=htmlspecialcharsbx($response->getTask()->getTitle())  ?></h3>
+									<h3 class="task__responseTitle"><?= htmlspecialcharsbx(
+											$response->getTask()->getTitle()
+										) ?></h3>
 									<p class="task__responseCreated">
 										<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
 									<p class="task__responseCreated">
 										<span>Предложенная цена:</span> <?= $response->getPrice() ?> </p>
 									<p class="task__responseCreated">
-										<span>Исполнитель:</span> <?= htmlspecialcharsbx($response->getContractor()->getBUser()->getName()
-																						 . ' ' . $response->getContractor()->getBUser()->getLastName()) ?> </p>
+										<span>Исполнитель:</span> <?= htmlspecialcharsbx(
+											$response->getContractor()->getBUser()->getName()
+											. ' '
+											. $response->getContractor()->getBUser()->getLastName()
+										) ?> </p>
 									<p class="task__responseCreated">
-										<span>Сопроводительное письмо:</span> <?= htmlspecialcharsbx($response->getDescription()) ?> </p>
+										<span>Сопроводительное письмо:</span> <?= htmlspecialcharsbx(
+											$response->getDescription()
+										) ?> </p>
 									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
 																										->getProject())
-											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle()) : 'Без проекта' ?> </p>
-									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus()) ?> </p>
+											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle())
+											: 'Без проекта' ?> </p>
+									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
+										)) ?> </p>
 								</div>
 							</a>
-							<?php if (($arParams['FILTER']) === 'wait'): ?>
+							<?php
+							if (($arParams['FILTER']) === 'wait'): ?>
 								<div class="task__responseFooter">
 									<form action="/response/approve/" method="post">
 										<?= bitrix_sessid_post() ?>
 										<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
-										<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+										<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId(
+										) ?>">
 										<button class="task__responseDelete" type="submit">Одобрить отклик</button>
 									</form>
 									<form action="/response/reject/" method="post">
 										<?= bitrix_sessid_post() ?>
 										<input hidden="hidden" name="taskId" value="<?= $response->getTaskId() ?>">
-										<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId() ?>">
+										<input hidden="hidden" name="contractorId" value="<?= $response->getContractorId(
+										) ?>">
 										<button class="task__responseDelete" type="submit">Отклонить отклик</button>
 									</form>
 								</div>
-							<?php endif; ?>
+							<?php
+							endif; ?>
 						</div>
 					<?php
 					endforeach; ?>
+					<?php
+					if (
+						$arParams['CURRENT_PAGE' . '_RECEIVE_RESPONSE'] !== 1
+						|| $arParams['EXIST_NEXT_PAGE'
+						. '_RECEIVE_RESPONSE']
+					)
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_RECEIVE_RESPONSE'],
+							'NAME_OF_PAGE' => '_RECEIVE_RESPONSE',
+						]);
+					}
+					?>
 				<?php
 				else: ?>
 					<div class="contractor__emptyContainer">
@@ -184,16 +229,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				endif; ?>
 			<?php
 			endif; ?>
-
-
-			<?php
-			if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
-			{
-				$APPLICATION->IncludeComponent('up:pagination', '', [
-					'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
-				]);
-			}
-			?>
 		</article>
 	</section>
 </main>

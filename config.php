@@ -34,5 +34,6 @@ return array(
 		'task_list_personal' => 10,
 		'responses_list' => 6,
 		'notification_list' => 7,
+		'feedback_list' => 7,
 	),
 );
