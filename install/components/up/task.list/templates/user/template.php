@@ -40,7 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult['OPEN_TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<a href="/task/<?= $task->getId() ?>/">
+						<a class="taskViewLink" href="/task/<?= $task->getId() ?>/">
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
@@ -91,14 +91,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult['AT_WORK_TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<a href="/task/<?= $task->getId() ?>/">
+						<a class="taskViewLink" href="/task/<?= $task->getId() ?>/">
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>
-						<a href="/profile/<?= $task->getContractorId() ?>/">
+						<a class="taskViewLink" href="/profile/<?= $task->getContractorId() ?>/">
 							<?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()
 												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
 						</a>
@@ -148,14 +148,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult['DONE_TASKS'] as $task): ?>
 				<tr>
 					<td>
-						<a href="/task/<?= $task->getId() ?>/">
+						<a class="taskViewLink" href="/task/<?= $task->getId() ?>/">
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>
-						<a href="/profile/<?= $task->getContractorId() ?>/">
+						<a class="taskViewLink" href="/profile/<?= $task->getContractorId() ?>/">
 							<?= htmlspecialcharsbx($task->getContractor()->getBUser()->getName()
 												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
 						</a>

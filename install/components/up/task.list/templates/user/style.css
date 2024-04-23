@@ -1,0 +1,12 @@
+#inProgress-reviews, #doneTaskForOwner-reviews {
+    display: none;
+}
+
+.taskViewLink {
+    color: var(--color-primary-black);
+}
+
+.taskViewLink:hover, .taskViewLink:active, .taskViewLink:focus {
+    color: var(--color-primary-purple);
+    border-bottom: 1px solid var(--color-primary-purple);
+}

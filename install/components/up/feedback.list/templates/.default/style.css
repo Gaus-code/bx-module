@@ -63,6 +63,15 @@
     width: 100%;
 }
 
+.comment__header a {
+    padding: 5px 0;
+    color: var(--color-tag-purple);
+}
+
+.comment__header a:hover, .comment__header a:focus {
+    border-bottom: 2px solid var(--color-tag-purple);
+}
+
 .comment__footer {
     display: flex;
     width: 100%;
@@ -132,7 +141,7 @@
     color: var(--color-primary-purple);
 }
 
-.waiting-reviews, .contractor-reviews {
+.waiting-reviews, .client-reviews {
     display: none;
 }
 
@@ -151,8 +160,8 @@
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    color: var(--color-primary-black);
-    padding: 3px 5px;
+    color: var(--color-primary-black) !important;
+    padding: 3px 5px !important;
     background-color: var(--color-tag-green);
 }
 

@@ -73,6 +73,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</li>
 						<?php endforeach; ?>
 					</ul>
+				<?php else:?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>у вас пока нет отзывов от исполнителей</p>
+					</div>
 				<?php endif; ?>
 			</div>
 			<!-- Отзывы, которые оставил сам исполнитель(не забудь УДАЛИТЬ этот коммент) !-->
@@ -104,6 +109,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</li>
 						<?php endforeach; ?>
 					</ul>
+				<?php else:?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>у вас пока нет отзывов</p>
+					</div>
 				<?php endif; ?>
 			</div>
 			<!-- выполненные заявки, на которые ожидается отзыв(не забудь УДАЛИТЬ этот коммент) !-->
@@ -119,6 +129,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</li>
 					<?php endforeach; ?>
 				</ul>
+				<?php else:?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>у вас пока нет заявок, на которые можно оставить отзыв</p>
+					</div>
 				<?php endif; ?>
 			</div>
 			<?php endif;?>

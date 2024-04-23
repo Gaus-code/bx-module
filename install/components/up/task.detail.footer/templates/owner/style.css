@@ -1,3 +1,12 @@
+.comment__form {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	gap: 20px;
+}
+
 .task__response {
 	padding: 10px 15px;
 	width: 100%;

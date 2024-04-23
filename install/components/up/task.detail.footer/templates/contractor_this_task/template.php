@@ -23,7 +23,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php else: ?>
 		<p class="detail__feedback_title">Отзывы:</p>
 		<?php if (!$arResult['USER_SENT_FEEDBACK']): ?>
-			<form class="create__form" action="/feedback/create/" method="post">
+			<form class="comment__form" action="/feedback/create/" method="post">
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
 					<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
