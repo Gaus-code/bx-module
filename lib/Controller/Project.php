@@ -63,7 +63,6 @@ class Project extends Controller
 			{
 				LocalRedirect("/profile/" . $userId . "/projects/");
 			}
-			// return $tasks;
 
 			$arrayStages=[];
 			foreach ($tasks as $taskId => $taskOptions)
