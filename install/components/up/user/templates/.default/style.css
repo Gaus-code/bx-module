@@ -151,3 +151,112 @@
     transition: opacity 0.3s ease;
     transform: rotate(21deg);
 }
+
+.banForm {
+    padding: 10px;
+    border: 2px solid var(--color-primary-border);
+    border-radius: 6px;
+    position: relative;
+    opacity: 0;
+    display: none;
+}
+
+.banBtn {
+    padding: 10px 20px;
+    background-color: var(--color-warning-red);
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.banForm, .banBtn {
+    position: absolute;
+    right: 0;
+    top: 7%;
+}
+
+.complaint__list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.complaint__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.complaint__radio {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: 1px solid var(--color-primary-purple);
+    border-radius: 50%;
+    background-color: var(--color-primary-white);
+    width: 15px;
+    height: 15px;
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+}
+
+.complaint__radio:checked {
+    background-color: var(--color-primary-purple);
+
+    &::before {
+        content: "\2713";
+        color: #fff;
+        position: absolute;
+        font-size: 12px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(5deg);
+
+    }
+}
+
+.complaint__label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+}
+
+.complaintText {
+    margin: 21px 0 10px;
+    resize: none;
+    width: 100%;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid var(--color-primary-purple);
+    border-radius: 6px;
+}
+
+#sendComplaint {
+    width: 100%;
+    padding: 5px;
+    background-color: var(--color-primary-purple);
+    border-radius: 6px;
+    border: 2px solid var(--color-primary-purple);
+}
+
+#sendComplaint:hover, #sendComplaint:active, #sendComplaint:focus {
+    background-color: #fff;
+    transition: 0.3s;
+}
+
+#closeFormBtn {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    background-color: inherit;
+}
+
+#closeFormBtn img {
+    display: block;
+    width: 20px;
+}
