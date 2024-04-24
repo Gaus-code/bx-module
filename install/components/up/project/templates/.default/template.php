@@ -40,13 +40,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<article class="content__tagButtons">
 				<div class="content__header">
 					<ul class="content__tagList">
-						<li id="edit-btn" class="content__tagItem">
+						<li id="edit-btn" class="content__tagItem active-tag-item">
 							Редактировать заявки в проекте
 						</li>
 						<li id="addTask-btn" class="content__tagItem">
 							Добавить существующую заявку
 						</li>
-						<li id="createTask-btn" class="content__tagItem active-tag-item">
+						<li id="createTask-btn" class="content__tagItem">
 							Создать заявку
 						</li>
 						<li id="delete-btn" class="content__tagItem">
@@ -57,7 +57,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 			</article>
 			<!-- Контейнер для редактирования проекта !-->
-			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
+			<div id="edit-reviews" class="content__priorityContainer tab__container">
 				<div class="board">
 					<form action="/project/add-stage/" method="post">
 						<?= bitrix_sessid_post() ?>
@@ -126,7 +126,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</form>
 			</div>
 			<!-- Контейнер для создания заявки сразу в проекте!-->
-			<div id="createTask-reviews" class="content__priorityContainer tab__container">
+			<div id="createTask-reviews" class="content__nonPriorityContainer tab__container">
 				<form class="create__form" action="/task/create/" method="post">
 					<?=bitrix_sessid_post()?>
 					<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">

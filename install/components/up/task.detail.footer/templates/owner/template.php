@@ -63,7 +63,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 																	$arResult['CONTRACTOR']->getBUser()->getLastName()) ?>
 			<p> <?= $arResult['CONTRACTOR']->getContacts() ?> </p>
 		</div>
-		<form class="create__form" action="/task/finish/" method="post">
+		<form action="/task/finish/" method="post">
 			<?= bitrix_sessid_post() ?>
 			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
 			<button class="createBtn" type="submit">Завершить задачу!</button>
@@ -73,7 +73,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['done']): ?>
 		<p class="detail__feedback_title">Отзывы:</p>
 		<?php if (!$arResult['USER_SENT_FEEDBACK']): ?>
-			<form class="create__form" action="/feedback/create/" method="post">
+			<form class="comment__form" action="/feedback/create/" method="post">
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
 					<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">

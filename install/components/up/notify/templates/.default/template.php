@@ -34,7 +34,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<ul class="notify__list">
 					<?php foreach ($arResult['NOTIFICATIONS'] as $notification) : ?>
 						<li class="notify__item">
-							<div class="notify__profile">
+							<div class="notify__profileUser">
 								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image">
 								<div class="userInfo">
 									<p class="userInfo__name">

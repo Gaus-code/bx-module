@@ -2,11 +2,11 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    min-height: 500px;
+    min-height: 550px;
 }
 
 .detail__mainContainer {
-    max-width: 880px;
+    max-width: 70%;
     width: 100%;
 }
 
@@ -85,6 +85,12 @@
     border-radius: 12px;
     font-size: 16px;
     text-align: center;
+    margin-bottom: 15px;
+}
+
+.detail__status a {
+    color: var(--color-primary-white);
+    border-bottom: 2px solid var(--color-primary-white);
 }
 
 .detail__footer {

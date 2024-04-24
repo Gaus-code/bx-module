@@ -3,12 +3,13 @@
 }
 
 .notify__list {
-    width: 95%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 15px;
+    margin-left: 30px;
 }
 
 .notify__item:nth-child(odd) {
@@ -24,16 +25,30 @@
     padding: 20px 25px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     border-radius: 10px;
+    gap: 100px;
     background: var(--color-primary-white);
     box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
 
 }
 
 .notify__profile {
-    max-width: 250px;
-    width: 100%;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-right: 20px;
+    border-right: 1px solid var(--color-primary-border);
+}
+
+.notify__profile p {
+    text-align: center;
+}
+
+.notify__profileUser {
+    width: 300px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -42,7 +57,7 @@
     border-right: 1px solid var(--color-primary-border);
 }
 
-.notify__profile img {
+.notify__profileUser img {
     display: block;
     width: 55px;
     border-radius: 50%;
@@ -61,7 +76,7 @@
 }
 
 .notify__title {
-    max-width: 450px;
+    width: 200px;
     text-align: center;
     line-height: 20px;
 }
@@ -77,7 +92,7 @@
     gap: 20px;
 }
 
-.notify__buttons a {
+.notify__buttons a, .notify__buttons button {
     display: block;
     padding: 10px 20px;
     color: var(--color-primary-black);
@@ -87,8 +102,15 @@
 
 .notify__accept {
     background-color: var(--color-tag-green);
+    border: 1px solid var(--color-tag-green);
 }
 
 .notify__reject {
     background-color: var(--color-warning-red);
+    border: 1px solid var(--color-warning-red);
+}
+
+.notify__buttons a:hover, .notify__buttons button:hover, .notify__buttons a:focus, .notify__buttons button:focus {
+    background-color: var(--color-primary-white);
+    transition: 0.3s;
 }

@@ -56,7 +56,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['RECEIVE_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= htmlspecialcharsbx($feedback->getTask()->getTitle()) ?></p></a>
+									<a href="/task/<?= $feedback->getTaskId() ?>/">
+										<p class="comment__title">
+											<?= htmlspecialcharsbx($feedback->getTask()->getTitle()) ?>
+										</p>
+									</a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
@@ -82,6 +86,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						]);
 					}
 					?>
+				<?php else:?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>у вас пока нет отзывов от исполнителей</p>
+					</div>
 				<?php endif; ?>
 			</div>
 			<!-- Отзывы, которые оставил сам исполнитель(не забудь УДАЛИТЬ этот коммент) !-->
@@ -92,7 +101,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['SENT_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= htmlspecialcharsbx($feedback->getTask()->getTitle())  ?></p></a>
+									<a href="/task/<?= $feedback->getTaskId() ?>/">
+										<p class="comment__title">
+											<?= htmlspecialcharsbx($feedback->getTask()->getTitle())  ?>
+										</p>
+									</a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
@@ -122,6 +135,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						]);
 					}
 					?>
+				<?php else:?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>у вас пока нет отзывов</p>
+					</div>
 				<?php endif; ?>
 			</div>
 			<!-- выполненные заявки, на которые ожидается отзыв(не забудь УДАЛИТЬ этот коммент) !-->
@@ -146,6 +164,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						]);
 					}
 					?>
+				<?php else:?>
+					<div class="contractor__emptyContainer">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
+						<p>у вас пока нет заявок, на которые можно оставить отзыв</p>
+					</div>
 				<?php endif; ?>
 			</div>
 			<?php endif;?>
