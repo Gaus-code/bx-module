@@ -75,7 +75,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<button class="submitDrag" type="submit">Сохранить изменения</button>
 						<div class="lanes">
 							<?php foreach ($arResult['PROJECT']->getStages() as $stage):?>
-							<div class="swim-lane" id="todo-lane" data-zone-id="<?=$stage->getNumber()?>">
+							<div class="swim-lane" id="todo-lane" data-zone-id="<?=$stage->getId()?>">
 								<h3 class="heading">
 									<?php if($stage->getNumber()===0){echo "Независимые задачи";}
 									else{echo $stage->getNumber()." этап";}?>
