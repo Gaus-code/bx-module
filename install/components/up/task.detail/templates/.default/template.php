@@ -31,6 +31,11 @@ if ($arResult['TASK']): ?>
 				<div class="detail__container">
 					<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
 				</div>
+				<?php if (!empty($arResult['TASK']->getMaxPrice())): ?>
+				<div class="detail__container">
+					<div class="detail__status">до <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
+				</div>
+				<?php endif;?>
 			</section>
 
 			<?php if ($USER->IsAuthorized()): ?>

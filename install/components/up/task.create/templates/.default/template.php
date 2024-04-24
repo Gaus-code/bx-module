@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
 					</div>
 					<div class="create__container">
-						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость</label>
+						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
 						<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
 					</div>
 				</div>
