@@ -73,6 +73,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</li>
 						<?php endforeach; ?>
 					</ul>
+					<?php
+					if ($arParams['CURRENT_PAGE' . '_SENT_FEEDBACK'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_SENT_FEEDBACK'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_SENT_FEEDBACK'],
+							'NAME_OF_PAGE' => '_SENT_FEEDBACK',
+						]);
+					}
+					?>
 				<?php endif; ?>
 			</div>
 			<!-- Отзывы, которые оставил сам исполнитель(не забудь УДАЛИТЬ этот коммент) !-->
@@ -104,6 +113,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</li>
 						<?php endforeach; ?>
 					</ul>
+					<?php
+					if ($arParams['CURRENT_PAGE' . '_RECEIVE_FEEDBACK'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_RECEIVE_FEEDBACK'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_RECEIVE_FEEDBACK'],
+							'NAME_OF_PAGE' => '_RECEIVE_FEEDBACK',
+						]);
+					}
+					?>
 				<?php endif; ?>
 			</div>
 			<!-- выполненные заявки, на которые ожидается отзыв(не забудь УДАЛИТЬ этот коммент) !-->
@@ -119,6 +137,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</li>
 					<?php endforeach; ?>
 				</ul>
+					<?php
+					if ($arParams['CURRENT_PAGE' . '_LEFT_FEEDBACK'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_LEFT_FEEDBACK'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_LEFT_FEEDBACK'],
+							'NAME_OF_PAGE' => '_LEFT_FEEDBACK',
+						]);
+					}
+					?>
 				<?php endif; ?>
 			</div>
 			<?php endif;?>

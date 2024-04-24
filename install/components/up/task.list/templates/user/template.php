@@ -57,20 +57,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php endforeach; ?>
 			</tbody>
 	</table>
+		<?php
+
+		if ($arParams['CURRENT_PAGE' . '_OPEN_TASKS'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_OPEN_TASKS'])
+		{
+			$APPLICATION->IncludeComponent('up:pagination', '', [
+				'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_OPEN_TASKS'],
+				'NAME_OF_PAGE' => '_OPEN_TASKS',
+			]);
+		}
+		?>
 	<?php else: ?>
 		<div class="contractor__emptyContainer">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
 			<p>Пока что тут нет заявок</p>
 		</div>
 	<?php endif; ?>
-	<?php
-	if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
-	{
-		$APPLICATION->IncludeComponent('up:pagination', '', [
-			'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
-		]);
-	}
-	?>
+
 </div>
 <!-- Заявки с исполнителем(УДАЛИ потом этот коммент) !-->
 <?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
@@ -112,20 +115,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php
+		if ($arParams['CURRENT_PAGE' . '_AT_WORK_TASKS'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_AT_WORK_TASKS'])
+		{
+			$APPLICATION->IncludeComponent('up:pagination', '', [
+				'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_AT_WORK_TASKS'],
+				'NAME_OF_PAGE' => '_AT_WORK_TASKS',
+			]);
+		}
+		?>
 	<?php else: ?>
 		<div class="contractor__emptyContainer">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
 			<p>Пока что тут нет заявок</p>
 		</div>
 	<?php endif; ?>
-	<?php
-	if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
-	{
-		$APPLICATION->IncludeComponent('up:pagination', '', [
-			'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
-		]);
-	}
-	?>
 </div>
 <?php endif;?>
 <!-- Завершенные заявки(УДАЛИ потом этот коммент) !-->
@@ -165,20 +169,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php
+		if ($arParams['CURRENT_PAGE' . '_DONE_TASKS'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'])
+		{
+			$APPLICATION->IncludeComponent('up:pagination', '', [
+				'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'],
+				'NAME_OF_PAGE' => '_DONE_TASKS',
+			]);
+		}
+		?>
 	<?php else: ?>
 		<div class="contractor__emptyContainer">
 			<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
 			<p>Пока что тут нет заявок</p>
 		</div>
 	<?php endif; ?>
-	<?php
-	if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
-	{
-		$APPLICATION->IncludeComponent('up:pagination', '', [
-			'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
-		]);
-	}
-	?>
+
 </div>
 
 
