@@ -85,7 +85,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 	private function fetchResponses()
 	{
 		$query = \Up\Ukan\Model\ResponseTable::query();
-		$query->setSelect(['*', 'TASK', 'TASK.PROJECT' , 'CONTRACTOR.B_USER'])
+		$query->setSelect(['*', 'TASK', 'CONTRACTOR.B_USER'])
 			  ->where('TASK_ID', $this->arParams['TASK']->getId())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('response_status')['wait'])
 			  ->addOrder('CREATED_AT', 'DESC')

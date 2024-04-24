@@ -42,6 +42,8 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/project/update/', [\Up\Ukan\Controller\Project::class, 'update']);
 	$routes->post('/project/delete/', [\Up\Ukan\Controller\Project::class, 'delete']);
 	$routes->post('/project/add-tasks/', [\Up\Ukan\Controller\Project::class, 'addTasks']);
+	$routes->post('/project/add-stage/', [\Up\Ukan\Controller\Project::class, 'addStage']);
+	$routes->post('/project/delete-stage/', [\Up\Ukan\Controller\Project::class, 'deleteStage']);
 
 	//auth&logOut
 	$routes->get('/logout', [\Up\Ukan\Controller\Auth::class, 'logOut']);

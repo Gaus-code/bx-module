@@ -56,7 +56,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['RECEIVE_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= htmlspecialcharsbx($feedback->getTask()->getTitle()) ?></p></a>
+									<a href="/task/<?= $feedback->getTaskId() ?>/">
+										<p class="comment__title">
+											<?= htmlspecialcharsbx($feedback->getTask()->getTitle()) ?>
+										</p>
+									</a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
@@ -73,6 +77,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</li>
 						<?php endforeach; ?>
 					</ul>
+					<?php
+					if ($arParams['CURRENT_PAGE' . '_SENT_FEEDBACK'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_SENT_FEEDBACK'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_SENT_FEEDBACK'],
+							'NAME_OF_PAGE' => '_SENT_FEEDBACK',
+						]);
+					}
+					?>
 				<?php else:?>
 					<div class="contractor__emptyContainer">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
@@ -88,7 +101,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php foreach ($arResult['SENT_FEEDBACKS'] as $feedback) :?>
 							<li class="clientComment__item">
 								<div class="comment__header">
-									<a href="/task/<?= $feedback->getTaskId() ?>/"><p class="comment__title"><?= htmlspecialcharsbx($feedback->getTask()->getTitle())  ?></p></a>
+									<a href="/task/<?= $feedback->getTaskId() ?>/">
+										<p class="comment__title">
+											<?= htmlspecialcharsbx($feedback->getTask()->getTitle())  ?>
+										</p>
+									</a>
 									<div class="comment__rating">
 										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/star.svg" alt="star rating img">
 										<p><?= $feedback->getRating() ?></p>
@@ -109,6 +126,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</li>
 						<?php endforeach; ?>
 					</ul>
+					<?php
+					if ($arParams['CURRENT_PAGE' . '_RECEIVE_FEEDBACK'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_RECEIVE_FEEDBACK'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_RECEIVE_FEEDBACK'],
+							'NAME_OF_PAGE' => '_RECEIVE_FEEDBACK',
+						]);
+					}
+					?>
 				<?php else:?>
 					<div class="contractor__emptyContainer">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
@@ -129,6 +155,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</li>
 					<?php endforeach; ?>
 				</ul>
+					<?php
+					if ($arParams['CURRENT_PAGE' . '_LEFT_FEEDBACK'] !== 1 || $arParams['EXIST_NEXT_PAGE' . '_LEFT_FEEDBACK'])
+					{
+						$APPLICATION->IncludeComponent('up:pagination', '', [
+							'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE' . '_LEFT_FEEDBACK'],
+							'NAME_OF_PAGE' => '_LEFT_FEEDBACK',
+						]);
+					}
+					?>
 				<?php else:?>
 					<div class="contractor__emptyContainer">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">

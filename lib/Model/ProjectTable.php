@@ -107,8 +107,8 @@ class ProjectTable extends DataManager
 				]
 			),
 			new OneToMany(
-				'TASKS',
-				TaskTable::class,
+				'STAGES',
+				ProjectStageTable::class,
 				'PROJECT'
 			),
 		];

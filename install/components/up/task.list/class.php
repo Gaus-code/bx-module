@@ -4,6 +4,7 @@ class TaskListComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->preparePaginationParams();
 		$this->fetchUserActivity();
 		$this->fetchTasks();
 		$this->includeComponentTemplate();
@@ -12,14 +13,6 @@ class TaskListComponent extends CBitrixComponent
 	public function onPrepareComponentParams($arParams)
 	{
 
-		if (!request()->get('PAGEN_1') || !is_numeric(request()->get('PAGEN_1')) || (int)request()->get('PAGEN_1') < 1)
-		{
-			$arParams['CURRENT_PAGE'] = 1;
-		}
-		else
-		{
-			$arParams['CURRENT_PAGE'] = (int)request()->get('PAGEN_1');
-		}
 		if (!isset($arParams['USER_ID']) || $arParams['USER_ID'] <= 0)
 		{
 			$arParams['USER_ID'] = null;
@@ -37,6 +30,40 @@ class TaskListComponent extends CBitrixComponent
 
 		return $arParams;
 
+	}
+
+	private function preparePaginationParams()
+	{
+		if (!$this->arParams['IS_PERSONAL_ACCOUNT_PAGE'])
+		{
+			if (!request()->get('PAGEN_1') || !is_numeric(request()->get('PAGEN_1')) || (int)request()->get('PAGEN_1') < 1)
+			{
+				$this->arParams['CURRENT_PAGE'] = 1;
+			}
+			else
+			{
+				$this->arParams['CURRENT_PAGE'] = (int)request()->get('PAGEN_1');
+			}
+		}
+		else
+		{
+			$nameOfPageAreas = [
+				'_OPEN_TASKS',
+				'_AT_WORK_TASKS',
+				'_DONE_TASKS',
+			];
+			foreach ($nameOfPageAreas as $nameOfPageArea)
+			{
+				if (!request()->get('PAGEN_1' . $nameOfPageArea) || !is_numeric(request()->get('PAGEN_1' . $nameOfPageArea)) || (int)request()->get('PAGEN_1' . $nameOfPageArea) < 1)
+				{
+					$this->arParams['CURRENT_PAGE' . $nameOfPageArea] = 1;
+				}
+				else
+				{
+					$this->arParams['CURRENT_PAGE' . $nameOfPageArea] = (int)request()->get('PAGEN_1' . $nameOfPageArea);
+				}
+			}
+		}
 	}
 
 	protected function fetchTasks()
@@ -113,9 +140,10 @@ class TaskListComponent extends CBitrixComponent
 
 		//делаем второй запрос
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'TAGS', 'CLIENT', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME'])
+		$query->setSelect(['*','SEARCH_PRIORITY', 'TAGS', 'CLIENT','CLIENT.SUBSCRIPTION_STATUS', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME'])
 			  ->whereIn('ID', $idList)
-			  ->addOrder('SEARCH_PRIORITY', 'DESC');
+			->addOrder('SEARCH_PRIORITY', 'DESC') //сортировка по подписке
+			->addOrder('CREATED_AT', 'DESC');
 
 		$this->arResult['TASKS'] = $query->fetchCollection();
 
@@ -126,7 +154,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
 		$nav->allowAllRecords(true)
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
-		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_OPEN_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
@@ -140,14 +168,15 @@ class TaskListComponent extends CBitrixComponent
 		$openTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($openTasks));
-		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_OPEN_TASKS'])
 		{
-			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			$this->arParams['EXIST_NEXT_PAGE' . '_OPEN_TASKS'] = true;
 			array_pop($openTasks);
 		}
 		else
 		{
-			$this->arParams['EXIST_NEXT_PAGE'] = false;
+			$this->arParams['EXIST_NEXT_PAGE' . '_OPEN_TASKS'] = false;
 		}
 
 		$this->arResult['OPEN_TASKS'] = $openTasks;
@@ -159,7 +188,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
 		$nav->allowAllRecords(true)
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
-		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_AT_WORK_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
@@ -173,14 +202,14 @@ class TaskListComponent extends CBitrixComponent
 		$atWorkTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($atWorkTasks));
-		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_AT_WORK_TASKS'])
 		{
-			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			$this->arParams['EXIST_NEXT_PAGE' . '_AT_WORK_TASKS'] = true;
 			array_pop($atWorkTasks);
 		}
 		else
 		{
-			$this->arParams['EXIST_NEXT_PAGE'] = false;
+			$this->arParams['EXIST_NEXT_PAGE' . '_AT_WORK_TASKS'] = false;
 		}
 
 		$this->arResult['AT_WORK_TASKS'] = $atWorkTasks;
@@ -192,7 +221,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
 		$nav->allowAllRecords(true)
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
-		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_DONE_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
@@ -206,14 +235,14 @@ class TaskListComponent extends CBitrixComponent
 		$doneTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($doneTasks));
-		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_DONE_TASKS'])
 		{
-			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			$this->arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'] = true;
 			array_pop($doneTasks);
 		}
 		else
 		{
-			$this->arParams['EXIST_NEXT_PAGE'] = false;
+			$this->arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'] = false;
 		}
 
 		$this->arResult['DONE_TASKS'] = $doneTasks;

@@ -59,104 +59,45 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<!-- Контейнер для редактирования проекта !-->
 			<div id="edit-reviews" class="content__priorityContainer tab__container">
 				<div class="board">
-					<form id="drag-form" method="post">
+					<form action="/project/add-stage/" method="post">
 						<?= bitrix_sessid_post() ?>
+						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
+						<button class="submitDrag" type="submit">Добавить этап(временное решение)</button>
+					</form>
+					<form action="/project/delete-stage/" method="post">
+						<?= bitrix_sessid_post() ?>
+						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
+						<button class="submitDrag" type="submit">удалить этап(временное решение)</button>
+					</form>
+					<form action="/project/update/" id="drag-form" method="post">
+						<?= bitrix_sessid_post() ?>
+						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
 						<button class="submitDrag" type="submit">Сохранить изменения</button>
-
 						<div class="lanes">
-							<!--Контейнер для независимых заявок. у него id=0 !-->
-							<div class="swim-lane" id="todo-lane" data-zone-id="0">
-								<h3 class="heading">Независимые заявки</h3>
+							<?php foreach ($arResult['PROJECT']->getStages() as $stage):?>
+							<div class="swim-lane" id="todo-lane" data-zone-id="<?=$stage->getNumber()?>">
+								<h3 class="heading">
+									<?php if($stage->getNumber()===0){echo "Независимые задачи";}
+									else{echo $stage->getNumber()." этап";}?>
+									<?php if ($stage->getExpectedCompletionDate()):?>
+									<p>Окончание этапа: <?=$stage->getExpectedCompletionDate()?></p>
+									<?php endif;?>
 
+								</h3>
+								<?php foreach ($stage->getTasks() as $task): ?>
 								<div class="task" draggable="true">
-									<input type="hidden" name="tasks[0][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<input type="hidden" name="tasks[0][zoneId]">
-
-									<p>task bla-bla-bla</p>
-									<input class="projectTaskDelete" type="checkbox" name="tasks[0][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<select name="tasks[0][taskStatus]">
-										<option value="new">Новая</option>
-										<option value="inProgress">В работе</option>
-										<option value="done">Завершена</option>
-									</select>
+<!--									<input type="hidden" name="stages[--><?php //=$stage->getId()?><!--][taskId]" value = "--><?php //=$task->getId()?><!--">-->
+									<input type="hidden" name="tasks[<?=$task->getId()?>][zoneId]" value = "<?=$stage->getId()?>">
+									<p><?=$task->getTitle()?></p>
+									<p>Статус: <?=$task->getStatus()?></p>
+									<?php if($task->getDeadline()):?>
+									<p>Дедлайн: <?=$task->getDeadline()?></p>
+									<?php endif;?>
+									<input class="projectTaskDelete" type="checkbox" name="tasks[<?=$task->getId()?>][taskDelete]" >
 								</div>
-								<div class="task" draggable="true">
-									<input type="hidden" name="tasks[1][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<input type="hidden" name="tasks[1][zoneId]">
-
-									<p>task 2</p>
-									<input class="projectTaskDelete" type="checkbox" name="tasks[1][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<select name="tasks[1][taskStatus]">
-										<option value="new">Новая</option>
-										<option value="inProgress">В работе</option>
-										<option value="done">Завершена</option>
-									</select>
-								</div>
-								<div class="task" draggable="true">
-									<input type="hidden" name="tasks[2][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<input type="hidden" name="tasks[2][zoneId]">
-
-									<p>task 3 he-he-he</p>
-									<input class="projectTaskDelete" type="checkbox" name="tasks[2][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<select name="tasks[2][taskStatus]">
-										<option value="new">Новая</option>
-										<option value="inProgress">В работе</option>
-										<option value="done">Завершена</option>
-									</select>
-								</div>
-
+								<?php endforeach;?>
 							</div>
-							<!--Контейнер для заявок 1 этапа. у него id=1 !-->
-							<div class="swim-lane" id="todo-lane" data-zone-id="1">
-								<h3 class="heading">1 этап</h3>
-
-								<div class="task" draggable="true">
-									<input type="hidden" name="tasks[3][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<input type="hidden" name="tasks[3][zoneId]">
-
-									<p>task 666 he-he-he</p>
-									<input class="projectTaskDelete" type="checkbox" name="tasks[3][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<select name="tasks[3][taskStatus]">
-										<option value="new">Новая</option>
-										<option value="inProgress">В работе</option>
-										<option value="done">Завершена</option>
-									</select>
-								</div>
-							</div>
-							<!--Контейнер для заявок 2 этапа. у него id=2 !-->
-							<div class="swim-lane" id="todo-lane" data-zone-id="2">
-								<h3 class="heading">2 этап</h3>
-
-								<div class="task" draggable="true">
-									<input type="hidden" name="tasks[4][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<input type="hidden" name="tasks[4][zoneId]">
-
-									<p>task 88 superTask for superCute :)</p>
-									<input class="projectTaskDelete" type="checkbox" name="tasks[4][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<select name="tasks[4][taskStatus]">
-										<option value="new">Новая</option>
-										<option value="inProgress">В работе</option>
-										<option value="done">Завершена</option>
-									</select>
-								</div>
-							</div>
-							<!--Контейнер для заявок 3 этапа. у него id=3 !-->
-							<div class="swim-lane" id="todo-lane" data-zone-id="3">
-								<h3 class="heading">3 этап</h3>
-
-								<div class="task" draggable="true">
-									<input type="hidden" name="tasks[5][taskId]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<input type="hidden" name="tasks[5][zoneId]">
-
-									<p>task 2 hours later...</p>
-									<input class="projectTaskDelete" type="checkbox" name="tasks[5][taskDelete]" value="ВСТАВЬ СЮДА TASK ID!!!">
-									<select name="tasks[5][taskStatus]">
-										<option value="new">Новая</option>
-										<option value="inProgress">В работе</option>
-										<option value="done">Завершена</option>
-									</select>
-								</div>
-							</div>
+							<?php endforeach;?>
 						</div>
 					</form>
 				</div>

@@ -28,14 +28,23 @@ class UserProjectComponent extends CBitrixComponent
 	{
 		if ($this->arParams['PROJECT_ID'])
 		{
-			$project =  \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
+			$project =  \Up\Ukan\Model\ProjectTable::query()->setSelect([
+																			'*',
+																			'STAGES',
+																			'STAGES.EXPECTED_COMPLETION_DATE',
+																			'STAGES.TASKS',
+																			'STAGES.TASKS.CONTRACTOR',
+																			'STAGES.TASKS.CONTRACTOR.B_USER'
+																		])
 															->where('ID', $this->arParams['PROJECT_ID'])
-															->addOrder('TASKS.PROJECT_PRIORITY')
+															->addOrder('ID')
+															->addOrder('STAGES.NUMBER')
+															->addOrder('STAGES.TASKS.DEADLINE')
 															->fetchObject();
 
 			if ($project->getClientId()===$this->arParams['USER_ID'])
 			{
-				$this->arParams['PROJECT']=$project;
+				$this->arResult['PROJECT']=$project;
 			}
 			else
 			{
@@ -48,8 +57,8 @@ class UserProjectComponent extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$this->arResult['ADD_TASK_LIST'] =  \Up\Ukan\Model\TaskTable::query()
-																		->setSelect(['ID', 'TITLE', 'PROJECT_ID', 'STATUS'])
-																		->whereNull('PROJECT_ID')
+																		->setSelect(['ID', 'TITLE','PROJECT_STAGE', 'STATUS'])
+																		->whereNull('PROJECT_STAGE.PROJECT_ID')
 																		->where('STATUS', 'Новая')
 																		->fetchCollection();
 		}

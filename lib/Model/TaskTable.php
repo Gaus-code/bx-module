@@ -8,6 +8,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\DateField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
@@ -90,14 +91,6 @@ class TaskTable extends DataManager
 				]
 			),
 			new IntegerField(
-				'PROJECT_PRIORITY',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('TASK_ENTITY_PRIORITY_FIELD'),
-					'default_value' => 1,
-				]
-			),
-			new IntegerField(
 				'CLIENT_ID',
 				[
 					'required' => true,
@@ -130,15 +123,15 @@ class TaskTable extends DataManager
 				]
 			),
 			new IntegerField(
-				'PROJECT_ID',
+				'PROJECT_STAGE_ID',
 				[
 					'title' => Loc::getMessage('TASK_ENTITY_PROJECT_ID_FIELD')
 				]
 			),
 			new Reference(
-				'PROJECT',
-				ProjectTable::class,
-				Join::on('this.PROJECT_ID', 'ref.ID')
+				'PROJECT_STAGE',
+				ProjectStageTable::class,
+				Join::on('this.PROJECT_STAGE_ID', 'ref.ID')
 			),
 			new DatetimeField(
 				'CREATED_AT',
@@ -180,10 +173,21 @@ class TaskTable extends DataManager
 				ResponseTable::class,
 				'TASK'
 			),
+			new DateField(
+				'DEADLINE',
+				[
+					'title' => Loc::getMessage('TASK_ENTITY_DEADLINE_FIELD')
+				]
+			),
 			(new ManyToMany(
 				'TAGS',
 				TagTable::class)
 			)->configureTableName('up_ukan_tag_task'),
+			new Reference(
+				'PROJECT',
+				ProjectTable::class,
+				Join::on('this.PROJECT_STAGE.PROJECT_ID', 'ref.ID')
+			),
 		];
 	}
 
