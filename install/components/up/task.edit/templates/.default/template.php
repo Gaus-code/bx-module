@@ -59,23 +59,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 					<li class="filter__item">
 						<input class="filter__checkbox" name = "useGPT" type = "checkbox">
-						<label class="filter__label">Автоматичемкое проставление тегов по описанию</label>
+						<label class="filter__label">Автоматическое проставление тегов по описанию</label>
 					</li>
 					<div class="create__container">
 						<fieldset>
 							<legend>Редактируйте теги в заявке</legend>
-							<?php if (isset($arResult['TAGS']) > 0): ?>
+							<input name = "tagsString" id="createMaxPrice"  class="create__title" placeholder="#HTML #CSS #..." value="<?= $arResult['TAGS_STRING'] ?>">
+						</fieldset>
+						<fieldset>
+							<legend>Выберите категорию</legend>
+							<?php if (count($arResult['CATEGORIES']) > 0): ?>
 								<ul class="filter__list">
-									<?php foreach ($arResult['TAGS'] as $tag): ?>
+									<?php foreach ($arResult['CATEGORIES'] as $category): ?>
 										<li class="filter__item">
-											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>"
-												<?php if ($arResult['TASK']->getTags()->hasByPrimary($tag->getId())) { echo 'checked'; } ?>>
-											<label class="filter__label"><?=htmlspecialcharsbx($tag->getTitle())?></label>
+											<input type="radio" class="filter__checkbox" name="categoryId" value="<?=$category->getId()?>"
+												<?= ($arResult['TASK']->getCategoryId() === $category->getId()) ? 'checked' : '' ?>>
+											<label class="filter__label"><?=htmlspecialcharsbx($category->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
 								</ul>
 							<?php else: ?>
-								<p class="empty">У вас пока нет тегов</p>
+								<div class="emptyContainer">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
+									<p class="empty">У вас пока нет проектов</p>
+								</div>
 							<?php endif;?>
 						</fieldset>
 						<fieldset>

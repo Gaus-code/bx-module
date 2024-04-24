@@ -5,6 +5,7 @@ namespace Up\Ukan\Controller;
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\AI\YandexGPT;
+use Up\Ukan\Model\EO_Tag;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\ProjectStageTable;
 use Up\Ukan\Model\TagTable;
@@ -18,9 +19,10 @@ class Task extends Controller
 		string $title,
 		string $description,
 		string $maxPrice,
+		int $categoryId,
 		string $useGPT = null,
 		int    $projectId = null,
-		array  $tagIds = [],
+		string  $tagsString = '',
 	)
 	{
 		if (check_bitrix_sessid())
@@ -35,19 +37,43 @@ class Task extends Controller
 			}
 
 			$task = new EO_Task();
-			$task->setTitle($title)->setDescription($description)->setClientId($clientId);
+			$task->setTitle($title)->setDescription($description)->setClientId($clientId)->setCategoryId($categoryId);
 
-			if ($useGPT)
+			// if ($useGPT) //TODO fix to use the great YandexGPT
+			// {
+			// 	$tags = YandexGPT::getTagsByTaskDescription($title.$description);
+			// }
+			// else
+			// {
+			// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+			// }
+			// foreach ($tags as $tag)
+			// {
+			// 	$task->addToTags($tag);
+			// }
+
+			if ($tagsString !== '')
 			{
-				$tags = YandexGPT::getTagsByTaskDescription($title.$description);
-			}
-			else
-			{
-				$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
-			}
-			foreach ($tags as $tag)
-			{
-				$task->addToTags($tag);
+				$arrayOfTagsTitle = explode('#', $tagsString);
+				array_shift($arrayOfTagsTitle);
+				foreach ($arrayOfTagsTitle as $tag)
+				{
+					$tag = $str = str_replace(' ', '', $tag);
+					$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
+					if ($tagFromDb)
+					{
+						$task->addToTags($tagFromDb);
+					}
+					else
+					{
+						$newTag = new EO_Tag();
+						$newTag->setTitle($tag)->setCreatedAt(new DateTime())->setUserId($clientId);
+
+						$newTag->save();
+						$task->addToTags($newTag);
+					}
+				}
+
 			}
 
 			if (isset($projectId))
@@ -75,9 +101,10 @@ class Task extends Controller
 		string $title,
 		string $description,
 		string    $maxPrice,
+		int $categoryId,
 		string $useGPT = null,
 		int    $projectId = null,
-		array  $tagIds = [],
+		string  $tagsString = '',
 
 	)
 	{
@@ -99,21 +126,40 @@ class Task extends Controller
 
 			if ($task)
 			{
-				$task->setTitle($title)->setMaxPrice($maxPrice)->setDescription($description);
+				$task->setTitle($title)->setMaxPrice($maxPrice)->setDescription($description)->setCategoryId($categoryId);
 
-				if ($useGPT)
-				{
-					$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
-				}
-				else
-				{
-					$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
-				}
+				// if ($useGPT) //TODO fix to use the great YandexGPT
+				// {
+				// 	$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
+				// }
+				// else
+				// {
+				// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+				// }
 
 				$task->removeAllTags();
-				foreach ($tags as $tag)
+				if ($tagsString !== '')
 				{
-					$task->addToTags($tag);
+					$arrayOfTagsTitle = explode('#', $tagsString);
+					array_shift($arrayOfTagsTitle);
+					foreach ($arrayOfTagsTitle as $tag)
+					{
+						$tag = $str = str_replace(' ', '', $tag);
+						$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
+						if ($tagFromDb)
+						{
+							$task->addToTags($tagFromDb);
+						}
+						else
+						{
+							$newTag = new EO_Tag();
+							$newTag->setTitle($tag)->setCreatedAt(new DateTime())->setUserId($clientId);
+
+							$newTag->save();
+							$task->addToTags($newTag);
+						}
+					}
+
 				}
 
 				if (isset($projectId))
@@ -126,7 +172,7 @@ class Task extends Controller
 				LocalRedirect("/task/".$task->getId()."/");
 			}
 
-			LocalRedirect("/404/");
+			LocalRedirect("/access/denied/");
 		}
 	}
 

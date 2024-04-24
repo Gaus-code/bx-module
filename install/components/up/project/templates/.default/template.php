@@ -143,26 +143,26 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость</label>
 							<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
 						</div>
+						<div class="create__container">
+							<label class="create__textareaLabel" for="createMaxPrice">Добавьте тэги (используя #)</label>
+							<input name = "tagsString" id="createMaxPrice"  class="create__title" placeholder="#HTML #CSS #...">
+						</div>
 					</div>
 					<li class="filter__item">
 						<input class="filter__checkbox" name = "useGPT" type = "checkbox">
-						<label class="filter__label">Автоматичемкое проставление тегов по описанию</label>
+						<label class="filter__label">Автоматическое проставление тегов по описанию</label>
 					</li>
 					<div class="create__fieldsetContainer">
 						<fieldset>
-							<legend>Добавьте Теги</legend>
-							<?php if (count($arResult['TAGS']) > 0): ?>
-								<ul class="filter__list">
-									<?php foreach ($arResult['TAGS'] as $tag): ?>
-										<li class="filter__item">
-											<input type="checkbox" class="filter__checkbox" name="tagIds[<?=$tag->getId()?>]" value="<?=$tag->getId()?>">
-											<label class="filter__label"><?=htmlspecialcharsbx($tag->getTitle())?></label>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							<?php else: ?>
-								<p class="empty">У вас пока нет тегов</p>
-							<?php endif;?>
+							<legend>Выберите категорию</legend>
+							<ul class="filter__list">
+								<?php foreach ($arResult['CATEGORIES'] as $category): ?>
+									<li class="filter__item">
+										<input type="radio" class="filter__checkbox" name="categoryId" value="<?=$category->getId()?>">
+										<label class="filter__label"><?=htmlspecialcharsbx($category->getTitle())?></label>
+									</li>
+								<?php endforeach; ?>
+							</ul>
 						</fieldset>
 					</div>
 					<button class="createBtn" type="submit">Создать заявку</button>

@@ -4,7 +4,7 @@ class UserProjectComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->fetchTags();
+		$this->fetchCategories();
 		$this->fetchAddTaskList();
 		$this->fetchProject();
 		$this->includeComponentTemplate();
@@ -63,10 +63,8 @@ class UserProjectComponent extends CBitrixComponent
 																		->fetchCollection();
 		}
 	}
-	protected function fetchTags()
+	protected function fetchCategories()
 	{
-
-		$this->arResult['TAGS'] = \Up\Ukan\Model\TagTable::query()->setSelect(['*'])->fetchCollection();
-
+		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
 	}
 }

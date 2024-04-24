@@ -4,7 +4,7 @@ class CatalogComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->fetchTags();
+		$this->fetchCategories();
 		$this->includeComponentTemplate();
 	}
 
@@ -13,7 +13,7 @@ class CatalogComponent extends CBitrixComponent
 		$arParams['CATEGORIES_ID'] = request()->get('categories');
 		return $arParams;
 	}
-	protected function fetchTags()
+	protected function fetchCategories()
 	{
 		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
 	}

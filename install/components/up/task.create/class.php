@@ -4,7 +4,7 @@ class TaskCreateComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->fetchTags();
+		$this->fetchCategories();
 		$this->fetchProjects();
 		$this->includeComponentTemplate();
 	}
@@ -26,21 +26,21 @@ class TaskCreateComponent extends CBitrixComponent
 
 		if ($this->arParams['USER_ID'])
 		{
-			$this->arResult['PROJECTS'] = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*'])->where('CLIENT_ID', $this->arParams['USER_ID'])->fetchCollection();
+			$this->arResult['PROJECTS'] = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*'])->where(
+				'CLIENT_ID',
+				$this->arParams['USER_ID']
+			)->fetchCollection();
 		}
 		else
 		{
 			die('incorrect user id');
 		}
 
-
-
 	}
-	protected function fetchTags()
+
+	protected function fetchCategories()
 	{
-
-		$this->arResult['TAGS'] = \Up\Ukan\Model\TagTable::query()->setSelect(['*'])->fetchCollection();
-
+		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
 	}
 
 }
