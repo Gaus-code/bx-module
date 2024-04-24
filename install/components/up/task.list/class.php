@@ -113,9 +113,10 @@ class TaskListComponent extends CBitrixComponent
 
 		//делаем второй запрос
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'TAGS', 'CLIENT', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME'])
+		$query->setSelect(['*','SEARCH_PRIORITY', 'TAGS', 'CLIENT','CLIENT.SUBSCRIPTION_STATUS', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME'])
 			  ->whereIn('ID', $idList)
-			  ->addOrder('SEARCH_PRIORITY', 'DESC');
+			->addOrder('SEARCH_PRIORITY', 'DESC') //сортировка по подписке
+			->addOrder('CREATED_AT', 'DESC');
 
 		$this->arResult['TASKS'] = $query->fetchCollection();
 
