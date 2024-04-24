@@ -109,7 +109,11 @@ class CommentListComponent extends CBitrixComponent
 
 	protected function fetchFinishedTaskWithoutFeedback()
 	{
-		$taskIdListWithFeedback = $this->arResult['SENT_FEEDBACKS']->getTaskIdList();
+		$taskIdListWithFeedback = [];
+		foreach ($this->arResult['SENT_FEEDBACKS'] as $feedback)
+		{
+			$taskIdListWithFeedback [] = $feedback->getTaskId();
+		}
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*'])->where(
