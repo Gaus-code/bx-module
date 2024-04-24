@@ -109,9 +109,10 @@ class Project extends Controller
 
 	public function deleteAction(int $projectId)
 	{
-		global $USER;
 		if (check_bitrix_sessid())
 		{
+			global $USER;
+
 			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS'])
 														   ->where('ID', $projectId)
 														   ->fetchObject();
@@ -133,75 +134,81 @@ class Project extends Controller
 
 	public function addTasksAction(int $projectId, array $taskIds)
 	{
-		global $USER;
-
-		$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID'])
-											  ->where('ID', $projectId)
-											  ->fetchObject();
-		if ($project->getClientId()!==(int)$USER->GetID())
+		if (check_bitrix_sessid())
 		{
-			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
-		}
-		$tasks = TaskTable::query()->setSelect(['ID'])
-								   ->whereIn('ID', $taskIds)
-								   ->fetchCollection();
+			global $USER;
 
-		$projectStage = ProjectStageTable::query()->setSelect(['ID', 'PROJECT_ID', 'NUMBER', 'TASKS'])
-												  ->where('PROJECT_ID', $projectId)
-												  ->where('NUMBER', 0)
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID'])->where('ID', $projectId)
 												  ->fetchObject();
-		foreach ($tasks as $task)
-		{
-			$projectStage->addToTasks($task);
+			if ($project->getClientId() !== (int)$USER->GetID())
+			{
+				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			}
+			$tasks = TaskTable::query()->setSelect(['ID'])->whereIn('ID', $taskIds)->fetchCollection();
+
+			$projectStage = ProjectStageTable::query()->setSelect(['ID', 'PROJECT_ID', 'NUMBER', 'TASKS'])->where(
+					'PROJECT_ID',
+					$projectId
+				)->where('NUMBER', 0)->fetchObject();
+			foreach ($tasks as $task)
+			{
+				$projectStage->addToTasks($task);
+			}
+			$projectStage->save();
+			LocalRedirect("/project/" . $projectId . "/");
 		}
-		$projectStage->save();
-		LocalRedirect("/project/" . $projectId . "/");
 	}
 	public function addStageAction(int $projectId)
 	{
-		global $USER;
-
-		$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])
-											  ->where('ID', $projectId)
-											  ->addOrder('STAGES.NUMBER')
-											  ->fetchObject();
-		if ($project->getClientId()!==(int)$USER->GetID())
+		if (check_bitrix_sessid())
 		{
-			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			global $USER;
+
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])->where(
+					'ID',
+					$projectId
+				)->addOrder('STAGES.NUMBER')->fetchObject();
+			if ($project->getClientId() !== (int)$USER->GetID())
+			{
+				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			}
+
+			$projectStagesIds = $project->getStages()->getIdList();
+			$lastProjectStage = $project->getStages()->getByPrimary(end($projectStagesIds));
+
+			$newProjectStageNumber = $lastProjectStage->getNumber() + 1;
+			$newProjectStage = new EO_ProjectStage();
+			$newProjectStage->setNumber($newProjectStageNumber)->setStatus(1);
+
+			$project->addToStages($newProjectStage);
+			$project->save();
+
+			LocalRedirect("/project/" . $projectId . "/");
 		}
-
-		$projectStagesIds = $project->getStages()->getIdList();
-		$lastProjectStage=$project->getStages()->getByPrimary(end($projectStagesIds));
-
-		$newProjectStageNumber = $lastProjectStage->getNumber() + 1;
-		$newProjectStage = new EO_ProjectStage();
-		$newProjectStage->setNumber($newProjectStageNumber)->setStatus(1);
-
-		$project->addToStages($newProjectStage);
-		$project->save();
-
-		LocalRedirect("/project/" . $projectId . "/");
 	}
 	public function deleteStageAction(int $projectId)
 	{
-		global $USER;
-
-		$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])
-											  ->where('ID', $projectId)
-											  ->addOrder('STAGES.NUMBER')
-											  ->fetchObject();
-		if ($project->getClientId()!==(int)$USER->GetID())
+		if (check_bitrix_sessid())
 		{
-			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			global $USER;
+
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])->where(
+					'ID',
+					$projectId
+				)->addOrder('STAGES.NUMBER')->fetchObject();
+			if ($project->getClientId() !== (int)$USER->GetID())
+			{
+				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			}
+
+			$projectStagesIds = $project->getStages()->getIdList();
+			$lastProjectStage = $project->getStages()->getByPrimary(end($projectStagesIds));
+
+			$lastProjectStage->delete();
+
+			$project->save();
+
+			LocalRedirect("/project/" . $projectId . "/");
 		}
-
-		$projectStagesIds = $project->getStages()->getIdList();
-		$lastProjectStage=$project->getStages()->getByPrimary(end($projectStagesIds));
-
-		$lastProjectStage->delete();
-
-		$project->save();
-
-		LocalRedirect("/project/" . $projectId . "/");
 	}
 }
