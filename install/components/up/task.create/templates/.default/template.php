@@ -19,7 +19,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__header">
 			<h1>Создание Заявки</h1>
 			<button type="button" class="plus-link">
-				<span class="plus-link__inner">+</span>
+				<span class="plus-link__inner"></span>
 			</button>
 			<div class="content__profileCreate">
 				<a href="/project/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать проект</a>
@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
 					</div>
 					<div class="create__container">
-						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость</label>
+						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
 						<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
 					</div>
 					<div class="create__container">

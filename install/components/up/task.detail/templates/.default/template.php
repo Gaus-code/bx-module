@@ -31,6 +31,11 @@ if ($arResult['TASK']): ?>
 				<div class="detail__container">
 					<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
 				</div>
+				<?php if (!empty($arResult['TASK']->getMaxPrice())): ?>
+				<div class="detail__container">
+					<div class="detail__status">до <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
+				</div>
+				<?php endif;?>
 			</section>
 
 			<?php if ($USER->IsAuthorized()): ?>
@@ -70,8 +75,27 @@ if ($arResult['TASK']): ?>
 						</li>
 					<?php else :?>
 						<li class="metaContainer__item">
+							<button class="banBtn" type="button">Пожаловаться</button>
 							<form class="banForm" action="">
-								<button type="submit">Пожаловаться на заявку</button>
+								<button id="closeFormBtn" type="button">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+								</button>
+								<ul class="complaint__list">
+									<li class="complaint__item">
+										<input class="complaint__radio" type="radio" name="complaintType" checked>
+										<label class="complaint__label">Пожаловаться на заявку</label>
+									</li>
+									<li class="complaint__item">
+										<input class="complaint__radio" type="radio" name="complaintType">
+										<label class="complaint__label">Пожаловаться на комментарий</label>
+									</li>
+									<li class="complaint__item">
+										<input class="complaint__radio" type="radio" name="complaintType">
+										<label class="complaint__label">Другое</label>
+									</li>
+								</ul>
+								<textarea class="complaintText" type="text" name="complaintText" placeholder="Пожалуйста, опишите проблему"></textarea>
+								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</li>
 					<?php endif; ?>
@@ -88,3 +112,4 @@ else: ?>
 	</main>
 <?php
 endif; ?>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/banForm.js"></script>

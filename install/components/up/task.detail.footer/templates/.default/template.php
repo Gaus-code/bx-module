@@ -16,7 +16,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?= bitrix_sessid_post() ?>
 		<input type="hidden" name="taskId" value="<?= $arParams['TASK']->getId() ?>">
 		<input type="hidden" name="clientId" value="<?= $arParams['TASK']->getClientId() ?>">
-		<label for="setPrice">Добавьте стоимость:</label>
+		<label for="setPrice">Добавьте стоимость (₽):</label>
 		<input name="price" required id="setPrice" type="number" class="create__title" placeholder="Ваша цена">
 		<label for="detail__coverLetter">Добавьте сопроводительное письмо:</label>
 		<textarea id="detail__coverLetter" name="coverLetter"></textarea>

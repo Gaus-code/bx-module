@@ -22,7 +22,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__header">
 			<h1>Рабочая область</h1>
 			<button type="button" class="plus-link">
-				<span class="plus-link__inner">+</span>
+				<span class="plus-link__inner"></span>
 			</button>
 			<div class="content__profileCreate">
 				<a href="/project/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать проект</a>
@@ -49,11 +49,28 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 					</a>
 					<?php endif;?>
+					<?php if ($arResult['USER_ACTIVITY'] !== 'owner'):?>
+						<?php if ($USER->IsAdmin()):?>
+							<form class="banForm" action="">
+								<button type="submit">Заблокировать пользователя</button>
+							</form>
+						<?php else :?>
+							<button class="banBtn" type="button">Пожаловаться на пользователя</button>
+							<form class="banForm" action="">
+								<button id="closeFormBtn" type="button">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+								</button>
+								<textarea class="complaintText" type="text" name="complaintText" placeholder="Пожалуйста, опишите проблему"></textarea>
+								<button id="sendComplaint" type="submit">Отправить</button>
+							</form>
+						<?php endif; ?>
+					<?php endif;?>
 				</div>
 				<div class="content__mainBio_main">
-					<h4>Описание профиля:</h4>
 					<?php
 					if (!empty($user->getBio())): ?>
+					<h4>Описание профиля:</h4>
+
 						<p class="userInfo__bio"><?= htmlspecialcharsbx($user->getBio()) ?></p>
 					<?php
 					else: ?>
@@ -86,13 +103,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php
 					} ?>
 				</div>
-				<?php endif;?>
+
 				<div class="content__mainBio_footer">
 					<h4>Пожелания по способу для связи:</h4>
 					<p class="userInfo__bio"><?= htmlspecialcharsbx($user->getContacts()) ?></p>
 				</div>
+				<?php endif;?>
 			</article>
 
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/banForm.js"></script>

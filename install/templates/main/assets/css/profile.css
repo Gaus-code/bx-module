@@ -129,10 +129,9 @@ a.aside__btn {
 }
 
 .profile__email {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 15px;
-    text-transform: capitalize;
 }
 
 .profile__logOut {
@@ -177,21 +176,33 @@ a.aside__btn {
 
 .content__header button.plus-link {
     display: block;
-    width: 24px;
     height: 24px;
+    width: 24px;
     text-align: center;
     border-radius: 50%;
     border: 2px dashed var(--color-primary-purple);
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .content__header button.plus-link .plus-link__inner {
-    transform: translate(-50%, -50%);
-    display: block;
-    width: 4px;
-    height: 10px;
-    line-height: 20px;
-    font-size: 25px;
+    line-height: 22px;
     color: var(--color-primary-purple);
+}
+
+.content__header button.plus-link .plus-link__inner:before {
+    content: '+';
+    transform: translate(-50%, -50%);
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .content__name {
