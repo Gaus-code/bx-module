@@ -20,43 +20,42 @@ class User extends Engine\Controller
 		string $userBio
 	)
 	{
-		global $USER;
-
-		if (!empty(Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail)))
+		if (check_bitrix_sessid())
 		{
-			$errors = Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail);
-			Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
-		}
+			global $USER;
 
-		if (!empty(Validation::validateUserEmail($userEmail)) && $USER->GetEmail() !== $userEmail)
-		{
-			$errors = Validation::validateUserEmail($userEmail);
-			Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
-		}
+			if (!empty(Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail))) {
+				$errors = Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail);
+				Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
+			}
 
-		if (!empty(Validation::checkLoginExists($userLogin)) && $USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin))
-		{
-			$errors = Validation::checkLoginExists($userLogin);
-			Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/profile/'. $USER->GetID() .'/edit/');
-		}
+			if (!empty(Validation::validateUserEmail($userEmail)) && $USER->GetEmail() !== $userEmail) {
+				$errors = Validation::validateUserEmail($userEmail);
+				Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
+			}
 
-		$errorMessage = \Up\Ukan\Repository\User::changeInfo($userName, $userLastName, $userEmail, $userLogin, $USER->GetLogin());
-		if (!$errorMessage)
-		{
-			$userId = $USER->GetID();
-			\Up\Ukan\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName, $userEmail);
+			if (!empty(Validation::checkLoginExists($userLogin)) && $USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin)) {
+				$errors = Validation::checkLoginExists($userLogin);
+				Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
+			}
 
-			$user = UserTable::getById($userId)->fetchObject();
-			$user->setUpdatedAt(new DateTime());
+			$errorMessage = \Up\Ukan\Repository\User::changeInfo($userName, $userLastName, $userEmail, $userLogin, $USER->GetLogin());
+			if (!$errorMessage) {
+				$userId = $USER->GetID();
+				\Up\Ukan\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName, $userEmail);
 
-			!empty($userBio) ? $user->setBio($userBio) : $user->setBio(null);
-			
-			$user->save();
+				$user = UserTable::getById($userId)->fetchObject();
+				$user->setUpdatedAt(new DateTime());
 
-			LocalRedirect('/profile/'. $USER->GetID() .'/');
+				!empty($userBio) ? $user->setBio($userBio) : $user->setBio(null);
+
+				$user->save();
+
+				LocalRedirect('/profile/' . $USER->GetID() . '/');
+			}
 		}
 	}
 
@@ -66,77 +65,72 @@ class User extends Engine\Controller
 		string $confirmPassword
 	)
 	{
-		global $USER;
-		$errors = [];
-		$newPasswordErrors = Validation::validateUserPassword($newPassword);
-
-		if (empty(trim($oldPassword)))
+		if (check_bitrix_sessid())
 		{
-			$errors[] = 'Введите старый пароль';
-		}
+			global $USER;
+			$errors = [];
+			$newPasswordErrors = Validation::validateUserPassword($newPassword);
 
-		if ($newPasswordErrors)
-		{
-			$errors = array_merge($errors, $newPasswordErrors);
-		}
+			if (empty(trim($oldPassword))) {
+				$errors[] = 'Введите старый пароль';
+			}
 
-		if (empty(trim($confirmPassword)))
-		{
-			$errors[] = 'Повторите новый пароль';
-		}
+			if ($newPasswordErrors) {
+				$errors = array_merge($errors, $newPasswordErrors);
+			}
 
-		if (!$errors)
-		{
-			$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
+			if (empty(trim($confirmPassword))) {
+				$errors[] = 'Повторите новый пароль';
+			}
 
-			if (is_bool($errorMessage) && $errorMessage)
-			{
-				if ($newPassword === $confirmPassword)
-				{
-					$user = new \CUser();
-					$result = $user->update($USER->GetID(), [
-						'PASSWORD' => $newPassword,
-						'CONFIRM_PASSWORD' => $confirmPassword
-					]);
+			if (!$errors) {
+				$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
 
-					$ukanUser = UserTable::getById($USER->GetID())->fetchObject();
-					$ukanUser->setUpdatedAt(new DateTime());
-					$ukanUser->save();
+				if (is_bool($errorMessage) && $errorMessage) {
+					if ($newPassword === $confirmPassword) {
+						$user = new \CUser();
+						$result = $user->update($USER->GetID(), [
+							'PASSWORD' => $newPassword,
+							'CONFIRM_PASSWORD' => $confirmPassword
+						]);
 
-					if (!$result)
-					{
-						$errors[] = $user->LAST_ERROR;
+						$ukanUser = UserTable::getById($USER->GetID())->fetchObject();
+						$ukanUser->setUpdatedAt(new DateTime());
+						$ukanUser->save();
+
+						if (!$result) {
+							$errors[] = $user->LAST_ERROR;
+						}
+						LocalRedirect('/profile/' . $USER->GetID() . '/');
+					} else {
+						$errors[] = 'Пароли не совпадают';
 					}
-					LocalRedirect('/profile/'.$USER->GetID().'/');
-				}
-				else
-				{
-					$errors[] = 'Пароли не совпадают';
+				} else {
+					$errors[] = 'Неверный старый пароль';
 				}
 			}
-			else
-			{
-				$errors[] = 'Неверный старый пароль';
-			}
+			Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
 		}
-		Application::getInstance()->getSession()->set('errors', $errors);
-		LocalRedirect('/profile/'.$USER->GetID().'/edit/');
 	}
 
 	public static function changeContactsAction(
 		string $contacts = null
 	)
 	{
-		global $USER;
-		$userId = $USER->GetID();
-
-		if(!empty($contacts))
+		if (check_bitrix_sessid())
 		{
-			$user = \Up\Ukan\Model\UserTable::getById($userId)->fetchObject();
-			$user->setContacts($contacts);
-			$user->save();
-		}
+			global $USER;
+			$userId = $USER->GetID();
 
-		LocalRedirect('/profile/'. $USER->GetID() .'/');
+			if (!empty($contacts))
+			{
+				$user = \Up\Ukan\Model\UserTable::getById($userId)->fetchObject();
+				$user->setContacts($contacts);
+				$user->save();
+			}
+
+			LocalRedirect('/profile/' . $USER->GetID() . '/');
+		}
 	}
 }

@@ -5,9 +5,9 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("UKAN - super service");
 
-if (!$USER->IsAuthorized() && !$USER->IsAdmin())
+if (!$USER->IsAdmin())
 {
-	LocalRedirect('/sign-in');
+	LocalRedirect('/access/denied/');
 }
 ?>
 <?php $APPLICATION->IncludeComponent('up:admin.tags', '', [
