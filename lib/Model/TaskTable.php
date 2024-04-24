@@ -153,6 +153,17 @@ class TaskTable extends DataManager
 					}
 				]
 			),
+			new IntegerField(
+				'CATEGORY_ID',
+				[
+					'title' => Loc::getMessage('TASK_ENTITY_CATEGORY_ID_FIELD')
+				]
+			),
+			new Reference(
+				'CATEGORY',
+				CategoriesTable::class,
+				Join::on('this.CATEGORY_ID', 'ref.ID')
+			),
 			new ExpressionField(
 				'SEARCH_PRIORITY',
 				"IF (%s='Active', 1, 0)",

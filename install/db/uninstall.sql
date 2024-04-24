@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS `up_ukan_user_subscription`;
 
 DROP TABLE IF EXISTS `up_ukan_subscription`;
 
-DROP TABLE IF EXISTS 'up_ukan_notification';
+DROP TABLE IF EXISTS `up_ukan_notification`;
+
+DROP TABLE IF EXISTS `up_ukan_categories`;
 
 DELETE FROM b_user where WORK_COMPANY = 'UKAN';

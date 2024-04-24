@@ -27,10 +27,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<thead>
 		<tr>
 			<th>Название заявки</th>
+			<th>Категория</th>
 			<th>Описание заявки</th>
 			<th>Дата создания заявки</th>
 			<th>Исполнитель</th>
-			<th>Статус</th>
 			<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
 			<th></th>
 			<?php endif;?>
@@ -44,10 +44,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
+					<td><?= $task->getCategory()->getTitle() ?></td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>В поиске исполнителя</td>
-					<td><?= $task->getStatus() ?></td>
 					<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
@@ -83,10 +83,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<thead>
 			<tr>
 				<th>Название заявки</th>
+				<th>Категория</th>
 				<th>Описание заявки</th>
 				<th>Дата создания заявки</th>
 				<th>Исполнитель</th>
-				<th>Статус</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -98,6 +98,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
+					<td><?= $task->getCategory()->getTitle() ?></td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>
@@ -106,7 +107,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
 						</a>
 					</td>
-					<td><?= $task->getStatus() ?></td>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
@@ -142,10 +142,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<thead>
 			<tr>
 				<th>Название заявки</th>
+				<th>Категория</th>
 				<th>Описание заявки</th>
 				<th>Дата создания заявки</th>
 				<th>Исполнитель</th>
-				<th>Статус</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -156,6 +156,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
+					<td><?= $task->getCategory()->getTitle() ?></td>
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>
@@ -164,7 +165,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
 						</a>
 					</td>
-					<td><?= $task->getStatus() ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

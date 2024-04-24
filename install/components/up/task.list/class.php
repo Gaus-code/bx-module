@@ -24,7 +24,7 @@ class TaskListComponent extends CBitrixComponent
 		}
 
 
-		$arParams['TAGS_ID'] = request()->get('tags');
+		$arParams['CATEGORIES_ID'] = request()->get('categories');
 		$arParams['SEARCH'] = request()->get('q');
 		$arParams['EXIST_NEXT_PAGE'] = false;
 
@@ -94,9 +94,9 @@ class TaskListComponent extends CBitrixComponent
 		$query->setSelect(['ID'])
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
 
-		if (!is_null($this->arParams['TAGS_ID']))
+		if (!is_null($this->arParams['CATEGORIES_ID']))
 		{
-			$query->whereIn('TAGS.ID', $this->arParams['TAGS_ID']);
+			$query->whereIn('CATEGORY.ID', $this->arParams['CATEGORIES_ID']);
 		}
 
 		if (!is_null($this->arParams['SEARCH']))
@@ -104,7 +104,7 @@ class TaskListComponent extends CBitrixComponent
 			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
 				->logic('or')
 				->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
-				->whereLike('DESCRIPTION', '%' . $this->arParams['SEARCH'] . '%')
+				->whereLike('TAGS.TITLE', '%' . $this->arParams['SEARCH'] . '%')
 			);
 		}
 
@@ -140,7 +140,7 @@ class TaskListComponent extends CBitrixComponent
 
 		//делаем второй запрос
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*','SEARCH_PRIORITY', 'TAGS', 'CLIENT','CLIENT.SUBSCRIPTION_STATUS', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME'])
+		$query->setSelect(['*','SEARCH_PRIORITY', 'TAGS', 'CLIENT','CLIENT.SUBSCRIPTION_STATUS', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME', 'CATEGORY'])
 			  ->whereIn('ID', $idList)
 			->addOrder('SEARCH_PRIORITY', 'DESC') //сортировка по подписке
 			->addOrder('CREATED_AT', 'DESC');
@@ -157,7 +157,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_OPEN_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME', 'CATEGORY'])
 			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
 			  ->addOrder('SEARCH_PRIORITY', 'DESC')
 			  ->addOrder('CREATED_AT', 'DESC')
@@ -191,7 +191,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_AT_WORK_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME', 'CATEGORY'])
 			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
 			  ->addOrder('SEARCH_PRIORITY', 'DESC')
 			  ->addOrder('CREATED_AT', 'DESC')
@@ -224,7 +224,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_DONE_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
-		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+		$query->setSelect(['*', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME', 'CATEGORY'])
 			  ->where('CLIENT_ID', $this->arParams['USER_ID'])
 			  ->addOrder('SEARCH_PRIORITY', 'DESC')
 			  ->addOrder('CREATED_AT', 'DESC')

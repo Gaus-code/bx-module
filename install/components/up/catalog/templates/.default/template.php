@@ -15,16 +15,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<aside class="catalog__aside">
 		<form method="get">
 			<h2>Фильтры</h2>
-			<p class="catalog__subtitle">Специализация</p>
+			<p class="catalog__subtitle">Категория</p>
 			<ul class="filter__list">
-				<?php foreach ($arResult['TAGS'] as $tag): ?>
+				<?php foreach ($arResult['CATEGORIES'] as $category): ?>
 					<li class="filter__item">
-						<?php if (!empty($arParams['TAGS_ID']) && in_array($tag->getId(), $arParams['TAGS_ID'], false)): ?>
-						<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>" checked>
+						<?php if (!empty($arParams['CATEGORIES_ID']) && in_array($category->getId(), $arParams['CATEGORIES_ID'], false)): ?>
+						<input type="checkbox" class="filter__checkbox" name="categories[]" value="<?=$category->getId()?>" checked>
 						<?php else: ?>
-						<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>">
+						<input type="checkbox" class="filter__checkbox" name="categories[]" value="<?=$category->getId()?>">
 						<?php endif;?>
-						<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
+						<label class="filter__label"><?= htmlspecialcharsbx($category->getTitle()) ?></label>
 					</li>
 				<?php endforeach; ?>
 			</ul>

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `up_ukan_user`
 (
-	`ID`                    int NOT NULL,
+	`ID`                    int  NOT NULL,
 	`BIO`                   text,
 	`SUBSCRIPTION_END_DATE` date,
 	`UPDATED_AT`            datetime,
@@ -26,8 +26,10 @@ CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
 
 CREATE TABLE IF NOT EXISTS `up_ukan_tag`
 (
-	`ID`    int AUTO_INCREMENT NOT NULL,
-	`TITLE` varchar(255)       NOT NULL,
+	`ID`         int AUTO_INCREMENT NOT NULL,
+	`TITLE`      varchar(255)       NOT NULL,
+	`USER_ID`    INT                NOT NULL,
+	`CREATED_AT` datetime           NOT NULL,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -55,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`PROJECT_ID`       int,
 	`CREATED_AT`       datetime,
 	`UPDATED_AT`       datetime,
+	`CATEGORY_ID`      int,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -121,6 +124,15 @@ CREATE TABLE IF NOT EXISTS up_ukan_notification
 	`TO_USER_ID`   int          not null,
 	`TASK_ID`      int          not null,
 	`CREATED_AT`   datetime     not null,
+	PRIMARY KEY (
+	             `ID`
+		)
+);
+
+CREATE TABLE IF NOT EXISTS `up_ukan_categories`
+(
+	`ID`    int AUTO_INCREMENT NOT NULL,
+	`TITLE` varchar(255)       NOT NULL,
 	PRIMARY KEY (
 	             `ID`
 		)

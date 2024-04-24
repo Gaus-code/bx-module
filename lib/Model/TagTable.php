@@ -6,7 +6,11 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\DatetimeField;
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Query\Join;
+use Bitrix\Main\Type\DateTime;
 
 Loc::loadMessages(__FILE__);
 
@@ -56,6 +60,28 @@ class TagTable extends DataManager
 					'required' => true,
 					'validation' => [__CLASS__, 'validateTitle'],
 					'title' => Loc::getMessage('TAG_ENTITY_TITLE_FIELD')
+				]
+			),
+			new IntegerField(
+				'USER_ID',
+				[
+					'required' => true,
+					'title' => Loc::getMessage('TAG_ENTITY_USER_ID_FIELD')
+				]
+			),
+			new Reference(
+				'USER',
+				UserTable::class,
+				Join::on('this.USER_ID', 'ref.ID')
+			),
+			new DatetimeField(
+				'CREATED_AT',
+				[
+					'required' => true,
+					'title' => Loc::getMessage('TAG_ENTITY_CREATED_AT_FIELD'),
+					'default_value' => function () {
+						return new DateTime();
+					}
 				]
 			),
 			(new ManyToMany(

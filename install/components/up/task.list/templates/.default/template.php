@@ -26,6 +26,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php else:?>
 			<div class="task">
 			<?php endif;?>
+					<div class="task__header">
+							<p class="task__tag"><?=htmlspecialcharsbx($task->getCategory()->getTitle())  ?></p>
+					</div>
 					<div class="task__main">
 						<h3><?= htmlspecialcharsbx($task->getTitle()) ?></h3>
 						<?php if (count($task->getTags()) > 0):?>

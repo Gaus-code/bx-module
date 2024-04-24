@@ -1,7 +1,7 @@
 <?php
 
-use Bitrix\Main\ModuleManager;
 use Bitrix\Main\Config\Option;
+use Bitrix\Main\ModuleManager;
 
 function __ukanMigrate(int $nextVersion, callable $callback)
 {
@@ -26,11 +26,11 @@ function __ukanMigrate(int $nextVersion, callable $callback)
 	}
 }
 
-__ukanMigrate(2, function($updater, $DB)
-{
+__ukanMigrate(2, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_user'))
 	{
-		$DB->query('CREATE TABLE IF NOT EXISTS up_ukan_user
+		$DB->query(
+			'CREATE TABLE IF NOT EXISTS up_ukan_user
 		(
 			`ID`         int          NOT NULL,
 			`NAME`       varchar(100) NOT NULL,
@@ -40,12 +40,12 @@ __ukanMigrate(2, function($updater, $DB)
 			`CREATED_AT` timestamp    NOT NULL,
 			`UPDATED_AT` timestamp    NOT NULL,
 			PRIMARY KEY (`ID`)
-		);');
+		);'
+		);
 	}
 });
 
-__ukanMigrate(3, function($updater, $DB)
-{
+__ukanMigrate(3, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
 		$DB->query('ALTER TABLE up_ukan_user DROP COLUMN ROLE;');
@@ -54,31 +54,36 @@ __ukanMigrate(3, function($updater, $DB)
 	}
 });
 
-__ukanMigrate(4, function($updater, $DB)
-{
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task')&& $updater->TableExists('up_ukan_status'))
+__ukanMigrate(4, function($updater, $DB) {
+	if (
+		$updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task')
+		&& $updater->TableExists(
+			'up_ukan_status'
+		)
+	)
 	{
 		$DB->query('drop table up_ukan_status;');
-		$DB->query('alter table up_ukan_task
-    change STATUS_ID STATUS varchar(255) not null;');
+		$DB->query(
+			'alter table up_ukan_task
+    change STATUS_ID STATUS varchar(255) not null;'
+		);
 	}
 });
 
-__ukanMigrate(5, function($updater, $DB)
-{
+__ukanMigrate(5, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
 		$DB->query('ALTER TABLE up_ukan_user DROP COLUMN B_USER_ID;');
-//		$DB->query('alter table up_ukan_task
-//    change STATUS_ID STATUS varchar(255) not null;');
+		//		$DB->query('alter table up_ukan_task
+		//    change STATUS_ID STATUS varchar(255) not null;');
 	}
 });
 
-__ukanMigrate(6, function($updater, $DB)
-{
+__ukanMigrate(6, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_notification'))
 	{
-		$DB->query('CREATE TABLE IF NOT EXISTS up_ukan_notification
+		$DB->query(
+			'CREATE TABLE IF NOT EXISTS up_ukan_notification
 					(
 						ID           int          not null auto_increment,
 						MESSAGE         varchar(255) not null,
@@ -89,21 +94,22 @@ __ukanMigrate(6, function($updater, $DB)
 						PRIMARY KEY (
 									 `ID`
 							)
-					);');
+					);'
+		);
 	}
 });
 
-__ukanMigrate(7, function($updater, $DB)
-{
+__ukanMigrate(7, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_response'))
 	{
-		$DB->query('ALTER TABLE up_ukan_response
-					ADD COLUMN STATUS varchar(255) not null;');
+		$DB->query(
+			'ALTER TABLE up_ukan_response
+					ADD COLUMN STATUS varchar(255) not null;'
+		);
 	}
 });
 
-__ukanMigrate(8, function($updater, $DB)
-{
+__ukanMigrate(8, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
 		$DB->query('ALTER TABLE up_ukan_user ADD COLUMN CONTACTS text not null;');
@@ -111,34 +117,43 @@ __ukanMigrate(8, function($updater, $DB)
 
 });
 
-__ukanMigrate(9, function($updater, $DB)
-{
+__ukanMigrate(9, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_feedback'))
 	{
-		$DB->query('alter table up_ukan_feedback
-    change FEEDBACK COMMENT text null;');
+		$DB->query(
+			'alter table up_ukan_feedback
+    change FEEDBACK COMMENT text null;'
+		);
 	};
 
 });
 
-__ukanMigrate(10, function($updater, $DB)
-{
+__ukanMigrate(10, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
-		$DB->query('alter table up_ukan_user
-    add RATING FLOAT not null;');
+		$DB->query(
+			'alter table up_ukan_user
+    add RATING FLOAT not null;'
+		);
 
-		$DB->query('alter table up_ukan_user
-    add FEEDBACK_COUNT int not null;');
+		$DB->query(
+			'alter table up_ukan_user
+    add FEEDBACK_COUNT int not null;'
+		);
 	};
 
 });
 
-__ukanMigrate(11, function($updater, $DB)
-{
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task')&& !$updater->TableExists('up_ukan_project_stage'))
+__ukanMigrate(11, function($updater, $DB) {
+	if (
+		$updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task')
+		&& !$updater->TableExists(
+			'up_ukan_project_stage'
+		)
+	)
 	{
-		$DB->query('create table up_ukan_project_stage
+		$DB->query(
+			'create table up_ukan_project_stage
 (
 	ID         int auto_increment,
     PROJECT_ID int          not null,
@@ -146,30 +161,71 @@ __ukanMigrate(11, function($updater, $DB)
     NUMBER     int          not null,
     constraint up_ukan_project_stage_pk
         primary key (ID)
-);');
-		$DB->query('alter table up_ukan_task
-    change PROJECT_ID PROJECT_STAGE_ID int null;');
+);'
+		);
+		$DB->query(
+			'alter table up_ukan_task
+    change PROJECT_ID PROJECT_STAGE_ID int null;'
+		);
 	};
 });
 
-__ukanMigrate(12, function($updater, $DB)
-{
+__ukanMigrate(12, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task'))
 	{
-		$DB->query('alter table up_ukan_task
-    drop column PROJECT_PRIORITY;');
+		$DB->query(
+			'alter table up_ukan_task
+    drop column PROJECT_PRIORITY;'
+		);
 
-		$DB->query('alter table up_ukan_task
-    add DEADLINE DATE null;');
+		$DB->query(
+			'alter table up_ukan_task
+    add DEADLINE DATE null;'
+		);
 	};
 });
 
-__ukanMigrate(13, function($updater, $DB)
-{
+__ukanMigrate(13, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_project_stage'))
 	{
-		$DB->query('alter table up_ukan_project_stage
-    add EXPECTED_COMPLETION_DATE DATE null;');
+		$DB->query(
+			'alter table up_ukan_project_stage
+    add EXPECTED_COMPLETION_DATE DATE null;'
+		);
+	};
+
+});
+
+__ukanMigrate(14, function($updater, $DB) {
+	if (
+		$updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_tag')
+		&& !$updater->TableExists(
+			'up_ukan_categories'
+		)
+	)
+	{
+		$DB->query(
+			'ALTER TABLE `up_ukan_tag`
+	ADD COLUMN `USER_ID`    int      not null,
+	ADD COLUMN `CREATED_AT` datetime not null;'
+		);
+
+		$DB->query(
+			'CREATE TABLE IF NOT EXISTS `up_ukan_categories`
+(
+	`ID`    int AUTO_INCREMENT NOT NULL,
+	`TITLE` varchar(255)       NOT NULL,
+	PRIMARY KEY (
+	             `ID`
+		)
+);'
+		);
+
+		$DB->query(
+			'ALTER TABLE `up_ukan_task`
+	ADD COLUMN `CATEGORY_ID`    int;'
+		);
+
 	};
 
 });

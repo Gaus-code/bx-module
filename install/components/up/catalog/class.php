@@ -10,12 +10,12 @@ class CatalogComponent extends CBitrixComponent
 
 	public function onPrepareComponentParams($arParams)
 	{
-		$arParams['TAGS_ID'] = request()->get('tags');
+		$arParams['CATEGORIES_ID'] = request()->get('categories');
 		return $arParams;
 	}
 	protected function fetchTags()
 	{
-		$this->arResult['TAGS'] = \Up\Ukan\Model\TagTable::query()->setSelect(['*'])->fetchCollection();
+		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
 	}
 
 }
