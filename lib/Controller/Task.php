@@ -6,6 +6,7 @@ use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Task;
+use Up\Ukan\Model\ProjectStageTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Service\Configuration;
@@ -51,7 +52,11 @@ class Task extends Controller
 
 			if (isset($projectId))
 			{
-				$task->setProjectId($projectId);
+				$projectStage=ProjectStageTable::query()->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
+														->where('PROJECT_ID', $projectId)
+														->where('NUMBER', 0)
+														->fetchObject();
+				$projectStage->addToTasks($task);
 			}
 
 			if(isset($maxPrice))

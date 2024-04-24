@@ -27,6 +27,9 @@
 		<nav class="header__nav">
 			<a href="/" class="header__link" id="mainLink">Главная</a>
 			<a href="/catalog/" class="header__link" id="catalogLink">Каталог</a>
+			<?php if ($USER->IsAdmin()):?>
+				<a href="/admin/" class="header__link" id="catalogLink">Администрирование</a>
+			<?php endif;?>
 		</nav>
 	</div>
 	<?php if (!$USER->IsAuthorized()): ?>
@@ -35,11 +38,7 @@
 		</div>
 	<?php else:?>
 		<div class="header__registerContainer">
-			<?php if (!$USER->IsAdmin()):?>
 			<a href="/profile/<?= $USER->GetID() ?>/" class="header__userBtn">
-			<?php else:?>
-			<a href="/admin/" class="header__userBtn">
-			<?php endif;?>
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="get into your account link">
 				<?= $USER->GetLogin() ?>
 			</a>

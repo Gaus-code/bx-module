@@ -56,7 +56,7 @@ __ukanMigrate(3, function($updater, $DB)
 
 __ukanMigrate(4, function($updater, $DB)
 {
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task')&& $updater->TableExists('up_ukan_status'))
 	{
 		$DB->query('drop table up_ukan_status;');
 		$DB->query('alter table up_ukan_task
@@ -113,7 +113,7 @@ __ukanMigrate(8, function($updater, $DB)
 
 __ukanMigrate(9, function($updater, $DB)
 {
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_feedback'))
 	{
 		$DB->query('alter table up_ukan_feedback
     change FEEDBACK COMMENT text null;');
@@ -130,6 +130,46 @@ __ukanMigrate(10, function($updater, $DB)
 
 		$DB->query('alter table up_ukan_user
     add FEEDBACK_COUNT int not null;');
+	};
+
+});
+
+__ukanMigrate(11, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task')&& !$updater->TableExists('up_ukan_project_stage'))
+	{
+		$DB->query('create table up_ukan_project_stage
+(
+	ID         int auto_increment,
+    PROJECT_ID int          not null,
+    STATUS     VARCHAR(255) not null,
+    NUMBER     int          not null,
+    constraint up_ukan_project_stage_pk
+        primary key (ID)
+);');
+		$DB->query('alter table up_ukan_task
+    change PROJECT_ID PROJECT_STAGE_ID int null;');
+	};
+});
+
+__ukanMigrate(12, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task'))
+	{
+		$DB->query('alter table up_ukan_task
+    drop column PROJECT_PRIORITY;');
+
+		$DB->query('alter table up_ukan_task
+    add DEADLINE DATE null;');
+	};
+});
+
+__ukanMigrate(13, function($updater, $DB)
+{
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_project_stage'))
+	{
+		$DB->query('alter table up_ukan_project_stage
+    add EXPECTED_COMPLETION_DATE DATE null;');
 	};
 
 });
