@@ -143,12 +143,9 @@ class Feedback extends Controller
 			$errors [] = 'Оцените пользователя';
 		}
 
-		if ($comment)
+		if ($comment && !preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $comment))
 		{
-			if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $comment))
-			{
-				$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
-			}
+			$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
 		}
 
 		if (!YandexGPT::censorshipCheck($comment))

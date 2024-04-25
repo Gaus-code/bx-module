@@ -372,12 +372,9 @@ class Task extends Controller
 		{
 			$errors [] = 'Выберите категорию';
 		}
-		else
+		elseif (!is_numeric($categoryId) || (int)$categoryId < 0)
 		{
-			if (!is_numeric($categoryId) || (int)$categoryId < 0)
-			{
-				$errors [] = 'Похоже, что-то не так с категорией';
-			}
+			$errors [] = 'Похоже, что-то не так с категорией';
 		}
 
 		if ($projectId && (!is_numeric($projectId) || (int)$projectId < 0))
