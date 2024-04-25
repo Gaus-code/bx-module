@@ -67,9 +67,10 @@ class UserEditTask extends CBitrixComponent
 
 		if ($this->arParams['TASK_ID'])
 		{
-			$this->arResult['TASK'] = \Up\Ukan\Model\TaskTable::query()->setSelect(
-				['*', 'TAGS', 'CONTRACTOR', 'CONTRACTOR.B_USER']
-			)->where('ID', $this->arParams['TASK_ID'])->fetchObject();
+			$this->arResult['TASK'] = \Up\Ukan\Model\TaskTable::query()
+															  ->setSelect(['*', 'TAGS'])
+															  ->where('ID', $this->arParams['TASK_ID'])
+															  ->fetchObject();
 		}
 
 	}

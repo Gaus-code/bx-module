@@ -44,7 +44,7 @@ class UserNotifyComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\NotificationTable::query();
 
-		$query->setSelect(['*', 'FROM_USER', 'TASK']);
+		$query->setSelect(['*', 'FROM_USER.B_USER.NAME', 'FROM_USER.B_USER.LAST_NAME', 'TASK']);
 
 		$query->where('TO_USER_ID', $clientId);
 

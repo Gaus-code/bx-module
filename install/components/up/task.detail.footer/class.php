@@ -85,7 +85,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 	private function fetchResponses()
 	{
 		$query = \Up\Ukan\Model\ResponseTable::query();
-		$query->setSelect(['*', 'TASK', 'CONTRACTOR.B_USER'])
+		$query->setSelect(['*', 'TASK', 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
 			  ->where('TASK_ID', $this->arParams['TASK']->getId())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('response_status')['wait'])
 			  ->addOrder('CREATED_AT', 'DESC')
@@ -96,10 +96,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 	private function fetchClient()
 	{
-		if ($this->arParams['TASK'] && $this->arParams['TASK']->fillClient()->fillBUser())
-		{
-			$this->arResult['CLIENT'] = $this->arParams['TASK']->getClient();
-		}
+		$this->arResult['CLIENT'] = $this->arParams['TASK']->getClient();
 	}
 
 	private function setUserSentFeedback()
@@ -128,10 +125,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 	private function fetchContractor()
 	{
-		if ($this->arParams['TASK'] && $this->arParams['TASK']->fillContractor()->fillBUser())
-		{
-			$this->arResult['CONTRACTOR'] = $this->arParams['TASK']->getContractor();
-		}
+		$this->arResult['CONTRACTOR'] = $this->arParams['TASK']->getContractor();
 	}
 	private function fetchLeaveFeedbackForm()
 	{

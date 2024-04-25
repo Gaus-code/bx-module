@@ -22,7 +22,7 @@ class AdminAsideComponent extends CBitrixComponent
 	{
 		$query = \Up\Ukan\Model\UserTable::query();
 
-		$query->setSelect(['*', 'B_USER'])->where('ID', $this->arParams['USER_ID']);
+		$query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.EMAIL'])->where('ID', $this->arParams['USER_ID']);
 
 		$this->arResult['USER'] = $query->fetchObject();
 	}

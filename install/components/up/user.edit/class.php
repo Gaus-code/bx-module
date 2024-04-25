@@ -25,7 +25,7 @@ class UserEditComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\UserTable::query();
 
-		$query->setSelect(['*', 'B_USER'])->where('ID', $userId);
+		$query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.LOGIN', 'B_USER.EMAIL'])->where('ID', $userId);
 
 		$this->arResult['USER'] = $query->fetchObject();
 	}

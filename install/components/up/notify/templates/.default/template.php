@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="userInfo">
 									<p class="userInfo__name">
 										<a href="/profile/<?=$notification->getFromUserId()?>/">
-											<?= htmlspecialcharsbx($notification->getFromUser()->fillBUser()->getName() . ' ' . $notification->getFromUser()->fillBUser()->getLastName()) ?>
+											<?= htmlspecialcharsbx($notification->getFromUser()->getBUser()->getName() . ' ' . $notification->getFromUser()->getBUser()->getLastName()) ?>
 										</a>
 									</p>
 								</div>

@@ -32,7 +32,13 @@ class TaskDetailComponent extends CBitrixComponent
 																	   '*',
 																	   'TAGS',
 																	   'CLIENT',
-																	   'CLIENT.B_USER',
+																	   'CLIENT.B_USER.NAME',
+																	   'CLIENT.B_USER.LAST_NAME',
+																	   'CLIENT.B_USER.EMAIL',
+																	   'CONTRACTOR',
+																	   'CONTRACTOR.B_USER.NAME',
+																	   'CONTRACTOR.B_USER.LAST_NAME',
+																	   'CONTRACTOR.B_USER.EMAIL',
 																   ])
 															   ->where('ID', $this->arParams['TASK_ID'])
 															   ->fetchObject();

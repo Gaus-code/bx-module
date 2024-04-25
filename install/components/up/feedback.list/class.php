@@ -52,7 +52,7 @@ class CommentListComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\FeedbackTable::query();
 
-		$query->setSelect(['*', 'TO_USER.B_USER', 'TASK']);
+		$query->setSelect(['*', 'TO_USER.B_USER.NAME', 'TO_USER.B_USER.LAST_NAME', 'TASK']);
 		$query->where('FROM_USER_ID', $this->arParams['USER_ID'])
 			  ->setLimit($nav->getLimit() + 1)
 			  ->setOffset($nav->getOffset());
@@ -84,7 +84,7 @@ class CommentListComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\FeedbackTable::query();
 
-		$query->setSelect(['*', 'FROM_USER.B_USER', 'TO_USER.B_USER', 'TASK']);
+		$query->setSelect(['*', 'FROM_USER.B_USER.NAME', 'FROM_USER.B_USER.LAST_NAME', 'TASK']);
 		$query->where('TO_USER_ID', $this->arParams['USER_ID'])
 			  ->setLimit($nav->getLimit() + 1)
 			  ->setOffset($nav->getOffset());
