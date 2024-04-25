@@ -71,6 +71,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php endif; ?>
 
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['done']): ?>
+		<div class="modalResponse">
+			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
+		</div>
 		<p class="detail__feedback_title">Отзывы:</p>
 		<?php if (!$arResult['USER_SENT_FEEDBACK']): ?>
 			<form class="comment__form" action="/feedback/create/" method="post">
@@ -108,6 +111,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php endfor; ?>
 				</div>
 				<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
+				<?php if ($feedback->getFromUserId() === $arParams['USER_ID']): ?>
+					<div class="rating-result">
+						<a href="/feedback/<?=$feedback->getId() ?>/edit/">Отредактировать отзыв</a>
+					</div>
+				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>

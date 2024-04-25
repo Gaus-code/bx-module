@@ -32,6 +32,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</span></h2>
 		</article>
 		<article class="content__editComment">
+			<div class="modalResponse">
+				<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
+			</div>
 			<form action="/feedback/edit/" method="post" class="edit__commentForm">
 				<?= bitrix_sessid_post() ?>
 				<input name="feedbackId" type="hidden" value="<?= $arResult['FEEDBACK']->getId() ?>">
