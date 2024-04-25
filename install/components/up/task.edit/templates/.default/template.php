@@ -31,17 +31,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Редактирование заявки</h2>
 		</article>
 		<article class="content__editTask">
+			<div class="modalResponse">
+				<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
+			</div>
 			<form action="/task/update/" method="post" class="create__form">
 				<?=bitrix_sessid_post()?>
 				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Редактируйте Название</label>
-						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=htmlspecialcharsbx($arResult['TASK']->getTitle())?>">
+						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=htmlspecialcharsbx($arResult['TASK']->getTitle())?>" required>
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="taskDescription">Редактируйте Описание</label>
-						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"><?=htmlspecialcharsbx($arResult['TASK']->getDescription())?></textarea>
+						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10" required><?=htmlspecialcharsbx($arResult['TASK']->getDescription())?></textarea>
 					</div>
 					<div class="splitContainer">
 						<div class="create__container">

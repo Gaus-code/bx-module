@@ -27,16 +27,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 		<article class="content__create">
+			<div class="modalResponse">
+				<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
+			</div>
 			<form class="create__form" action="/task/create/" method="post">
 				<?=bitrix_sessid_post()?>
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Добавьте Название</label>
-						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки">
+						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" required>
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="taskDescription">Добавьте Описание</label>
-						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10" required></textarea>
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>

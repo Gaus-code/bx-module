@@ -5,24 +5,26 @@ namespace Up\Ukan\Controller;
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\AI\YandexGPT;
+use Up\Ukan\Model\EO_Notification;
 use Up\Ukan\Model\EO_Tag;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\ProjectStageTable;
+use Up\Ukan\Model\ProjectTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Model\UserTable;
 use Up\Ukan\Service\Configuration;
-use Up\Ukan\Model\EO_Notification;
 
 class Task extends Controller
 {
 	public function createAction(
-		string $title,
-		string $description,
-		string $maxPrice,
-		int $categoryId,
+		string $title = null,
+		string $description = null,
+		string $maxPrice = null,
+		string $tagsString = null,
 		string $useGPT = null,
+		int    $categoryId = null,
 		int    $projectId = null,
-		string  $tagsString = '',
 	)
 	{
 		if (check_bitrix_sessid())
@@ -31,34 +33,117 @@ class Task extends Controller
 
 			$clientId = $USER->GetID();
 
-			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
+			$errors = $this->validateData(
+				$title,
+				$description,
+				$maxPrice,
+				$tagsString,
+				$useGPT,
+				$categoryId,
+				$projectId,
+				$clientId,
+			);
+
+			if ($errors !== [])
 			{
-				LocalRedirect("/task/".$clientId."/create/");
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/task/" . $clientId . "/create/");
 			}
 
-			$task = new EO_Task();
-			$task->setTitle($title)->setDescription($description)->setClientId($clientId)->setCategoryId($categoryId);
+			$task = $this->createTask(
+				$clientId,
+				$projectId,
+				$title,
+				$description,
+				$categoryId,
+				$tagsString,
+				$maxPrice
+			);
+
+			LocalRedirect("/task/" . $task->getId() . "/");
+
+		}
+	}
+
+	public function updateAction(
+		int    $taskId,
+		string $title = null,
+		string $description = null,
+		string $maxPrice = null,
+		string $tagsString = null,
+		string $useGPT = null,
+		int    $categoryId = null,
+		int    $projectId = null,
+	)
+	{
+		if (check_bitrix_sessid())
+		{
+			global $USER;
+			$clientId = $USER->GetID();
+
+			$errors = $this->validateData(
+				$title,
+				$description,
+				$maxPrice,
+				$tagsString,
+				$useGPT,
+				$categoryId,
+				$projectId,
+				$clientId,
+			);
+
+			if ($errors !== [])
+			{
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/task/" . $taskId . "/edit/");
+			}
+
+			if ($projectId)
+			{
+				$project = ProjectTable::query()
+									   ->setSelect(['ID'])
+									   ->where('ID', $projectId)
+									   ->where('CLIENT_ID', $clientId)
+									   ->fetchObject();
+				if (!$project)
+				{
+					LocalRedirect("/access/denied/");
+				}
+			}
+
+			$task = TaskTable::query()
+							 ->setSelect(['*'])
+							 ->where('CLIENT_ID', $clientId)
+							 ->where('ID', $taskId)
+							 ->fetchObject();
+
+			if (!$task)
+			{
+				LocalRedirect("/access/denied/");
+			}
+
+			$task->setTitle($title)
+				 ->setMaxPrice($maxPrice)
+				 ->setDescription($description)
+				 ->setCategoryId($categoryId);
 
 			// if ($useGPT) //TODO fix to use the great YandexGPT
 			// {
-			// 	$tags = YandexGPT::getTagsByTaskDescription($title.$description);
+			// 	$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
 			// }
 			// else
 			// {
 			// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
 			// }
-			// foreach ($tags as $tag)
-			// {
-			// 	$task->addToTags($tag);
-			// }
 
+			$task->removeAllTags();
 			if ($tagsString !== '')
 			{
+				$tagsString = str_replace(' ', '', $tagsString);
 				$arrayOfTagsTitle = explode('#', $tagsString);
 				array_shift($arrayOfTagsTitle);
 				foreach ($arrayOfTagsTitle as $tag)
 				{
-					$tag = $str = str_replace(' ', '', $tag);
 					$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
 					if ($tagFromDb)
 					{
@@ -73,106 +158,69 @@ class Task extends Controller
 						$task->addToTags($newTag);
 					}
 				}
-
 			}
 
 			if (isset($projectId))
 			{
-				$projectStage=ProjectStageTable::query()->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
-														->where('PROJECT_ID', $projectId)
-														->where('NUMBER', 0)
-														->fetchObject();
+				$projectStage = ProjectStageTable::query()
+												 ->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
+												 ->where('PROJECT_ID', $projectId)
+												 ->where('NUMBER', 0)
+												 ->fetchObject();
 				$projectStage->addToTasks($task);
-			}
-
-			if(isset($maxPrice))
-			{
-				$task->setMaxPrice($maxPrice);
 			}
 
 			$task->save();
 
-			LocalRedirect("/task/".$task->getId()."/");
+			LocalRedirect("/task/" . $task->getId() . "/");
 		}
 	}
 
-	public function updateAction(
-		int $taskId,
-		string $title,
-		string $description,
-		string    $maxPrice,
-		int $categoryId,
+	public function createAtProjectAction(
+		string $title = null,
+		string $description = null,
+		string $maxPrice = null,
+		string $tagsString = null,
 		string $useGPT = null,
+		int    $categoryId = null,
 		int    $projectId = null,
-		string  $tagsString = '',
-
 	)
 	{
 		if (check_bitrix_sessid())
 		{
 			global $USER;
+
 			$clientId = $USER->GetID();
 
-			if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice<0))
+			$errors = $this->validateData(
+				$title,
+				$description,
+				$maxPrice,
+				$tagsString,
+				$useGPT,
+				$categoryId,
+				$projectId,
+				$clientId,
+			);
+
+			if ($errors !== [])
 			{
-				LocalRedirect("/task/".$clientId."/create/");
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/$projectId/");
 			}
 
-			$task = TaskTable::query()
-							 ->setSelect(['*'])
-							 ->where('CLIENT_ID', $clientId)
-							 ->where('ID', $taskId)
-							 ->fetchObject();
+			$task = $this->createTask(
+				$clientId,
+				$projectId,
+				$title,
+				$description,
+				$categoryId,
+				$tagsString,
+				$maxPrice
+			);
 
-			if ($task)
-			{
-				$task->setTitle($title)->setMaxPrice($maxPrice)->setDescription($description)->setCategoryId($categoryId);
+			LocalRedirect("/project/$projectId/");
 
-				// if ($useGPT) //TODO fix to use the great YandexGPT
-				// {
-				// 	$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
-				// }
-				// else
-				// {
-				// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
-				// }
-
-				$task->removeAllTags();
-				if ($tagsString !== '')
-				{
-					$arrayOfTagsTitle = explode('#', $tagsString);
-					array_shift($arrayOfTagsTitle);
-					foreach ($arrayOfTagsTitle as $tag)
-					{
-						$tag = $str = str_replace(' ', '', $tag);
-						$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
-						if ($tagFromDb)
-						{
-							$task->addToTags($tagFromDb);
-						}
-						else
-						{
-							$newTag = new EO_Tag();
-							$newTag->setTitle($tag)->setCreatedAt(new DateTime())->setUserId($clientId);
-
-							$newTag->save();
-							$task->addToTags($newTag);
-						}
-					}
-
-				}
-
-				if (isset($projectId))
-				{
-					$task->setProjectId($projectId);
-				}
-
-				$task->save();
-
-				LocalRedirect("/task/".$task->getId()."/");
-			}
-
-			LocalRedirect("/access/denied/");
 		}
 	}
 
@@ -185,15 +233,16 @@ class Task extends Controller
 			$task = TaskTable::query()
 							 ->setSelect(['*', 'RESPONSES', 'TAGS'])
 							 ->where('ID', $taskId)
+							 ->where('CLIENT_ID', $userId)
 							 ->fetchObject();
 
-			if ($userId!==$task->getClientId())
+			if (!$task)
 			{
-				LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
+				LocalRedirect("/access/denied/");
 			}
 
 			$tags = $task->getTags();
-			$responses=$task->getResponses();
+			$responses = $task->getResponses();
 
 			foreach ($tags as $tag)
 			{
@@ -206,7 +255,12 @@ class Task extends Controller
 			$responses->save();
 			$task->save();
 
-			TaskTable::delete($taskId);
+			if (!TaskTable::delete($taskId))
+			{
+				$errors = ['Что-то пошло не так, не удалось удалить задание'];
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/task/$taskId/edit/");
+			}
 
 			LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
 		}
@@ -225,21 +279,204 @@ class Task extends Controller
 							 ->where('CLIENT_ID', $clientId)
 							 ->fetchObject();
 
-			if ($task)
+			if (!$task)
 			{
-				$task->setStatus(Configuration::getOption('task_status')['done']);
-				$task->save();
-
-				$notification = new EO_Notification();
-				$notification->setMessage(Configuration::getOption('notification_message')['task_finished'])
-							 ->setFromUserId($clientId)
-							 ->setToUserId($task->getContractorId())
-							 ->setTaskId($taskId)
-							 ->setCreatedAt(new DateTime());
-				$notification->save();
+				LocalRedirect("/access/denied/");
 			}
+
+			$task->setStatus(Configuration::getOption('task_status')['done']);
+			$task->save();
+
+			$notification = new EO_Notification();
+			$notification->setMessage(Configuration::getOption('notification_message')['task_finished'])
+						 ->setFromUserId($clientId)
+						 ->setToUserId($task->getContractorId())
+						 ->setTaskId($taskId)
+						 ->setCreatedAt(new DateTime());
+			$notification->save();
 
 			LocalRedirect("/task/$taskId/");
 		}
+	}
+
+	private function validateData(
+		?string $title,
+		?string $description,
+		?string $maxPrice,
+		?string $tagsString,
+		?string $useGPT,
+		?int    $categoryId,
+		?int    $projectId,
+		int     $clientId,
+	): ?array
+	{
+		$errors = [];
+
+		if (!$title)
+		{
+			$errors [] = 'Название не может быть пустым';
+		}
+		else
+		{
+
+			if (mb_strlen($title) < 3 || mb_strlen($title) > 255)
+			{
+				$errors[] = 'Название должно быть от 3 до 255 символов';
+			}
+			// Разрешаем буквы (русские и латинские), цифры, пробелы, знаки препинания, дефисы, подчеркивания и круглые скобки
+			if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $title))
+			{
+				$errors[] = 'Название может содержать только буквы, цифры, знаки препинания и круглые скобки';
+			}
+		}
+
+		if (!$description)
+		{
+			$errors [] = 'Описание не может быть пустым';
+		}
+		else
+		{
+
+			if (mb_strlen($description) < 3)
+			{
+				$errors[] = 'Описание должно быть от 3 символов';
+			}
+			// Разрешаем буквы (русские и латинские), цифры, пробелы, знаки препинания, дефисы, подчеркивания и круглые скобки
+			if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $description))
+			{
+				$errors[] = 'Описание может содержать только буквы, цифры, знаки препинания и круглые скобки';
+			}
+		}
+
+		if ($maxPrice && (!is_numeric($maxPrice) || (int)$maxPrice < 0))
+		{
+			$errors [] = 'Неправильная стоимость';
+		}
+
+		if ($tagsString !== '' && !preg_match('/^[a-zA-Zа-яА-Я0-9_# ]+$/u', $tagsString))
+		{
+			$errors [] = 'Заполняя тэги, вы можете использовать только буквы, цифры, подчеркивание (_) и решетку (#)';
+		}
+
+		if ($useGPT)
+		{
+			$user = UserTable::query()->setSelect(['*'])->where('ID', $clientId)->where('SUBSCRIPTION_STATUS', 'Active')
+							 ->fetchObject();
+			if (!$user)
+			{
+				$errors [] = 'Чтобы использовать автоматическую генерацию, оформите <a href="/subscription/"> подписку </a>';
+			}
+		}
+
+		if (!$categoryId)
+		{
+			$errors [] = 'Выберите категорию';
+		}
+		else
+		{
+			if (!is_numeric($categoryId) || (int)$categoryId < 0)
+			{
+				$errors [] = 'Похоже, что-то не так с категорией';
+			}
+		}
+
+		if ($projectId && (!is_numeric($projectId) || (int)$projectId < 0))
+		{
+			$errors [] = 'Похоже, что-то не так с проектом';
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * @param int|null $projectId
+	 * @param mixed $clientId
+	 * @param string|null $title
+	 * @param string|null $description
+	 * @param int|null $categoryId
+	 * @param string|null $tagsString
+	 * @param string|null $maxPrice
+	 *
+	 * @return EO_Task
+	 * @throws \Bitrix\Main\ArgumentException
+	 * @throws \Bitrix\Main\ObjectPropertyException
+	 * @throws \Bitrix\Main\SystemException
+	 */
+	private function createTask(
+		mixed   $clientId,
+		?int    $projectId,
+		?string $title,
+		?string $description,
+		?int    $categoryId,
+		?string $tagsString,
+		?string $maxPrice
+	): EO_Task
+	{
+		if ($projectId)
+		{
+			$project = ProjectTable::query()->setSelect(['ID'])->where('ID', $projectId)->where('CLIENT_ID', $clientId)
+								   ->fetchObject();
+			if (!$project)
+			{
+				LocalRedirect("/access/denied/");
+			}
+		}
+
+		$task = new EO_Task();
+		$task->setTitle($title)->setDescription($description)->setClientId($clientId)->setCategoryId($categoryId);
+
+		// if ($useGPT) //TODO fix to use the great YandexGPT
+		// {
+		// 	$tags = YandexGPT::getTagsByTaskDescription($title.$description);
+		// }
+		// else
+		// {
+		// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
+		// }
+		// foreach ($tags as $tag)
+		// {
+		// 	$task->addToTags($tag);
+		// }
+
+		if ($tagsString !== '')
+		{
+			$tagsString = str_replace(' ', '', $tagsString);
+			$arrayOfTagsTitle = explode('#', $tagsString);
+			array_shift($arrayOfTagsTitle);
+			foreach ($arrayOfTagsTitle as $tag)
+			{
+				$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
+				if ($tagFromDb)
+				{
+					$task->addToTags($tagFromDb);
+				}
+				else
+				{
+					$newTag = new EO_Tag();
+					$newTag->setTitle($tag)->setCreatedAt(new DateTime())->setUserId($clientId);
+
+					$newTag->save();
+					$task->addToTags($newTag);
+				}
+			}
+		}
+
+		if (isset($projectId))
+		{
+			$projectStage = ProjectStageTable::query()->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])->where(
+				'PROJECT_ID',
+				$projectId
+			)->where('NUMBER', 0)->fetchObject();
+			$projectStage->addToTasks($task);
+		}
+
+		if (isset($maxPrice))
+		{
+			$task->setMaxPrice($maxPrice);
+		}
+
+		$task->save();
+
+		return $task;
 	}
 }

@@ -16,7 +16,7 @@ class Validation
 		$error = [];
 		if (empty(trim($userName)) || empty(trim($userSurname)) ||empty(trim($userLogin)) ||  empty(trim($userEmail)))
 		{
-			$error[] = 'Пожалуйста, заполните все необхожимые поля';
+			$error[] = 'Пожалуйста, заполните все необходимые поля';
 		}
 		if (preg_match('/[^\w_-]/u', $userLogin) || preg_match('/[^\w_-]/u', $userName) || preg_match('/[^\w_-]/u', $userSurname))
 		{

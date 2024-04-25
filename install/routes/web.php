@@ -36,6 +36,7 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/task/update/', [\Up\Ukan\Controller\Task::class, 'update']);
 	$routes->post('/task/delete/', [\Up\Ukan\Controller\Task::class, 'delete']);
 	$routes->post('/task/finish/', [\Up\Ukan\Controller\Task::class, 'finishTask']);
+	$routes->post('/task/create/project/', [\Up\Ukan\Controller\Task::class, 'createAtProject']);
 
 	//project actions
 	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);
