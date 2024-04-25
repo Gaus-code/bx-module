@@ -150,6 +150,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<label class="create__textareaLabel" for="createMaxPrice">Добавьте тэги (используя #)</label>
 							<input name = "tagsString" id="createMaxPrice"  class="create__title" placeholder="#HTML #CSS #...">
 						</div>
+						<div class="create__container">
+							<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
+							<input name = "deadline" id="deadline" type="date" class="create__title">
+						</div>
 					</div>
 					<li class="filter__item">
 						<input class="filter__checkbox" name = "useGPT" type = "checkbox">

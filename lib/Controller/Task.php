@@ -23,6 +23,7 @@ class Task extends Controller
 		string $maxPrice = null,
 		string $tagsString = null,
 		string $useGPT = null,
+		string $deadline = null,
 		int    $categoryId = null,
 		int    $projectId = null,
 	)
@@ -39,6 +40,7 @@ class Task extends Controller
 				$maxPrice,
 				$tagsString,
 				$useGPT,
+				$deadline,
 				$categoryId,
 				$projectId,
 				$clientId,
@@ -57,7 +59,8 @@ class Task extends Controller
 				$description,
 				$categoryId,
 				$tagsString,
-				$maxPrice
+				$maxPrice,
+				$deadline
 			);
 
 			LocalRedirect("/task/" . $task->getId() . "/");
@@ -72,6 +75,7 @@ class Task extends Controller
 		string $maxPrice = null,
 		string $tagsString = null,
 		string $useGPT = null,
+		string $deadline = null,
 		int    $categoryId = null,
 		int    $projectId = null,
 	)
@@ -87,6 +91,7 @@ class Task extends Controller
 				$maxPrice,
 				$tagsString,
 				$useGPT,
+				$deadline,
 				$categoryId,
 				$projectId,
 				$clientId,
@@ -125,7 +130,9 @@ class Task extends Controller
 			$task->setTitle($title)
 				 ->setMaxPrice($maxPrice)
 				 ->setDescription($description)
-				 ->setCategoryId($categoryId);
+				 ->setCategoryId($categoryId)
+				 ->setDeadline(DateTime::createFromPhp(new \DateTime($deadline)))
+				 ->setUpdatedAt(new DateTime());
 
 			// if ($useGPT) //TODO fix to use the great YandexGPT
 			// {
@@ -182,6 +189,7 @@ class Task extends Controller
 		string $maxPrice = null,
 		string $tagsString = null,
 		string $useGPT = null,
+		string $deadline = null,
 		int    $categoryId = null,
 		int    $projectId = null,
 	)
@@ -198,6 +206,7 @@ class Task extends Controller
 				$maxPrice,
 				$tagsString,
 				$useGPT,
+				$deadline,
 				$categoryId,
 				$projectId,
 				$clientId,
@@ -216,7 +225,8 @@ class Task extends Controller
 				$description,
 				$categoryId,
 				$tagsString,
-				$maxPrice
+				$maxPrice,
+				$deadline,
 			);
 
 			LocalRedirect("/project/$projectId/");
@@ -305,6 +315,7 @@ class Task extends Controller
 		?string $maxPrice,
 		?string $tagsString,
 		?string $useGPT,
+		?string $deadline,
 		?int    $categoryId,
 		?int    $projectId,
 		int     $clientId,
@@ -368,6 +379,28 @@ class Task extends Controller
 			}
 		}
 
+		if (!$deadline || preg_match('/^\d{4}-\d{2}-\d{2}$/', $deadline))
+		{
+			$errors [] = 'Установите дедлайн';
+		}
+		else
+		{
+			$deadlineDateTime = new \DateTime($deadline);
+			$now = new \DateTime('now');
+			$maxDeadlineDateTime = clone $now;
+			$maxDeadlineDateTime->add(new \DateInterval('P50Y'));
+
+			if ($deadlineDateTime->format('U') <= $now->format('U') )
+			{
+				$errors [] = 'Дедлайн не может быть прошедшей датой';
+			}
+
+			if ($deadlineDateTime->format('U') > $maxDeadlineDateTime->format('U') )
+			{
+				$errors [] = 'Дедлайн не может быть больше 50 лет';
+			}
+		}
+
 		if (!$categoryId)
 		{
 			$errors [] = 'Выберите категорию';
@@ -406,7 +439,8 @@ class Task extends Controller
 		?string $description,
 		?int    $categoryId,
 		?string $tagsString,
-		?string $maxPrice
+		?string $maxPrice,
+		?string $deadline,
 	): EO_Task
 	{
 		if ($projectId)
@@ -420,8 +454,11 @@ class Task extends Controller
 		}
 
 		$task = new EO_Task();
-		$task->setTitle($title)->setDescription($description)->setClientId($clientId)->setCategoryId($categoryId);
-
+		$task->setTitle($title)
+			 ->setDescription($description)
+			 ->setClientId($clientId)
+			 ->setCategoryId($categoryId)
+			 ->setDeadline(DateTime::createFromPhp(new \DateTime($deadline)));
 		// if ($useGPT) //TODO fix to use the great YandexGPT
 		// {
 		// 	$tags = YandexGPT::getTagsByTaskDescription($title.$description);

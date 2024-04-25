@@ -60,6 +60,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</select>
 						</div>
 					</div>
+					<div class="create__container">
+						<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
+						<input name = "deadline" id="deadline" type="date" class="create__title" value="<?=$arResult['TASK']->getDeadline()->format("Y-m-d")?>">
+					</div>
 					<li class="filter__item">
 						<input class="filter__checkbox" name = "useGPT" type = "checkbox">
 						<label class="filter__label">Автоматическое проставление тегов по описанию</label>
