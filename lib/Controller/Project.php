@@ -83,22 +83,22 @@ class Project extends Controller
 
 			}
 
-			foreach ($project->getStages() as $stage)
-			{
-				if (!isset($arrayStages[$stage->getId()]))
-				{
-					$stage->setExpectedCompletionDate(null);
-					continue;
-				}
-
-				$taskList = TaskTable::query()->setSelect(['ID', 'DEADLINE'])
-											  ->whereIn('ID', $arrayStages[$stage->getId()])
-											  ->fetchCollection();
-				$deadlineList = $taskList->getDeadlineList();
-
-				$expectedCompletionDate= max($deadlineList);
-				$stage->setExpectedCompletionDate($expectedCompletionDate);
-			}
+			// foreach ($project->getStages() as $stage)
+			// {
+			// 	if (!isset($arrayStages[$stage->getId()]))
+			// 	{
+			// 		$stage->setExpectedCompletionDate(null);
+			// 		continue;
+			// 	}
+			//
+			// 	$taskList = TaskTable::query()->setSelect(['ID', 'DEADLINE'])
+			// 								  ->whereIn('ID', $arrayStages[$stage->getId()])
+			// 								  ->fetchCollection();
+			// 	$deadlineList = $taskList->getDeadlineList();
+			//
+			// 	$expectedCompletionDate= max($deadlineList);
+			// 	$stage->setExpectedCompletionDate($expectedCompletionDate);
+			// }
 
 			$project->save();
 
