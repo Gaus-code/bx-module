@@ -95,7 +95,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<?php foreach ($arResult['PROJECTS'] as $project): ?>
 										<li class="filter__item">
 											<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>"
-												<?php if ($arResult['TASK']->hasProjectId($project->getId())) { echo 'checked'; } ?>>
+												<?php if ($arResult['TASK']->getProject()->getId()===$project->getId()) { echo 'checked'; } ?>>
 											<label class="filter__label"><?=htmlspecialcharsbx($project->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
