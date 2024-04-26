@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`PROJECT_PRIORITY` int                NOT NULL,
 	`CLIENT_ID`        int                NOT NULL,
 	`CONTRACTOR_ID`    int,
-	`STATUS_ID`        int                NOT NULL,
+    `STATUS`           varchar(255)       NOT NULL,
 	`PROJECT_ID`       int,
 	`CREATED_AT`       datetime,
 	`UPDATED_AT`       datetime,

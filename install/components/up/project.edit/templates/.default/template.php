@@ -31,7 +31,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Ваш проект</h2>
+			<a class="content__link" href="/project/<?= $arParams['PROJECT_ID']?>/">Ваш проект</a>
 		</article>
 		<article class="content__userProject">
 			<article class="content__editProject">
@@ -42,14 +42,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<article class="content__tagButtons">
 				<div class="content__header">
 					<ul class="content__tagList">
-						<li id="edit-btn" class="content__tagItem active-tag-item">
-							Редактировать заявки в проекте
+						<li id="plan-btn" class="content__tagItem active-tag-item">
+							Планирование проекта
 						</li>
 						<li id="addTask-btn" class="content__tagItem">
 							Добавить существующую заявку
 						</li>
 						<li id="createTask-btn" class="content__tagItem">
 							Создать заявку
+						</li>
+						<li id="edit-btn" class="content__tagItem">
+							Редактировать проект
 						</li>
 						<li id="delete-btn" class="content__tagItem">
 							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
@@ -58,19 +61,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</ul>
 				</div>
 			</article>
-			<!-- Контейнер для редактирования проекта !-->
-			<div id="edit-reviews" class="content__priorityContainer tab__container">
+			<!-- Контейнер для планирования проекта !-->
+			<div id="plan-reviews" class="content__priorityContainer tab__container">
 				<div class="board">
-					<form action="/project/add-stage/" method="post">
-						<?= bitrix_sessid_post() ?>
-						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
-						<button class="submitDrag" type="submit">Добавить этап(временное решение)</button>
-					</form>
-					<form action="/project/delete-stage/" method="post">
-						<?= bitrix_sessid_post() ?>
-						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
-						<button class="submitDrag" type="submit">удалить этап(временное решение)</button>
-					</form>
+					<div class="board__btnContainer">
+						<form action="/project/add-stage/" method="post">
+							<?= bitrix_sessid_post() ?>
+							<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
+							<button class="submitDrag" type="submit">Добавить этап(временное решение)</button>
+						</form>
+						<form action="/project/delete-stage/" method="post">
+							<?= bitrix_sessid_post() ?>
+							<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
+							<button class="submitDrag" type="submit">удалить этап(временное решение)</button>
+						</form>
+					</div>
+
 					<form action="/project/edit-stages/" id="drag-form" method="post">
 						<?= bitrix_sessid_post() ?>
 						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
@@ -168,7 +174,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<ul class="filter__list">
 								<?php foreach ($arResult['CATEGORIES'] as $category): ?>
 									<li class="filter__item">
-										<input type="radio" class="filter__checkbox" name="categoryId" value="<?=$category->getId()?>">
+										<input type="radio" class="filter__radio" name="categoryId" value="<?=$category->getId()?>">
 										<label class="filter__label"><?=htmlspecialcharsbx($category->getTitle())?></label>
 									</li>
 								<?php endforeach; ?>
@@ -176,6 +182,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						</fieldset>
 					</div>
 					<button class="createBtn" type="submit">Создать заявку</button>
+				</form>
+			</div>
+			<!-- Контейнер для редактирование основной информации!-->
+			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
+				<form class="editForm" action="" method="post">
+					<?= bitrix_sessid_post() ?>
+					<div class="editForm__container">
+						<label for="projectTitle">Редактируйте название проекта</label>
+						<input id="projectTitle" type="text" name="projectTitle">
+					</div>
+					<div class="editForm__container">
+						<label for="projectDescription">Редактируйте описание проекта</label>
+						<input id="projectDescription" type="text" name="projectDescription">
+					</div>
+					<button type="submit">Отправить</button>
 				</form>
 			</div>
 			<!-- Контейнер для удаления проекта(работает!) !-->

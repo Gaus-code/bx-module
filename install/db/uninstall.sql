@@ -22,4 +22,6 @@ DROP TABLE IF EXISTS `up_ukan_categories`;
 
 DROP TABLE IF EXISTS `up_ukan_reports`;
 
+DROP TABLE IF EXISTS `up_ukan_project_stage`;
+
 DELETE FROM b_user where WORK_COMPANY = 'UKAN';

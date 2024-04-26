@@ -7,7 +7,7 @@
 }
 
 .catalog__aside {
-    position: fixed;
+    position: relative;
     max-width: 260px;
     width: 100%;
     min-height: 100vh;
@@ -39,6 +39,8 @@
     align-items: flex-start;
     justify-content: flex-start;
     gap: 15px;
+    max-height: 52vh;
+    overflow-y: scroll;
 }
 
 .filter__item {
@@ -80,14 +82,14 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
-    letter-spacing: 1%;
     text-align: left;
     text-transform: capitalize;
 }
 
 .catalog__main {
+    width: 100%;
     min-height: 460px;
-    margin-left: 260px;
+    margin-left: 60px;
 }
 
 .catalog__header {

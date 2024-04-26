@@ -9,7 +9,7 @@ use Up\Ukan\Service\Configuration;
 
 class ProjectStage extends Engine\Controller
 {
-	public function completeActions(
+	public function completeAction(
 		int $stageId,
 	)
 	{
@@ -49,7 +49,7 @@ class ProjectStage extends Engine\Controller
 		$stage->save();
 
 	}
-	public function startActions(
+	public function startAction(
 		int $stageId,
 	)
 	{
