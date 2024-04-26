@@ -74,6 +74,7 @@ if ($arResult['TASK']): ?>
 							</form>
 						</li>
 					<?php else :?>
+						<?php if (!$arResult['ISSET_REPORT']): ?>
 						<li class="metaContainer__item">
 							<button class="banBtn" type="button">Пожаловаться</button>
 							<form class="banForm" action="/report/create/" method="post">
@@ -100,6 +101,9 @@ if ($arResult['TASK']): ?>
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</li>
+						<?php else :?>
+							<p class="banBtn">Вы уже отправили жалобу, ждите решение администрации</p>
+						<?php endif; ?>
 					<?php endif; ?>
 				</ul>
 			</section>

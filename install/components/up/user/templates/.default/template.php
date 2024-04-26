@@ -55,14 +55,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<button type="submit">Заблокировать пользователя</button>
 							</form>
 						<?php else :?>
+							<?php if (!$arResult['ISSET_REPORT']):?>
 							<button class="banBtn" type="button">Пожаловаться на пользователя</button>
-							<form class="banForm" action="">
+							<form class="banForm" action="/report/create/" method="post">
+								<?= bitrix_sessid_post() ?>
+								<input hidden="hidden" name="complaintType" value="user">
+								<input hidden="hidden" name="toUserId" value="<?= $arParams['USER_ID'] ?>">
 								<button id="closeFormBtn" type="button">
 									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
 								</button>
-								<textarea class="complaintText" type="text" name="complaintText" placeholder="Пожалуйста, опишите проблему"></textarea>
+								<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
+							<?php else :?>
+							<p class="banBtn">Вы уже отправили жалобу, ждите решение администрации</p>
+							<?php endif; ?>
 						<?php endif; ?>
 					<?php endif;?>
 				</div>

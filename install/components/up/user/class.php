@@ -41,7 +41,23 @@ class UserComponent extends CBitrixComponent
 		else
 		{
 			$this->arResult['USER_ACTIVITY'] = 'other_user';
+			$this->fetchIssetReport();
 		}
 	}
 
+	private function fetchIssetReport()
+	{
+
+		global $USER;
+		$userId = (int)$USER->getId();
+		$report = \Up\Ukan\Model\ReportsTable::query()
+											 ->setSelect(['ID'])
+											 ->where('FROM_USER_ID', $userId)
+											 ->where('TO_USER_ID', $this->arParams['USER_ID'])
+											 ->where('TYPE', 'user')
+											 ->fetchObject();
+		$this->arResult['ISSET_REPORT'] = (bool)$report;
+
+
+	}
 }

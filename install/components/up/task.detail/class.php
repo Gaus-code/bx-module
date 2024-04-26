@@ -6,6 +6,7 @@ class TaskDetailComponent extends CBitrixComponent
 	{
 		$this->fetchTask();
 		$this->fetchUserActivity();
+		$this->fetchIssetReport();
 		$this->includeComponentTemplate();
 	}
 
@@ -97,5 +98,21 @@ class TaskDetailComponent extends CBitrixComponent
 
 			$this->arResult['USER_ACTIVITY'] = '.default';
 		}
+	}
+
+	private function fetchIssetReport()
+	{
+		if ($this->arResult['TASK'])
+		{
+			global $USER;
+			$userId = (int)$USER->getId();
+			$report = \Up\Ukan\Model\ReportsTable::query()
+												 ->setSelect(['ID'])
+												 ->where('FROM_USER_ID', $userId)
+												 ->where('TO_TASK_ID', $this->arResult['TASK']->getId())
+												 ->fetchObject();
+			$this->arResult['ISSET_REPORT'] = (bool)$report;
+		}
+
 	}
 }
