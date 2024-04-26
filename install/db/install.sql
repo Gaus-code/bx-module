@@ -138,6 +138,20 @@ CREATE TABLE IF NOT EXISTS `up_ukan_categories`
 		)
 );
 
+CREATE TABLE IF NOT EXISTS `up_ukan_reports`
+(
+	`ID`             int AUTO_INCREMENT NOT NULL,
+	`TYPE`           varchar(255)       NOT NULL,
+	`MESSAGE`        text,
+	`FROM_USER_ID`   int                not null,
+	`TO_USER_ID`     int                not null,
+	`TO_TASK_ID`     int,
+	`TO_FEEDBACK_ID` int,
+	PRIMARY KEY (
+	             `ID`
+		)
+);
+
 -- Заполнение таблицы up_ukan_tag
 INSERT INTO up_ukan_tag (TITLE)
 VALUES ('HTML'),

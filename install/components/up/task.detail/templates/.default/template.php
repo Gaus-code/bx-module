@@ -76,25 +76,27 @@ if ($arResult['TASK']): ?>
 					<?php else :?>
 						<li class="metaContainer__item">
 							<button class="banBtn" type="button">Пожаловаться</button>
-							<form class="banForm" action="">
+							<form class="banForm" action="/report/create/" method="post">
+								<?= bitrix_sessid_post() ?>
 								<button id="closeFormBtn" type="button">
 									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
 								</button>
+								<input name="toTaskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
 								<ul class="complaint__list">
 									<li class="complaint__item">
-										<input class="complaint__radio" type="radio" name="complaintType" checked>
+										<input class="complaint__radio" type="radio" name="complaintType" value="task" checked>
 										<label class="complaint__label">Пожаловаться на заявку</label>
 									</li>
 									<li class="complaint__item">
-										<input class="complaint__radio" type="radio" name="complaintType">
+										<input class="complaint__radio" type="radio" name="complaintType" value="feedback">
 										<label class="complaint__label">Пожаловаться на комментарий</label>
 									</li>
 									<li class="complaint__item">
-										<input class="complaint__radio" type="radio" name="complaintType">
+										<input class="complaint__radio" type="radio" name="complaintType" value="other">
 										<label class="complaint__label">Другое</label>
 									</li>
 								</ul>
-								<textarea class="complaintText" type="text" name="complaintText" placeholder="Пожалуйста, опишите проблему"></textarea>
+								<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</li>

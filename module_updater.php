@@ -229,3 +229,24 @@ __ukanMigrate(14, function($updater, $DB) {
 	};
 
 });
+
+__ukanMigrate(15, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_reports'))
+	{
+		$DB->query(
+			'CREATE TABLE IF NOT EXISTS `up_ukan_reports`
+			(
+				`ID`             int AUTO_INCREMENT NOT NULL,
+				`TYPE`           varchar(255)       NOT NULL,
+				`MESSAGE`        text,
+				`FROM_USER_ID`   int                not null,
+				`TO_USER_ID`     int                not null,
+				`TO_TASK_ID`     int,
+				`TO_FEEDBACK_ID` int,
+				PRIMARY KEY (
+							 `ID`
+					)
+			);');
+	};
+
+});

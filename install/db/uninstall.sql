@@ -20,4 +20,6 @@ DROP TABLE IF EXISTS `up_ukan_notification`;
 
 DROP TABLE IF EXISTS `up_ukan_categories`;
 
+DROP TABLE IF EXISTS `up_ukan_reports`;
+
 DELETE FROM b_user where WORK_COMPANY = 'UKAN';

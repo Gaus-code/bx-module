@@ -379,7 +379,7 @@ class Task extends Controller
 			}
 		}
 
-		if (!$deadline || preg_match('/^\d{4}-\d{2}-\d{2}$/', $deadline))
+		if (!$deadline || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $deadline))
 		{
 			$errors [] = 'Установите дедлайн';
 		}
