@@ -17,6 +17,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/profile/{user_id}/tasks/', new PublicPageController('/local/modules/up.ukan/views/task-list.php'));
 	$routes->get('/profile/{user_id}/projects/', new PublicPageController('/local/modules/up.ukan/views/project-list.php'));
 	$routes->get('/project/{project_id}/', new PublicPageController('/local/modules/up.ukan/views/project.php'));
+	$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
 	$routes->get('/profile/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/responses.php'));
 	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/notify.php'));
 	$routes->get('/profile/{user_id}/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/feedback-list.php'));
@@ -40,7 +41,7 @@ return function (RoutingConfigurator $routes)
 
 	//project actions
 	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);
-	$routes->post('/project/update/', [\Up\Ukan\Controller\Project::class, 'update']);
+	$routes->post('/project/edit-stages/', [\Up\Ukan\Controller\Project::class, 'editStages']);
 	$routes->post('/project/delete/', [\Up\Ukan\Controller\Project::class, 'delete']);
 	$routes->post('/project/add-tasks/', [\Up\Ukan\Controller\Project::class, 'addTasks']);
 	$routes->post('/project/add-stage/', [\Up\Ukan\Controller\Project::class, 'addStage']);

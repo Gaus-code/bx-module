@@ -6,6 +6,7 @@ return array(
 		'pause' => 'Приостановленно',
 		'done' => 'Выполнено',
 		'at_work' => 'В работе',
+		'search_contractor' => 'Поиск исполнителя',
 	),
 	'subscription' => array(
 		'price' => 399,
@@ -35,5 +36,13 @@ return array(
 		'responses_list' => 6,
 		'notification_list' => 7,
 		'feedback_list' => 7,
+	),
+	'independent_stage_number'=>0,
+	'project_stage_status' => array(
+		'waiting_to_start' => 'Ожидает начала выполнения',
+		'queue'=>'В очереди',
+		'active' => 'Активен',
+		'completed' => 'Завершен',
+		'independent' => 'Независимый',
 	),
 );

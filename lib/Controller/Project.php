@@ -14,6 +14,7 @@ use Up\Ukan\Model\ProjectStageTable;
 use Up\Ukan\Model\ProjectTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Service\Configuration;
 
 class Project extends Controller
 {
@@ -25,27 +26,26 @@ class Project extends Controller
 		if (check_bitrix_sessid())
 		{
 			global $USER;
-
 			$clientId = $USER->GetID();
 
 			$project = new EO_Project();
 			$projectStage = new EO_ProjectStage();
-			$projectStage->setNumber(0)->setStatus(1);
+			$projectStage->setNumber(Configuration::getOption('independent_stage_number'))
+						 ->setStatus(Configuration::getOption('project_stage_status')['independent']);
 
-			$project->setTitle($title)->setDescription($description)->setClientId($clientId)->addToStages($projectStage);
-
+			$project->setTitle($title)
+					->setDescription($description)
+					->setClientId($clientId)
+					->addToStages($projectStage);
 
 			$project->save();
 
-			LocalRedirect("/project/" . $project->getId() . "/");
+			LocalRedirect("/project/" . $project->getId() . "/edit/");
 		}
 	}
 
-	public function updateAction(
+	public function editStagesAction(
 		int    $projectId,
-		// string $title,
-		// string $description,
-		// array $stages =[],
 		array  $tasks = [],
 	)
 	{
@@ -57,11 +57,12 @@ class Project extends Controller
 			$project = \Up\Ukan\Model\ProjectTable::query()
 												  ->setSelect(['*', 'STAGES', 'STAGES.TASKS'])
 												  ->where('ID', $projectId)
+												  ->where('CLIENT_ID', $userId)
 												  ->fetchObject();
 
-			if ($project->getClientId()!==$userId)
+			if (!$project)
 			{
-				LocalRedirect("/profile/" . $userId . "/projects/");
+				LocalRedirect("/access/denied/");
 			}
 
 			$arrayStages=[];
@@ -83,26 +84,9 @@ class Project extends Controller
 
 			}
 
-			foreach ($project->getStages() as $stage)
-			{
-				if (!isset($arrayStages[$stage->getId()]))
-				{
-					$stage->setExpectedCompletionDate(null);
-					continue;
-				}
-
-				$taskList = TaskTable::query()->setSelect(['ID', 'DEADLINE'])
-											  ->whereIn('ID', $arrayStages[$stage->getId()])
-											  ->fetchCollection();
-				$deadlineList = $taskList->getDeadlineList();
-
-				$expectedCompletionDate= max($deadlineList);
-				$stage->setExpectedCompletionDate($expectedCompletionDate);
-			}
-
 			$project->save();
 
-			LocalRedirect("/project/" . $projectId . "/");
+			LocalRedirect("/project/" . $projectId . "/edit/");
 		}
 	}
 
@@ -110,51 +94,78 @@ class Project extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
-			global $USER;
+			$errors = [];
 
-			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS'])
+			global $USER;
+			$userId=(int)$USER->GetID();
+
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'STAGES'])
 														   ->where('ID', $projectId)
+														   ->where('CLIENT_ID', $userId)
 														   ->fetchObject();
-			if ($project->getClientId()!==(int)$USER->GetID())
+			if (!$project)
 			{
-				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+				LocalRedirect("/access/denied/");
 			}
-			$projectStage = $project->getStages();
-			foreach ($projectStage as $projectStage)
+
+			$taskIdList = $project->getStages()->fillTasks()->getIdList();
+
+			if ($taskIdList)
+			{
+				$errors[] = "Проект нельзя удалить, пока в нем содержатся задачи.";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $projectId . "/edit/");
+			}
+
+			$projectStages = $project->getStages();
+
+			foreach ($projectStages as $projectStage)
 			{
 				$projectStage->delete();
 			}
 			$project->save();
 			ProjectTable::delete($projectId);
 
-			LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+			LocalRedirect("/profile/" . $userId . "/projects/");
 		}
 	}
 
-	public function addTasksAction(int $projectId, array $taskIds)
+	public function addTasksAction(int $projectId, array $taskIds = [])
 	{
 		if (check_bitrix_sessid())
 		{
 			global $USER;
+			$userId=(int)$USER->GetID();
 
-			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID'])->where('ID', $projectId)
-												  ->fetchObject();
-			if ($project->getClientId() !== (int)$USER->GetID())
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID'])
+														   ->where('ID', $projectId)
+														   ->where('CLIENT_ID', $userId)
+														   ->fetchObject();
+			if (!$project)
 			{
-				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+				LocalRedirect("/access/denied/");
 			}
-			$tasks = TaskTable::query()->setSelect(['ID'])->whereIn('ID', $taskIds)->fetchCollection();
 
-			$projectStage = ProjectStageTable::query()->setSelect(['ID', 'PROJECT_ID', 'NUMBER', 'TASKS'])->where(
-					'PROJECT_ID',
-					$projectId
-				)->where('NUMBER', 0)->fetchObject();
+			$tasks = TaskTable::query()->setSelect(['ID'])->whereIn('ID', $taskIds)
+														  ->where('CLIENT_ID', $userId)
+														  ->fetchCollection();
+			if (!$tasks || !$taskIds)
+			{
+				$errors[] = "Вы не выбрали задчи";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $projectId . "/edit/");
+			}
+
+			$projectStage = ProjectStageTable::query()->setSelect(['ID', 'PROJECT_ID', 'NUMBER', 'TASKS'])
+													  ->where('PROJECT_ID',$projectId)
+													  ->where('NUMBER', Configuration::getOption('independent_stage_number'))
+													  ->fetchObject();
 			foreach ($tasks as $task)
 			{
 				$projectStage->addToTasks($task);
 			}
 			$projectStage->save();
-			LocalRedirect("/project/" . $projectId . "/");
+			LocalRedirect("/project/" . $projectId . "/edit/");
 		}
 	}
 	public function addStageAction(int $projectId)
@@ -162,14 +173,16 @@ class Project extends Controller
 		if (check_bitrix_sessid())
 		{
 			global $USER;
+			$userId=(int)$USER->GetID();
 
-			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])->where(
-					'ID',
-					$projectId
-				)->addOrder('STAGES.NUMBER')->fetchObject();
-			if ($project->getClientId() !== (int)$USER->GetID())
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])
+														   ->where('ID',$projectId)
+														   ->where('CLIENT_ID', $userId)
+														   ->addOrder('STAGES.NUMBER')
+														   ->fetchObject();
+			if (!$project)
 			{
-				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+				LocalRedirect("/access/denied/");
 			}
 
 			$projectStagesIds = $project->getStages()->getIdList();
@@ -177,12 +190,21 @@ class Project extends Controller
 
 			$newProjectStageNumber = $lastProjectStage->getNumber() + 1;
 			$newProjectStage = new EO_ProjectStage();
-			$newProjectStage->setNumber($newProjectStageNumber)->setStatus(1);
+
+			$projectStatuses = Configuration::getOption('project_stage_status');
+			if ($lastProjectStage->getStatus()===$projectStatuses['completed'] || $lastProjectStage->getStatus()===$projectStatuses['independent'])
+			{
+				$newProjectStage->setNumber($newProjectStageNumber)->setStatus($projectStatuses['waiting_to_start']);
+			}
+			else
+			{
+				$newProjectStage->setNumber($newProjectStageNumber)->setStatus($projectStatuses['queue']);
+			}
 
 			$project->addToStages($newProjectStage);
 			$project->save();
 
-			LocalRedirect("/project/" . $projectId . "/");
+			LocalRedirect("/project/" . $projectId . "/edit/");
 		}
 	}
 	public function deleteStageAction(int $projectId)
@@ -190,24 +212,40 @@ class Project extends Controller
 		if (check_bitrix_sessid())
 		{
 			global $USER;
+			$userId=(int)$USER->GetID();
 
-			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])->where(
-					'ID',
-					$projectId
-				)->addOrder('STAGES.NUMBER')->fetchObject();
-			if ($project->getClientId() !== (int)$USER->GetID())
+			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['ID', 'CLIENT_ID', 'STAGES'])
+														   ->where('ID',$projectId)
+														   ->where('CLIENT_ID', $userId)
+														   ->addOrder('STAGES.NUMBER')
+														   ->fetchObject();
+			if (!$project)
 			{
-				LocalRedirect("/profile/" . $USER->getId() . "/projects/");
+				LocalRedirect("/access/denied/");
 			}
 
 			$projectStagesIds = $project->getStages()->getIdList();
 			$lastProjectStage = $project->getStages()->getByPrimary(end($projectStagesIds));
 
+			if ($lastProjectStage->getStatus()===Configuration::getOption('project_stage_status')['independent'])
+			{
+				$errors[] = "Этапов больше не осталось";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $projectId . "/edit/");
+			}
+
+			if ($lastProjectStage->fillTasks()->getIdList())
+			{
+				$errors[] = "Этап нельзя удалить, пока в нем содержатся задачи.";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $projectId . "/edit/");
+			}
+
 			$lastProjectStage->delete();
 
 			$project->save();
 
-			LocalRedirect("/project/" . $projectId . "/");
+			LocalRedirect("/project/" . $projectId . "/edit/");
 		}
 	}
 }
