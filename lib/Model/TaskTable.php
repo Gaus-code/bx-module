@@ -108,12 +108,15 @@ class TaskTable extends DataManager
 						]
 			),
 			new IntegerField(
-				'PROJECT_STAGE_ID', [
-									  'title' => Loc::getMessage('TASK_ENTITY_PROJECT_ID_FIELD'),
-								  ]
+				'PROJECT_STAGE_ID',
+				[
+					'title' => Loc::getMessage('TASK_ENTITY_PROJECT_STAGE_ID_FIELD')
+				]
 			),
 			new Reference(
-				'PROJECT_STAGE', ProjectStageTable::class, Join::on('this.PROJECT_STAGE_ID', 'ref.ID')
+				'PROJECT_STAGE',
+				ProjectStageTable::class,
+				Join::on('this.PROJECT_STAGE_ID', 'ref.ID')
 			),
 			new DatetimeField(
 				'CREATED_AT', [
@@ -245,12 +248,13 @@ class TaskTable extends DataManager
 	{
 		$taskId = $event->getParameter("id");
 		$data = $event->getParameter("fields");
-
-		if (isset($data['PROJECT_STAGE_ID']) || isset($data['DEADLINE']))
+		if (empty($data['PROJECT_STAGE_ID']) || empty($data['DEADLINE']))
 		{
 			$taskAfterUpdate = TaskTable::getById($taskId)->fetchObject();
-			if (isset($data['PROJECT_STAGE_ID']) && $taskAfterUpdate->getProjectStageId())
+			// var_dump([isset($data['PROJECT_STAGE_ID']), $taskAfterUpdate->getProjectStageId()]); die;
+			if (empty($data['PROJECT_STAGE_ID']) && $taskAfterUpdate->getProjectStageId())
 			{
+				// echo 'пиздец'; die;
 				$taskAfterUpdate->fillProjectStage();
 				$oldProjectStage = $taskAfterUpdate->getProjectStage();
 
@@ -258,7 +262,7 @@ class TaskTable extends DataManager
 				{
 					$oldProjectStage->fillTasks();
 					$deadlineList = $oldProjectStage->getTasks()->getDeadlineList();
-					unset($deadlineList[array_search($taskAfterUpdate->getDeadline(),$deadlineList)]);
+					unset($deadlineList[array_search($taskAfterUpdate->getDeadline(), $deadlineList)]);
 					if ($deadlineList)
 					{
 						$expectedCompletionDate = max($deadlineList);
@@ -272,6 +276,9 @@ class TaskTable extends DataManager
 					$oldProjectStage->save();
 				}
 			}
+		}
+		if (isset($data['PROJECT_STAGE_ID']))
+		{
 
 			$newProjectStage = ProjectStageTable::getById($data['PROJECT_STAGE_ID'])->fetchObject();
 
