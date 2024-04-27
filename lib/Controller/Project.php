@@ -44,6 +44,36 @@ class Project extends Controller
 		}
 	}
 
+	public function editInfoAction(
+		int $projectId,
+		string $title,
+		string $description,
+	)
+	{
+		if (check_bitrix_sessid())
+		{
+			global $USER;
+			$userId = $USER->GetID();
+
+			$project = \Up\Ukan\Model\ProjectTable::query()
+												  ->setSelect(['ID', 'TITLE', 'DESCRIPTION'])
+												  ->where('ID', $projectId)
+												  ->where('CLIENT_ID', $userId)
+												  ->fetchObject();
+
+			if (!$project)
+			{
+				LocalRedirect("/access/denied/");
+			}
+
+			$project->setTitle($title)
+					->setDescription($description);
+
+			$project->save();
+
+			LocalRedirect("/project/" . $projectId . "/edit/");
+		}
+	}
 	public function editStagesAction(
 		int    $projectId,
 		array  $tasks = [],
@@ -51,6 +81,7 @@ class Project extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
+			// return $tasks;
 			global $USER;
 			$userId = (int)$USER->GetID();
 
@@ -65,21 +96,38 @@ class Project extends Controller
 				LocalRedirect("/access/denied/");
 			}
 
-			$arrayStages=[];
 			foreach ($tasks as $taskId => $taskOptions)
 			{
+
 				$task = $project->getStages()->getTasksCollection()->getByPrimary($taskId);
 
-				if (!isset($taskOptions["taskDelete"]))
-				{
-					$arrayStages[$taskOptions["zoneId"]][]=$taskId;
-					$project->getStages()->getByPrimary($taskOptions["zoneId"])->addToTasks($task);
-				}
-				else
+				if (isset($taskOptions["taskDelete"]))
 				{
 					$task->fillProjectStage();
 					$projectStage = $task->getProjectStage();
 					$projectStage->removeFromTasks($task);
+
+					if ($task->getStatus() !== Configuration::getOption('task_status')['queue']
+						&& $task->getStatus() !== Configuration::getOption('task_status')['waiting_to_start'])
+					{
+						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя удалить';
+						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+						LocalRedirect("/project/" . $projectId . "/edit/");
+					}
+
+					continue;
+				}
+
+				if ($taskOptions["zoneId"])
+				{
+					$project->getStages()->getByPrimary($taskOptions["zoneId"])->addToTasks($task);
+					if ($task->getStatus() !== Configuration::getOption('task_status')['queue']
+						&& $task->getStatus() !== Configuration::getOption('task_status')['search_contractor'])
+					{
+						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя переместить в другой этап';
+						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+						LocalRedirect("/project/" . $projectId . "/edit/");
+					}
 				}
 
 			}

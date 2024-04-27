@@ -91,7 +91,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<?php foreach ($arResult['PROJECTS'] as $project): ?>
 										<li class="filter__item">
 											<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>"
-												<?php if ($arResult['TASK']->getProject() && ($arResult['TASK']->getProject()->getId() === $project->getId())) { echo 'checked'; } ?>>
+												<?php if ($arResult['TASK']->getProject() && $arResult['TASK']->getProject()->getId()===$project->getId()) { echo 'checked'; } ?>>
 											<label class="filter__label"><?=htmlspecialcharsbx($project->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
@@ -107,6 +107,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<button class="editBtn" type="submit">Сохранить Изменения</button>
 			</form>
+			<?php if ($arResult['TASK']->getStatus() === \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']):?>
+			<form action="/task/stop-search-contractor/" method="post" class="deleteTask__form">
+				<?=bitrix_sessid_post()?>
+				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
+				<button class="deleteTask">
+					Приостановить поиск исполнителя
+				</button>
+			</form>
+			<?php endif;?>
 			<form action="/task/delete/" method="post" class="deleteTask__form">
 				<?=bitrix_sessid_post()?>
 				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">

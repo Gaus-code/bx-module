@@ -18,7 +18,7 @@ class ProjectStage extends Engine\Controller
 		global $USER;
 		$userId=(int)$USER->GetID();
 
-		$stage = ProjectStageTable::query()->setSelect(['ID', 'STATUS', 'PROJECT.CLIENT_ID','PROJECT_ID', 'TASKS.ID','TASKS.STATUS'])
+		$stage = ProjectStageTable::query()->setSelect(['ID','PROJECT_ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS'])
 										   ->where('ID', $stageId)
 										   ->where('PROJECT.CLIENT_ID', $userId)
 										   ->fetchObject();
@@ -43,12 +43,10 @@ class ProjectStage extends Engine\Controller
 			}
 		}
 
-		$now = new Date();
-		$stage->setExpectedCompletionDate($now)
-			  ->setStatus(Configuration::getOption('project_stage_status')['completed']);
+		$stage->setStatus(Configuration::getOption('project_stage_status')['completed']);
 		$stage->save();
-
 		LocalRedirect("/project/" . $stage->getProjectId() . "/");
+
 	}
 	public function startAction(
 		int $stageId,
@@ -59,7 +57,7 @@ class ProjectStage extends Engine\Controller
 		global $USER;
 		$userId=(int)$USER->GetID();
 
-		$stage = ProjectStageTable::query()->setSelect(['ID', 'STATUS', 'PROJECT_ID', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS', 'TASKS.DEADLINE'])
+		$stage = ProjectStageTable::query()->setSelect(['ID','PROJECT_ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS', 'TASKS.DEADLINE'])
 								  ->where('ID', $stageId)
 								  ->where('PROJECT.CLIENT_ID', $userId)
 								  ->fetchObject();
@@ -86,8 +84,7 @@ class ProjectStage extends Engine\Controller
 			$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
 		}
 
-		$stage->setExpectedCompletionDate($now)
-			  ->setStatus(Configuration::getOption('project_stage_status')['active']);
+		$stage->setStatus(Configuration::getOption('project_stage_status')['active']);
 		$stage->save();
 		LocalRedirect("/project/" . $stage->getProjectId() . "/");
 	}
