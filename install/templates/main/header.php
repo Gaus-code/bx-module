@@ -38,13 +38,28 @@
 		</div>
 	<?php else:?>
 		<div class="header__registerContainer">
-			<a href="/profile/<?= $USER->GetID() ?>/" class="header__userBtn">
+			<button type="button" class="header__userBtn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="get into your account link">
 				<?= $USER->GetLogin() ?>
-			</a>
+			</button>
+		</div>
+		<div class="header__modal">
+			<ul class="header__modalList">
+				<li class="header__modalItem">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerMiniUser.svg" alt="logout image">
+					<a href="/profile/<?= $USER->GetID() ?>/" class="header__modalLink">Аккаунт</a>
+				</li>
+				<li class="header__modalItem">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logout.svg" alt="logout image">
+					<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="header__modalLink">Выход</a>
+				</li>
+			</ul>
 		</div>
 	<?php endif; ?>
 </header>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/headerAnchorLinks.js"></script>
+<?php
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/headerAnchorLinks.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/header.js");
+?>
 
 

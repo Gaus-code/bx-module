@@ -33,33 +33,31 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__responses">
 			<div class="responses__header">
 				<ul class="responses__tagList">
-					<li class="responses__tagItem <?= ($arParams['SHOW'] === 'sent') ? 'active-responses-link' : '' ?>">
-						<a href="/profile/<?= $arParams['USER_ID'] ?>/responses/?show=sent" class="responses__tag">Отправленные отклики</a>
+					<li id="sentResponse-btn" class="responses__tagItem active-tag-item">
+						Отправленные отклики
 					</li>
-					<li class="responses__tagItem <?= ($arParams['SHOW'] === 'receive') ? 'active-responses-link'
-						: '' ?>">
-						<a href="/profile/<?= $arParams['USER_ID'] ?>/responses/?show=receive" class="responses__tag">Пришедшие отклики</a>
+					<li id="receiveResponse-btn" class="responses__tagItem">
+						Пришедшие отклики
 					</li>
 				</ul>
+				<div class="responses__filterForm">
+					<p>Отфильтровать по статусу отклика: </p>
+					<form method="get">
+						<input type="hidden" name="show" value="<?= $arParams['SHOW'] ?>">
+						<select name="filter" class="catalog__sort">
+							<option value="wait" <?= $arParams['FILTER'] === 'wait' ? 'selected'
+								: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['wait'] ?></option>
+							<option value="approve" <?= $arParams['FILTER'] === 'approve' ? 'selected'
+								: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['approve'] ?></option>
+							<option value="reject" <?= $arParams['FILTER'] === 'reject' ? 'selected'
+								: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['reject'] ?></option>
+						</select>
+						<button class="task__responseDelete" type="submit">Отфильтровать</button>
+					</form>
+				</div>
 			</div>
 
-			<p>Отфильтровать по статусу отклика: </p>
-			<form method="get">
-				<input type="hidden" name="show" value="<?= $arParams['SHOW'] ?>">
-				<select name="filter" class="catalog__sort">
-					<option value="wait" <?= $arParams['FILTER'] === 'wait' ? 'selected'
-						: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['wait'] ?></option>
-					<option value="approve" <?= $arParams['FILTER'] === 'approve' ? 'selected'
-						: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['approve'] ?></option>
-					<option value="reject" <?= $arParams['FILTER'] === 'reject' ? 'selected'
-						: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['reject'] ?></option>
-				</select>
-				<button class="task__responseDelete" type="submit">Отфильтровать</button>
-			</form>
-
-
-			<?php
-			if ($arParams['SHOW'] === 'sent'): ?>
+			<div id="sentResponse-reviews" class="tab__container">
 				<?php
 				if (count($arResult['SENT_RESPONSES']) > 0): ?>
 					<?php
@@ -82,7 +80,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<p class="task__responseCreated"><span>Ваша цена:</span> <?= $response->getPrice(
 										) ?> </p>
 									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
-																										->getProject())
+											->getProject())
 											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle())
 											: 'Без проекта' ?> </p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
@@ -129,12 +127,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 				<?php
 				endif; ?>
-			<?php
-			endif; ?>
+			</div>
 
-
-			<?php
-			if ($arParams['SHOW'] === 'receive'): ?>
+			<div id="receiveResponse-reviews" class="tab__container nonPriority-container">
 				<form method="get" class="searchForm">
 					<input type="hidden" name="show" value="<?= $arParams['SHOW'] ?>">
 					<input type="hidden" name="filter" value="<?= $arParams['FILTER'] ?>">
@@ -175,7 +170,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 											$response->getDescription()
 										) ?> </p>
 									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
-																										->getProject())
+											->getProject())
 											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle())
 											: 'Без проекта' ?> </p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
@@ -227,9 +222,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 				<?php
 				endif; ?>
-			<?php
-			endif; ?>
+			</div>
+
 		</article>
 	</section>
 </main>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
+<?php
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/tabContainers.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/profile.js");
+?>
