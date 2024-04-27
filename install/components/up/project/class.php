@@ -1,9 +1,15 @@
 <?php
 
+use Up\Ukan\Service\Configuration;
+
 class UserEditProject extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchActiveStage();
+		$this->fetchIndependentStage();
+		$this->fetchFutureStage();
+		$this->fetchCompletedStage();
 		$this->fetchProject();
 		$this->includeComponentTemplate();
 	}
@@ -26,19 +32,69 @@ class UserEditProject extends CBitrixComponent
 	{
 		if ($this->arParams['PROJECT_ID'])
 		{
-			// $project =  \Up\Ukan\Model\ProjectTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
-			// 												->where('ID', $this->arParams['PROJECT_ID'])
-			// 												->addOrder('TASKS.PROJECT_PRIORITY')
-			// 												->fetchObject();
-			//
-			// if ($project->getClientId()===$this->arParams['USER_ID'])
-			// {
-			// 	$this->arParams['PROJECT']=$project;
-			// }
-			// else
-			// {
-			// 	LocalRedirect("/profile/".$this->arParams['USER_ID']."/projects/");
-			// }
+			$projectId = $this->arParams['PROJECT_ID'];
+			$project = \Up\Ukan\Model\ProjectTable::query();
+
+			$project->setSelect(['*'])
+					->where('ID', $projectId);
+
+			$this->arResult['PROJECT'] = $project->fetchCollection();
+		}
+	}
+
+	protected function fetchActiveStage()
+	{
+		if ($this->arParams['PROJECT_ID'])
+		{
+			$projectId = $this->arParams['PROJECT_ID'];
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['waiting_to_start']);
+
+			$this->arResult['ACTIVE_STAGE'] = $stage->fetchCollection();
+		}
+	}
+
+	protected function fetchIndependentStage()
+	{
+		if ($this->arParams['PROJECT_ID'])
+		{
+			$projectId = $this->arParams['PROJECT_ID'];
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['independent']);
+
+			$this->arResult['INDEPENDENT_STAGE'] = $stage->fetchCollection();
+		}
+	}
+
+	protected function fetchFutureStage()
+	{
+		if ($this->arParams['PROJECT_ID'])
+		{
+			$projectId = $this->arParams['PROJECT_ID'];
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['queue']);
+
+			$this->arResult['FUTURE_STAGE'] = $stage->fetchCollection();
+		}
+	}
+
+	protected function fetchCompletedStage()
+	{
+		if ($this->arParams['PROJECT_ID'])
+		{
+			$projectId = $this->arParams['PROJECT_ID'];
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['completed']);
+
+			$this->arResult['COMPLETED_STAGE'] = $stage->fetchCollection();
 		}
 	}
 }

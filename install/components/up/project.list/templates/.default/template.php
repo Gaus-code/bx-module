@@ -62,7 +62,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
 							<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
 							<td data-label="Редактировать">
-								<a class="editProject" href="/project/<?= $project->getId() ?>/">Редактировать проект</a>
+								<a class="editProject" href="/project/<?= $project->getId() ?>/">Посмотреть проект</a>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -103,7 +103,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
 								<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
 								<td data-label="Редактировать">
-									<a class="editProject" href="/project/HARDCODE!!!/">Редактировать проект</a>
+									<a class="editProject" href="/project/HARDCODE!!!/">Посмотреть проект</a>
 								</td>
 							</tr>
 						</tbody>

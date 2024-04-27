@@ -63,3 +63,9 @@ else
 		}
 	});
 }
+
+const logOutButton = document.querySelector('.profile__logOut');
+
+logOutButton.addEventListener('click', () => {
+	localStorage.clear();
+});
