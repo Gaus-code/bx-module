@@ -48,9 +48,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<thead>
 						<tr>
 							<th>Название проекта</th>
+							<th>Описание проекта</th>
 							<th>Дата создания</th>
-							<th>Количество задач</th>
-							<th>Количество исполнителей</th>
+							<th>Последние изменения</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -58,9 +58,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php foreach ($arResult['PROJECTS'] as $project): ?>
 						<tr>
 							<td data-label="Название проекта"><?=htmlspecialcharsbx($project->getTitle())  ?></td>
-							<td data-label="Дата создания"><?= $project->getCreatedAt() ?></td>
-							<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
-							<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
+							<td data-label="Дата создания"><?= htmlspecialcharsbx($project->getDescription()) ?></td>
+							<td data-label="Количество задач"><?= $project->getCreatedAt()->format('d.m.Y') ?></td>
+							<td data-label="Количество исполнителей"><?= $project->getUpdatedAt()->format('d.m.Y H:m') ?></td>
 							<td data-label="Редактировать">
 								<a class="editProject" href="/project/<?= $project->getId() ?>/">Посмотреть проект</a>
 							</td>
