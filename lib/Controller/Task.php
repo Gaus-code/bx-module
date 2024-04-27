@@ -215,7 +215,7 @@ class Task extends Controller
 			if ($errors !== [])
 			{
 				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/project/$projectId/");
+				LocalRedirect("/project/$projectId/edit/");
 			}
 
 			$task = $this->createTask(
@@ -276,6 +276,34 @@ class Task extends Controller
 		}
 	}
 
+	public function stopSearchContractorAction(int $taskId)
+	{
+		global $USER;
+		$userId = (int)$USER->GetID();
+		if (check_bitrix_sessid())
+		{
+			$task = TaskTable::query()
+							 ->setSelect(['*', 'RESPONSES', 'TAGS'])
+							 ->where('ID', $taskId)
+							 ->where('CLIENT_ID', $userId)
+							 ->fetchObject();
+
+			if (!$task)
+			{
+				LocalRedirect("/access/denied/");
+			}
+			if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
+			{
+				$errors = ['По данной заявке нельзя прекратить поиск исполнителя'];
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/task/$taskId/edit/");
+			}
+
+			$task->setStatus(Configuration::getOption('task_status')['wait_start']);
+
+			LocalRedirect("/task/$taskId/");
+		}
+	}
 	public function finishTaskAction(int $taskId)
 	{
 		if (check_bitrix_sessid())

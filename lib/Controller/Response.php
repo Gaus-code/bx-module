@@ -26,13 +26,26 @@ class Response extends Engine\Controller
 
 			$userId = $USER->GetID();
 
+
+
+			$task = TaskTable::query()
+							 ->setSelect(['ID', 'STATUS'])
+							 ->where('ID', $taskId)
+							 ->fetchObject();
+
+			if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
+			{
+				$errors[] = "По данной задаче исполнитель уже найден, либо он не требуется";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/task/$taskId/");
+			}
+
 			[$errors, $task] = $this->validateDataCreate(
 				$userId,
 				$taskId,
 				$price,
 				$coverLetter
 			);
-
 			if ($errors !== [])
 			{
 				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
@@ -124,6 +137,13 @@ class Response extends Engine\Controller
 			if (!$task)
 			{
 				LocalRedirect("/access/denied/");
+			}
+
+			if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
+			{
+				$errors[] = "По данной задаче исполнитель уже найден, либо он не требуется";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/task/$taskId/");
 			}
 
 			$task->setContractorId($contractorId);

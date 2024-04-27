@@ -89,10 +89,10 @@ class TaskListComponent extends CBitrixComponent
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_catalog']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
-		//настройка выборки и добавление условий (со статусом 'new'  и при необходимости фильтры по тэгам + поиск по нахванию/описанию)
+		//настройка выборки и добавление условий (со статусом 'search_contractor'  и при необходимости фильтры по тэгам + поиск по нахванию/описанию)
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['ID'])
-			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']);
 
 		if (!is_null($this->arParams['CATEGORIES_ID']))
 		{
@@ -162,12 +162,8 @@ class TaskListComponent extends CBitrixComponent
 			  ->addOrder('SEARCH_PRIORITY', 'DESC')
 			  ->addOrder('CREATED_AT', 'DESC')
 			  ->setLimit($nav->getLimit() + 1)
-			  ->setOffset($nav->getOffset())->where(
-				\Bitrix\Main\ORM\Query\Query::filter()
-											->logic('or')
-											->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new'])
-											->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])
-			);
+			  ->setOffset($nav->getOffset())
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']);
 
 		$openTasks = $query->fetchCollection()->getAll();
 

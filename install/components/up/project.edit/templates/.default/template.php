@@ -52,7 +52,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							Создать заявку
 						</li>
 						<li id="edit-btn" class="content__tagItem">
-							Редактировать проект
+							Основная информация
 						</li>
 						<li id="delete-btn" class="content__tagItem">
 							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
@@ -82,21 +82,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
 						<button class="submitDrag" type="submit">Сохранить изменения</button>
 						<div class="lanes">
-							<?php foreach ($arResult['PROJECT']->getStages() as $stage):?>
+							<?php foreach ($arResult['STAGES'] as $stage):?>
 							<div class="swim-lane" id="todo-lane" data-zone-id="<?=$stage->getId()?>">
 								<h3 class="heading">
 									<?php if($stage->getNumber()===0){echo "Независимые задачи";}
 									else{echo $stage->getNumber()." этап";}?>
 									<p>Статус: <?=$stage->getStatus()?></p>
-									<?php if ($stage->getExpectedCompletionDate()):?>
-									<p>Окончание этапа: <?=$stage->getExpectedCompletionDate()?></p>
+									<?php //if ($stage->getExpectedCompletionDate()):?>
+									<!--<p>Окончание этапа: --><?php //=$stage->getExpectedCompletionDate()?><!--</p>-->
+									<?php if ($arResult['STAGES_EXPECTED_COMPLETION_DATE'][$stage->getId()]):?>
+									<p>Окончание этапа: <?=$arResult['STAGES_EXPECTED_COMPLETION_DATE'][$stage->getId()]?></p>
 									<?php endif;?>
 
 								</h3>
 								<?php foreach ($stage->getTasks() as $task): ?>
 								<div class="task" draggable="true">
 <!--									<input type="hidden" name="stages[--><?php //=$stage->getId()?><!--][taskId]" value = "--><?php //=$task->getId()?><!--">-->
-									<input type="hidden" name="tasks[<?=$task->getId()?>][zoneId]" value = "<?=$stage->getId()?>">
+									<input type="hidden" name="tasks[<?=$task->getId()?>][zoneId]">
 									<p><?=$task->getTitle()?></p>
 									<p>Статус: <?=$task->getStatus()?></p>
 									<?php if($task->getDeadline()):?>
@@ -186,15 +188,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<!-- Контейнер для редактирование основной информации!-->
 			<div id="edit-reviews" class="content__nonPriorityContainer tab__container">
-				<form class="editForm" action="" method="post">
+				<form class="editForm" action="/project/edit-info/" method="post">
 					<?= bitrix_sessid_post() ?>
+					<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
 					<div class="editForm__container">
 						<label for="projectTitle">Редактируйте название проекта</label>
-						<input id="projectTitle" type="text" name="projectTitle">
+						<input id="projectTitle" type="text" name="title">
 					</div>
 					<div class="editForm__container">
 						<label for="projectDescription">Редактируйте описание проекта</label>
-						<input id="projectDescription" type="text" name="projectDescription">
+						<input id="projectDescription" type="text" name="description">
 					</div>
 					<button type="submit">Отправить</button>
 				</form>

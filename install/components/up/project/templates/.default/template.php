@@ -28,10 +28,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="content__name">
 			<div class="content__projectDetail">
-				<?php foreach ($arResult['PROJECT'] as $project):?>
-				<h2 class="project__title"><?= htmlspecialcharsbx($project->getTitle()) ?></h2>
-				<p class="project__description"><?= htmlspecialcharsbx($project->getDescription()) ?></p>
-				<?php endforeach;?>
+				<h2 class="project__title"><?= htmlspecialcharsbx($arResult['PROJECT']->getTitle()) ?></h2>
+				<p class="project__description"><?= htmlspecialcharsbx($arResult['PROJECT']->getDescription()) ?></p>
 			</div>
 		</article>
 		<article class="content__project">
@@ -54,8 +52,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</li>
 				</ul>
 			</div>
+			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			<div id="activeStage-reviews" class="tab__container">
-				<?php if (count($arResult['ACTIVE_STAGE']) > 0): ?>
+				<?php if ($arResult['ACTIVE_STAGE']): ?>
 				<table class="rounded-corners">
 					<thead>
 					<tr>
@@ -66,36 +65,34 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($arResult['ACTIVE_STAGE'] as $stage):?>
 					<tr>
-						<td><?= $stage->getNumber() ?></td>
-						<td><?= $stage->getStatus() ?></td>
-						<?php if (!empty($stage->getExpectedCompletionDate())):?>
-							<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<td><?= $arResult['ACTIVE_STAGE']->getNumber() ?></td>
+						<td><?= $arResult['ACTIVE_STAGE']->getStatus() ?></td>
+						<?php if (!empty($arResult['ACTIVE_STAGE']->getExpectedCompletionDate())):?>
+							<td><?= $arResult['ACTIVE_STAGE']->getExpectedCompletionDate()->format('d.m.Y') ?></td>
 						<?php else:?>
 							<td>нет даты</td>
 						<?php endif; ?>
 						<td>
-							<?php if ($stage->getStatus() === 'Активен'): ?>
+							<?php if ($arResult['ACTIVE_STAGE']->getStatus() === 'Активен'): ?>
 							<form class="project__stageForm" action="/stage/complete/" method="post">
 								<?=bitrix_sessid_post()?>
-								<input type="hidden" name="stageId" value="<?= $stage->getId() ?>">
+								<input type="hidden" name="stageId" value="<?= $arResult['ACTIVE_STAGE']->getId() ?>">
 								<button type="submit" class="project__stageBtn">
-									Завершить <span>этап <?= $stage->getNumber() ?></span> ?
+									Завершить <span>этап <?= $arResult['ACTIVE_STAGE']->getNumber() ?></span> ?
 								</button>
 							</form>
 							<?php else:?>
 							<form class="project__stageForm" action="/stage/start/" method="post">
 								<?=bitrix_sessid_post()?>
-								<input type="hidden" name="stageId" value="<?= $stage->getId() ?>">
+								<input type="hidden" name="stageId" value="<?= $arResult['ACTIVE_STAGE']->getId() ?>">
 								<button type="submit" class="project__stageBtn">
-									Начать <span>этап <?= $stage->getNumber() ?></span> ?
+									Начать <span>этап <?= $arResult['ACTIVE_STAGE']->getNumber() ?></span> ?
 								</button>
 							</form>
 							<?php endif;?>
 						</td>
 					</tr>
-					<?php endforeach;?>
 					</tbody>
 				</table>
 				<?php else:?>
@@ -115,17 +112,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($arResult['INDEPENDENT_STAGE'] as $stage):?>
 					<tr>
-						<td><?= $stage->getNumber() ?></td>
-						<td><?= $stage->getStatus() ?></td>
-						<?php if (!empty($stage->getExpectedCompletionDate())):?>
-							<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<td><?= $arResult['INDEPENDENT_STAGE']->getNumber() ?></td>
+						<td><?= $arResult['INDEPENDENT_STAGE']->getStatus() ?></td>
+						<?php if (!empty($arResult['INDEPENDENT_STAGE']->getExpectedCompletionDate())):?>
+							<td><?= $arResult['INDEPENDENT_STAGE']->getExpectedCompletionDate()->format('d.m.Y') ?></td>
 						<?php else:?>
 							<td>нет даты</td>
 						<?php endif; ?>
 					</tr>
-					<?php endforeach;?>
 					</tbody>
 				</table>
 			</div>

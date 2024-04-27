@@ -250,3 +250,13 @@ __ukanMigrate(15, function($updater, $DB) {
 	};
 
 });
+
+__ukanMigrate(16, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_task'))
+	{
+		$DB->query("UPDATE `up_ukan_task`
+SET STATUS = 'Поиск исполнителя'
+WHERE STATUS = 'Новая';");
+	};
+
+});
