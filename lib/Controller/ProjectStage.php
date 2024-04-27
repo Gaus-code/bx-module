@@ -81,7 +81,7 @@ class ProjectStage extends Engine\Controller
 				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 				LocalRedirect("/project/" . $stage->getProjectId() . "/");
 			}
-			$task->setStatus(Configuration::getOption('task_status')['new']);
+			$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
 		}
 
 		$stage->setStatus(Configuration::getOption('project_stage_status')['active']);

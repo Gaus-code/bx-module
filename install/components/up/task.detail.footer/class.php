@@ -53,7 +53,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 	private function fetchOwnerActivity()
 	{
-		if ($this->arParams['TASK']->getStatus() === $this->arParams['TASK_STATUSES']['new'] )
+		if ($this->arParams['TASK']->getStatus() === $this->arParams['TASK_STATUSES']['search_contractor'] )
 		{
 			$this->fetchResponses();
 		}

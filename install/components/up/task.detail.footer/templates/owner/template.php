@@ -15,7 +15,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arParams['TASK']->getId() ?>/edit/"> отредактировать</a> ее?  </span>
 	</div>
 
-	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['new']): ?>
+	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['search_contractor']): ?>
 		<?php if (count($arResult['RESPONSES']) > 0): ?>
 			<div class="detail__status">
 				<p> Вы можете просмотреть несколько ваших откликов здесь!</p>

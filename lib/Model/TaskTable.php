@@ -104,7 +104,7 @@ class TaskTable extends DataManager
 							'required' => true,
 							'validation' => [__CLASS__, 'validateStatus'],
 							'title' => Loc::getMessage('TASK_ENTITY_STATUS_FIELD'),
-							'default_value' => Configuration::getOption('task_status')['new'],
+							'default_value' => Configuration::getOption('task_status')['search_contractor'],
 						]
 			),
 			new IntegerField(
@@ -271,7 +271,7 @@ class TaskTable extends DataManager
 				}
 				elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
 				{
-					$data['STATUS']=$taskStatuses['new'];
+					$data['STATUS']=$taskStatuses['search_contractor'];
 				}
 				$result->modifyFields($data);
 			}
