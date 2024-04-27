@@ -33,11 +33,12 @@ class UserEditProject extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
-			$project = \Up\Ukan\Model\ProjectTable::query()->setSelect(['*'])
-				->where('ID', $projectId)
-				->fetchCollection();
+			$project = \Up\Ukan\Model\ProjectTable::query();
 
-			$this->arResult['PROJECT'] = $project;
+			$project->setSelect(['*'])
+					->where('ID', $projectId);
+
+			$this->arResult['PROJECT'] = $project->fetchCollection();
 		}
 	}
 
@@ -46,13 +47,12 @@ class UserEditProject extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
-			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*'])
-				->where('PROJECT_ID', $projectId)
-				->where('STATUS', Configuration::getOption('project_stage_status')['waiting_to_start'])
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['waiting_to_start']);
 
-				->fetchCollection();
-
-			$this->arResult['ACTIVE_STAGE'] = $stage;
+			$this->arResult['ACTIVE_STAGE'] = $stage->fetchCollection();
 		}
 	}
 
@@ -61,12 +61,12 @@ class UserEditProject extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
-			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*'])
-				->where('PROJECT_ID', $projectId)
-				->where('STATUS', Configuration::getOption('project_stage_status')['independent'])
-				->fetchCollection();
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['independent']);
 
-			$this->arResult['INDEPENDENT_STAGE'] = $stage;
+			$this->arResult['INDEPENDENT_STAGE'] = $stage->fetchCollection();
 		}
 	}
 
@@ -75,12 +75,12 @@ class UserEditProject extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
-			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*'])
-				->where('PROJECT_ID', $projectId)
-				->where('STATUS', Configuration::getOption('project_stage_status')['queue'])
-				->fetchCollection();
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['queue']);
 
-			$this->arResult['FUTURE_STAGE'] = $stage;
+			$this->arResult['FUTURE_STAGE'] = $stage->fetchCollection();
 		}
 	}
 
@@ -89,12 +89,12 @@ class UserEditProject extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
-			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*'])
-				->where('PROJECT_ID', $projectId)
-				->where('STATUS', Configuration::getOption('project_stage_status')['completed'])
-				->fetchCollection();
+			$stage = \Up\Ukan\Model\ProjectStageTable::query();
+			$stage->setSelect(['*'])
+				  ->where('PROJECT_ID', $projectId)
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['completed']);
 
-			$this->arResult['COMPLETED_STAGE'] = $stage;
+			$this->arResult['COMPLETED_STAGE'] = $stage->fetchCollection();
 		}
 	}
 }

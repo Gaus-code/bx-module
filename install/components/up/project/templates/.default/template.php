@@ -10,7 +10,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
 ?>
 <main class="profile__main">
 	<?php $APPLICATION->IncludeComponent('up:user.aside', '', [
@@ -71,7 +70,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<tr>
 						<td><?= $stage->getNumber() ?></td>
 						<td><?= $stage->getStatus() ?></td>
-						<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<?php if (!empty($stage->getExpectedCompletionDate())):?>
+							<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<?php else:?>
+							<td>нет даты</td>
+						<?php endif; ?>
 						<td>
 							<?php if ($stage->getStatus() === 'Активен'): ?>
 							<form class="project__stageForm" action="/stage/complete/" method="post">
@@ -102,7 +105,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<?php endif;?>
 			</div>
-			<div id="independentStage-reviews" class="tab__container">
+			<div id="independentStage-reviews" class="tab__container nonPriorityContainer">
 				<table class="rounded-corners">
 					<thead>
 					<tr>
@@ -116,13 +119,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<tr>
 						<td><?= $stage->getNumber() ?></td>
 						<td><?= $stage->getStatus() ?></td>
-						<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<?php if (!empty($stage->getExpectedCompletionDate())):?>
+							<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<?php else:?>
+							<td>нет даты</td>
+						<?php endif; ?>
 					</tr>
 					<?php endforeach;?>
 					</tbody>
 				</table>
 			</div>
-			<div id="futureStage-reviews" class="tab__container">
+			<div id="futureStage-reviews" class="tab__container nonPriorityContainer">
 				<?php if (count($arResult['FUTURE_STAGE']) > 0): ?>
 				<table class="rounded-corners">
 					<thead>
@@ -137,7 +144,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<tr>
 							<td><?= $stage->getNumber() ?></td>
 							<td><?= $stage->getStatus() ?></td>
-							<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+							<?php if (!empty($stage->getExpectedCompletionDate())):?>
+								<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+							<?php else:?>
+								<td>нет даты</td>
+							<?php endif; ?>
 						</tr>
 					<?php endforeach;?>
 					</tbody>
@@ -149,7 +160,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 				<?php endif;?>
 			</div>
-			<div id="closedStage-reviews" class="tab__container">
+			<div id="closedStage-reviews" class="tab__container nonPriorityContainer">
 				<?php if (count($arResult['COMPLETED_STAGE']) > 0): ?>
 				<table class="rounded-corners">
 					<thead>
@@ -164,7 +175,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<tr>
 						<td><?= $stage->getNumber() ?></td>
 						<td><?= $stage->getStatus() ?></td>
-						<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<?php if (!empty($stage->getExpectedCompletionDate())):?>
+							<td><?= $stage->getExpectedCompletionDate()->format('d.m.Y') ?></td>
+						<?php else:?>
+							<td>нет даты</td>
+						<?php endif; ?>
 					</tr>
 					<?php endforeach;?>
 					</tbody>
@@ -179,5 +194,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 	</section>
 </main>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
+<?php
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/tabContainers.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/profile.js");
+?>

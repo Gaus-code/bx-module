@@ -69,10 +69,8 @@
     background-color: var(--color-primary-purple);
 }
 
-#independentStage-reviews, #futureStage-reviews, #closedStage-reviews {
+.nonPriorityContainer {
     display: none;
-}
-.tab__container {
 }
 
 .rounded-corners {
