@@ -150,7 +150,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php endif;?>
 			</div>
 			<div id="closedStage-reviews" class="tab__container">
-				<?php if (count($arResult['FUTURE_STAGE']) > 0): ?>
+				<?php if (count($arResult['COMPLETED_STAGE']) > 0): ?>
 				<table class="rounded-corners">
 					<thead>
 					<tr>

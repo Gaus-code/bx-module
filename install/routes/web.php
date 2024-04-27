@@ -17,7 +17,6 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/profile/{user_id}/tasks/', new PublicPageController('/local/modules/up.ukan/views/task-list.php'));
 	$routes->get('/profile/{user_id}/projects/', new PublicPageController('/local/modules/up.ukan/views/project-list.php'));
 	$routes->get('/project/{project_id}/', new PublicPageController('/local/modules/up.ukan/views/project.php'));
-	$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
 	$routes->get('/profile/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/responses.php'));
 	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/notify.php'));
 	$routes->get('/profile/{user_id}/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/feedback-list.php'));
@@ -28,7 +27,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/task/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
 	$routes->get('/project/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
 	$routes->get('/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
-	//$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
+	$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
 	$routes->get('/task/{task_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/task-edit.php'));
 	$routes->get('/feedback/{feedback_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/feedback-edit.php'));
 
