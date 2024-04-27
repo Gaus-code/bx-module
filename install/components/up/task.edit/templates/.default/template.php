@@ -51,14 +51,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<label class="create__textareaLabel" for="createMaxPrice">Редактируйте максимальную стоимость (₽)</label>
 							<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" value="<?php if ($arResult['TASK']->getMaxPrice()) {echo $arResult['TASK']->getMaxPrice();} ?>">
 						</div>
-						<div class="create__container editTaskStatus">
-							<label class="create__textareaLabel" for="createMaxPrice">Редактируйте статус заявки</label>
-							<select class="editStatusSelect" name="status" id="">
-								<?php foreach (\Up\Ukan\Service\Configuration::getOption('task_status') as $keyStatus => $status):; ?>
-									<option value="<?=$keyStatus?>" <?php if ($status === $arResult['TASK']->getStatus()){echo "selected";}?>><?=$status?></option>
-								<?php endforeach;?>
-							</select>
-						</div>
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
@@ -99,7 +91,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<?php foreach ($arResult['PROJECTS'] as $project): ?>
 										<li class="filter__item">
 											<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>"
-												<?php if ($arResult['TASK']->getProject()->getId()===$project->getId()) { echo 'checked'; } ?>>
+												<?php if ($arResult['TASK']->getProject() && $arResult['TASK']->getProject()->getId()===$project->getId()) { echo 'checked'; } ?>>
 											<label class="filter__label"><?=htmlspecialcharsbx($project->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
@@ -115,6 +107,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<button class="editBtn" type="submit">Сохранить Изменения</button>
 			</form>
+			<?php if ($arResult['TASK']->getStatus() === \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']):?>
+			<form action="/task/stop-search-contractor/" method="post" class="deleteTask__form">
+				<?=bitrix_sessid_post()?>
+				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
+				<button class="deleteTask">
+					Приостановить поиск исполнителя
+				</button>
+			</form>
+			<?php endif;?>
 			<form action="/task/delete/" method="post" class="deleteTask__form">
 				<?=bitrix_sessid_post()?>
 				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
