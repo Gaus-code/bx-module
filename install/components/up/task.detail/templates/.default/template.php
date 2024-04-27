@@ -17,7 +17,7 @@ if ($arResult['TASK']): ?>
 			<section class="detail__header">
 				<h1><?= htmlspecialcharsbx($arResult['TASK']->getTitle()) ?></h1>
 				<div class="detail__tags">
-					<p class="task__tag"><?= $arResult['TASK']->getCategory()->getTitle() ?></p>
+					<p class="task__categories"><?= $arResult['TASK']->getCategory()->getTitle() ?></p>
 					<?php
 					foreach ($arResult['TASK']->getTags() as $tag): ?>
 						<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
