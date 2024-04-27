@@ -32,6 +32,7 @@ class TaskDetailComponent extends CBitrixComponent
 																   [
 																	   '*',
 																	   'TAGS',
+																	   'CATEGORY',
 																	   'CLIENT',
 																	   'CLIENT.B_USER.NAME',
 																	   'CLIENT.B_USER.LAST_NAME',
