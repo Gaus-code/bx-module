@@ -162,8 +162,12 @@ class TaskListComponent extends CBitrixComponent
 			  ->addOrder('SEARCH_PRIORITY', 'DESC')
 			  ->addOrder('CREATED_AT', 'DESC')
 			  ->setLimit($nav->getLimit() + 1)
-			  ->setOffset($nav->getOffset())
-			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new']);
+			  ->setOffset($nav->getOffset())->where(
+				\Bitrix\Main\ORM\Query\Query::filter()
+											->logic('or')
+											->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['new'])
+											->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])
+			);
 
 		$openTasks = $query->fetchCollection()->getAll();
 

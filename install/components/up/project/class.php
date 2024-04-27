@@ -50,7 +50,7 @@ class UserEditProject extends CBitrixComponent
 			$stage = \Up\Ukan\Model\ProjectStageTable::query();
 			$stage->setSelect(['*'])
 				  ->where('PROJECT_ID', $projectId)
-				  ->where('STATUS', Configuration::getOption('project_stage_status')['waiting_to_start']);
+				  ->where('STATUS', Configuration::getOption('project_stage_status')['active']);
 
 			$this->arResult['ACTIVE_STAGE'] = $stage->fetchCollection();
 		}

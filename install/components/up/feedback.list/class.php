@@ -117,9 +117,11 @@ class CommentListComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*'])->where(
-				\Bitrix\Main\ORM\Query\Query::filter()->logic('or')->where('CLIENT_ID', $this->arParams['USER_ID'])
-											->where('CONTRACTOR_ID', $this->arParams['USER_ID'])
-			)->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['done']);
+			\Bitrix\Main\ORM\Query\Query::filter()->logic('or')->where('CLIENT_ID', $this->arParams['USER_ID'])->where(
+					'CONTRACTOR_ID',
+					$this->arParams['USER_ID']
+				)
+		)->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['done']);
 		$finishedTask = $query->fetchCollection();
 
 		foreach ($taskIdListWithFeedback as $taskId)

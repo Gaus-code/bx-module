@@ -18,7 +18,7 @@ class ProjectStage extends Engine\Controller
 		global $USER;
 		$userId=(int)$USER->GetID();
 
-		$stage = ProjectStageTable::query()->setSelect(['ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS'])
+		$stage = ProjectStageTable::query()->setSelect(['ID', 'STATUS', 'PROJECT.CLIENT_ID','PROJECT_ID', 'TASKS.ID','TASKS.STATUS'])
 										   ->where('ID', $stageId)
 										   ->where('PROJECT.CLIENT_ID', $userId)
 										   ->fetchObject();
@@ -35,7 +35,7 @@ class ProjectStage extends Engine\Controller
 
 		foreach ($stage->getTasks() as $task)
 		{
-			if ($task->getStatus() !== Configuration::getOption(['task_status']['done']))
+			if ($task->getStatus() !== Configuration::getOption('task_status')['done'])
 			{
 				$errors[] = "Вы не можете завершить этап, пока все задачи не выполнены.";
 				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
@@ -48,6 +48,7 @@ class ProjectStage extends Engine\Controller
 			  ->setStatus(Configuration::getOption('project_stage_status')['completed']);
 		$stage->save();
 
+		LocalRedirect("/project/" . $stage->getProjectId() . "/");
 	}
 	public function startAction(
 		int $stageId,
@@ -58,7 +59,7 @@ class ProjectStage extends Engine\Controller
 		global $USER;
 		$userId=(int)$USER->GetID();
 
-		$stage = ProjectStageTable::query()->setSelect(['ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS'])
+		$stage = ProjectStageTable::query()->setSelect(['ID', 'STATUS', 'PROJECT_ID', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS', 'TASKS.DEADLINE'])
 								  ->where('ID', $stageId)
 								  ->where('PROJECT.CLIENT_ID', $userId)
 								  ->fetchObject();
@@ -86,7 +87,8 @@ class ProjectStage extends Engine\Controller
 		}
 
 		$stage->setExpectedCompletionDate($now)
-			  ->setStatus(Configuration::getOption('project_stage_status')['completed']);
+			  ->setStatus(Configuration::getOption('project_stage_status')['active']);
 		$stage->save();
+		LocalRedirect("/project/" . $stage->getProjectId() . "/");
 	}
 }
