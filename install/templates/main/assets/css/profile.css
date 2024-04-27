@@ -245,8 +245,7 @@ a.aside__btn {
     margin-top: 10px;
 }
 
-.task__tag {
-    background-color: var(--color-tag-green);
+.task__tag, .task__categories {
     border-radius: 20px;
     text-align: center;
     font-size: 10px;
@@ -254,6 +253,14 @@ a.aside__btn {
     line-height: 15px;
     padding: 3px 11px;
     color: var(--color-primary-black);
+}
+
+.task__categories {
+    background-color: #E3963E;
+}
+
+.task__tag {
+    background-color: var(--color-tag-green);
 }
 
 .task__main {

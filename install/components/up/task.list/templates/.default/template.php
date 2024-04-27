@@ -27,7 +27,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="task">
 			<?php endif;?>
 					<div class="task__header">
-							<p class="task__tag"><?=htmlspecialcharsbx($task->getCategory()->getTitle())  ?></p>
+							<p class="task__categories"><?=htmlspecialcharsbx($task->getCategory()->getTitle())  ?></p>
 					</div>
 					<div class="task__main">
 						<h3><?= htmlspecialcharsbx($task->getTitle()) ?></h3>

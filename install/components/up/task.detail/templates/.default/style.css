@@ -247,11 +247,13 @@
 }
 
 .banBtn {
+    max-width: 300px;
     width: 100%;
     padding: 10px 20px;
     background-color: var(--color-warning-red);
     border-radius: 6px;
     font-weight: 600;
+    text-align: center;
 }
 
 .complaint__list {
