@@ -3,7 +3,7 @@
 return array(
 	'task_status' => array(
 		'new' => 'Новая',
-		'pause' => 'Приостановленно',
+		'queue' => 'В очереди',
 		'done' => 'Выполнено',
 		'at_work' => 'В работе',
 		'search_contractor' => 'Поиск исполнителя',

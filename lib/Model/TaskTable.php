@@ -194,108 +194,143 @@ class TaskTable extends DataManager
 		];
 	}
 
-	public static function onAfterAdd(Event $event)
+	// public static function onAfterAdd(Event $event)
+	// {
+	// 	$taskId = $event->getParameter("id");
+	// 	$data = $event->getParameter("fields");
+	//
+	// 	if (isset($data['PROJECT_STAGE_ID']))
+	// 	{
+	// 		$task = TaskTable::getById($taskId)->fetchObject();
+	//
+	// 		$task->fillProjectStage();
+	// 		$projectStage = $task->getProjectStage();
+	//
+	// 		$projectStageStatuses = Configuration::getOption('project_stage_status');
+	// 		if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
+	// 		{
+	// 			$task->setStatus(Configuration::getOption('task_status')['queue']);
+	// 		}
+	// 		if ($task->getDeadline() > $projectStage->getExpectedCompletionDate())
+	// 		{
+	// 			$projectStage->setExpectedCompletionDate($task->getDeadline());
+	// 			$projectStage->save();
+	// 		}
+	// 	}
+	// }
+
+	// public static function onDelete(Event $event)
+	// {
+	// 	$taskId = $event->getParameter("id");
+	// 	$task = TaskTable::getById($taskId)->fetchObject();
+	//
+	// 	if ($task->getProjectStageId())
+	// 	{
+	// 		$task->fillProjectStage();
+	// 		$projectStage = $task->getProjectStage();
+	//
+	// 		if ($task->getDeadline() == $projectStage->getExpectedCompletionDate())
+	// 		{
+	// 			$projectStage->fillTasks();
+	// 			$deadlineList = $projectStage->getTasks()->getDeadlineList();
+	//
+	// 			unset($deadlineList[array_search($task->getDeadline(),$deadlineList)]);
+	// 			if ($deadlineList)
+	// 			{
+	// 				$expectedCompletionDate = max($deadlineList);
+	// 			}
+	// 			else
+	// 			{
+	// 				$expectedCompletionDate = null;
+	// 			}
+	//
+	// 			$projectStage->setExpectedCompletionDate($expectedCompletionDate);
+	// 			$projectStage->save();
+	// 		}
+	// 	}
+	// }
+
+	public static function onBeforeUpdate(Event $event)
 	{
 		$taskId = $event->getParameter("id");
 		$data = $event->getParameter("fields");
+		$result = new \Bitrix\Main\Entity\EventResult();
 
-		if (isset($data['PROJECT_STAGE_ID']))
+		if ($data['PROJECT_STAGE'])
 		{
-			$task = TaskTable::getById($taskId)->fetchObject();
+			$projectStage = $data['PROJECT_STAGE'];
 
-			$task->fillProjectStage();
-			$projectStage = $task->getProjectStage();
-			if ($task->getDeadline() > $projectStage->getExpectedCompletionDate())
+			if ($projectStage->getId())
 			{
-				$projectStage->setExpectedCompletionDate($task->getDeadline());
-				$projectStage->save();
+				$projectStage = $data['PROJECT_STAGE'];
+				$projectStageStatuses = Configuration::getOption('project_stage_status');
+				$taskStatuses = Configuration::getOption('task_status');
+				if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
+				{
+					$data['STATUS']=$taskStatuses['queue'];
+				}
+				elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
+				{
+					$data['STATUS']=$taskStatuses['new'];
+				}
+				$result->modifyFields($data);
 			}
 		}
+		return $result;
 	}
 
-	public static function onDelete(Event $event)
-	{
-		$taskId = $event->getParameter("id");
-		$task = TaskTable::getById($taskId)->fetchObject();
-
-		if ($task->getProjectStageId())
-		{
-			$task->fillProjectStage();
-			$projectStage = $task->getProjectStage();
-
-			if ($task->getDeadline() == $projectStage->getExpectedCompletionDate())
-			{
-				$projectStage->fillTasks();
-				$deadlineList = $projectStage->getTasks()->getDeadlineList();
-
-				unset($deadlineList[array_search($task->getDeadline(),$deadlineList)]);
-				if ($deadlineList)
-				{
-					$expectedCompletionDate = max($deadlineList);
-				}
-				else
-				{
-					$expectedCompletionDate = null;
-				}
-
-				$projectStage->setExpectedCompletionDate($expectedCompletionDate);
-				$projectStage->save();
-			}
-		}
-	}
-
-	public static function onUpdate(Event $event)
-	{
-		$taskId = $event->getParameter("id");
-		$data = $event->getParameter("fields");
-		if (empty($data['PROJECT_STAGE_ID']) || empty($data['DEADLINE']))
-		{
-			$taskAfterUpdate = TaskTable::getById($taskId)->fetchObject();
-			// var_dump([isset($data['PROJECT_STAGE_ID']), $taskAfterUpdate->getProjectStageId()]); die;
-			if (empty($data['PROJECT_STAGE_ID']) && $taskAfterUpdate->getProjectStageId())
-			{
-				// echo 'пиздец'; die;
-				$taskAfterUpdate->fillProjectStage();
-				$oldProjectStage = $taskAfterUpdate->getProjectStage();
-
-				if ($taskAfterUpdate->getDeadline() == $oldProjectStage->getExpectedCompletionDate())
-				{
-					$oldProjectStage->fillTasks();
-					$deadlineList = $oldProjectStage->getTasks()->getDeadlineList();
-					unset($deadlineList[array_search($taskAfterUpdate->getDeadline(), $deadlineList)]);
-					if ($deadlineList)
-					{
-						$expectedCompletionDate = max($deadlineList);
-					}
-					else
-					{
-						$expectedCompletionDate = null;
-					}
-
-					$oldProjectStage->setExpectedCompletionDate($expectedCompletionDate);
-					$oldProjectStage->save();
-				}
-			}
-		}
-		if (isset($data['PROJECT_STAGE_ID']))
-		{
-
-			$newProjectStage = ProjectStageTable::getById($data['PROJECT_STAGE_ID'])->fetchObject();
-
-			if ($data['DEADLINE'])
-			{
-				$deadline = $data['DEADLINE'];
-			}
-			else
-			{
-				$deadline = $taskAfterUpdate->getDeadline();
-			}
-
-			if ($deadline > $newProjectStage->getExpectedCompletionDate())
-			{
-				$newProjectStage->setExpectedCompletionDate($deadline);
-				$newProjectStage->save();
-			}
-		}
-	}
+	// public static function onUpdate(Event $event)
+	// {
+	// 	$taskId = $event->getParameter("id");
+	// 	$data = $event->getParameter("fields");
+	// 	if (empty($data['PROJECT_STAGE_ID']) || empty($data['DEADLINE']))
+	// 	{
+	// 		$taskAfterUpdate = TaskTable::getById($taskId)->fetchObject();
+	// 		// var_dump([isset($data['PROJECT_STAGE_ID']), $taskAfterUpdate->getProjectStageId()]); die;
+	// 		if (empty($data['PROJECT_STAGE_ID']) && $taskAfterUpdate->getProjectStageId())
+	// 		{
+	// 			// echo 'пиздец'; die;
+	// 			$taskAfterUpdate->fillProjectStage();
+	// 			$oldProjectStage = $taskAfterUpdate->getProjectStage();
+	//
+	// 			if ($taskAfterUpdate->getDeadline() == $oldProjectStage->getExpectedCompletionDate())
+	// 			{
+	// 				$oldProjectStage->fillTasks();
+	// 				$deadlineList = $oldProjectStage->getTasks()->getDeadlineList();
+	// 				unset($deadlineList[array_search($taskAfterUpdate->getDeadline(), $deadlineList)]);
+	// 				if ($deadlineList)
+	// 				{
+	// 					$expectedCompletionDate = max($deadlineList);
+	// 				}
+	// 				else
+	// 				{
+	// 					$expectedCompletionDate = null;
+	// 				}
+	//
+	// 				$oldProjectStage->setExpectedCompletionDate($expectedCompletionDate);
+	// 				$oldProjectStage->save();
+	// 			}
+	// 		}
+	// 	}
+	// 	if (isset($data['PROJECT_STAGE_ID']))
+	// 	{
+	//
+	// 		$newProjectStage = ProjectStageTable::getById($data['PROJECT_STAGE_ID'])->fetchObject();
+	//
+	// 		if ($data['DEADLINE'])
+	// 		{
+	// 			$deadline = $data['DEADLINE'];
+	// 		}
+	// 		else
+	// 		{
+	// 			$deadline = $taskAfterUpdate->getDeadline();
+	// 		}
+	//
+	// 		if ($deadline > $newProjectStage->getExpectedCompletionDate())
+	// 		{
+	// 			$newProjectStage->setExpectedCompletionDate($deadline);
+	// 			$newProjectStage->save();
+	// 		}
+	// 	}
+	// }
 }

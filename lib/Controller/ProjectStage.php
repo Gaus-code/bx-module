@@ -83,10 +83,11 @@ class ProjectStage extends Engine\Controller
 				LocalRedirect("/project/" . $stage->getProjectId() . "/");
 			}
 			$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+			$task-setStatus(Configuration::getOption('task_status')['new']);
 		}
 
 		$stage->setExpectedCompletionDate($now)
-			  ->setStatus(Configuration::getOption('project_stage_status')['completed']);
+			  ->setStatus(Configuration::getOption('project_stage_status')['active']);
 		$stage->save();
 	}
 }

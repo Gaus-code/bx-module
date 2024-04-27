@@ -76,14 +76,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
 						<button class="submitDrag" type="submit">Сохранить изменения</button>
 						<div class="lanes">
-							<?php foreach ($arResult['PROJECT']->getStages() as $stage):?>
+							<?php foreach ($arResult['STAGES'] as $stage):?>
 							<div class="swim-lane" id="todo-lane" data-zone-id="<?=$stage->getId()?>">
 								<h3 class="heading">
 									<?php if($stage->getNumber()===0){echo "Независимые задачи";}
 									else{echo $stage->getNumber()." этап";}?>
 									<p>Статус: <?=$stage->getStatus()?></p>
-									<?php if ($stage->getExpectedCompletionDate()):?>
-									<p>Окончание этапа: <?=$stage->getExpectedCompletionDate()?></p>
+									<?php //if ($stage->getExpectedCompletionDate()):?>
+									<!--<p>Окончание этапа: --><?php //=$stage->getExpectedCompletionDate()?><!--</p>-->
+									<?php if ($arResult['STAGES_EXPECTED_COMPLETION_DATE'][$stage->getId()]):?>
+									<p>Окончание этапа: <?=$arResult['STAGES_EXPECTED_COMPLETION_DATE'][$stage->getId()]?></p>
 									<?php endif;?>
 
 								</h3>
