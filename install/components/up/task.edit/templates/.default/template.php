@@ -51,23 +51,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<label class="create__textareaLabel" for="createMaxPrice">Редактируйте максимальную стоимость (₽)</label>
 							<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" value="<?php if ($arResult['TASK']->getMaxPrice()) {echo $arResult['TASK']->getMaxPrice();} ?>">
 						</div>
-						<div class="create__container editTaskStatus">
-							<label class="create__textareaLabel" for="createMaxPrice">Редактируйте статус заявки</label>
-							<select class="editStatusSelect" name="status" id="">
-								<?php foreach (\Up\Ukan\Service\Configuration::getOption('task_status') as $keyStatus => $status):; ?>
-									<option value="<?=$keyStatus?>" <?php if ($status === $arResult['TASK']->getStatus()){echo "selected";}?>><?=$status?></option>
-								<?php endforeach;?>
-							</select>
-						</div>
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
 						<input name = "deadline" id="deadline" type="date" class="create__title" value="<?=$arResult['TASK']->getDeadline()->format("Y-m-d")?>">
 					</div>
-					<li class="filter__item">
+					<div class="filter__item">
 						<input class="filter__checkbox" name = "useGPT" type = "checkbox">
 						<label class="filter__label">Автоматическое проставление тегов по описанию</label>
-					</li>
+					</div>
 					<div class="create__container">
 						<fieldset>
 							<legend>Редактируйте теги в заявке</legend>
@@ -99,7 +91,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<?php foreach ($arResult['PROJECTS'] as $project): ?>
 										<li class="filter__item">
 											<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>"
-												<?php if ($arResult['TASK']->getProject()->getId()===$project->getId()) { echo 'checked'; } ?>>
+												<?php if ($arResult['TASK']->getProject() && ($arResult['TASK']->getProject()->getId() === $project->getId())) { echo 'checked'; } ?>>
 											<label class="filter__label"><?=htmlspecialcharsbx($project->getTitle())?></label>
 										</li>
 									<?php endforeach; ?>
