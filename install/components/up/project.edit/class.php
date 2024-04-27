@@ -93,9 +93,12 @@ class UserProjectComponent extends CBitrixComponent
 	{
 		if ($this->arParams['PROJECT_ID'])
 		{
+			global $USER;
+
 			$this->arResult['ADD_TASK_LIST'] = \Up\Ukan\Model\TaskTable::query()->setSelect(
 					['ID', 'TITLE', 'PROJECT_STAGE', 'STATUS']
-				)->whereNull('PROJECT_STAGE.PROJECT_ID')->where('STATUS', 'Новая')->fetchCollection();
+				)->whereNull('PROJECT_STAGE.PROJECT_ID')->where('CLIENT_ID', $USER->GetID())
+				 ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])->fetchCollection();
 		}
 	}
 

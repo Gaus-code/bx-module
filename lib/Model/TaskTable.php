@@ -271,7 +271,7 @@ class TaskTable extends DataManager
 				}
 				elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
 				{
-					$data['STATUS']=$taskStatuses['search_contractor'];
+					$data['STATUS']=$taskStatuses['waiting_to_start'];
 				}
 				$result->modifyFields($data);
 			}

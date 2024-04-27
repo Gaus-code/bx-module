@@ -2,11 +2,11 @@
 
 return array(
 	'task_status' => array(
-		'new' => 'Новая',
 		'queue' => 'В очереди',
 		'done' => 'Выполнено',
 		'at_work' => 'В работе',
 		'search_contractor' => 'Поиск исполнителя',
+		'waiting_to_start' => 'Ожидает начала поиска исполнителя',
 	),
 	'subscription' => array(
 		'price' => 399,
