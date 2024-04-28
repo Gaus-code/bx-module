@@ -24,7 +24,7 @@ function extractPathFromUrl(path, element) {
 const paths = ['responses', 'notifications', 'projects', 'tasks', 'edit', 'comments'];
 
 const userPathRegex = /\/profile\/\d+\/$/;
-const userPathMatch = userPathRegex.exec(url);
+const userPathMatch = userPathRegex.exec(asideUrl);
 
 if (userPathMatch)
 {

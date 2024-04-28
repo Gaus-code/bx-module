@@ -35,11 +35,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Добавьте Название</label>
-						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" required>
+						<input name = "title" id="createTitle" type="text" class="create__title validate" placeholder="Название заявки">
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="taskDescription">Добавьте Описание</label>
-						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10" required></textarea>
+						<textarea name="description" id="taskDescription" class="create__description validate" cols="30" rows="10"></textarea>
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
@@ -47,11 +47,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createMaxPrice">Добавьте тэги (используя #)</label>
-						<input name = "tagsString" id="createMaxPrice"  class="create__title" placeholder="#HTML #CSS #...">
+						<input name = "tagsString" id="createMaxPrice"  class="create__title validate" placeholder="#HTML #CSS #...">
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
-						<input name = "deadline" id="deadline" type="date" class="create__title">
+						<input name="deadline" id="deadline" type="date" class="create__title validate">
 					</div>
 				</div>
 				<li class="filter__item">
@@ -64,7 +64,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<ul class="filter__list">
 								<?php foreach ($arResult['CATEGORIES'] as $category): ?>
 									<li class="filter__item">
-										<input type="radio" class="filter__checkbox" name="categoryId" value="<?=$category->getId()?>">
+										<input type="radio" class="filter__checkbox validate" name="categoryId" value="<?=$category->getId()?>">
 										<label class="filter__label"><?=htmlspecialcharsbx($category->getTitle())?></label>
 									</li>
 								<?php endforeach; ?>
@@ -94,5 +94,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 	</section>
 </main>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/localStorageForActions.js"></script>
+
+<?php
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/validation.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/localStorageForActions.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/profile.js");
+?>
