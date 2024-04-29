@@ -145,8 +145,10 @@ CREATE TABLE IF NOT EXISTS `up_ukan_reports`
 	`MESSAGE`        text,
 	`FROM_USER_ID`   int                not null,
 	`TO_USER_ID`     int                not null,
-	`TO_TASK_ID`     int,
-	`TO_FEEDBACK_ID` int,
+	`TASK_ID`        int,
+	`FEEDBACK_ID`    int,
+    `TAG_ID`         int,
+    `IS_BANNED`      boolean,
 	PRIMARY KEY (
 	             `ID`
 		)

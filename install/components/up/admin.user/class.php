@@ -22,7 +22,12 @@ class AdminFeedbackComponent extends CBitrixComponent
 		global $USER;
 		if ($USER->IsAdmin())
 		{
-			//TODO get bans for users
+			$query = \Up\Ukan\Model\ReportsTable::query()
+					->setSelect(['*', 'TO_USER.B_USER.NAME'])
+					->setFilter(['TYPE' => 'user'])
+					->fetchCollection();
+
+			$this->arResult['ADMIN_USERS'] = $query;
 		}
 	}
 }

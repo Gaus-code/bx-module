@@ -26,24 +26,33 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Жалобы на теги</h2>
 		</article>
 		<article>
+			<?php if (count($arResult['ADMIN_TAGS']) > 0):?>
 			<table class="task-table">
 				<thead>
 				<tr>
-					<th>Заголовок</th>
-					<th>Описание</th>
+					<th>Тег</th>
+					<th>Жалоба</th>
 					<th>Действия</th>
 				</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><?= htmlspecialcharsbx('hello from xss') ?></td>
-						<td><?= htmlspecialcharsbx('hello from xss :) Link also has HARDCODE') ?></td>
-						<td>
-							<a href="/task/<?= 'hello'?>/">Посмотреть заявку</a>
-						</td>
-					</tr>
+				<?php foreach ($arResult['ADMIN_TAGS'] as $tag): ?>
+						<tr>
+							<td><?= htmlspecialcharsbx($tag->getToTag()->getTitle()) ?></td>
+							<td><?= htmlspecialcharsbx($tag->getMessage()) ?></td>
+							<td>
+								<a href="/task/<?= $tag->getToTask()->getID() ?>/">Посмотреть заявку</a>
+							</td>
+						</tr>
+				<?php endforeach;?>
 				</tbody>
 			</table>
+			<?php else:?>
+				<div class="contractor__emptyContainer">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">
+					<p class="empty">У вас пока нет жалоб</p>
+				</div>
+			<?php endif;?>
 		</article>
 	</section>
 </main>

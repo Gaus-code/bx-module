@@ -26,6 +26,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Жалобы на отзывы</h2>
 		</article>
 		<article>
+			<?php if (count($arResult['ADMIN_FEEDBACKS']) > 0):?>
 			<table class="response-table">
 				<thead>
 				<tr>
@@ -36,7 +37,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<tbody>
 					<?php foreach ($arResult['ADMIN_FEEDBACKS'] as $feedback): ?>
 					<tr>
-						<?php if ($feedback->getType() === 'feedback'): ?>
 						<td><?= htmlspecialcharsbx($feedback->getToFeedback()->getComment()) ?></td>
 						<td>
 							<div class="responseBtns">
@@ -46,11 +46,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</form>
 							</div>
 						</td>
-						<?php endif; ?>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php else:?>
+				<div class="contractor__emptyContainer">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">
+					<p class="empty">У вас пока нет жалоб</p>
+				</div>
+			<?php endif;?>
 		</article>
 	</section>
 </main>

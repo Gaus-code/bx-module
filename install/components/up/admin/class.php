@@ -23,7 +23,10 @@ class AdminComponent extends CBitrixComponent
 
 		if ($USER->IsAdmin())
 		{
-			$query = \Up\Ukan\Model\ReportsTable::query()->setSelect(['*', 'TO_TASK'])->fetchCollection();
+			$query = \Up\Ukan\Model\ReportsTable::query()
+				->setSelect(['*', 'TO_TASK'])
+				->setFilter(['TYPE' => 'task'])
+				->fetchCollection();
 			$this->arResult['ADMIN_TASKS'] = $query;
 		}
 	}

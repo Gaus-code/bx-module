@@ -4,6 +4,7 @@ class AdminTagsComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchTagList();
 		$this->includeComponentTemplate();
 	}
 	public function onPrepareComponentParams($arParams)
@@ -16,13 +17,16 @@ class AdminTagsComponent extends CBitrixComponent
 		return $arParams;
 	}
 
-	protected function getTagList()
+	protected function fetchTagList()
 	{
 		global $USER;
 		if ($USER->IsAdmin())
 		{
-			$query = \Up\Ukan\Model\ReportsTable::query()->setSelect(['*'])->fetchCollection();
-			//TODO implement method, add tagList to reports
+			$query = \Up\Ukan\Model\ReportsTable::query()
+				->setSelect(['*', 'TO_TAG', 'TO_TASK'])
+				->setFilter(['TYPE' => 'tag'])
+				->fetchCollection();
+			$this->arResult['ADMIN_TAGS'] = $query;
 		}
 	}
 }

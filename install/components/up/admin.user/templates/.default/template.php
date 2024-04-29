@@ -26,6 +26,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Жалобы на пользователей</h2>
 		</article>
 		<article>
+			<?php if (count($arResult['ADMIN_USERS']) > 0):?>
 			<table class="response-table">
 				<thead>
 				<tr>
@@ -35,20 +36,28 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</tr>
 				</thead>
 				<tbody>
+				<?php foreach ($arResult['ADMIN_USERS'] as $user):?>
 					<tr>
-						<td>какой-то умный чел</td>
-						<td>сообщение о том, какой этот чел не умный</td>
+						<td><?= $user->getToUser()->getBUser()->getName() ?></td>
+						<td><?= $user->getMessage()?></td>
 						<td>
 							<div class="responseBtns">
-								<a href="/profile/HARDCODE/">Посмотреть профиль</a>
+								<a href="/profile/<?= $user->getToUserId() ?>/">Посмотреть профиль</a>
 								<form action="">
 									<button type="submit">Забанить пользователя</button>
 								</form>
 							</div>
 						</td>
 					</tr>
+				<?php endforeach;?>
 				</tbody>
 			</table>
+			<?php else:?>
+				<div class="contractor__emptyContainer">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">
+					<p class="empty">У вас пока нет жалоб</p>
+				</div>
+			<?php endif;?>
 		</article>
 	</section>
 </main>
