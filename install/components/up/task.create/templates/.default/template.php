@@ -47,7 +47,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createMaxPrice">Добавьте тэги (используя #)</label>
-						<input name = "tagsString" id="createMaxPrice"  class="create__title validate" placeholder="#HTML #CSS #...">
+						<input name = "tagsString" id="createMaxPrice"  class="create__title" placeholder="#HTML #CSS #...">
 					</div>
 					<div class="create__container">
 						<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>

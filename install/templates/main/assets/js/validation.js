@@ -65,11 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				if (!isRadioSelected)
 				{
-					const errorText = document.createElement('div');
-					errorText.textContent = 'Пожалуйста, выберите один из вариантов';
-					errorText.classList.add('error-text');
+					isValid = false;
 					const fieldset = radioInputs[0].closest('fieldset');
-					fieldset.insertBefore(errorText, fieldset.firstChild);
+					const errorText = fieldset.querySelector('.error-text');
+					if (!errorText)
+					{
+						const errorText = document.createElement('div');
+						errorText.textContent = 'Пожалуйста, выберите один из вариантов';
+						errorText.classList.add('error-text');
+						fieldset.insertBefore(errorText, fieldset.firstChild);
+					}
 					fieldset.classList.add('error');
 				}
 				else

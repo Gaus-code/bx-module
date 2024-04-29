@@ -70,8 +70,8 @@ if ($arResult['TASK']): ?>
 					</li>
 					<?php if ($USER->IsAdmin()):?>
 						<li class="metaContainer__item">
-							<form class="banForm" action="">
-								<button type="submit">Заблокировать</button>
+							<form class="banFormForAdmin" action="">
+								<button class="banBtnForAdmin" type="submit">Заблокировать</button>
 							</form>
 						</li>
 					<?php else :?>
@@ -92,6 +92,10 @@ if ($arResult['TASK']): ?>
 									<li class="complaint__item">
 										<input class="complaint__radio" type="radio" name="complaintType" value="feedback">
 										<label class="complaint__label">Пожаловаться на комментарий</label>
+									</li>
+									<li class="complaint__item">
+										<input class="complaint__radio" type="radio" name="complaintType" value="tag">
+										<label class="complaint__label">Пожаловаться на тег</label>
 									</li>
 									<li class="complaint__item">
 										<input class="complaint__radio" type="radio" name="complaintType" value="other">

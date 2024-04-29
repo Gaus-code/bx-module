@@ -238,16 +238,19 @@
 	text-shadow: 1px 1px #c60;
 }
 
-.banForm {
-    padding: 10px;
-    border: 2px solid var(--color-primary-border);
+.banForm, .banFormForAdmin {
     border-radius: 6px;
     position: relative;
-    opacity: 0;
-    display: none;
 }
 
-.banBtn {
+.banForm {
+    padding: 10px;
+    opacity: 0;
+    display: none;
+    border: 2px solid var(--color-primary-border);
+}
+
+.banBtn, .banBtnForAdmin {
     max-width: 300px;
     width: 100%;
     padding: 10px 20px;
