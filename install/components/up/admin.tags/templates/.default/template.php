@@ -23,13 +23,27 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h1>Рабочая область</h1>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Создание тегов</h2>
+			<h2 class="content__tittle">Жалобы на теги</h2>
 		</article>
 		<article>
-			<form action="">
-				//TODO
-				<button type="submit">Создать</button>
-			</form>
+			<table class="task-table">
+				<thead>
+				<tr>
+					<th>Заголовок</th>
+					<th>Описание</th>
+					<th>Действия</th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><?= htmlspecialcharsbx('hello from xss') ?></td>
+						<td><?= htmlspecialcharsbx('hello from xss :) Link also has HARDCODE') ?></td>
+						<td>
+							<a href="/task/<?= 'hello'?>/">Посмотреть заявку</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</article>
 	</section>
 </main>

@@ -27,42 +27,60 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article class="notify">
 			<ul class="notify__list">
-				<li class="notify__item">
-					<div class="notify__profile">
-						<p>Жалоба на заявку: </p>
-					</div>
-					<div class="notify__profile">
-						<p>какой-то заголовок</p>
-					</div>
-					<div class="notify__profile">
-						<p>Описание: какое-то описание</p>
-					</div>
-					<div class="notify__buttons">
-						<a class="notify__accept" href="/task/1/">Посмотреть</a>
-					</div>
-				</li>
-				<li class="notify__item">
-					<div class="notify__profile">
-						<p>Жалоба на описание профиля: </p>
-					</div>
-					<div class="notify__profile">
-						<p>какое-то описание профиля</p>
-					</div>
-					<div class="notify__buttons">
-						<a class="notify__accept" href="/task/1/">Посмотреть</a>
-					</div>
-				</li>
-				<li class="notify__item">
-					<div class="notify__profile">
-						<p>Жалоба на комментарий: </p>
-					</div>
-					<div class="notify__profile">
-						<p>какой-то комментарий</p>
-					</div>
-					<div class="notify__buttons">
-						<a class="notify__accept" href="/task/1/">Посмотреть</a>
-					</div>
-				</li>
+				<?php foreach ($arResult['ADMIN_NOTIFY'] as $notify):?>
+					<?php if ($notify->getType() === 'task'): ?>
+					<li class="notify__item task-report">
+						<div class="notify__profile">
+							<p>Жалоба на заявку: <?= htmlspecialcharsbx($notify->getToTask()->getTitle()) ?></p>
+						</div>
+						<div class="notify__profile">
+							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+						</div>
+						<div class="notify__buttons">
+							<a class="notify__accept" href="/task/<?= $notify->getToTask()->getId() ?>/">Посмотреть</a>
+						</div>
+					</li>
+					<?php endif;?>
+					<?php if ($notify->getType() === 'user'): ?>
+					<li class="notify__item user-report">
+						<div class="notify__profile">
+							<p>Жалоба описание профиля: <?= htmlspecialcharsbx($notify->getToUser()->getBio()) ?></p>
+						</div>
+						<div class="notify__profile">
+							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+						</div>
+						<div class="notify__buttons">
+							<a class="notify__accept" href="/profile/<?= $notify->getToUser()->getId() ?>/">Посмотреть</a>
+						</div>
+					</li>
+					<?php endif;?>
+					<?php if ($notify->getType() === 'tag'): ?>
+					<li class="notify__item tag-report">
+						<div class="notify__profile">
+							<p>Жалоба на тег в заявке: <?= htmlspecialcharsbx($notify->getToTask()->getTitle()) ?> </p>
+						</div>
+						<div class="notify__profile">
+							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+						</div>
+						<div class="notify__buttons">
+							<a class="notify__accept" href="/task/<?= $notify->getToTask()->getId() ?>/">Посмотреть</a>
+						</div>
+					</li>
+					<?php endif;?>
+					<?php if ($notify->getType() === 'feedback'): ?>
+					<li class="notify__item feedback-report">
+						<div class="notify__profile">
+							<p>Жалоба на комментарий: <?= htmlspecialcharsbx($notify->getToFeedback()->getComment()) ?></p>
+						</div>
+						<div class="notify__profile">
+							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+						</div>
+						<div class="notify__buttons">
+							<a class="notify__accept" href="/task/<?= $notify->getToTask()->getId() ?>/">Посмотреть</a>
+						</div>
+					</li>
+					<?php endif;?>
+				<?php endforeach;?>
 			</ul>
 		</article>
 	</section>

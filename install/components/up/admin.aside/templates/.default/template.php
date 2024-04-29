@@ -33,6 +33,11 @@
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/comment.svg" alt="notification folder" class="commentImg">
 				Отзывы
 			</a>
+
+			<a href="/admin/users/" id="commentLink" class="aside__btn">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="notification folder" class="commentImg">
+				Пользователи
+			</a>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
 

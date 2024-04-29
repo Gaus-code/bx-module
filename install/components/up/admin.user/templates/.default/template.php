@@ -23,32 +23,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h1>Рабочая область</h1>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Жалобы на отзывы</h2>
+			<h2 class="content__tittle">Жалобы на пользователей</h2>
 		</article>
 		<article>
 			<table class="response-table">
 				<thead>
 				<tr>
-					<th>Отзыв</th>
+					<th>Пользователь</th>
+					<th>Жалоба</th>
 					<th>Действия</th>
 				</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($arResult['ADMIN_FEEDBACKS'] as $feedback): ?>
 					<tr>
-						<?php if ($feedback->getType() === 'feedback'): ?>
-						<td><?= htmlspecialcharsbx($feedback->getToFeedback()->getComment()) ?></td>
+						<td>какой-то умный чел</td>
+						<td>сообщение о том, какой этот чел не умный</td>
 						<td>
 							<div class="responseBtns">
-								<a href="/task/<?= $feedback->getToTask()->getId() ?>/">Посмотреть заявку</a>
+								<a href="/profile/HARDCODE/">Посмотреть профиль</a>
 								<form action="">
-									<button type="submit">Удалить отзыв</button>
+									<button type="submit">Забанить пользователя</button>
 								</form>
 							</div>
 						</td>
-						<?php endif; ?>
 					</tr>
-					<?php endforeach; ?>
 				</tbody>
 			</table>
 		</article>

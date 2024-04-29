@@ -10,7 +10,6 @@ if (!$USER->IsAdmin())
 	LocalRedirect('/access/denied/');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:admin.notify', '', [
+<?php $APPLICATION->IncludeComponent('up:admin.user', '', [
 	'USER_ID' => (int)$USER->GetID(),
 ]); ?>
-

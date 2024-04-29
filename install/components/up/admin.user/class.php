@@ -1,10 +1,10 @@
 <?php
 
-class AdminComponent extends CBitrixComponent
+class AdminFeedbackComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->getTaskList();
+		$this->fetchAdminUsers();
 		$this->includeComponentTemplate();
 	}
 	public function onPrepareComponentParams($arParams)
@@ -17,14 +17,12 @@ class AdminComponent extends CBitrixComponent
 		return $arParams;
 	}
 
-	protected function getTaskList()
+	protected function fetchAdminUsers()
 	{
 		global $USER;
-
 		if ($USER->IsAdmin())
 		{
-			$query = \Up\Ukan\Model\ReportsTable::query()->setSelect(['*', 'TO_TASK'])->fetchCollection();
-			$this->arResult['ADMIN_TASKS'] = $query;
+			//TODO get bans for users
 		}
 	}
 }

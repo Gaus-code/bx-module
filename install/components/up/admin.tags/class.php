@@ -16,4 +16,13 @@ class AdminTagsComponent extends CBitrixComponent
 		return $arParams;
 	}
 
+	protected function getTagList()
+	{
+		global $USER;
+		if ($USER->IsAdmin())
+		{
+			$query = \Up\Ukan\Model\ReportsTable::query()->setSelect(['*'])->fetchCollection();
+			//TODO implement method, add tagList to reports
+		}
+	}
 }
