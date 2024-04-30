@@ -32,10 +32,41 @@
     border: 2px dashed var(--color-primary-purple);
 }
 
-.userImage {
+.userImage, .userImage__container img {
     display: block;
     width: 135px;
+    min-height: 130px;
     border-radius: 50%;
+}
+
+.userImage__container img {
+    border: 1px solid var(--color-primary-border);
+}
+
+.userImage__container {
+    position: relative;
+}
+
+.deleteUserImageForm {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.deleteImgBtn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 25px;
+}
+
+.deleteImgBtn img {
+    display: block;
+    width: 25px;
+    border: none;
+    height: 25px !important;
+    min-height: 0;
 }
 
 .userInfo {

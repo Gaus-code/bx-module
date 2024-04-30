@@ -22,10 +22,11 @@ class UserComponent extends CBitrixComponent
 
 	protected function fetchUser()
 	{
+		global $USER;
 		$query = \Up\Ukan\Model\UserTable::query();
 
 		$this->arResult['USER'] = $query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.DATE_REGISTER','SUBSCRIPTION_STATUS'])->where('ID', $this->arParams['USER_ID'])->fetchObject();
-
+		$this->arResult['PROFILE_IMAGE'] = \Up\Ukan\Controller\User::getUserImage($USER->GetID());
 	}
 
 	protected function fetchUserActivity()

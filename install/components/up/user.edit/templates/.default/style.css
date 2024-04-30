@@ -150,7 +150,7 @@
 
 .profile__changeContacts {
     padding-top: 40px;
-    max-width: 40%;
+    width: 50%;
     border-right: 3px solid var(--color-primary-border);
 }
 
@@ -162,6 +162,7 @@
 .profile__changeContacts_form {
     padding: 20px;
     display: flex;
+    min-width: 50%;
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -193,6 +194,45 @@
 }
 
 .profile__changeContacts_form button:hover, .profile__changeContacts_form button:focus {
+    background: var(--color-primary-white);
+    transition: 0.4s;
+    color: var(--color-primary-black);
+}
+
+.profile__changeContainer {
+    display: flex;
+    align-items: center;
+    width: 85%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.profile__changeImage {
+    padding: 20px;
+    max-width: 48%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.changeImageBtn {
+    border-radius: 8px;
+    background: var(--color-primary-purple);
+    color: var(--color-primary-black);
+    border: 2px solid var(--color-primary-purple);
+    padding: 6px 8px;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    text-transform: capitalize;
+    align-self: flex-end;
+}
+
+.changeImageBtn:hover, .changeImageBtn:focus {
     background: var(--color-primary-white);
     transition: 0.4s;
     color: var(--color-primary-black);

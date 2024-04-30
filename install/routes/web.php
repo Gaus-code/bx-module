@@ -68,6 +68,8 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/profile/changeBio', [\Up\Ukan\Controller\User::class, 'changeUserBio']);
 	$routes->post('/profile/changePassword', [\Up\Ukan\Controller\User::class, 'changePassword']);
 	$routes->post('/profile/changeContacts', [\Up\Ukan\Controller\User::class, 'changeContacts']);
+	$routes->post('/profile/changeImage', [\Up\Ukan\Controller\File::class, 'changeImage']);
+	$routes->post('/profile/deleteImage', [\Up\Ukan\Controller\File::class, 'deleteImage']);
 
 	//subscription
 	$routes->post('/subscription/getTrialVersion', [\Up\Ukan\Controller\Subscription::class, 'getTrialVersion']);

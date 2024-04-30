@@ -103,6 +103,7 @@ input::-ms-clear {
 button {
     cursor: pointer;
     border: none;
+    background-color: inherit;
 }
 
 button::-moz-focus-inner {

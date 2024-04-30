@@ -89,4 +89,36 @@ class User
 		}
 		return True;
 	}
+
+	public static function getUserImageId($userId)
+	{
+		return BUserTable::query()
+			->setSelect(['PERSONAL_PHOTO'])
+			->setFilter(['ID'=>$userId])
+			->fetch()['PERSONAL_PHOTO'];
+	}
+
+	public static function setUserImage($userId, $fileId)
+	{
+		$user = BUserTable::getById($userId)->fetchObject();
+		$user->set('PERSONAL_PHOTO', $fileId);
+
+		if (!$user->save()->isSuccess())
+		{
+			return False;
+		}
+	}
+
+	public static function deleteUserImage($userId)
+	{
+		$photo = BUserTable::query()
+			->setSelect(['PERSONAL_PHOTO'])
+			->setFilter(['ID' => $userId])
+			->fetchObject();
+
+		if ($photo)
+		{
+			$photo->set('PERSONAL_PHOTO' , null)->save();
+		}
+	}
 }

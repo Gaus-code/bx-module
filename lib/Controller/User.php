@@ -24,26 +24,30 @@ class User extends Engine\Controller
 		{
 			global $USER;
 
-			if (!empty(Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail))) {
+			if (!empty(Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail)))
+			{
 				$errors = Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail);
 				Application::getInstance()->getSession()->set('errors', $errors);
 				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
 			}
 
-			if (!empty(Validation::validateUserEmail($userEmail)) && $USER->GetEmail() !== $userEmail) {
+			if (!empty(Validation::validateUserEmail($userEmail)) && $USER->GetEmail() !== $userEmail)
+			{
 				$errors = Validation::validateUserEmail($userEmail);
 				Application::getInstance()->getSession()->set('errors', $errors);
 				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
 			}
 
-			if (!empty(Validation::checkLoginExists($userLogin)) && $USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin)) {
+			if (!empty(Validation::checkLoginExists($userLogin)) && $USER->GetLogin() !== $userLogin && \CUser::GetByLogin($userLogin))
+			{
 				$errors = Validation::checkLoginExists($userLogin);
 				Application::getInstance()->getSession()->set('errors', $errors);
 				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
 			}
 
 			$errorMessage = \Up\Ukan\Repository\User::changeInfo($userName, $userLastName, $userEmail, $userLogin, $USER->GetLogin());
-			if (!$errorMessage) {
+			if (!$errorMessage)
+			{
 				$userId = $USER->GetID();
 				\Up\Ukan\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName, $userEmail);
 
@@ -71,23 +75,29 @@ class User extends Engine\Controller
 			$errors = [];
 			$newPasswordErrors = Validation::validateUserPassword($newPassword);
 
-			if (empty(trim($oldPassword))) {
+			if (empty(trim($oldPassword)))
+			{
 				$errors[] = 'Введите старый пароль';
 			}
 
-			if ($newPasswordErrors) {
+			if ($newPasswordErrors)
+			{
 				$errors = array_merge($errors, $newPasswordErrors);
 			}
 
-			if (empty(trim($confirmPassword))) {
+			if (empty(trim($confirmPassword)))
+			{
 				$errors[] = 'Повторите новый пароль';
 			}
 
-			if (!$errors) {
+			if (!$errors)
+			{
 				$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
 
-				if (is_bool($errorMessage) && $errorMessage) {
-					if ($newPassword === $confirmPassword) {
+				if (is_bool($errorMessage) && $errorMessage)
+				{
+					if ($newPassword === $confirmPassword)
+					{
 						$user = new \CUser();
 						$result = $user->update($USER->GetID(), [
 							'PASSWORD' => $newPassword,
@@ -102,10 +112,14 @@ class User extends Engine\Controller
 							$errors[] = $user->LAST_ERROR;
 						}
 						LocalRedirect('/profile/' . $USER->GetID() . '/');
-					} else {
+					}
+					else
+					{
 						$errors[] = 'Пароли не совпадают';
 					}
-				} else {
+				}
+				else
+				{
 					$errors[] = 'Неверный старый пароль';
 				}
 			}
@@ -132,5 +146,11 @@ class User extends Engine\Controller
 
 			LocalRedirect('/profile/' . $USER->GetID() . '/');
 		}
+	}
+
+	public static function getUserImage($userId)
+	{
+		$fileId = \Up\Ukan\Repository\User::getUserImageId($userId);
+		return $fileId;
 	}
 }

@@ -36,9 +36,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php $user=$arResult['USER']?>
 			<article class="content__mainBio">
 				<div class="content__mainBio_header">
-					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
+					<?php if ($arResult['PROFILE_IMAGE']):?>
+						<div class="userImage__container">
+							<?= CFile::ShowImage($arResult['PROFILE_IMAGE'], 130, 130, );?>
+							<form action="/profile/deleteImage" method="post" class="deleteUserImageForm">
+								<?= bitrix_sessid_post() ?>
+								<button type="submit" class="deleteImgBtn">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" title="удалить изображение" alt="close form cross">
+								</button>
+							</form>
+						</div>
+					<?php else:?>
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
+					<?php endif;?>
 					<div class="userInfo">
-
 						<p class="userInfo__name"><?= htmlspecialcharsbx($user->getBUser()->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?></p>
 						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($user->getRating()) ?> (<?= htmlspecialcharsbx($user->getFeedbackCount()) ?> оценки)</p>

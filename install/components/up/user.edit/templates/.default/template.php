@@ -99,14 +99,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<button class="changePassword__btn" type="submit">Изменить пароль</button>
 			</form>
 		</article>
-		<article class="profile__changeContacts">
-			<h2 class="profile__changeBio_title">Пожелания по способу для связи</h2>
-			<p>*этот текст будет виден вашим исполнителям</p>
-			<form action="/profile/changeContacts" method="post" class="profile__changeContacts_form">
-				<?= bitrix_sessid_post() ?>
-				<input type="text" name="contacts" value="<?= $user->getContacts(); ?>" placeholder="Пожелания по способу связи">
-				<button type="submit">Редактировать</button>
-			</form>
+		<article class="profile__changeContainer">
+			<article class="profile__changeContacts">
+				<h2 class="profile__changeBio_title">Пожелания по способу для связи</h2>
+				<p>*этот текст будет виден вашим исполнителям</p>
+				<form action="/profile/changeContacts" method="post" class="profile__changeContacts_form">
+					<?= bitrix_sessid_post() ?>
+					<input type="text" name="contacts" value="<?= $user->getContacts(); ?>" placeholder="Пожелания по способу связи">
+					<button type="submit">Редактировать</button>
+				</form>
+			</article>
+			<article class="profile__changeImage">
+				<form action="/profile/changeImage" method="post" enctype="multipart/form-data">
+					<?php echo bitrix_sessid_post(); ?>
+					<?= $arResult['FILES']->show(); ?>
+					<button class="changeImageBtn" type="submit">отправить</button>
+				</form>
+			</article>
 		</article>
 	</section>
 </main>

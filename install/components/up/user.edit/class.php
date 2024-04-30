@@ -5,6 +5,7 @@ class UserEditComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->fetchUser();
+		$this->arResult['FILES'] = $this->prepareFileInput();
 		$this->includeComponentTemplate();
 	}
 
@@ -25,8 +26,24 @@ class UserEditComponent extends CBitrixComponent
 
 		$query = \Up\Ukan\Model\UserTable::query();
 
-		$query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.LOGIN', 'B_USER.EMAIL'])->where('ID', $userId);
+		$query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.LOGIN', 'B_USER.EMAIL', 'B_USER.PERSONAL_PHOTO'])->where('ID', $userId);
 
 		$this->arResult['USER'] = $query->fetchObject();
+	}
+
+	protected function prepareFileInput()
+	{
+		return \Bitrix\Main\UI\FileInput::createInstance(
+			[
+				"name" => "files[#IND#]",
+				"description" => true,
+				"upload" => true,
+				"allowUpload" => "A",
+				"medialib" => true,
+				"fileDialog" => true,
+				"delete" => true,
+				"maxCount" => 1,
+				"maxSize" => 2 * 1024 * 1024
+			]);
 	}
 }
