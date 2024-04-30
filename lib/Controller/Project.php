@@ -120,9 +120,19 @@ class Project extends Controller
 
 				if ($taskOptions["zoneId"])
 				{
+					$projectStage = ProjectStageTable::getById($taskOptions["zoneId"])->fetchObject();
+
+					if ($projectStage->getStatus()===Configuration::getOption('project_stage_status')['active']
+					|| $projectStage->getStatus()===Configuration::getOption('project_stage_status')['completed'])
+					{
+						$errors[] = "Этап {$projectStage->getNumber()} нельзя редактировать";
+						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+						LocalRedirect("/project/" . $projectId . "/edit/");
+					}
+
 					$project->getStages()->getByPrimary($taskOptions["zoneId"])->addToTasks($task);
 					if ($task->getStatus() !== Configuration::getOption('task_status')['queue']
-						&& $task->getStatus() !== Configuration::getOption('task_status')['search_contractor'])
+						&& $task->getStatus() !== Configuration::getOption('task_status')['waiting_to_start'])
 					{
 						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя переместить в другой этап';
 						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
