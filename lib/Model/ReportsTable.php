@@ -1,6 +1,7 @@
 <?php
 namespace Up\Ukan\Model;
 
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\TextField;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
@@ -22,9 +23,9 @@ Loc::loadMessages(__FILE__);
  * <li> MESSAGE string(255) optional
  * <li> FROM_USER_ID int mandatory
  * <li> TO_USER_ID int mandatory
- * <li> TO_TASK_ID int optional
- * <li> TO_FEEDBACK_ID int optional
- * <li> TO_TAG_ID int optional
+ * <li> TASK_ID int optional
+ * <li> FEEDBACK_ID int optional
+ * <li> TAG_ID int optional
  * </ul>
  *
  * @package Bitrix\Ukan
@@ -78,18 +79,27 @@ class ReportsTable extends DataManager
 			new Reference(
 				'TO_USER', UserTable::class, Join::on('this.TO_USER_ID', 'ref.ID')
 			),
-			(new IntegerField('TO_TASK_ID',
+			(new IntegerField('TASK_ID',
 							  []
-			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_TO_TASK_ID_FIELD')),
+			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_TASK_ID_FIELD')),
 			new Reference(
-				'TO_TASK', TaskTable::class, Join::on('this.TO_TASK_ID', 'ref.ID')
+				'TO_TASK', TaskTable::class, Join::on('this.TASK_ID', 'ref.ID')
 			),
-			(new IntegerField('TO_FEEDBACK_ID',
+			(new IntegerField('FEEDBACK_ID',
 							  []
-			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_TO_FEEDBACK_ID_FIELD')),
+			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_FEEDBACK_ID_FIELD')),
 			new Reference(
-				'TO_FEEDBACK', FeedbackTable::class, Join::on('this.TO_FEEDBACK_ID', 'ref.ID')
+				'TO_FEEDBACK', FeedbackTable::class, Join::on('this.FEEDBACK_ID', 'ref.ID')
 			),
+			(new IntegerField('TAG_ID',
+				[]
+			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_TAG_ID_FIELD')),
+			new Reference(
+				'TO_TAG', TagTable::class, Join::on('this.TAG_ID', 'ref.ID')
+			),
+			(new BooleanField('IS_BANNED',
+				[]
+			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_IS_BANNED_FIELD'))
 		];
 	}
 

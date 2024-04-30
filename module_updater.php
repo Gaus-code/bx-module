@@ -74,8 +74,6 @@ __ukanMigrate(5, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
 		$DB->query('ALTER TABLE up_ukan_user DROP COLUMN B_USER_ID;');
-		//		$DB->query('alter table up_ukan_task
-		//    change STATUS_ID STATUS varchar(255) not null;');
 	}
 });
 
@@ -252,6 +250,19 @@ __ukanMigrate(15, function($updater, $DB) {
 });
 
 __ukanMigrate(16, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_reports'))
+	{
+		$DB->query(
+			'ALTER TABLE `up_ukan_reports`
+			CHANGE COLUMN `TO_TASK_ID` `TASK_ID` INT,
+			CHANGE COLUMN `TO_FEEDBACK_ID` `FEEDBACK_ID` INT,
+			ADD COLUMN `TAG_ID` INT,
+			ADD COLUMN `IS_BANNED` BOOLEAN;'
+		);
+	}
+});
+
+__ukanMigrate(17, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_task'))
 	{
 		$DB->query("UPDATE `up_ukan_task`

@@ -1,0 +1,27 @@
+.admin {
+    width: 100%;
+}
+
+.response-table {
+    margin-top: 32px;
+    width: 90%;
+    text-align: center;
+
+}
+
+.response-table thead {
+    background-color: var(--color-tag-purple);
+    border: 1px solid var(--color-tag-purple);
+    border-radius: 8px;
+}
+
+.response-table th, td {
+    padding: 20px;
+}
+
+.responseBtns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}

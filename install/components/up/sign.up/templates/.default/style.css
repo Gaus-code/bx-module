@@ -1,0 +1,9 @@
+.error {
+    border: 2px solid var(--color-warning-red) !important;
+}
+
+.error-text {
+    color: var(--color-warning-red);
+    font-size: 12px;
+    margin-top: 5px;
+}

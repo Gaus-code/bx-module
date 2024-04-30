@@ -3,13 +3,13 @@
  * @var array $arResult
  * @var array $arParams
  * @var CUser $USER
+ * @var CMain $APPLICATION
  */
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
 ?>
 
 <main class="profile__main">
@@ -17,33 +17,38 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	$APPLICATION->IncludeComponent('up:admin.aside', '', [
 		'USER_ID' => $USER->GetID(),
 	]); ?>
-	<!-- Форма для создания тегов !-->
+	<!-- Вкладка уведомлений для админа !-->
 	<section class="admin">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Жалобы на теги</h2>
+			<h2 class="content__tittle">Жалобы на пользователей</h2>
 		</article>
 		<article>
-			<?php if (count($arResult['ADMIN_TAGS']) > 0):?>
-			<table class="task-table">
+			<?php if (count($arResult['ADMIN_USERS']) > 0):?>
+			<table class="response-table">
 				<thead>
 				<tr>
-					<th>Тег</th>
+					<th>Пользователь</th>
 					<th>Жалоба</th>
 					<th>Действия</th>
 				</tr>
 				</thead>
 				<tbody>
-				<?php foreach ($arResult['ADMIN_TAGS'] as $tag): ?>
-						<tr>
-							<td><?= htmlspecialcharsbx($tag->getToTag()->getTitle()) ?></td>
-							<td><?= htmlspecialcharsbx($tag->getMessage()) ?></td>
-							<td>
-								<a href="/task/<?= $tag->getToTask()->getID() ?>/">Посмотреть заявку</a>
-							</td>
-						</tr>
+				<?php foreach ($arResult['ADMIN_USERS'] as $user):?>
+					<tr>
+						<td><?= $user->getToUser()->getBUser()->getName() ?></td>
+						<td><?= $user->getMessage()?></td>
+						<td>
+							<div class="responseBtns">
+								<a href="/profile/<?= $user->getToUserId() ?>/">Посмотреть профиль</a>
+								<form action="">
+									<button type="submit">Забанить пользователя</button>
+								</form>
+							</div>
+						</td>
+					</tr>
 				<?php endforeach;?>
 				</tbody>
 			</table>

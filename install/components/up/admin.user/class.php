@@ -4,7 +4,7 @@ class AdminFeedbackComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->fetchAdminFeedbacks();
+		$this->fetchAdminUsers();
 		$this->includeComponentTemplate();
 	}
 	public function onPrepareComponentParams($arParams)
@@ -17,17 +17,17 @@ class AdminFeedbackComponent extends CBitrixComponent
 		return $arParams;
 	}
 
-	protected function fetchAdminFeedbacks()
+	protected function fetchAdminUsers()
 	{
 		global $USER;
 		if ($USER->IsAdmin())
 		{
 			$query = \Up\Ukan\Model\ReportsTable::query()
-				->setSelect(['*', 'TO_TASK', 'TO_FEEDBACK'])
-				->setFilter(['TYPE' => 'feedback'])
-				->fetchCollection();
+					->setSelect(['*', 'TO_USER.B_USER.NAME'])
+					->setFilter(['TYPE' => 'user'])
+					->fetchCollection();
 
-			$this->arResult['ADMIN_FEEDBACKS'] = $query;
+			$this->arResult['ADMIN_USERS'] = $query;
 		}
 	}
 }

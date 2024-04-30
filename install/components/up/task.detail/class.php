@@ -110,7 +110,7 @@ class TaskDetailComponent extends CBitrixComponent
 			$report = \Up\Ukan\Model\ReportsTable::query()
 												 ->setSelect(['ID'])
 												 ->where('FROM_USER_ID', $userId)
-												 ->where('TO_TASK_ID', $this->arResult['TASK']->getId())
+												 ->where('TASK_ID', $this->arResult['TASK']->getId())
 												 ->fetchObject();
 			$this->arResult['ISSET_REPORT'] = (bool)$report;
 		}

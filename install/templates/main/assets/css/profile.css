@@ -240,7 +240,7 @@ a.aside__btn {
     align-items: center;
     justify-content: flex-start;
     gap: 9px;
-    max-width: 100%;
+    max-width: 350px;
     overflow: hidden;
     margin-top: 10px;
 }

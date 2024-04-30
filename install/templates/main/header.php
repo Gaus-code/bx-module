@@ -40,7 +40,7 @@
 		<div class="header__registerContainer">
 			<button type="button" class="header__userBtn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="get into your account link">
-				<?= $USER->GetLogin() ?>
+				<?= htmlspecialcharsbx($USER->GetLogin()) ?>
 			</button>
 		</div>
 		<div class="header__modal">

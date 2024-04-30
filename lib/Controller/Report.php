@@ -54,7 +54,7 @@ class Report extends Engine\Controller
 		$report = \Up\Ukan\Model\ReportsTable::query()
 											 ->setSelect(['ID'])
 											 ->where('FROM_USER_ID', $fromUserId)
-											 ->where('TO_TASK_ID', $toTaskId)
+											 ->where('TASK_ID', $toTaskId)
 											 ->where('TYPE', 'task')
 											 ->fetchObject();
 
@@ -123,7 +123,7 @@ class Report extends Engine\Controller
 		$report = \Up\Ukan\Model\ReportsTable::query()
 											 ->setSelect(['ID'])
 											 ->where('FROM_USER_ID', $fromUserId)
-											 ->where('TO_TASK_ID', $toTaskId)
+											 ->where('TASK_ID', $toTaskId)
 											 ->where('TYPE', 'feedback')
 											 ->fetchObject();
 

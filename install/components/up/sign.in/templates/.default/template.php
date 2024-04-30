@@ -41,4 +41,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</div>
 	</form>
 </div>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/login.js"></script>
+<?php
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/login.js");
+?>

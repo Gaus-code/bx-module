@@ -23,33 +23,35 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h1>Рабочая область</h1>
 		</article>
 		<article class="content__name">
-			<h2 class="content__tittle">Заявки</h2>
+			<h2 class="content__tittle">Жалоба на заявки</h2>
 		</article>
+		<?php if (count($arResult['ADMIN_TASKS']) > 0):?>
 		<table class="task-table">
 			<thead>
 			<tr>
-				<th>Title</th>
-				<th>Description</th>
-				<th>Actions</th>
+				<th>Заголовок</th>
+				<th>Описание</th>
+				<th>Действия</th>
 			</tr>
 			</thead>
 			<tbody>
+			<?php foreach ($arResult['ADMIN_TASKS'] as $task): ?>
 			<tr>
-				<td>Request 1</td>
-				<td>This is a description of request 1.</td>
+				<td><?= htmlspecialcharsbx($task->getToTask()->getTitle()) ?></td>
+				<td><?= htmlspecialcharsbx($task->getToTask()->getDescription()) ?></td>
 				<td>
-					<a href="/task/1/">Посмотреть заявку</a>
+					<a href="/task/<?= $task->getToTask()->getId() ?>/">Посмотреть заявку</a>
 				</td>
 			</tr>
-			<tr>
-				<td>Request 2</td>
-				<td>This is a description of request 2.</td>
-				<td>
-					<a href="/task/1/">Посмотреть заявку</a>
-				</td>
-			</tr>
+			<?php endforeach;?>
 			</tbody>
 		</table>
+		<?php else:?>
+			<div class="contractor__emptyContainer">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">
+				<p class="empty">У вас пока нет жалоб</p>
+			</div>
+		<?php endif;?>
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
