@@ -51,10 +51,10 @@ class UserEditProject extends CBitrixComponent
 				Configuration::getOption('project_stage_status')['active']
 			];
 
-			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*'])
+			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
 													 ->where('PROJECT_ID', $projectId)
 													 ->whereIn('STATUS', $stageStatuses)
-													 ->fetchObject();
+													 ->fetchCollection();
 
 			$this->arResult['ACTIVE_STAGE'] = $stage;
 		}
@@ -66,10 +66,10 @@ class UserEditProject extends CBitrixComponent
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
 			$stage = \Up\Ukan\Model\ProjectStageTable::query()
-													 ->setSelect(['*'])
+													 ->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
 													 ->where('PROJECT_ID', $projectId)
 													 ->where('STATUS', Configuration::getOption('project_stage_status')['independent'])
-													 ->fetchObject();
+													 ->fetchCollection();
 
 			$this->arResult['INDEPENDENT_STAGE'] = $stage;
 		}
