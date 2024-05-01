@@ -58,7 +58,7 @@ class AdminFeedbackComponent extends CBitrixComponent
 				$this->arParams['EXIST_NEXT_PAGE'] = false;
 			}
 
-			$this->arResult['CATEGORIES'] = $arrayOfCategories;
+			$this->arResult['ADMIN_CATEGORIES'] = $arrayOfCategories;
 		}
 	}
 }

@@ -4,6 +4,8 @@
  * @var array $arParams
  */
 
+global $USER;
+
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
@@ -11,7 +13,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <?php
-if ($arResult['TASK'] && !$arResult['TASK']->getIsBanned()): ?>
+if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())): ?>
 	<main class="detail wrapper">
 		<div class="detail__mainContainer">
 			<section class="detail__header">
@@ -69,37 +71,51 @@ if ($arResult['TASK'] && !$arResult['TASK']->getIsBanned()): ?>
 						</p>
 					</li>
 					<?php if ($USER->IsAdmin()):?>
+					<?php if (!$arResult['TASK']->getIsBanned()):?>
 						<li class="metaContainer__item">
-							<button class="banBtn" type="button">Заблокировать</button>
-							<form class="banForm" action="/task/block/" method="post" >
+							<form  action="/task/block/" method="post" >
 								<?= bitrix_sessid_post() ?>
 								<button id="closeFormBtn" type="button">
 									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
 								</button>
 								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
-								<ul class="complaint__list">
-									<li class="complaint__item">
-										<input class="complaint__radio" type="radio" name="complaintType" value="task" checked>
-										<label class="complaint__label">Заблокировать заявку</label>
-									</li>
-<!--									<li class="complaint__item">-->
-<!--										<input class="complaint__radio" type="radio" name="complaintType" value="tag">-->
-<!--										<label class="complaint__label">Заблокировать тэг</label>-->
-<!--									</li>-->
-<!--									<li class="complaint__item">-->
-<!--										<ul class="filter__list">-->
-<!--											--><?php //foreach ($arResult['TASK']->getTags() as $tag): ?>
-<!--												<li class="filter__item">-->
-<!--													<input type="checkbox" class="filter__checkbox" name="tags[]" value="--><?php //=$tag->getId()?><!--">-->
-<!--													<label class="filter__label">--><?php //= htmlspecialcharsbx($tag->getTitle()) ?><!--</label>-->
-<!--												</li>-->
-<!--											--><?php //endforeach; ?>
-<!--										</ul>-->
-<!--									</li>-->
-								</ul>
-								<button id="sendComplaint" type="submit">Отправить</button>
+								<button id="sendComplaint" class="banBtn" type="submit">Заблокировать заявку</button>
 							</form>
 						</li>
+						<li class="metaContainer__item">
+							<div class="detail__metaContainer">
+							<form action="/tags/block/" method="post" >
+								<?= bitrix_sessid_post() ?>
+								<button id="closeFormBtn" type="button">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+								</button>
+								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
+								<div class="complaint__list">
+									<ul class="filter__list">
+										<?php foreach ($arResult['TASK']->getTags() as $tag): ?>
+											<li class="filter__item">
+												<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>">
+												<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+								<button id="sendComplaint" type="submit">Заблокировать тэги</button>
+							</form>
+							</div>
+						</li>
+					<?php else :?>
+						<li class="metaContainer__item">
+							<form  action="/task/unblock/" method="post" >
+								<?= bitrix_sessid_post() ?>
+								<button id="closeFormBtn" type="button">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+								</button>
+								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
+								<button id="sendComplaint" class="banBtn" type="submit">Разблокировать заявку</button>
+							</form>
+						</li>
+					<?php endif; ?>
 					<?php else :?>
 						<?php if (!$arResult['ISSET_REPORT']): ?>
 						<li class="metaContainer__item">

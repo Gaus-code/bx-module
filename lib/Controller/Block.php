@@ -3,11 +3,11 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine;
-use Bitrix\Main\ORM\Query\Query;
-use Up\Ukan\Model\EO_Reports;
-use Up\Ukan\Model\FeedbackTable;
+use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Model\EO_Notification;
+use Up\Ukan\Model\ReportsTable;
 use Up\Ukan\Model\TaskTable;
-use Up\Ukan\Model\UserTable;
+use Up\Ukan\Service\Configuration;
 
 class Block extends Engine\Controller
 {
@@ -37,8 +37,61 @@ class Block extends Engine\Controller
 		$task->setIsBanned('Y');
 		$task->save();
 
-		//TODO sent notification user about block task
-		//TODO delete report if exist
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['task_block'])
+					 ->setFromUserId($USER->GetID())
+					 ->setToUserId($task->getClientId())
+					 ->setTaskId($taskId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		$report = ReportsTable::query()
+							  ->setSelect(['*'])
+							  ->where('TASK_ID', $task->getId())
+							  ->where('TO_USER_ID', $task->getClientId())
+							  ->where('TYPE', 'task')
+							  ->fetchObject();
+		if ($report)
+		{
+			ReportsTable::delete($report->getId());
+		}
+
+		LocalRedirect("/task/$taskId/");
+
+	}
+
+	public function unblockTaskAction(
+		int    $taskId = null,
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$task = TaskTable::getById($taskId)->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$task->setIsBanned('N');
+		$task->save();
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['task_unblock'])
+					 ->setFromUserId($USER->GetID())
+					 ->setToUserId($task->getClientId())
+					 ->setTaskId($taskId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
 
 		LocalRedirect("/task/$taskId/");
 

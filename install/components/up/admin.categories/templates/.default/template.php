@@ -17,7 +17,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	$APPLICATION->IncludeComponent('up:admin.aside', '', [
 		'USER_ID' => $USER->GetID(),
 	]); ?>
-	<!-- Вкладка уведомлений для админа !-->
+	<!-- Вкладка категорий для админа !-->
 	<section class="admin">
 		<article class="content__header">
 			<h1>Рабочая область</h1>
@@ -36,7 +36,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</form>
 		</article>
 		<article>
-			<?php if (count($arResult['CATEGORIES']) > 0):?>
+			<?php if (count($arResult['ADMIN_CATEGORIES']) > 0):?>
 			<table class="response-table">
 				<thead>
 				<tr>
@@ -45,7 +45,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($arResult['CATEGORIES'] as $category): ?>
+					<?php foreach ($arResult['ADMIN_CATEGORIES'] as $category): ?>
 					<tr>
 						<td><?= htmlspecialcharsbx($category->getTitle()) ?></td>
 						<td>

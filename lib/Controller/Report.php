@@ -65,7 +65,7 @@ class Report extends Engine\Controller
 
 		$report = new EO_Reports();
 		$report->setType('task')
-			   ->setToTaskId($toTaskId)
+			   ->setTaskId($toTaskId)
 			   ->setFromUserId($fromUserId)
 			   ->setToUserId($toUserId);
 
