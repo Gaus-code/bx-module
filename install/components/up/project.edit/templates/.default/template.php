@@ -87,9 +87,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<h3 class="heading">
 									<?php if($stage->getNumber()===0){echo "Независимые задачи";}
 									else{echo $stage->getNumber()." этап";}?>
-									<p>Статус: <?=$stage->getStatus()?></p>
-									<?php //if ($stage->getExpectedCompletionDate()):?>
-									<!--<p>Окончание этапа: --><?php //=$stage->getExpectedCompletionDate()?><!--</p>-->
+									<p>Статус: <span class="zoneStatus"><?=$stage->getStatus()?></span></p>
 									<?php if ($arResult['STAGES_EXPECTED_COMPLETION_DATE'][$stage->getId()]):?>
 									<p>Окончание этапа: <?=$arResult['STAGES_EXPECTED_COMPLETION_DATE'][$stage->getId()]?></p>
 									<?php endif;?>
@@ -216,6 +214,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 	</section>
 </main>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/tabContainers.js"></script>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/dragAndDrop.js"></script>
+<?php
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/profile.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/tabContainers.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/dragAndDrop.js");
+?>

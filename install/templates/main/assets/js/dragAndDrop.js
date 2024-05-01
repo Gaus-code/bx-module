@@ -1,93 +1,88 @@
-const draggables = document.querySelectorAll('.task');
-const droppables = document.querySelectorAll('.swim-lane');
+document.addEventListener('DOMContentLoaded', () => {
+	const draggables = document.querySelectorAll('.task');
+	const droppables = document.querySelectorAll('.swim-lane');
 
-draggables.forEach((task) => {
-	task.addEventListener('dragstart', () => {
-		task.classList.add('is-dragging');
-	});
-	task.addEventListener('dragend', () => {
-		task.classList.remove('is-dragging');
-	});
-});
+	draggables.forEach((task) => {
+		task.addEventListener('dragstart', (e) => {
+			const swimLane = task.closest('.swim-lane');
+			const zoneStatus = swimLane.querySelector('.zoneStatus').textContent.trim();
 
-droppables.forEach((zone) => {
-	zone.addEventListener('dragover', (e) => {
-		e.preventDefault();
+			if (zoneStatus === 'Активен' || zoneStatus === 'Завершен')
+			{
+				task.style.cursor = 'not-allowed';
+				e.preventDefault();
+				return;
+			}
+			else
+			{
+				task.style.cursor = 'grab';
+			}
 
-		const bottomTask = insertAboveTask(zone, e.clientY);
-		const currentTask = document.querySelector('.is-dragging');
-
-		if (!bottomTask)
-		{
-			zone.appendChild(currentTask);
-			//currentTask.querySelector('input[name="zoneId"]').value = zone.dataset.zoneId;
-			const taskIndex = currentTask.querySelector('input[name^="tasks"]').name.match(/\[(\d+)\]/)[1];
-			currentTask.querySelector(`input[name="tasks[${taskIndex}][zoneId]"]`).value = zone.dataset.zoneId;
-		}
-		else
-		{
-			zone.insertBefore(currentTask, bottomTask);
-			//currentTask.querySelector('input[name="zoneId"]').value = zone.dataset.zoneId;
-			const taskIndex = currentTask.querySelector('input[name^="tasks"]').name.match(/\[(\d+)\]/)[1];
-			currentTask.querySelector(`input[name="tasks[${taskIndex}][zoneId]"]`).value = zone.dataset.zoneId;
-		}
-	});
-});
-
-const insertAboveTask = (zone, mouseY) => {
-	const els = zone.querySelectorAll('.task:not(.is-dragging)');
-	let closestTask = null;
-	let closestOffset = Number.NEGATIVE_INFINITY;
-
-	els.forEach((task) => {
-		const { top } = task.getBoundingClientRect();
-		const offset = mouseY - top;
-
-		if (offset < 0 && offset > closestOffset)
-		{
-			closestOffset = offset;
-			closestTask = task;
-		}
+			task.classList.add('is-dragging');
+		});
+		task.addEventListener('dragend', () => {
+			task.classList.remove('is-dragging');
+		});
 	});
 
-	return closestTask;
-};
+	droppables.forEach((zone) => {
+		zone.addEventListener('dragover', (e) => {
+			e.preventDefault();
 
-// const dragForm = document.getElementById('todo-form');
-// const dragInput = document.getElementById('todo-input');
-// const dragLane = document.querySelector('.lanes');
-//
-// dragForm.addEventListener('submit', (e) => {
-// 	e.preventDefault();
-//
-// 	const inputValue = dragInput.value;
-//
-// 	if (!inputValue)
-// 	{
-// 		return;
-// 	}
-//
-// 	const newZone = document.createElement('div');
-// 	newZone.className = 'swim-lane';
-//
-// 	const newHeading = document.createElement('h3');
-// 	newHeading.className = 'heading';
-// 	newHeading.textContent = inputValue;
-//
-// 	newZone.appendChild(newHeading);
-//
-// 	dragLane.appendChild(newZone);
-// 	dragInput.value = '';
-// });
+			const zoneStatus = zone.querySelector('.zoneStatus').textContent.trim();
+			if (zoneStatus === 'Активен' || zoneStatus === 'Завершен')
+			{
+				return;
+			}
 
-//delete task from project
-const projectTaskDeletes = document.querySelectorAll('.projectTaskDelete');
+			const bottomTask = insertAboveTask(zone, e.clientY);
+			const currentTask = document.querySelector('.is-dragging');
 
-projectTaskDeletes.forEach(projectTaskDelete => {
-	projectTaskDelete.addEventListener('click', () => {
-		projectTaskDelete.classList.toggle('checked');
-		projectTaskDelete.closest('.task').classList.toggle('checked');
-		const taskSelect = projectTaskDelete.closest('.task').querySelector('select');
-		taskSelect.disabled = projectTaskDelete.checked;
+			if (!bottomTask)
+			{
+				zone.appendChild(currentTask);
+				//currentTask.querySelector('input[name="zoneId"]').value = zone.dataset.zoneId;
+				const taskIndex = currentTask.querySelector('input[name^="tasks"]').name.match(/\[(\d+)\]/)[1];
+				currentTask.querySelector(`input[name="tasks[${taskIndex}][zoneId]"]`).value = zone.dataset.zoneId;
+			}
+			else
+			{
+				zone.insertBefore(currentTask, bottomTask);
+				//currentTask.querySelector('input[name="zoneId"]').value = zone.dataset.zoneId;
+				const taskIndex = currentTask.querySelector('input[name^="tasks"]').name.match(/\[(\d+)\]/)[1];
+				currentTask.querySelector(`input[name="tasks[${taskIndex}][zoneId]"]`).value = zone.dataset.zoneId;
+			}
+		});
+	});
+
+	const insertAboveTask = (zone, mouseY) => {
+		const els = zone.querySelectorAll('.task:not(.is-dragging)');
+		let closestTask = null;
+		let closestOffset = Number.NEGATIVE_INFINITY;
+
+		els.forEach((task) => {
+			const {top} = task.getBoundingClientRect();
+			const offset = mouseY - top;
+
+			if (offset < 0 && offset > closestOffset)
+			{
+				closestOffset = offset;
+				closestTask = task;
+			}
+		});
+
+		return closestTask;
+	};
+
+	//delete task from project
+	const projectTaskDeletes = document.querySelectorAll('.projectTaskDelete');
+
+	projectTaskDeletes.forEach(projectTaskDelete => {
+		projectTaskDelete.addEventListener('click', () => {
+			projectTaskDelete.classList.toggle('checked');
+			projectTaskDelete.closest('.task').classList.toggle('checked');
+			const taskSelect = projectTaskDelete.closest('.task').querySelector('select');
+			taskSelect.disabled = projectTaskDelete.checked;
+		});
 	});
 });
