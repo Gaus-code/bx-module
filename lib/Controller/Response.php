@@ -26,20 +26,6 @@ class Response extends Engine\Controller
 
 			$userId = $USER->GetID();
 
-
-
-			$task = TaskTable::query()
-							 ->setSelect(['ID', 'STATUS'])
-							 ->where('ID', $taskId)
-							 ->fetchObject();
-
-			if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
-			{
-				$errors[] = "По данной задаче исполнитель уже найден, либо он не требуется";
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/task/$taskId/");
-			}
-
 			[$errors, $task] = $this->validateDataCreate(
 				$userId,
 				$taskId,
@@ -101,15 +87,19 @@ class Response extends Engine\Controller
 			$clientId = $response->getTask()->getClientId();
 			$taskId = $response->getTaskId();
 
-			$notification = NotificationTable::query()->setSelect(['ID'])->where(
-					'MESSAGE',
-					Configuration::getOption(
-						'notification_message'
-					)['new_response']
-				)->where('FROM_USER_ID', $contractorId)->where('TO_USER_ID', $clientId)->where('TASK_ID', $taskId)
-											 ->fetchObject();
+			$notification = NotificationTable::query()->setSelect(['ID'])
+													  ->where('MESSAGE',Configuration::getOption('notification_message'	)['new_response'])
+													  ->where('FROM_USER_ID', $contractorId)
+													  ->where('TO_USER_ID', $clientId)
+													  ->where('TASK_ID', $taskId)
+													  ->fetchObject();
 
-			if ($notification && NotificationTable::delete($notification->getId()) && ResponseTable::delete($responseId))
+			if ($notification && !NotificationTable::delete($notification->getId()))
+			{
+				LocalRedirect("/access/denied/");
+			}
+
+			if (ResponseTable::delete($responseId))
 			{
 				LocalRedirect("/task/$taskId/");
 			}
@@ -132,18 +122,12 @@ class Response extends Engine\Controller
 							 ->setSelect(['*'])
 							 ->where('ID', $taskId)
 							 ->where('CLIENT_ID', $userId)
+							 ->where('STATUS', Configuration::getOption('task_status')['search_contractor'])
 							 ->fetchObject();
 
 			if (!$task)
 			{
 				LocalRedirect("/access/denied/");
-			}
-
-			if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
-			{
-				$errors[] = "По данной задаче исполнитель уже найден, либо он не требуется";
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/task/$taskId/");
 			}
 
 			$task->setContractorId($contractorId);
@@ -237,7 +221,7 @@ class Response extends Engine\Controller
 		$errors = [];
 
 		$task = TaskTable::query()
-						 ->setSelect(['ID'])
+						 ->setSelect(['*'])
 						 ->where('ID', $taskId)
 						 ->whereNot('CLIENT_ID', $userId)
 						 ->fetchObject();
@@ -245,6 +229,11 @@ class Response extends Engine\Controller
 		if (!isset($task))
 		{
 			LocalRedirect("/access/denied/");
+		}
+
+		if ($task->getStatus() !== Configuration::getOption('task_status')['search_contractor'])
+		{
+			$errors[] = "По данной задаче исполнитель уже найден, либо он не требуется";
 		}
 
 		if (!$price || !is_numeric($price) || (int)$price < 0)
