@@ -18,62 +18,65 @@ class Category extends Engine\Controller
 		string $title = null,
 	)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-			if (!$USER->IsAdmin())
-			{
-				LocalRedirect('/access/denied/');
-			}
+			LocalRedirect('/access/denied/');
+		}
 
-			$errors = $this->validateTitle($title);
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect('/access/denied/');
+		}
 
-			$category = CategoriesTable::query()->setSelect(['ID'])->where('TITLE', $title)->fetchObject();
-			if ($category)
-			{
-				$errors[] = 'Такая категория уже существует!';
-			}
+		$errors = $this->validateTitle($title);
 
-			if ($errors !== [])
-			{
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/admin/categories/");
-			}
-
-			$category = new EO_Categories();
-			$category->setTitle($title);
-			$category->save();
-
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect("/admin/categories/");
 		}
+
+		$category = new EO_Categories();
+		$category->setTitle($title);
+		$category->save();
+
+		LocalRedirect("/admin/categories/");
 	}
 
 	public function deleteAction(int $categoryId)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-			if (!$USER->IsAdmin())
-			{
-				LocalRedirect('/access/denied/');
-			}
-
-			$category = CategoriesTable::getById($categoryId)->fetchObject();
-
-			if (!$category)
-			{
-				LocalRedirect('/access/denied/');
-			}
-
-			if ($category->getTitle() !== 'Без категории')
-			{
-				CategoriesTable::delete($categoryId);
-
-				LocalRedirect("/admin/categories/");
-			}
-
+			LocalRedirect('/access/denied/');
 		}
-		LocalRedirect('/access/denied/');
+
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect('/access/denied/');
+		}
+
+		$category = CategoriesTable::getById($categoryId)->fetchObject();
+
+		if (!$category || $category->getTitle() === 'Без категории')
+		{
+			LocalRedirect('/access/denied/');
+		}
+
+		$tasks = $category->fillTasks();
+		$defaultCategory = CategoriesTable::query()->setSelect(['*'])->where('TITLE', 'Без категории')->fetchObject();
+
+		foreach ($tasks as $task)
+		{
+			$task->setCategory($defaultCategory);
+			$task->save();
+		}
+
+		CategoriesTable::delete($categoryId);
+
+		LocalRedirect("/admin/categories/");
+
 	}
 
 	private function validateTitle(string $title):array
@@ -95,6 +98,12 @@ class Category extends Engine\Controller
 			{
 				$errors[] = 'Название может содержать только буквы, цифры и пробелы';
 			}
+		}
+
+		$category = CategoriesTable::query()->setSelect(['ID'])->where('TITLE', $title)->fetchObject();
+		if ($category)
+		{
+			$errors[] = 'Такая категория уже существует!';
 		}
 
 		return $errors;

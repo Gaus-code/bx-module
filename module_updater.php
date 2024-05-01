@@ -271,3 +271,18 @@ WHERE STATUS = 'Новая';");
 	};
 
 });
+
+__ukanMigrate(18, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_categories'))
+	{
+		$DB->query("INSERT INTO up_ukan_categories (TITLE)
+SELECT 'Без категории'
+FROM dual
+WHERE NOT EXISTS (
+	SELECT 1
+	FROM up_ukan_categories
+	WHERE TITLE = 'Без категории'
+);");
+	};
+
+});

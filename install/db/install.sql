@@ -154,7 +154,10 @@ CREATE TABLE IF NOT EXISTS `up_ukan_reports`
 		)
 );
 
--- Заполнение таблицы up_ukan_tag
+-- Заполнение таблицы up_ukan_categories
+INSERT INTO up_ukan_categories (TITLE)
+VALUES ('Без категории');
+
 INSERT INTO up_ukan_tag (TITLE)
 VALUES ('HTML'),
        ('CSS'),
