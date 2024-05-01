@@ -53,11 +53,12 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`PROJECT_PRIORITY` int                NOT NULL,
 	`CLIENT_ID`        int                NOT NULL,
 	`CONTRACTOR_ID`    int,
-    `STATUS`           varchar(255)       NOT NULL,
+	`STATUS`           varchar(255)       NOT NULL,
 	`PROJECT_ID`       int,
 	`CREATED_AT`       datetime,
 	`UPDATED_AT`       datetime,
 	`CATEGORY_ID`      int,
+	`IS_BANNED`        char default 'N' not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -140,15 +141,13 @@ CREATE TABLE IF NOT EXISTS `up_ukan_categories`
 
 CREATE TABLE IF NOT EXISTS `up_ukan_reports`
 (
-	`ID`             int AUTO_INCREMENT NOT NULL,
-	`TYPE`           varchar(255)       NOT NULL,
-	`MESSAGE`        text,
-	`FROM_USER_ID`   int                not null,
-	`TO_USER_ID`     int                not null,
-	`TASK_ID`        int,
-	`FEEDBACK_ID`    int,
-    `TAG_ID`         int,
-    `IS_BANNED`      boolean,
+	`ID`           int AUTO_INCREMENT NOT NULL,
+	`TYPE`         varchar(255)       NOT NULL,
+	`MESSAGE`      text,
+	`FROM_USER_ID` int                not null,
+	`TO_USER_ID`   int                not null,
+	`TASK_ID`      int,
+	`FEEDBACK_ID`  int,
 	PRIMARY KEY (
 	             `ID`
 		)

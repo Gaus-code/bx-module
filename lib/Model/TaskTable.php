@@ -5,6 +5,7 @@ namespace Up\Ukan\Model;
 use Bitrix\Main\Localization\Loc, Bitrix\Main\ORM\Data\DataManager, Bitrix\Main\ORM\Fields\DatetimeField, Bitrix\Main\ORM\Fields\IntegerField, Bitrix\Main\ORM\Fields\StringField, Bitrix\Main\ORM\Fields\TextField, Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Event;
 use Bitrix\Main\ORM\EventResult;
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\DateField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
@@ -161,6 +162,11 @@ class TaskTable extends DataManager
 							  'title' => Loc::getMessage('TASK_ENTITY_DEADLINE_FIELD'),
 						  ]
 			),
+			new BooleanField(
+				'IS_BANNED', [
+				'values' => ['N', 'Y'],
+				'default_value' => 'N',
+			]),
 			(new ManyToMany(
 				'TAGS', TagTable::class
 			))->configureTableName('up_ukan_tag_task'),

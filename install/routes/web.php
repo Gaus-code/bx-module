@@ -92,4 +92,5 @@ return function (RoutingConfigurator $routes)
 
 	//reports
 	$routes->post('/report/create/', [\Up\Ukan\Controller\Report::class, 'create']);
+	$routes->post('/task/block/', [\Up\Ukan\Controller\Block::class, 'blockTask']);
 };

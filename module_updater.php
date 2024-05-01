@@ -286,3 +286,24 @@ WHERE NOT EXISTS (
 	};
 
 });
+
+__ukanMigrate(19, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_reports'))
+	{
+		$DB->query(
+			'ALTER TABLE `up_ukan_reports`
+			DROP COLUMN `TAG_ID`,
+			DROP COLUMN `IS_BANNED`;'
+		);
+	}
+});
+
+__ukanMigrate(20, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_task`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});

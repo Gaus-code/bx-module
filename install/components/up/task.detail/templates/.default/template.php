@@ -11,7 +11,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <?php
-if ($arResult['TASK']): ?>
+if ($arResult['TASK'] && !$arResult['TASK']->getIsBanned()): ?>
 	<main class="detail wrapper">
 		<div class="detail__mainContainer">
 			<section class="detail__header">
@@ -70,8 +70,34 @@ if ($arResult['TASK']): ?>
 					</li>
 					<?php if ($USER->IsAdmin()):?>
 						<li class="metaContainer__item">
-							<form class="banFormForAdmin" action="">
-								<button class="banBtnForAdmin" type="submit">Заблокировать</button>
+							<button class="banBtn" type="button">Заблокировать</button>
+							<form class="banForm" action="/task/block/" method="post" >
+								<?= bitrix_sessid_post() ?>
+								<button id="closeFormBtn" type="button">
+									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+								</button>
+								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
+								<ul class="complaint__list">
+									<li class="complaint__item">
+										<input class="complaint__radio" type="radio" name="complaintType" value="task" checked>
+										<label class="complaint__label">Заблокировать заявку</label>
+									</li>
+<!--									<li class="complaint__item">-->
+<!--										<input class="complaint__radio" type="radio" name="complaintType" value="tag">-->
+<!--										<label class="complaint__label">Заблокировать тэг</label>-->
+<!--									</li>-->
+<!--									<li class="complaint__item">-->
+<!--										<ul class="filter__list">-->
+<!--											--><?php //foreach ($arResult['TASK']->getTags() as $tag): ?>
+<!--												<li class="filter__item">-->
+<!--													<input type="checkbox" class="filter__checkbox" name="tags[]" value="--><?php //=$tag->getId()?><!--">-->
+<!--													<label class="filter__label">--><?php //= htmlspecialcharsbx($tag->getTitle()) ?><!--</label>-->
+<!--												</li>-->
+<!--											--><?php //endforeach; ?>
+<!--										</ul>-->
+<!--									</li>-->
+								</ul>
+								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</li>
 					<?php else :?>
@@ -106,6 +132,11 @@ if ($arResult['TASK']): ?>
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</li>
+<!--						<li class="metaContainer__item">-->
+<!--							<form class="banFormForAdmin" action="">-->
+<!--								<button class="banBtnForAdmin" type="submit">Заблокировать</button>-->
+<!--							</form>-->
+<!--						</li>-->
 						<?php else :?>
 							<p class="banBtn">Вы уже отправили жалобу, ждите решение администрации</p>
 						<?php endif; ?>
@@ -118,7 +149,7 @@ if ($arResult['TASK']): ?>
 else: ?>
 	<main class="detail wrapper">
 		<section class="detail__header">
-			<h1>Задача не найдена!</h1
+			<h1>Задача не найдена или заблокирована!</h1
 		</section>
 	</main>
 <?php
