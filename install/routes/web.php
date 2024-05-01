@@ -85,6 +85,11 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/admin/notifications/', new PublicPageController('/local/modules/up.ukan/views/admin-notify.php'));
 	$routes->get('/admin/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/admin-feedback.php'));
 	$routes->get('/admin/users/', new PublicPageController('/local/modules/up.ukan/views/admin-user.php'));
+	$routes->get('/admin/categories/', new PublicPageController('/local/modules/up.ukan/views/admin-categories.php'));
+
+	$routes->post('/category/create/', [\Up\Ukan\Controller\Category::class, 'create']);
+	$routes->post('/category/delete/', [\Up\Ukan\Controller\Category::class, 'delete']);
+
 	//reports
 	$routes->post('/report/create/', [\Up\Ukan\Controller\Report::class, 'create']);
 };

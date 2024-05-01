@@ -15,7 +15,10 @@ class CatalogComponent extends CBitrixComponent
 	}
 	protected function fetchCategories()
 	{
-		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
+		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()
+																	  ->setSelect(['*'])
+																	  ->addOrder('TITLE')
+																	  ->fetchCollection();
 	}
 
 }

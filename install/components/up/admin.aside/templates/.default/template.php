@@ -38,6 +38,11 @@
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="notification folder" class="commentImg">
 				Пользователи
 			</a>
+
+			<a href="/admin/categories/" id="commentLink" class="aside__btn">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/dashboard.svg" alt="project folder" class="userImg">
+				Категории
+			</a>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
 

@@ -16,7 +16,6 @@ return array(
 		'secret_key' => 'AQVNztg5AhOJG_qdivT_LWgRQADPQkfjCwyY2tbP',
 		'directory_id' => 'b1gjdsgd12d0ee2e41in',
 	),
-	'NUMBER_OF_PRODUCTS_PER_PAGE' => 7,
 	'notification_message' => array(
 		'approve' => 'Ваш отклик одобрен',
 		'reject' => 'Ваш отклик отклонен',
@@ -36,6 +35,8 @@ return array(
 		'responses_list' => 6,
 		'notification_list' => 7,
 		'feedback_list' => 7,
+		'admin_tables' => 10,
+		'project_list' => 7,
 	),
 	'independent_stage_number'=>0,
 	'project_stage_status' => array(
