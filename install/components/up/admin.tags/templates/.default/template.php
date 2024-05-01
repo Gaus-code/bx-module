@@ -41,7 +41,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<td><?= htmlspecialcharsbx($tag->getToTag()->getTitle()) ?></td>
 							<td><?= htmlspecialcharsbx($tag->getMessage()) ?></td>
 							<td>
-								<a href="/task/<?= $tag->getToTask()->getID() ?>/">Посмотреть заявку</a>
+								<a href="/task/<?= $tag->getTask()->getID() ?>/">Посмотреть заявку</a>
 							</td>
 						</tr>
 				<?php endforeach;?>

@@ -23,7 +23,7 @@ class AdminNotifyComponent extends CBitrixComponent
 
 		if ($USER->IsAdmin())
 		{
-			$query = \Up\Ukan\Model\ReportsTable::query()->setSelect(['*', 'TO_USER', 'TO_TASK', 'TO_FEEDBACK'])->fetchCollection();
+			$query = \Up\Ukan\Model\ReportsTable::query()->setSelect(['*', 'TO_USER', 'TASK', 'TO_FEEDBACK'])->fetchCollection();
 
 			$this->arResult['ADMIN_NOTIFY'] = $query;
 		}

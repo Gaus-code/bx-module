@@ -37,10 +37,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<tbody>
 			<?php foreach ($arResult['ADMIN_TASKS'] as $task): ?>
 			<tr>
-				<td><?= htmlspecialcharsbx($task->getToTask()->getTitle()) ?></td>
-				<td><?= htmlspecialcharsbx($task->getToTask()->getDescription()) ?></td>
+				<td><?= htmlspecialcharsbx($task->getTask()->getTitle()) ?></td>
+				<td><?= htmlspecialcharsbx($task->getTask()->getDescription()) ?></td>
 				<td>
-					<a href="/task/<?= $task->getToTask()->getId() ?>/">Посмотреть заявку</a>
+					<a href="/task/<?= $task->getTask()->getId() ?>/">Посмотреть заявку</a>
 				</td>
 			</tr>
 			<?php endforeach;?>

@@ -40,7 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<td><?= htmlspecialcharsbx($feedback->getToFeedback()->getComment()) ?></td>
 						<td>
 							<div class="responseBtns">
-								<a href="/task/<?= $feedback->getToTask()->getId() ?>/">Посмотреть заявку</a>
+								<a href="/task/<?= $feedback->getTask()->getId() ?>/">Посмотреть заявку</a>
 								<form action="">
 									<button type="submit">Удалить отзыв</button>
 								</form>

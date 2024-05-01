@@ -23,7 +23,7 @@ class AdminFeedbackComponent extends CBitrixComponent
 		if ($USER->IsAdmin())
 		{
 			$query = \Up\Ukan\Model\ReportsTable::query()
-				->setSelect(['*', 'TO_TASK', 'TO_FEEDBACK'])
+				->setSelect(['*', 'TASK', 'TO_FEEDBACK'])
 				->setFilter(['TYPE' => 'feedback'])
 				->fetchCollection();
 
