@@ -173,8 +173,8 @@ class Report extends Engine\Controller
 
 		$report = new EO_Reports();
 		$report->setType('feedback')
-			   ->setToFeedbackId($feedback->getId())
-			   ->setToTaskId($toTaskId)
+			   ->setFeedbackId($feedback->getId())
+			   ->setTaskId($toTaskId)
 			   ->setFromUserId($fromUserId)
 			   ->setToUserId($toUserId);
 
@@ -184,7 +184,7 @@ class Report extends Engine\Controller
 		}
 		$report->save();
 
-		LocalRedirect("/catalog/");
+		LocalRedirect("/task/$toTaskId/");
 	}
 
 }

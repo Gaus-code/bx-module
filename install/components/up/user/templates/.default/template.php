@@ -68,7 +68,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 							<?php else :?>
-							<p class="banBtn">Вы уже отправили жалобу, ждите решение администрации</p>
+							<p class="banBtn">Вы уже отправили жалобу</p>
 							<?php endif; ?>
 						<?php endif; ?>
 					<?php endif;?>

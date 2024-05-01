@@ -24,6 +24,8 @@ return array(
 		'task_finished' => 'Задача выполена',
 		'task_block' => 'Задача заблокирована',
 		'task_unblock' => 'Задача разблокирована',
+		'feedback_block' => 'Отзыв заблокирован',
+		'feedback_unblock' => 'Отзыв разблокирован',
 	),
 	'response_status' => array(
 		'wait' => 'Ожидает',

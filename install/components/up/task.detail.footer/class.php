@@ -19,7 +19,8 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			'contractor_from_project',
 			'owner',
 			'reject',
-			'wait'
+			'wait',
+			'admin'
 			], true))
 		{
 			$arParams['USER_ACTIVITY'] = '.default' ;
@@ -43,6 +44,9 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			case 'contractor_from_project':
 				$this->fetchContractor();
 				break;
+			case 'admin':
+				$this->fetchContractor();
+				$this->fillFeedbacks();
 			case 'reject':
 			case 'wait':
 			default:
@@ -66,6 +70,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			$this->setUserSentFeedback();
 			$this->fetchLeaveFeedbackForm();
 			$this->fillFeedbacks();
+			$this->fetchIssetReportFeedback();
 		}
 	}
 
@@ -80,6 +85,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			$this->setUserSentFeedback();
 			$this->fetchLeaveFeedbackForm();
 			$this->fillFeedbacks();
+			$this->fetchIssetReportFeedback();
 		}
 	}
 	private function fetchResponses()
@@ -147,5 +153,22 @@ class TaskDetailFooterComponent extends CBitrixComponent
 				"TO_USER_ID"=>$toUserId,
 			];
 		}
+	}
+
+	private function fetchIssetReportFeedback()
+	{
+		if ($this->arParams['TASK'])
+		{
+			global $USER;
+			$userId = (int)$USER->getId();
+			$report = \Up\Ukan\Model\ReportsTable::query()
+												 ->setSelect(['ID'])
+												 ->where('FROM_USER_ID', $userId)
+												 ->where('TASK_ID', $this->arParams['TASK']->getId())
+												 ->where('TYPE', 'feedback')
+												 ->fetchObject();
+			$this->arResult['ISSET_REPORT'] = (bool)$report;
+		}
+
 	}
 }

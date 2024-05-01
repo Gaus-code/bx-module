@@ -5,6 +5,7 @@ namespace Up\Ukan\Controller;
 use Bitrix\Main\Engine;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\Model\EO_Notification;
+use Up\Ukan\Model\FeedbackTable;
 use Up\Ukan\Model\ReportsTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
@@ -145,6 +146,102 @@ class Block extends Engine\Controller
 		{
 			ReportsTable::delete($report->getId());
 		}
+
+		LocalRedirect("/task/$taskId/");
+
+	}
+
+	public function blockFeedbackAction(
+		int $taskId = null,
+		int $feedbackId = null,
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$feedback = FeedbackTable::query()->setSelect(['*'])
+									  ->where('ID', $feedbackId)
+									  ->where('TASK_ID', $taskId)
+									  ->fetchObject();
+
+		if (!$feedback)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$feedback->setComment('Комментарий удален по решению администрации')
+				 ->setIsBanned('Y');
+		$feedback->save();
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['feedback_block'])
+					 ->setFromUserId($USER->GetID())
+					 ->setToUserId($feedback->getFromUserId())
+					 ->setTaskId($feedback->getTaskId())
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		$report = ReportsTable::query()
+							  ->setSelect(['*'])
+							  ->where('TASK_ID', $feedback->getTaskId())
+							  ->where('TO_USER_ID', $feedback->getFromUserId())
+							  ->where('TYPE', 'feedback')
+							  ->fetchObject();
+		if ($report)
+		{
+			ReportsTable::delete($report->getId());
+		}
+
+		LocalRedirect("/task/$taskId/");
+
+	}
+
+	public function unblockFeedbackAction(
+		int $taskId = null,
+		int $feedbackId = null,
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$feedback = FeedbackTable::query()->setSelect(['*'])
+								 ->where('ID', $feedbackId)
+								 ->where('TASK_ID', $taskId)
+								 ->fetchObject();
+
+		if (!$feedback)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['feedback_unblock'])
+					 ->setFromUserId($USER->GetID())
+					 ->setToUserId($feedback->getFromUserId())
+					 ->setTaskId($feedback->getTaskId())
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		$feedback->setComment('')
+				 ->setIsBanned('N');
+		$feedback->save();
+
 
 		LocalRedirect("/task/$taskId/");
 

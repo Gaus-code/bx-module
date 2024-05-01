@@ -174,6 +174,11 @@ class Feedback extends Controller
 			LocalRedirect("/access/denied/");
 		}
 
+		if ($feedback->getIsBanned())
+		{
+			$errors [] = 'Отзыв заблокирован, Вы не можете его отредактировать!';
+		}
+
 		if (!$rating || !is_numeric($rating) || (int)$rating < 0)
 		{
 			$errors [] = 'Оцените пользователя';
