@@ -35,12 +35,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($arResult['ADMIN_TASKS'] as $task): ?>
+			<?php foreach ($arResult['ADMIN_TASKS'] as $report): ?>
 			<tr>
-				<td><?= htmlspecialcharsbx($task->getTask()->getTitle()) ?></td>
-				<td><?= htmlspecialcharsbx($task->getTask()->getDescription()) ?></td>
+				<td><?= htmlspecialcharsbx($report->getTask()->getTitle()) ?></td>
+				<td><?= htmlspecialcharsbx($report->getTask()->getDescription()) ?></td>
 				<td>
-					<a href="/task/<?= $task->getTask()->getId() ?>/">Посмотреть заявку</a>
+					<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
+					<form action="/report/delete/" method="post" >
+						<?= bitrix_sessid_post() ?>
+						<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
+						<button id="sendComplaint" type="submit">Отклонить жалобу</button>
+					</form>
 				</td>
 			</tr>
 			<?php endforeach;?>

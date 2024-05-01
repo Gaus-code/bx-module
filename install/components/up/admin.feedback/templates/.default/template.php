@@ -35,14 +35,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($arResult['ADMIN_FEEDBACKS'] as $feedback): ?>
+					<?php foreach ($arResult['ADMIN_FEEDBACKS'] as $report): ?>
 					<tr>
-						<td><?= htmlspecialcharsbx($feedback->getToFeedback()->getComment()) ?></td>
+						<td><?= htmlspecialcharsbx($report->getToFeedback()->getComment()) ?></td>
 						<td>
 							<div class="responseBtns">
-								<a href="/task/<?= $feedback->getTask()->getId() ?>/">Посмотреть заявку</a>
+								<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
 								<form action="">
 									<button type="submit">Удалить отзыв</button>
+								</form>
+								<form action="/report/delete/" method="post" >
+									<?= bitrix_sessid_post() ?>
+									<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
+									<button id="sendComplaint" type="submit">Отклонить жалобу</button>
 								</form>
 							</div>
 						</td>

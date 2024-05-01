@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\DatetimeField,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\TextField;
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
@@ -116,6 +117,11 @@ class FeedbackTable extends DataManager
 					}
 				]
 			),
+			new BooleanField(
+				'IS_BANNED', [
+				'values' => ['N', 'Y'],
+				'default_value' => 'N',
+			]),
 		];
 	}
 }

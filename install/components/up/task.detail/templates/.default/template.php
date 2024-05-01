@@ -75,31 +75,23 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 						<li class="metaContainer__item">
 							<form  action="/task/block/" method="post" >
 								<?= bitrix_sessid_post() ?>
-								<button id="closeFormBtn" type="button">
-									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
-								</button>
 								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
 								<button id="sendComplaint" class="banBtn" type="submit">Заблокировать заявку</button>
 							</form>
 						</li>
 						<li class="metaContainer__item">
 							<div class="detail__metaContainer">
-							<form action="/tags/block/" method="post" >
+							<form action="/tag/block/" method="post" >
 								<?= bitrix_sessid_post() ?>
-								<button id="closeFormBtn" type="button">
-									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
-								</button>
 								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
-								<div class="complaint__list">
-									<ul class="filter__list">
-										<?php foreach ($arResult['TASK']->getTags() as $tag): ?>
-											<li class="filter__item">
-												<input type="checkbox" class="filter__checkbox" name="tags[]" value="<?=$tag->getId()?>">
-												<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
-											</li>
-										<?php endforeach; ?>
-									</ul>
-								</div>
+								<ul class="filter__list">
+									<?php foreach ($arResult['TASK']->getTags() as $tag): ?>
+										<li class="filter__item">
+											<input type="checkbox" class="filter__checkbox" name="tagsId[]" value="<?=$tag->getId()?>">
+											<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
+										</li>
+									<?php endforeach; ?>
+								</ul>
 								<button id="sendComplaint" type="submit">Заблокировать тэги</button>
 							</form>
 							</div>

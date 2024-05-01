@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS `up_ukan_user`
 (
-	`ID`                    int  NOT NULL,
+	`ID`                    int              NOT NULL,
 	`BIO`                   text,
 	`SUBSCRIPTION_END_DATE` date,
 	`UPDATED_AT`            datetime,
-	`CONTACTS`              text NOT NULL,
+	`CONTACTS`              text             NOT NULL,
+	`IS_BANNED`             char default 'N' not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
 	`TASK_ID`      int                NOT NULL,
 	`FEEDBACK`     text,
 	`CREATED_AT`   datetime,
+	`IS_BANNED`    char default 'N'   not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_tag`
 	`TITLE`      varchar(255)       NOT NULL,
 	`USER_ID`    INT                NOT NULL,
 	`CREATED_AT` datetime           NOT NULL,
+	`IS_BANNED`  char default 'N'   not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -58,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`CREATED_AT`       datetime,
 	`UPDATED_AT`       datetime,
 	`CATEGORY_ID`      int,
-	`IS_BANNED`        char default 'N' not null,
+	`IS_BANNED`        char default 'N'   not null,
 	PRIMARY KEY (
 	             `ID`
 		)

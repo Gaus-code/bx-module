@@ -3,9 +3,9 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine;
-use Bitrix\Main\ORM\Query\Query;
 use Up\Ukan\Model\EO_Reports;
 use Up\Ukan\Model\FeedbackTable;
+use Up\Ukan\Model\ReportsTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Model\UserTable;
 
@@ -39,6 +39,32 @@ class Report extends Engine\Controller
 			}
 
 		}
+	}
+
+	public function deleteAction(
+		int $reportId = null
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$report = ReportsTable::getById($reportId)->fetchObject();
+		if (!$report)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		ReportsTable::delete($reportId);
+
+		LocalRedirect("/admin/");
+
 	}
 
 	private function createReportOnTask(int $fromUserId, string $complaintMessage, int $toTaskId)

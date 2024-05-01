@@ -6,6 +6,7 @@ use Bitrix\Main\Engine;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\Model\EO_Notification;
 use Up\Ukan\Model\ReportsTable;
+use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Service\Configuration;
 
@@ -97,6 +98,56 @@ class Block extends Engine\Controller
 
 	}
 
+	public function blockTagAction(
+		int $taskId = null,
+		array    $tagsId = [],
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
 
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagsId)->fetchCollection();
+
+		if (!$tags)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		foreach ($tags as $tag)
+		{
+			$tag->removeAllTasks();
+			$tag->setIsBanned('Y');
+			$tag->save();
+		}
+
+		$originTask = TaskTable::getById($taskId)->fetchObject();
+
+		if (!$originTask)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$report = ReportsTable::query()
+							  ->setSelect(['*'])
+							  ->where('TASK_ID', $originTask->getId())
+							  ->where('TO_USER_ID', $originTask->getClientId())
+							  ->where('TYPE', 'task')
+							  ->fetchObject();
+		if ($report)
+		{
+			ReportsTable::delete($report->getId());
+		}
+
+		LocalRedirect("/task/$taskId/");
+
+	}
 
 }

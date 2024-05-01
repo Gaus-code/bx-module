@@ -307,3 +307,33 @@ __ukanMigrate(20, function($updater, $DB) {
 		);
 	}
 });
+
+__ukanMigrate(21, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_user`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});
+
+__ukanMigrate(22, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_tag'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_tag`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});
+
+__ukanMigrate(23, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_feedback'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_feedback`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});

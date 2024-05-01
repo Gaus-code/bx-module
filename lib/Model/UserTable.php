@@ -5,10 +5,10 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\DatetimeField,
 	Bitrix\Main\ORM\Fields\IntegerField,
-	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\DateField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\FloatField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
@@ -122,6 +122,11 @@ class UserTable extends DataManager
 					'default_value'=>0,
 				]
 			),
+			new BooleanField(
+				'IS_BANNED', [
+				'values' => ['N', 'Y'],
+				'default_value' => 'N',
+			]),
 			new ExpressionField(
 				'SUBSCRIPTION_STATUS',
 				"IF (NOW()<=%s, 'Active', 'Not active')",

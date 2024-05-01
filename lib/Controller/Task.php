@@ -512,7 +512,10 @@ class Task extends Controller
 				$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
 				if ($tagFromDb)
 				{
-					$task->addToTags($tagFromDb);
+					if (!$tagFromDb->getIsBanned())
+					{
+						$task->addToTags($tagFromDb);
+					}
 				}
 				else
 				{
