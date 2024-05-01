@@ -59,6 +59,7 @@ class Task extends Controller
 				$description,
 				$categoryId,
 				$tagsString,
+				$useGPT,
 				$maxPrice,
 				$deadline
 			);
@@ -134,16 +135,18 @@ class Task extends Controller
 				 ->setDeadline(DateTime::createFromPhp(new \DateTime($deadline)))
 				 ->setUpdatedAt(new DateTime());
 
-			// if ($useGPT) //TODO fix to use the great YandexGPT
-			// {
-			// 	$tags = YandexGPT::getTagsByTaskDescription($title.'. '.$description);
-			// }
-			// else
-			// {
-			// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
-			// }
 
 			$task->removeAllTags();
+
+			if ($useGPT)
+			{
+				$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+				foreach ($tagsFromGPT as $tag)
+				{
+					$task->addToTags($tag);
+				}
+			}
+
 			if ($tagsString !== '')
 			{
 				$tagsString = str_replace(' ', '', $tagsString);
@@ -225,6 +228,7 @@ class Task extends Controller
 				$description,
 				$categoryId,
 				$tagsString,
+				$useGPT,
 				$maxPrice,
 				$deadline,
 			);
@@ -467,6 +471,7 @@ class Task extends Controller
 		?string $description,
 		?int    $categoryId,
 		?string $tagsString,
+		?string $useGPT,
 		?string $maxPrice,
 		?string $deadline,
 	): EO_Task
@@ -487,18 +492,15 @@ class Task extends Controller
 			 ->setClientId($clientId)
 			 ->setCategoryId($categoryId)
 			 ->setDeadline(DateTime::createFromPhp(new \DateTime($deadline)));
-		// if ($useGPT) //TODO fix to use the great YandexGPT
-		// {
-		// 	$tags = YandexGPT::getTagsByTaskDescription($title.$description);
-		// }
-		// else
-		// {
-		// 	$tags = TagTable::query()->setSelect(['*'])->whereIn('ID', $tagIds)->fetchCollection();
-		// }
-		// foreach ($tags as $tag)
-		// {
-		// 	$task->addToTags($tag);
-		// }
+
+		if ($useGPT)
+		{
+			$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+			foreach ($tagsFromGPT as $tag)
+			{
+				$task->addToTags($tag);
+			}
+		}
 
 		if ($tagsString !== '')
 		{
