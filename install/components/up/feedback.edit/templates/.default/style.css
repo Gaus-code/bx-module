@@ -213,19 +213,20 @@
 	content: '★';
 }
 .rating-area > input:checked ~ label {
-	color: gold;
+	color: var(--color-primary-yellow);
 	text-shadow: 1px 1px #c60;
+    margin-bottom: 10px;
 }
 .rating-area:not(:checked) > label:hover,
 .rating-area:not(:checked) > label:hover ~ label {
-	color: gold;
+	color: var(--color-primary-yellow);
 }
 .rating-area > input:checked + label:hover,
 .rating-area > input:checked + label:hover ~ label,
 .rating-area > input:checked ~ label:hover,
 .rating-area > input:checked ~ label:hover ~ label,
 .rating-area > label:hover ~ input:checked ~ label {
-	color: gold;
+	color: var(--color-primary-yellow);
 	text-shadow: 1px 1px goldenrod;
 }
 .rate-area > label:active {

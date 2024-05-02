@@ -27,8 +27,8 @@
 #resetFilters {
     font-size: 14px;
     background-color: inherit;
-    color: var(--color-warning-yellow);
-    border-bottom: 1px dotted var(--color-warning-yellow);
+    color: var(--color-tag-green);
+    border-bottom: 1px dotted var(--color-tag-green);
     margin-top: 15px;
 }
 

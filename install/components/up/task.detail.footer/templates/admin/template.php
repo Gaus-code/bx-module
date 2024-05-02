@@ -24,8 +24,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php endif; ?>
 
 	<?php if ($arParams['TASK']->getFeedbacks()): ?>
-		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<p class="detail__feedback_title">Отзывы:</p>
+		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<div class="detail__feedback">
 				<p>
 					<?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName()
@@ -41,7 +41,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endif; ?>
 					<?php endfor; ?>
 				</div>
-				<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
+				<p class="commentText"><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
 				<?php if (!$feedback->getIsBanned()): ?>
 					<form action="/feedback/block/" method="post">
 						<?= bitrix_sessid_post() ?>
@@ -54,7 +54,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?= bitrix_sessid_post() ?>
 						<input name="taskId" hidden="hidden" value="<?=$arParams['TASK']->getId()?>">
 						<input name="feedbackId" hidden="hidden" value="<?=$feedback->getId() ?>">
-						<button id="sendComplaint" class="banBtn" type="submit">Разблокировать отзыв</button>
+						<button id="sendComplaint" class="banBtnforAdmin" type="submit">Разблокировать отзыв</button>
 					</form>
 				<?php endif; ?>
 			</div>
