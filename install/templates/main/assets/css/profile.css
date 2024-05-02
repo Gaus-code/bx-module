@@ -256,7 +256,7 @@ a.aside__btn {
 }
 
 .task__categories {
-    background-color: #E3963E;
+    background-color: var(--color-primary-yellow);
 }
 
 .task__tag {

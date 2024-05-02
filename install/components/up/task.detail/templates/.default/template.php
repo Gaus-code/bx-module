@@ -52,35 +52,42 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 				?>
 			<?php endif; ?>
 		</div>
-		<div class="detail__metaContainer">
+		<div class="detail__metaContainers">
+			<div class="detail__metaContainer">
+				<section class="metaContainer__header">
+					<h2>Дополнительная информация:</h2>
+					<ul class="metaContainer__list">
+						<li class="metaContainer__item">
+							<p class="metaContainer__info">
+								<span>Задача создана:</span>
+								<?= $arResult['TASK']->getCreatedAt() ?>
+							</p>
+						</li>
+						<li class="metaContainer__item">
+							<p class="metaContainer__info">
+								<span>Заказчик:</span>
+								<a href="/profile/<?= $arResult['TASK']->getClient()->get('B_USER')->getId() ?>/">
+									<?= htmlspecialcharsbx($arResult['TASK']->getClient()->get('B_USER')->getName()
+										. ' '
+										. $arResult['TASK']->getClient()->get('B_USER')->getLastName()) ?>
+								</a>
+							</p>
+						</li>
+					</ul>
+				</section>
+			</div>
 			<section class="metaContainer__header">
-				<h2>Дополнительная информация:</h2>
-				<ul class="metaContainer__list">
-					<li class="metaContainer__item">
-						<p class="metaContainer__info">
-							<span>Задача создана:</span>
-							<?= $arResult['TASK']->getCreatedAt() ?>
-						</p>
-					</li>
-					<li class="metaContainer__item">
-						<p class="metaContainer__info">
-							<span>Заказчик:</span>
-							<?= htmlspecialcharsbx($arResult['TASK']->getClient()->get('B_USER')->getName()
-												   . ' '
-												   . $arResult['TASK']->getClient()->get('B_USER')->getLastName()) ?>
-						</p>
-					</li>
-					<?php if ($USER->IsAdmin()):?>
-						<?php if (!$arResult['TASK']->getIsBanned()):?>
-							<li class="metaContainer__item">
-								<form  action="/task/block/" method="post" >
-									<?= bitrix_sessid_post() ?>
-									<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
-									<button id="sendComplaint" class="banBtn" type="submit">Заблокировать заявку</button>
-								</form>
-							</li>
-							<li class="metaContainer__item">
-								<div class="detail__metaContainer">
+				<?php if ($USER->IsAdmin()):?>
+					<?php if (!$arResult['TASK']->getIsBanned()):?>
+						<div class="metaContainer__item">
+							<form  action="/task/block/" method="post" >
+								<?= bitrix_sessid_post() ?>
+								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
+								<button id="sendComplaint" class="banBtn" type="submit">Заблокировать заявку</button>
+							</form>
+						</div>
+						<div class="metaContainer__item">
+							<div class="detail__metaContainer">
 								<form action="/tag/block/" method="post" >
 									<?= bitrix_sessid_post() ?>
 									<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
@@ -94,20 +101,20 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 									</ul>
 									<button id="sendComplaint" type="submit">Заблокировать тэги</button>
 								</form>
-								</div>
-							</li>
-						<?php else :?>
-							<li class="metaContainer__item">
-								<form  action="/task/unblock/" method="post" >
-									<?= bitrix_sessid_post() ?>
-									<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
-									<button id="sendComplaint" class="banBtn" type="submit">Разблокировать заявку</button>
-								</form>
-							</li>
-						<?php endif; ?>
-					<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner') :?>
-						<?php if (!$arResult['ISSET_REPORT'] ): ?>
-						<li class="metaContainer__item">
+							</div>
+						</div>
+					<?php else :?>
+						<div class="metaContainer__item">
+							<form  action="/task/unblock/" method="post" >
+								<?= bitrix_sessid_post() ?>
+								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
+								<button id="sendComplaint" class="banBtn" type="submit">Разблокировать заявку</button>
+							</form>
+						</div>
+					<?php endif; ?>
+				<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner') :?>
+					<?php if (!$arResult['ISSET_REPORT'] ): ?>
+						<div class="metaContainer__item">
 							<button class="banBtn" type="button">Пожаловаться</button>
 							<form class="banForm" action="/report/create/" method="post">
 								<?= bitrix_sessid_post() ?>
@@ -119,12 +126,11 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
-						</li>
-						<?php else: ?>
-							<p class="banBtn">Вы уже отправили жалобу</p>
-						<?php endif; ?>
+						</div>
+					<?php else: ?>
+						<p class="banBtnIsSent">Вы уже отправили жалобу</p>
 					<?php endif; ?>
-				</ul>
+				<?php endif; ?>
 			</section>
 		</div>
 	</main>

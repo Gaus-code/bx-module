@@ -60,7 +60,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endif; ?>
 					<?php endfor; ?>
 				</div>
-				<p><?=htmlspecialcharsbx($feedback->getComment())  ?></p>
+				<p class="commentText"><?=htmlspecialcharsbx($feedback->getComment())  ?></p>
 				<?php if (!$feedback->getIsBanned()): ?>
 					<?php if ($feedback->getFromUserId() === $arParams['USER_ID'] ): ?>
 						<div class="rating-result">
@@ -80,7 +80,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<button id="sendComplaint" type="submit">Отправить</button>
 						</form>
 					<?php else: ?>
-						<p class="banBtn">Вы уже отправили жалобу</p>
+						<p class="banBtnIsSent">Вы уже отправили жалобу</p>
 					<?php endif; ?>
 				<?php endif; ?>
 			</div>
