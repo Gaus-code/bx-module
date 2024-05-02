@@ -19,16 +19,6 @@
 				Заявки
 			</a>
 
-			<a href="/admin/tags/" class="aside__btn" id="responsesLink">
-				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/dashboard.svg" alt="project folder" class="userImg">
-				Теги
-			</a>
-
-			<a href="/admin/notifications/" id="notificationLink" class="aside__btn">
-				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
-				Уведомления
-			</a>
-
 			<a href="/admin/feedbacks/" id="commentLink" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/comment.svg" alt="notification folder" class="commentImg">
 				Отзывы
@@ -42,6 +32,11 @@
 			<a href="/admin/categories/" id="commentLink" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/dashboard.svg" alt="project folder" class="userImg">
 				Категории
+			</a>
+
+			<a href="/admin/notifications/" id="notificationLink" class="aside__btn">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
+				Уведомления
 			</a>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>

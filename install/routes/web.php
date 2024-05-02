@@ -81,7 +81,6 @@ return function (RoutingConfigurator $routes)
 
 	//admin
 	$routes->get('/admin/', new PublicPageController('/local/modules/up.ukan/views/admin.php'));
-	$routes->get('/admin/tags/', new PublicPageController('/local/modules/up.ukan/views/admin-tags.php'));
 	$routes->get('/admin/notifications/', new PublicPageController('/local/modules/up.ukan/views/admin-notify.php'));
 	$routes->get('/admin/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/admin-feedback.php'));
 	$routes->get('/admin/users/', new PublicPageController('/local/modules/up.ukan/views/admin-user.php'));
