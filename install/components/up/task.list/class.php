@@ -89,10 +89,11 @@ class TaskListComponent extends CBitrixComponent
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_catalog']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
-		//настройка выборки и добавление условий (со статусом 'search_contractor'  и при необходимости фильтры по тэгам + поиск по нахванию/описанию)
+		//настройка выборки и добавление условий (со статусом 'search_contractor', не забанена  и при необходимости фильтры по тэгам + поиск по нахванию/описанию)
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['ID'])
-			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']);
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])
+			  ->where('IS_BANNED', 'N');
 
 		if (!is_null($this->arParams['CATEGORIES_ID']))
 		{
