@@ -19,25 +19,26 @@ class Report extends Engine\Controller
 		int    $taskId = null,
 	)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-			$fromUserId = (int)$USER->getId();
-			switch ($complaintType)
-			{
-				case 'task':
-					$this->createReportOnTask($fromUserId, $complaintMessage, $taskId);
-					break;
-				case 'user':
-					$this->createReportOnUser($fromUserId, $complaintMessage, $toUserId);
-					break;
-				case 'feedback':
-					$this->createReportOnFeedback($fromUserId, $complaintMessage, $taskId);
-					break;
-				default:
-					LocalRedirect("/access/denied/");
-			}
+			LocalRedirect("/access/denied/");
+		}
 
+		global $USER;
+		$fromUserId = (int)$USER->getId();
+		switch ($complaintType)
+		{
+			case 'task':
+				$this->createReportOnTask($fromUserId, $complaintMessage, $taskId);
+				break;
+			case 'user':
+				$this->createReportOnUser($fromUserId, $complaintMessage, $toUserId);
+				break;
+			case 'feedback':
+				$this->createReportOnFeedback($fromUserId, $complaintMessage, $taskId);
+				break;
+			default:
+				LocalRedirect("/access/denied/");
 		}
 	}
 
@@ -49,6 +50,7 @@ class Report extends Engine\Controller
 		{
 			LocalRedirect("/access/denied/");
 		}
+
 		global $USER;
 		if (!$USER->IsAdmin())
 		{

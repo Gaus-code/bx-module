@@ -8,6 +8,11 @@ class Subscription extends Controller
 {
 	public function getTrialVersionAction()
 	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		global $USER;
 
 		$userId = $USER->GetID();

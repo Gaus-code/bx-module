@@ -28,45 +28,47 @@ class Task extends Controller
 		int    $projectId = null,
 	)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-
-			$clientId = $USER->GetID();
-
-			$errors = $this->validateData(
-				$title,
-				$description,
-				$maxPrice,
-				$tagsString,
-				$useGPT,
-				$deadline,
-				$categoryId,
-				$projectId,
-				$clientId,
-			);
-
-			if ($errors !== [])
-			{
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/task/" . $clientId . "/create/");
-			}
-
-			$task = $this->createTask(
-				$clientId,
-				$projectId,
-				$title,
-				$description,
-				$categoryId,
-				$tagsString,
-				$useGPT,
-				$maxPrice,
-				$deadline
-			);
-
-			LocalRedirect("/task/" . $task->getId() . "/");
-
+			LocalRedirect("/access/denied/");
 		}
+
+		global $USER;
+
+		$clientId = $USER->GetID();
+
+		$errors = $this->validateData(
+			$title,
+			$description,
+			$maxPrice,
+			$tagsString,
+			$useGPT,
+			$deadline,
+			$categoryId,
+			$projectId,
+			$clientId,
+		);
+
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/" . $clientId . "/create/");
+		}
+
+		$task = $this->createTask(
+			$clientId,
+			$projectId,
+			$title,
+			$description,
+			$categoryId,
+			$tagsString,
+			$useGPT,
+			$maxPrice,
+			$deadline
+		);
+
+		LocalRedirect("/task/" . $task->getId() . "/");
+
 	}
 
 	public function updateAction(
@@ -81,109 +83,112 @@ class Task extends Controller
 		int    $projectId = null,
 	)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-			$clientId = $USER->GetID();
+			LocalRedirect("/access/denied/");
+		}
 
-			$errors = $this->validateData(
-				$title,
-				$description,
-				$maxPrice,
-				$tagsString,
-				$useGPT,
-				$deadline,
-				$categoryId,
-				$projectId,
-				$clientId,
-			);
+		global $USER;
+		$clientId = $USER->GetID();
 
-			if ($errors !== [])
-			{
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/task/" . $taskId . "/edit/");
-			}
+		$errors = $this->validateData(
+			$title,
+			$description,
+			$maxPrice,
+			$tagsString,
+			$useGPT,
+			$deadline,
+			$categoryId,
+			$projectId,
+			$clientId,
+		);
 
-			if ($projectId)
-			{
-				$project = ProjectTable::query()
-									   ->setSelect(['ID'])
-									   ->where('ID', $projectId)
-									   ->where('CLIENT_ID', $clientId)
-									   ->fetchObject();
-				if (!$project)
-				{
-					LocalRedirect("/access/denied/");
-				}
-			}
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/" . $taskId . "/edit/");
+		}
 
-			$task = TaskTable::query()
-							 ->setSelect(['*'])
-							 ->where('CLIENT_ID', $clientId)
-							 ->where('ID', $taskId)
-							 ->fetchObject();
-
-			if (!$task)
+		if ($projectId)
+		{
+			$project = ProjectTable::query()
+								   ->setSelect(['ID'])
+								   ->where('ID', $projectId)
+								   ->where('CLIENT_ID', $clientId)
+								   ->fetchObject();
+			if (!$project)
 			{
 				LocalRedirect("/access/denied/");
 			}
-
-			$task->setTitle($title)
-				 ->setMaxPrice($maxPrice)
-				 ->setDescription($description)
-				 ->setCategoryId($categoryId)
-				 ->setDeadline(DateTime::createFromPhp(new \DateTime($deadline)))
-				 ->setUpdatedAt(new DateTime());
-
-
-			$task->removeAllTags();
-
-			if ($useGPT)
-			{
-				$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
-				foreach ($tagsFromGPT as $tag)
-				{
-					$task->addToTags($tag);
-				}
-			}
-
-			if ($tagsString !== '')
-			{
-				$tagsString = str_replace(' ', '', $tagsString);
-				$arrayOfTagsTitle = explode('#', $tagsString);
-				array_shift($arrayOfTagsTitle);
-				foreach ($arrayOfTagsTitle as $tag)
-				{
-					$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
-					if ($tagFromDb)
-					{
-						$task->addToTags($tagFromDb);
-					}
-					else
-					{
-						$newTag = new EO_Tag();
-						$newTag->setTitle($tag)->setCreatedAt(new DateTime())->setUserId($clientId);
-
-						$newTag->save();
-						$task->addToTags($newTag);
-					}
-				}
-			}
-
-			if (isset($projectId))
-			{
-				$projectStage = ProjectStageTable::query()
-												 ->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
-												 ->where('PROJECT_ID', $projectId)
-												 ->where('NUMBER', 0)
-												 ->fetchObject();
-				$projectStage->addToTasks($task);
-			}
-
-			$task->save();
-
-			LocalRedirect("/task/" . $task->getId() . "/");
 		}
+
+		$task = TaskTable::query()
+						 ->setSelect(['*'])
+						 ->where('CLIENT_ID', $clientId)
+						 ->where('ID', $taskId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$task->setTitle($title)
+			 ->setMaxPrice($maxPrice)
+			 ->setDescription($description)
+			 ->setCategoryId($categoryId)
+			 ->setDeadline(DateTime::createFromPhp(new \DateTime($deadline)))
+			 ->setUpdatedAt(new DateTime());
+
+
+		$task->removeAllTags();
+
+		if ($useGPT)
+		{
+			$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+			foreach ($tagsFromGPT as $tag)
+			{
+				$task->addToTags($tag);
+			}
+		}
+
+		if ($tagsString !== '')
+		{
+			$tagsString = str_replace(' ', '', $tagsString);
+			$arrayOfTagsTitle = explode('#', $tagsString);
+			array_shift($arrayOfTagsTitle);
+			foreach ($arrayOfTagsTitle as $tag)
+			{
+				$tagFromDb = TagTable::query()->setSelect(['*'])->where('TITLE', $tag)->fetchObject();
+				if ($tagFromDb)
+				{
+					$task->addToTags($tagFromDb);
+				}
+				else
+				{
+					$newTag = new EO_Tag();
+					$newTag->setTitle($tag)->setCreatedAt(new DateTime())->setUserId($clientId);
+
+					$newTag->save();
+					$task->addToTags($newTag);
+				}
+			}
+		}
+
+		if (isset($projectId))
+		{
+			$projectStage = ProjectStageTable::query()
+											 ->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
+											 ->where('PROJECT_ID', $projectId)
+											 ->where('NUMBER', 0)
+											 ->fetchObject();
+			$projectStage->addToTasks($task);
+		}
+
+		$task->save();
+
+		LocalRedirect("/task/" . $task->getId() . "/");
+
 	}
 
 	public function createAtProjectAction(
@@ -197,148 +202,160 @@ class Task extends Controller
 		int    $projectId = null,
 	)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-
-			$clientId = $USER->GetID();
-
-			$errors = $this->validateData(
-				$title,
-				$description,
-				$maxPrice,
-				$tagsString,
-				$useGPT,
-				$deadline,
-				$categoryId,
-				$projectId,
-				$clientId,
-			);
-
-			if ($errors !== [])
-			{
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/project/$projectId/edit/");
-			}
-
-			$task = $this->createTask(
-				$clientId,
-				$projectId,
-				$title,
-				$description,
-				$categoryId,
-				$tagsString,
-				$useGPT,
-				$maxPrice,
-				$deadline,
-			);
-
-			LocalRedirect("/project/$projectId/");
-
+			LocalRedirect("/access/denied/");
 		}
+
+		global $USER;
+
+		$clientId = $USER->GetID();
+
+		$errors = $this->validateData(
+			$title,
+			$description,
+			$maxPrice,
+			$tagsString,
+			$useGPT,
+			$deadline,
+			$categoryId,
+			$projectId,
+			$clientId,
+		);
+
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/project/$projectId/edit/");
+		}
+
+		$task = $this->createTask(
+			$clientId,
+			$projectId,
+			$title,
+			$description,
+			$categoryId,
+			$tagsString,
+			$useGPT,
+			$maxPrice,
+			$deadline,
+		);
+
+		LocalRedirect("/project/$projectId/");
+
 	}
 
 	public function deleteAction(int $taskId)
 	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		global $USER;
 		$userId = (int)$USER->GetID();
-		if (check_bitrix_sessid())
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'RESPONSES', 'TAGS'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
 		{
-			$task = TaskTable::query()
-							 ->setSelect(['*', 'RESPONSES', 'TAGS'])
-							 ->where('ID', $taskId)
-							 ->where('CLIENT_ID', $userId)
-							 ->fetchObject();
-
-			if (!$task)
-			{
-				LocalRedirect("/access/denied/");
-			}
-
-			$tags = $task->getTags();
-			$responses = $task->getResponses();
-
-			foreach ($tags as $tag)
-			{
-				$task->removeFromTags($tag);
-			}
-			foreach ($responses as $response)
-			{
-				$response->delete();
-			}
-			$responses->save();
-			$task->save();
-
-			if (!TaskTable::delete($taskId))
-			{
-				$errors = ['Что-то пошло не так, не удалось удалить задание'];
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/task/$taskId/edit/");
-			}
-
-			LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
+			LocalRedirect("/access/denied/");
 		}
+
+		$tags = $task->getTags();
+		$responses = $task->getResponses();
+
+		foreach ($tags as $tag)
+		{
+			$task->removeFromTags($tag);
+		}
+		foreach ($responses as $response)
+		{
+			$response->delete();
+		}
+		$responses->save();
+		$task->save();
+
+		if (!TaskTable::delete($taskId))
+		{
+			$errors = ['Что-то пошло не так, не удалось удалить задание'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/$taskId/edit/");
+		}
+
+		LocalRedirect("/profile/" . $USER->getId() . "/tasks/");
+
 	}
 
 	public function stopSearchContractorAction(int $taskId)
 	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
 		global $USER;
 		$userId = (int)$USER->GetID();
-		if (check_bitrix_sessid())
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'RESPONSES', 'TAGS'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
 		{
-			$task = TaskTable::query()
-							 ->setSelect(['*', 'RESPONSES', 'TAGS'])
-							 ->where('ID', $taskId)
-							 ->where('CLIENT_ID', $userId)
-							 ->fetchObject();
-
-			if (!$task)
-			{
-				LocalRedirect("/access/denied/");
-			}
-			if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
-			{
-				$errors = ['По данной заявке нельзя прекратить поиск исполнителя'];
-				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-				LocalRedirect("/task/$taskId/edit/");
-			}
-
-			$task->setStatus(Configuration::getOption('task_status')['wait_start']);
-
-			LocalRedirect("/task/$taskId/");
+			LocalRedirect("/access/denied/");
 		}
+		if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
+		{
+			$errors = ['По данной заявке нельзя прекратить поиск исполнителя'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/$taskId/edit/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['wait_start']);
+
+		LocalRedirect("/task/$taskId/");
+
 	}
 	public function finishTaskAction(int $taskId)
 	{
-		if (check_bitrix_sessid())
+		if (!check_bitrix_sessid())
 		{
-			global $USER;
-			$clientId = (int)$USER->getId();
-
-			$task = TaskTable::query()
-							 ->setSelect(['*'])
-							 ->where('ID', $taskId)
-							 ->where('CLIENT_ID', $clientId)
-							 ->fetchObject();
-
-			if (!$task)
-			{
-				LocalRedirect("/access/denied/");
-			}
-
-			$task->setStatus(Configuration::getOption('task_status')['done']);
-			$task->save();
-
-			$notification = new EO_Notification();
-			$notification->setMessage(Configuration::getOption('notification_message')['task_finished'])
-						 ->setFromUserId($clientId)
-						 ->setToUserId($task->getContractorId())
-						 ->setTaskId($taskId)
-						 ->setCreatedAt(new DateTime());
-			$notification->save();
-
-			LocalRedirect("/task/$taskId/");
+			LocalRedirect("/access/denied/");
 		}
+
+		global $USER;
+		$clientId = (int)$USER->getId();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $clientId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['done']);
+		$task->save();
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['task_finished'])
+					 ->setFromUserId($clientId)
+					 ->setToUserId($task->getContractorId())
+					 ->setTaskId($taskId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		LocalRedirect("/task/$taskId/");
+
 	}
 
 	private function validateData(

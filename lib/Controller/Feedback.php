@@ -20,6 +20,11 @@ class Feedback extends Controller
 	)
 	{
 
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		$errors = $this->validateDataCreateFeedback(
 			$taskId,
 			$fromUserId,
@@ -55,6 +60,11 @@ class Feedback extends Controller
 	)
 	{
 
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		[$errors, $feedback] = $this->validateDataUpdateFeedback(
 			$feedbackId,
 			$rating,
@@ -80,6 +90,11 @@ class Feedback extends Controller
 		int $feedbackId,
 	)
 	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		global $USER;
 		$userId = (int)$USER->GetID();
 
