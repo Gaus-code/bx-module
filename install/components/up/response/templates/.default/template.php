@@ -67,7 +67,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task__header">
 									<?php
 									foreach ($response->getTask()->getTags() as $tag): ?>
-										<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
+										<p class="task__tag">#<?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 									<?php
 									endforeach; ?>
 								</div>
@@ -147,7 +147,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="task__header">
 									<?php
 									foreach ($response->getTask()->getTags() as $tag): ?>
-										<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
+										<p class="task__tag">#<?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 									<?php
 									endforeach; ?>
 								</div>
