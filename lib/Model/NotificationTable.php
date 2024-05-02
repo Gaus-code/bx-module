@@ -91,7 +91,6 @@ class NotificationTable extends DataManager
 			new IntegerField(
 				'TASK_ID',
 				[
-					'required' => true,
 					'title' => Loc::getMessage('NOTIFICATION_ENTITY_TASK_ID_FIELD')
 				]
 			),

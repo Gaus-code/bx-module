@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS up_ukan_notification
 	`MESSAGE`      varchar(255) not null,
 	`FROM_USER_ID` int          not null,
 	`TO_USER_ID`   int          not null,
-	`TASK_ID`      int          not null,
+	`TASK_ID`      int,
 	`CREATED_AT`   datetime     not null,
 	PRIMARY KEY (
 	             `ID`

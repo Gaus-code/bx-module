@@ -26,6 +26,8 @@ return array(
 		'task_unblock' => 'Задача разблокирована',
 		'feedback_block' => 'Отзыв заблокирован',
 		'feedback_unblock' => 'Отзыв разблокирован',
+		'user_block' => 'Ваш профиль заблокирован',
+		'user_unblock' => 'Ваш профиль разблокирован',
 	),
 	'response_status' => array(
 		'wait' => 'Ожидает',

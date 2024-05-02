@@ -337,3 +337,13 @@ __ukanMigrate(23, function($updater, $DB) {
 		);
 	}
 });
+
+__ukanMigrate(24, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_notification'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_notification`
+	MODIFY COLUMN `TASK_ID` int;"
+		);
+	}
+});

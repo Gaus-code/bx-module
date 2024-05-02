@@ -277,12 +277,12 @@ class Block extends Engine\Controller
 			 ->setIsBanned('Y');
 		$user->save();
 
-		// $notification = new EO_Notification();
-		// $notification->setMessage(Configuration::getOption('notification_message')['user_block'])
-		// 			 ->setFromUserId($USER->GetID())
-		// 			 ->setToUserId($userId)
-		// 			 ->setCreatedAt(new DateTime());
-		// $notification->save();
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['user_block'])
+					 ->setFromUserId($USER->GetID())
+					 ->setToUserId($userId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
 
 		$report = ReportsTable::query()
 							  ->setSelect(['*'])
@@ -323,12 +323,12 @@ class Block extends Engine\Controller
 		$user->setIsBanned('N');
 		$user->save();
 
-		// $notification = new EO_Notification();
-		// $notification->setMessage(Configuration::getOption('notification_message')['user_unblock'])
-		// 			 ->setFromUserId($USER->GetID())
-		// 			 ->setToUserId($userId)
-		// 			 ->setCreatedAt(new DateTime());
-		// $notification->save();
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['user_unblock'])
+					 ->setFromUserId($USER->GetID())
+					 ->setToUserId($userId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
 
 		LocalRedirect("/profile/$userId/");
 
