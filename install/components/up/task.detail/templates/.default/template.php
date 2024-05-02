@@ -22,7 +22,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 					<p class="task__categories"><?= $arResult['TASK']->getCategory()->getTitle() ?></p>
 					<?php
 					foreach ($arResult['TASK']->getTags() as $tag): ?>
-						<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
+						<p class="task__tag">#<?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 					<?php
 					endforeach; ?>
 				</div>
@@ -88,7 +88,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 										<?php foreach ($arResult['TASK']->getTags() as $tag): ?>
 											<li class="filter__item">
 												<input type="checkbox" class="filter__checkbox" name="tagsId[]" value="<?=$tag->getId()?>">
-												<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
+												<label class="filter__label">#<?= htmlspecialcharsbx($tag->getTitle()) ?></label>
 											</li>
 										<?php endforeach; ?>
 									</ul>
