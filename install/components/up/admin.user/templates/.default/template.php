@@ -57,6 +57,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php endforeach;?>
 				</tbody>
 			</table>
+				<?php
+				if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+				{
+					$APPLICATION->IncludeComponent('up:pagination', '', [
+						'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+					]);
+				}
+				?>
 			<?php else:?>
 				<div class="contractor__emptyContainer">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">
