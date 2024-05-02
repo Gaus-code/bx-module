@@ -105,8 +105,8 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								</form>
 							</li>
 						<?php endif; ?>
-					<?php else :?>
-						<?php if (!$arResult['ISSET_REPORT'] && $arResult['USER_ACTIVITY'] !== 'owner'): ?>
+					<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner') :?>
+						<?php if (!$arResult['ISSET_REPORT'] ): ?>
 						<li class="metaContainer__item">
 							<button class="banBtn" type="button">Пожаловаться</button>
 							<form class="banForm" action="/report/create/" method="post">
@@ -120,7 +120,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</li>
-						<?php elseIf ($arResult['USER_ACTIVITY'] !== 'owner'):?>
+						<?php else: ?>
 							<p class="banBtn">Вы уже отправили жалобу</p>
 						<?php endif; ?>
 					<?php endif; ?>
