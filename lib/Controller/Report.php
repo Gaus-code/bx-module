@@ -16,7 +16,7 @@ class Report extends Engine\Controller
 		string $complaintType = null,
 		string $complaintMessage = null,
 		int    $toUserId = null,
-		int    $toTaskId = null,
+		int    $taskId = null,
 	)
 	{
 		if (check_bitrix_sessid())
@@ -26,13 +26,13 @@ class Report extends Engine\Controller
 			switch ($complaintType)
 			{
 				case 'task':
-					$this->createReportOnTask($fromUserId, $complaintMessage, $toTaskId);
+					$this->createReportOnTask($fromUserId, $complaintMessage, $taskId);
 					break;
 				case 'user':
 					$this->createReportOnUser($fromUserId, $complaintMessage, $toUserId);
 					break;
 				case 'feedback':
-					$this->createReportOnFeedback($fromUserId, $complaintMessage, $toTaskId);
+					$this->createReportOnFeedback($fromUserId, $complaintMessage, $taskId);
 					break;
 				default:
 					LocalRedirect("/access/denied/");
@@ -67,9 +67,9 @@ class Report extends Engine\Controller
 
 	}
 
-	private function createReportOnTask(int $fromUserId, string $complaintMessage, int $toTaskId)
+	private function createReportOnTask(int $fromUserId, string $complaintMessage, int $taskId)
 	{
-		$task = TaskTable::getById($toTaskId)->fetchObject();
+		$task = TaskTable::getById($taskId)->fetchObject();
 		if (!$task)
 		{
 			LocalRedirect("/access/denied/");
@@ -80,7 +80,7 @@ class Report extends Engine\Controller
 		$report = \Up\Ukan\Model\ReportsTable::query()
 											 ->setSelect(['ID'])
 											 ->where('FROM_USER_ID', $fromUserId)
-											 ->where('TASK_ID', $toTaskId)
+											 ->where('TASK_ID', $taskId)
 											 ->where('TYPE', 'task')
 											 ->fetchObject();
 
@@ -91,7 +91,7 @@ class Report extends Engine\Controller
 
 		$report = new EO_Reports();
 		$report->setType('task')
-			   ->setTaskId($toTaskId)
+			   ->setTaskId($taskId)
 			   ->setFromUserId($fromUserId)
 			   ->setToUserId($toUserId);
 
@@ -101,7 +101,7 @@ class Report extends Engine\Controller
 		}
 		$report->save();
 
-		LocalRedirect("/catalog/");
+		LocalRedirect("/task/$taskId/");
 	}
 
 	private function createReportOnUser(int $fromUserId, string $complaintMessage, int $toUserId)
@@ -134,13 +134,13 @@ class Report extends Engine\Controller
 		}
 		$report->save();
 
-		LocalRedirect("/catalog/");
+		LocalRedirect("/profile/$toUserId/");
 
 	}
 
-	private function createReportOnFeedback(int $fromUserId, string $complaintMessage, int $toTaskId)
+	private function createReportOnFeedback(int $fromUserId, string $complaintMessage, int $taskId)
 	{
-		$task = TaskTable::getById($toTaskId)->fetchObject();
+		$task = TaskTable::getById($taskId)->fetchObject();
 		if (!$task)
 		{
 			LocalRedirect("/access/denied/");
@@ -149,7 +149,7 @@ class Report extends Engine\Controller
 		$report = \Up\Ukan\Model\ReportsTable::query()
 											 ->setSelect(['ID'])
 											 ->where('FROM_USER_ID', $fromUserId)
-											 ->where('TASK_ID', $toTaskId)
+											 ->where('TASK_ID', $taskId)
 											 ->where('TYPE', 'feedback')
 											 ->fetchObject();
 
@@ -160,7 +160,7 @@ class Report extends Engine\Controller
 
 		$feedback = FeedbackTable::query()->setSelect(['*'])
 										  ->where('TO_USER_ID', $fromUserId)
-										  ->where('TASK_ID', $toTaskId)
+										  ->where('TASK_ID', $taskId)
 										  ->fetchObject();
 
 
@@ -174,7 +174,7 @@ class Report extends Engine\Controller
 		$report = new EO_Reports();
 		$report->setType('feedback')
 			   ->setFeedbackId($feedback->getId())
-			   ->setTaskId($toTaskId)
+			   ->setTaskId($taskId)
 			   ->setFromUserId($fromUserId)
 			   ->setToUserId($toUserId);
 
@@ -184,7 +184,7 @@ class Report extends Engine\Controller
 		}
 		$report->save();
 
-		LocalRedirect("/task/$toTaskId/");
+		LocalRedirect("/task/$taskId/");
 	}
 
 }

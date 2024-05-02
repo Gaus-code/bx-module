@@ -355,6 +355,13 @@ class Task extends Controller
 	{
 		$errors = [];
 
+		$user = UserTable::getById($clientId)->fetchObject();
+		if ($user && $user->getIsBanned())
+		{
+			$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+			return $errors;
+		}
+
 		if (!$title)
 		{
 			$errors [] = 'Название не может быть пустым';

@@ -10,6 +10,7 @@ use Up\Ukan\Model\EO_Response;
 use Up\Ukan\Model\NotificationTable;
 use Up\Ukan\Model\ResponseTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Model\UserTable;
 use Up\Ukan\Service\Configuration;
 
 class Response extends Engine\Controller
@@ -130,6 +131,12 @@ class Response extends Engine\Controller
 				LocalRedirect("/access/denied/");
 			}
 
+			$user = UserTable::getById($userId)->fetchObject();
+			if ($user && $user->getIsBanned())
+			{
+				LocalRedirect("/access/denied/");
+			}
+
 			$task->setContractorId($contractorId);
 			$task->setStatus(Configuration::getOption('task_status')['at_work']);
 			$task->save();
@@ -228,6 +235,13 @@ class Response extends Engine\Controller
 
 		if (!isset($task))
 		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$user = UserTable::getById($userId)->fetchObject();
+		if ($user && $user->getIsBanned())
+		{
+			//$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
 			LocalRedirect("/access/denied/");
 		}
 

@@ -124,7 +124,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<button id="closeFormBtn" type="button">
 							<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
 						</button>
-						<input name="toTaskId" hidden="hidden" value="<?=$arParams['TASK']->getId()?>">
+						<input name="taskId" hidden="hidden" value="<?=$arParams['TASK']->getId()?>">
 						<input name="feedbackId" hidden="hidden" value="<?=$feedback->getId() ?>">
 						<input hidden="hidden" name="complaintType" value="feedback">
 						<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>

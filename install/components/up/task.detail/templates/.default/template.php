@@ -114,7 +114,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								<button id="closeFormBtn" type="button">
 									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
 								</button>
-								<input name="toTaskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
+								<input name="taskId" hidden="hidden" value="<?= $arResult['TASK']->getId() ?>">
 								<input hidden="hidden" name="complaintType" value="task">
 								<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
 								<button id="sendComplaint" type="submit">Отправить</button>

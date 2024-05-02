@@ -24,6 +24,14 @@ class User extends Engine\Controller
 		{
 			global $USER;
 
+			$user = UserTable::getById($USER->GetID())->fetchObject();
+			if ($user && $user->getIsBanned())
+			{
+				$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+				Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
+			}
+
 			if (!empty(Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail))) {
 				$errors = Validation::validateUserTextFields($userName, $userLastName, $userLogin, $userEmail);
 				Application::getInstance()->getSession()->set('errors', $errors);
@@ -122,6 +130,14 @@ class User extends Engine\Controller
 		{
 			global $USER;
 			$userId = $USER->GetID();
+
+			$user = UserTable::getById($userId)->fetchObject();
+			if ($user && $user->getIsBanned())
+			{
+				$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+				Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
+			}
 
 			if (!empty($contacts))
 			{

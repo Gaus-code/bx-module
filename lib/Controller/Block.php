@@ -9,6 +9,7 @@ use Up\Ukan\Model\FeedbackTable;
 use Up\Ukan\Model\ReportsTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
+use Up\Ukan\Model\UserTable;
 use Up\Ukan\Service\Configuration;
 
 class Block extends Engine\Controller
@@ -244,6 +245,92 @@ class Block extends Engine\Controller
 
 
 		LocalRedirect("/task/$taskId/");
+
+	}
+
+	public function blockUserAction(
+		int $userId = null,
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$user = UserTable::getById($userId)->fetchObject();
+
+		if (!$user)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$email = $user->fillBUser()->getEmail();
+		$user->setBio('Описание удалено')
+			 ->setContacts($email)
+			 ->setSubscriptionEndDate((new DateTime())->add("-1 day"))
+			 ->setIsBanned('Y');
+		$user->save();
+
+		// $notification = new EO_Notification();
+		// $notification->setMessage(Configuration::getOption('notification_message')['user_block'])
+		// 			 ->setFromUserId($USER->GetID())
+		// 			 ->setToUserId($userId)
+		// 			 ->setCreatedAt(new DateTime());
+		// $notification->save();
+
+		$report = ReportsTable::query()
+							  ->setSelect(['*'])
+							  ->where('TO_USER_ID', $userId)
+							  ->where('TYPE', 'user')
+							  ->fetchObject();
+		if ($report)
+		{
+			ReportsTable::delete($report->getId());
+		}
+
+		LocalRedirect("/profile/$userId/");
+
+	}
+
+	public function unblockUserAction(
+		int $userId = null,
+	)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		if (!$USER->IsAdmin())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$user = UserTable::getById($userId)->fetchObject();
+
+		if (!$user)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$user->setIsBanned('N');
+		$user->save();
+
+		// $notification = new EO_Notification();
+		// $notification->setMessage(Configuration::getOption('notification_message')['user_unblock'])
+		// 			 ->setFromUserId($USER->GetID())
+		// 			 ->setToUserId($userId)
+		// 			 ->setCreatedAt(new DateTime());
+		// $notification->save();
+
+		LocalRedirect("/profile/$userId/");
 
 	}
 

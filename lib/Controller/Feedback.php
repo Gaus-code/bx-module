@@ -133,6 +133,13 @@ class Feedback extends Controller
 								 ->where('TASK_ID', $taskId)
 								 ->fetchObject();
 
+		$user = UserTable::getById($fromUserId)->fetchObject();
+		if ($user && $user->getIsBanned())
+		{
+			$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+			return $errors;
+		}
+
 		if (isset($feedback))
 		{
 			$errors[] = 'Похоже, вы уже оставили отзыв😑';
@@ -174,9 +181,17 @@ class Feedback extends Controller
 			LocalRedirect("/access/denied/");
 		}
 
+		$user = $feedback->fillFromUser();
+		if ($user && $user->getIsBanned())
+		{
+			$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+			return $errors;
+		}
+
 		if ($feedback->getIsBanned())
 		{
 			$errors [] = 'Отзыв заблокирован, Вы не можете его отредактировать!';
+			return $errors;
 		}
 
 		if (!$rating || !is_numeric($rating) || (int)$rating < 0)

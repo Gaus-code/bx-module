@@ -98,4 +98,6 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/tag/block/', [\Up\Ukan\Controller\Block::class, 'blockTag']);
 	$routes->post('/feedback/block/', [\Up\Ukan\Controller\Block::class, 'blockFeedback']);
 	$routes->post('/feedback/unblock/', [\Up\Ukan\Controller\Block::class, 'unblockFeedback']);
+	$routes->post('/user/block/', [\Up\Ukan\Controller\Block::class, 'blockUser']);
+	$routes->post('/user/unblock/', [\Up\Ukan\Controller\Block::class, 'unblockUser']);
 };
