@@ -34,9 +34,14 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 				<div class="detail__container">
 					<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
 				</div>
+				<?php if (!empty($arResult['TASK']->getDeadline())): ?>
+					<div class="detail__container">
+						<div class="detail__status">Дедлайн: <?= $arResult['TASK']->getDeadline() ?></div>
+					</div>
+				<?php endif;?>
 				<?php if (!empty($arResult['TASK']->getMaxPrice())): ?>
 					<div class="detail__container">
-						<div class="detail__status">до <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
+						<div class="detail__status">До <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
 					</div>
 				<?php endif;?>
 			</section>
