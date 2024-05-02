@@ -68,7 +68,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</form>
 						<?php endif; ?>
 					<?php else: ?>
-						<?php if ($arResult['USER_ACTIVITY'] !== 'owner'):?>
+						<?php if ($arResult['USER']->getIsBanned()):?>
+							<p class="banBtn">Профиль заблокирован</p>
+						<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner'):?>
 							<?php if (!$arResult['ISSET_REPORT']):?>
 <!--							если зашел НЕ владелец задачи и не было жалоб от него-->
 								<button class="banBtn" type="button">Пожаловаться на пользователя</button>
