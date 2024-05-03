@@ -90,7 +90,9 @@ class User
 		return True;
 	}
 
-	public static function getUserImageId($userId)
+	public static function getUserImageId(
+		int $userId
+	)
 	{
 		return BUserTable::query()
 			->setSelect(['PERSONAL_PHOTO'])
@@ -98,7 +100,10 @@ class User
 			->fetch()['PERSONAL_PHOTO'];
 	}
 
-	public static function setUserImage($userId, $fileId)
+	public static function setUserImage(
+		int $userId,
+		int $fileId
+	)
 	{
 		$user = BUserTable::getById($userId)->fetchObject();
 		$user->set('PERSONAL_PHOTO', $fileId);
@@ -109,7 +114,10 @@ class User
 		}
 	}
 
-	public static function deleteUserImage($userId)
+	public static function deleteUserImage(
+		int
+		$userId
+	)
 	{
 		$photo = BUserTable::query()
 			->setSelect(['PERSONAL_PHOTO'])

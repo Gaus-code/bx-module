@@ -8,6 +8,7 @@ class File
 	public const ACCEPTED_IMAGE_TYPES = [
 		'image/',
 	];
+	public const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
 
 	public static function saveUserImage(
 		int $userId,

@@ -15,6 +15,13 @@ body {
 }
 
 /*header styles start*/
+#styleModeBtn {
+    color: var(--color-bg-text);
+    background-color: var(--color-primary-purple);
+    border-radius: 8px;
+    padding: 2px 5px;
+}
+
 .header {
     display: flex;
     flex-direction: row;

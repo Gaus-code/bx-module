@@ -233,7 +233,7 @@
 }
 
 .changeImageBtn:hover, .changeImageBtn:focus {
-    background: var(--color-primary-white);
+    background: inherit;
     transition: 0.4s;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }

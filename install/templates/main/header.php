@@ -27,10 +27,7 @@
 		<nav class="header__nav">
 			<a href="/" class="header__link" id="mainLink">Главная</a>
 			<a href="/catalog/" class="header__link" id="catalogLink">Каталог</a>
-			<?php if ($USER->IsAdmin()):?>
-				<a href="/admin/" class="header__link" id="catalogLink">Администрирование</a>
-			<?php endif;?>
-			<button id="styleModeBtn">Сменить тему</button>
+			<button id="styleModeBtn">Сменить тему(тестовая кнопка)</button>
 		</nav>
 	</div>
 	<?php if (!$USER->IsAuthorized()): ?>
@@ -45,14 +42,21 @@
 		</div>
 		<div class="header__modal">
 			<ul class="header__modalList">
-				<li class="header__modalItem">
-					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerMiniUser.svg" alt="logout image">
-					<a href="/profile/<?= $USER->GetID() ?>/" class="header__modalLink">Аккаунт</a>
-				</li>
-				<li class="header__modalItem">
-					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logout.svg" alt="logout image">
-					<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="header__modalLink">Выход</a>
-				</li>
+				<?php if ($USER->IsAdmin()):?>
+					<li class="header__modalItem">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerMiniUser.svg" alt="logout image">
+						<a href="/admin/" class="header__modalLink">Администрирование</a>
+					</li>
+				<?php else:?>
+					<li class="header__modalItem">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerMiniUser.svg" alt="logout image">
+						<a href="/profile/<?= $USER->GetID() ?>/" class="header__modalLink">Аккаунт</a>
+					</li>
+				<?php endif;?>
+					<li class="header__modalItem">
+						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/logout.svg" alt="logout image">
+						<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="header__modalLink">Выход</a>
+					</li>
 			</ul>
 		</div>
 	<?php endif; ?>

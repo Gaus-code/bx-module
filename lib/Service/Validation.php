@@ -25,7 +25,9 @@ class Validation
 		return $error;
 	}
 
-	public static function validateUserPassword(string $userPassword): ?array
+	public static function validateUserPassword(
+		string $userPassword
+	): ?array
 	{
 		$error = [];
 		if (empty(trim($userPassword)) || strlen($userPassword) < 8 || !preg_match('/[0-9]/', $userPassword) || !preg_match('/[a-zA-Z]/', $userPassword))
@@ -35,7 +37,9 @@ class Validation
 		return $error;
 	}
 
-	public static function validateUserEmail(string $userEmail): ?array
+	public static function validateUserEmail(
+		string $userEmail
+	): ?array
 	{
 		$error = [];
 		if (!filter_var($userEmail, FILTER_VALIDATE_EMAIL))
@@ -48,7 +52,9 @@ class Validation
 		}
 		return $error;
 	}
-	public static function checkLoginExists( string $userLogin): ?array
+	public static function checkLoginExists(
+		string $userLogin
+	): ?array
 	{
 		$error = [];
 		if (mb_strlen ($userLogin) < 3)
