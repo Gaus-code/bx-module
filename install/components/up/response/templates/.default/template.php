@@ -89,11 +89,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</div>
 							</a>
 							<?php
-							if (
-								$response->getTask()->getStatus() === \Up\Ukan\Service\Configuration::getOption(
-									'response_status'
-								)['wait']
-							): ?>
+							if ($response->getStatus() === \Up\Ukan\Service\Configuration::getOption('response_status')['wait']): ?>
 								<div class="task__responseFooter">
 									<form action="/response/delete/" method="post">
 										<?= bitrix_sessid_post() ?>

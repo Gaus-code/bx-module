@@ -14,8 +14,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 <section class="detail__footer">
 	<div class="detail__status">
-		<span> Эта задача уже выполняется им:  </span>
-		<p> Имя: <?= htmlspecialcharsbx($arResult['CONTRACTOR']->getBUser()->getName() . ' ' .  $arResult['CONTRACTOR']->getBUser()->getLastName())?></p>
-		<p> Как связаться: <?= htmlspecialcharsbx($arResult['CONTRACTOR']->getContacts()) ?></p>
+		<span> Эта задача уже выполняется!  </span>
 	</div>
 </section>
