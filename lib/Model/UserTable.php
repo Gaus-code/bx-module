@@ -111,13 +111,20 @@ class UserTable extends DataManager
 				"AVG(%s)",
 				['FEEDBACKS_TO.RATING']
 			),
-			new IntegerField(
+			new ExpressionField(
 				'FEEDBACK_COUNT',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('USER_ENTITY_FEEDBACK_COUNT_FIELD'),
-					'default_value'=>0,
-				]
+				"COUNT(%s)",
+				['FEEDBACKS_TO.RATING']
+			),
+			new ExpressionField(
+				'PROJECTS_COUNT',
+				"COUNT(%s)",
+				['PROJECTS.ID']
+			),
+			new ExpressionField(
+				'TASKS_COUNT',
+				"COUNT(%s)",
+				['TASKS_CLIENT.ID']
 			),
 			new BooleanField(
 				'IS_BANNED', [
