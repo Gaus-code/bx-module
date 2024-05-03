@@ -27,7 +27,14 @@
 		<nav class="header__nav">
 			<a href="/" class="header__link" id="mainLink">Главная</a>
 			<a href="/catalog/" class="header__link" id="catalogLink">Каталог</a>
-			<button id="styleModeBtn">Сменить тему(тестовая кнопка)</button>
+			<div>
+				<input type="checkbox" id="styleModeBtn">
+				<label for="styleModeBtn" class="styleModeLabel">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/sun.svg" alt="sun img" class="styleModeIcon styleModeMoon">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/moon.svg" alt="moon img" class="styleModeIcon styleModeSun">
+					<div class="ball"></div>
+				</label>
+			</div>
 		</nav>
 	</div>
 	<?php if (!$USER->IsAuthorized()): ?>

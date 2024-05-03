@@ -14,11 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	const enableDarkStyle = () => {
 		document.body.classList.add('darkStyle');
 		localStorage.setItem('styleMode', 'dark');
+		styleToggle.checked = true;
 	};
 
 	const disableDarkStyle = () => {
 		document.body.classList.remove('darkStyle');
 		localStorage.setItem('styleMode', null);
+		styleToggle.checked = false;
 	};
 
 	styleToggle.addEventListener('click', () => {
