@@ -31,34 +31,36 @@ class AdminFeedbackComponent extends CBitrixComponent
 	protected function fetchCategories()
 	{
 		global $USER;
-		if ($USER->IsAdmin())
+		if (!$USER->IsAdmin())
 		{
-			$nav = new \Bitrix\Main\UI\PageNavigation("project.list");
-			$nav->allowAllRecords(true)
-				->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['admin_tables']);
-			$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
-
-			$query = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*']);
-
-			$query->addOrder('TITLE');
-			$query->setLimit($nav->getLimit() + 1);
-			$query->setOffset($nav->getOffset());
-
-			$result = $query->fetchCollection();
-			$nav->setRecordCount($nav->getOffset() + count($result));
-
-			$arrayOfCategories = $result->getAll();
-			if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
-			{
-				$this->arParams['EXIST_NEXT_PAGE'] = true;
-				array_pop($arrayOfCategories);
-			}
-			else
-			{
-				$this->arParams['EXIST_NEXT_PAGE'] = false;
-			}
-
-			$this->arResult['ADMIN_CATEGORIES'] = $arrayOfCategories;
+			LocalRedirect('/access/denied/');
 		}
+
+		$nav = new \Bitrix\Main\UI\PageNavigation("admin_tables");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['admin_tables']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		$query = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*']);
+
+		$query->addOrder('TITLE');
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
+
+		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
+
+		$arrayOfCategories = $result->getAll();
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($arrayOfCategories);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['ADMIN_CATEGORIES'] = $arrayOfCategories;
 	}
 }

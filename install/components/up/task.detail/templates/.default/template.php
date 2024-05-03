@@ -22,7 +22,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 					<p class="task__categories"><?= $arResult['TASK']->getCategory()->getTitle() ?></p>
 					<?php
 					foreach ($arResult['TASK']->getTags() as $tag): ?>
-						<p class="task__tag"><?= htmlspecialcharsbx($tag->getTitle()) ?></p>
+						<p class="task__tag">#<?= htmlspecialcharsbx($tag->getTitle()) ?></p>
 					<?php
 					endforeach; ?>
 				</div>
@@ -34,9 +34,14 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 				<div class="detail__container">
 					<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
 				</div>
+				<?php if (!empty($arResult['TASK']->getDeadline())): ?>
+					<div class="detail__container">
+						<div class="detail__status">Дедлайн: <?= $arResult['TASK']->getDeadline() ?></div>
+					</div>
+				<?php endif;?>
 				<?php if (!empty($arResult['TASK']->getMaxPrice())): ?>
 					<div class="detail__container">
-						<div class="detail__status">до <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
+						<div class="detail__status">До <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
 					</div>
 				<?php endif;?>
 			</section>
@@ -95,7 +100,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 										<?php foreach ($arResult['TASK']->getTags() as $tag): ?>
 											<li class="filter__item">
 												<input type="checkbox" class="filter__checkbox" name="tagsId[]" value="<?=$tag->getId()?>">
-												<label class="filter__label"><?= htmlspecialcharsbx($tag->getTitle()) ?></label>
+												<label class="filter__label">#<?= htmlspecialcharsbx($tag->getTitle()) ?></label>
 											</li>
 										<?php endforeach; ?>
 									</ul>
@@ -112,8 +117,8 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 							</form>
 						</div>
 					<?php endif; ?>
-				<?php else :?>
-					<?php if (!$arResult['ISSET_REPORT'] && $arResult['USER_ACTIVITY'] !== 'owner'): ?>
+				<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner') :?>
+					<?php if (!$arResult['ISSET_REPORT'] ): ?>
 						<div class="metaContainer__item">
 							<button class="banBtn" type="button">Пожаловаться</button>
 							<form class="banForm" action="/report/create/" method="post">
@@ -127,7 +132,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								<button id="sendComplaint" type="submit">Отправить</button>
 							</form>
 						</div>
-					<?php elseIf ($arResult['USER_ACTIVITY'] !== 'owner'):?>
+					<?php else: ?>
 						<p class="banBtnIsSent">Вы уже отправили жалобу</p>
 					<?php endif; ?>
 				<?php endif; ?>

@@ -51,7 +51,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<th>Описание проекта</th>
 							<th>Дата создания</th>
 							<th>Последние изменения</th>
+							<?php if (!$arResult['USER_IS_BANNED']):?>
 							<th></th>
+							<?php endif; ?>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,9 +63,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<td data-label="Дата создания"><?= htmlspecialcharsbx($project->getDescription()) ?></td>
 							<td data-label="Количество задач"><?= $project->getCreatedAt()->format('d.m.Y') ?></td>
 							<td data-label="Количество исполнителей"><?= $project->getUpdatedAt()->format('d.m.Y H:m') ?></td>
+							<?php if (!$arResult['USER_IS_BANNED']):?>
 							<td data-label="Редактировать">
 								<a class="editProject" href="/project/<?= $project->getId() ?>/">Посмотреть проект</a>
 							</td>
+							<?php endif; ?>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
@@ -93,7 +97,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<th>Дата создания</th>
 							<th>Количество задач</th>
 							<th>Количество исполнителей</th>
+							<?php if (!$arResult['USER_IS_BANNED']):?>
 							<th></th>
+							<?php endif; ?>
 						</tr>
 						</thead>
 						<tbody>
@@ -102,9 +108,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<td data-label="Дата создания">HARDCODE!!!</td>
 								<td data-label="Количество задач">10 (HARDCODE!!!!)</td>
 								<td data-label="Количество исполнителей">9 (HARDCODE!!!!)</td>
+								<?php if (!$arResult['USER_IS_BANNED']):?>
 								<td data-label="Редактировать">
 									<a class="editProject" href="/project/HARDCODE!!!/">Посмотреть проект</a>
 								</td>
+								<?php endif; ?>
 							</tr>
 						</tbody>
 					</table>

@@ -30,6 +30,7 @@
 			<?php if ($USER->IsAdmin()):?>
 				<a href="/admin/" class="header__link" id="catalogLink">Администрирование</a>
 			<?php endif;?>
+			<button id="styleModeBtn">Сменить тему</button>
 		</nav>
 	</div>
 	<?php if (!$USER->IsAuthorized()): ?>

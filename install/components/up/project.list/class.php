@@ -5,6 +5,7 @@ class UserProjectsComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->fetchProjects();
+		$this->fetchUserBan();
 		$this->includeComponentTemplate();
 	}
 
@@ -64,5 +65,11 @@ class UserProjectsComponent extends CBitrixComponent
 		}
 
 		$this->arResult['PROJECTS'] = $arrayOfProjects;
+	}
+
+	private function fetchUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
 	}
 }

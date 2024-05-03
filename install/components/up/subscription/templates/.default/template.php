@@ -56,7 +56,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?=\Up\Ukan\Service\Configuration::getOption('subscription')['trial_subscription_period_in_days']?>
 					дней
 				</h4>
-				<button class="subscription__btn" type="submit">Оформить подписку</button>
+				<button class="subscription__btn" type="submit">Оформить пробную версию</button>
 			</form>
 		</div>
 	</div>

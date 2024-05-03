@@ -64,6 +64,7 @@
     font-size: 18px;
     line-height: 24px;
     word-break: break-word;
+    color: var(--color-bg-text);
 }
 
 .detail__container {
@@ -111,6 +112,7 @@
 
 .detail__form label {
     font-size: 18px;
+    color: var(--color-bg-text);
 }
 
 .detail__form textarea {
@@ -123,6 +125,7 @@
     font-size: 18px;
     padding: 10px;
     color: var(--color-primary-purple);
+    background-color: var(--color-bg-input);
 }
 
 .detail__btn {
@@ -154,7 +157,7 @@
 
 .detail__metaContainer {
     padding: 15px 25px;
-    background-color: var(--color-primary-white);
+    background-color: var(--color-bg-modal);
     border-radius: 6px;
     border: 1px solid var(--color-primary-purple);
     box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
@@ -168,6 +171,7 @@
 .metaContainer__header h2 {
     font-size: 18px;
     font-weight: 600;
+    color: var(--color-bg-text);
 }
 
 .metaContainer__info span {
@@ -175,7 +179,7 @@
 }
 
 .metaContainer__info a {
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }
 
 .metaContainer__info a:hover, .metaContainer__info a:focus {
@@ -199,6 +203,7 @@
 
 .metaContainer__info {
     font-size: 16px;
+    color: var(--color-bg-text);
 }
 
 .rating-area {
@@ -404,6 +409,7 @@
     padding: 10px;
     border: 1px solid var(--color-primary-purple);
     border-radius: 6px;
+    background-color: var(--color-bg-input);
 }
 
 #sendComplaint {
@@ -413,10 +419,11 @@
     background-color: var(--color-primary-purple);
     border-radius: 6px;
     border: 2px solid var(--color-primary-purple);
+    color: var(--color-bg-text);
 }
 
 #sendComplaint:hover, #sendComplaint:active, #sendComplaint:focus {
-    background-color: #fff;
+    background-color: inherit;
     transition: 0.3s;
 }
 

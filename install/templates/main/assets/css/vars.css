@@ -13,4 +13,21 @@
     --color-warning-green: rgba(72, 164, 122, 1);
     --color-primary-border: rgba(228, 216, 216, 0.4);
     --bg-color-primary-purple: linear-gradient(180.00deg, rgb(206, 159, 252),rgb(165, 130, 247) 50.521%,rgb(115, 103, 240) 100%);
+    --color-bg-body: inherit;
+    --color-bg-text: rgb(0, 0, 0);
+    --color-bg-modal: #FFF;
+    --color-bg-input: #FFF;
+    --color-bg-subscription: #FFF;
+    --color-main-title: rgb(37, 36, 36);
+    --color-bg-placeholder: gray;
+}
+
+.darkStyle {
+    --color-bg-modal: rgba(30, 30, 30, 0.9);
+    --color-bg-body: rgb(0, 0, 0);
+    --color-bg-subscription: rgb(0, 0, 0);
+    --color-bg-text: rgb(255, 255, 255);
+    --color-main-title: rgb(255, 255, 255);
+    --color-bg-input: rgba(228, 216, 216, 0.4);
+    --color-bg-placeholder: rgb(255, 255, 255);
 }

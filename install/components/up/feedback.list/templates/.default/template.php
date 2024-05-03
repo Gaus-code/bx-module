@@ -89,7 +89,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php else:?>
 					<div class="contractor__emptyContainer">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoTasks.svg" alt="no tasks image">
-						<p>у вас пока нет отзывов от исполнителей</p>
+						<p>у вас пока нет отзывов</p>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -115,12 +115,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="comment__footer">
 									<p class="comment__date"> <span>Опубликован:</span> <?= $feedback->getCreatedAt() ?></p>
 									<div class="comment__btnContainer">
+										<?php if (!$arResult['USER_IS_BANNED'] && !$feedback->getIsBanned):?>
 										<a href="/feedback/<?= $feedback->getId() ?>/edit/">Редактировать</a>
 										<form method="post" action="/feedback/delete/">
 											<?= bitrix_sessid_post() ?>
 											<input hidden="hidden" name="feedbackId" value="<?= $feedback->getId() ?>">
 											<button type="submit">Удалить</button>
 										</form>
+										<?php endif; ?>
 									</div>
 								</div>
 							</li>

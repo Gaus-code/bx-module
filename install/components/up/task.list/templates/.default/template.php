@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 					<div class="task__header">
 						<?php foreach ($task->getTags() as $tag): ?>
-							<p class="task__tag"><?=htmlspecialcharsbx($tag->getTitle())  ?></p>
+							<p class="task__tag">#<?=htmlspecialcharsbx($tag->getTitle())  ?></p>
 						<?php endforeach; ?>
 					</div>
 					<div class="task__footer">
