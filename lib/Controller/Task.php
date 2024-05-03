@@ -10,6 +10,7 @@ use Up\Ukan\Model\EO_Tag;
 use Up\Ukan\Model\EO_Task;
 use Up\Ukan\Model\ProjectStageTable;
 use Up\Ukan\Model\ProjectTable;
+use Up\Ukan\Model\ResponseTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Model\UserTable;
@@ -394,6 +395,124 @@ class Task extends Controller
 					 ->setTaskId($taskId)
 					 ->setCreatedAt(new DateTime());
 		$notification->save();
+
+		LocalRedirect("/task/$taskId/");
+
+	}
+
+	public function unassignContractorAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		$clientId = (int)$USER->getId();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $clientId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['drop_contractor'])
+					 ->setFromUserId($clientId)
+					 ->setToUserId($task->getContractorId())
+					 ->setTaskId($taskId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		$rejectedResponses = ResponseTable::query()
+										  ->setSelect(['*'])
+										  ->where('TASK_ID', $taskId)
+										  ->where('STATUS', Configuration::getOption('response_status')['reject'])
+										  ->fetchCollection();
+
+		foreach ($rejectedResponses as $response)
+		{
+			$response->setStatus(Configuration::getOption('response_status')['wait']);
+			$response->save();
+
+			$notification = new EO_Notification();
+			$notification->setMessage(Configuration::getOption('notification_message')['reconsideration'])
+						 ->setFromUserId($clientId)
+						 ->setToUserId($response->getContractorId())
+						 ->setTaskId($taskId)
+						 ->setCreatedAt(new DateTime());
+			$notification->save();
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+		$task->setContractorId(null);
+
+		$task->save();
+
+
+		LocalRedirect("/task/$taskId/");
+
+	}
+
+	public function withdrawAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		$userId = (int)$USER->getId();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*'])
+						 ->where('ID', $taskId)
+						 ->where('CONTRACTOR_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['drop_client'])
+					 ->setFromUserId($userId)
+					 ->setToUserId($task->getClientId())
+					 ->setTaskId($taskId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		$rejectedResponses = ResponseTable::query()
+										  ->setSelect(['*'])
+										  ->where('TASK_ID', $taskId)
+										  ->where('STATUS', Configuration::getOption('response_status')['reject'])
+										  ->fetchCollection();
+
+		foreach ($rejectedResponses as $response)
+		{
+			$response->setStatus(Configuration::getOption('response_status')['wait']);
+			$response->save();
+
+			$notification = new EO_Notification();
+			$notification->setMessage(Configuration::getOption('notification_message')['reconsideration'])
+						 ->setFromUserId($userId)
+						 ->setToUserId($response->getContractorId())
+						 ->setTaskId($taskId)
+						 ->setCreatedAt(new DateTime());
+			$notification->save();
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+		$task->setContractorId(null);
+
+		$task->save();
+
 
 		LocalRedirect("/task/$taskId/");
 
