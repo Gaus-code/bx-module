@@ -29,12 +29,13 @@ class Project extends Controller
 			$clientId = $USER->GetID();
 
 			$user = \Up\Ukan\Model\UserTable::query()
-											->setSelect(['ID', 'PROJECTS.STATUS', 'PROJECTS_COUNT'])
+											->setSelect(['ID', 'PROJECTS.STATUS', 'PROJECTS_COUNT', 'SUBSCRIPTION_STATUS'])
 											->where('ID', $clientId)
 											->where('PROJECTS.STATUS', Configuration::getOption('project_status')['active'])
 											->fetch();
 
-			if ((int)$user['PROJECTS_COUNT']>0)
+			if ($user['SUBSCRIPTION_STATUS']!=="Active" &&
+				(int)$user['PROJECTS_COUNT']>=Configuration::getOption('maximum_number_of_projects_for_users_without_subscription'))
 			{
 				$errors[] = 'Превышено ограничение по количеству проектов. Чтобы увеличить количество проектов приобретите нашу подписку.';
 				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
