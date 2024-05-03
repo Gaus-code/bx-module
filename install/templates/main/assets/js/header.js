@@ -7,4 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
 			modal.classList.toggle('header__modal--visible');
 		});
 	}
+
+	let styleMode = localStorage.getItem('styleMode');
+	const styleToggle = document.querySelector("#styleModeBtn");
+
+	const enableDarkStyle = () => {
+		document.body.classList.add('darkStyle');
+		localStorage.setItem('styleMode', 'dark');
+	};
+
+	const disableDarkStyle = () => {
+		document.body.classList.remove('darkStyle');
+		localStorage.setItem('styleMode', null);
+	};
+
+	styleToggle.addEventListener('click', () => {
+		let styleMode = localStorage.getItem('styleMode');
+
+		if (styleMode !== 'dark')
+		{
+			enableDarkStyle();
+		}
+		else
+		{
+			disableDarkStyle();
+		}
+	});
+
+	if (styleMode === 'dark')
+	{
+		enableDarkStyle();
+	}
 });

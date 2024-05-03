@@ -5,6 +5,7 @@ class UserProjectsComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->fetchProjects();
+		$this->fetchUserBan();
 		$this->includeComponentTemplate();
 	}
 
@@ -33,7 +34,7 @@ class UserProjectsComponent extends CBitrixComponent
 	{
 		$nav = new \Bitrix\Main\UI\PageNavigation("project.list");
 		$nav->allowAllRecords(true)
-			->setPageSize(7); //TODO remove hardcode
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['project_list']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		global $USER;
@@ -64,5 +65,11 @@ class UserProjectsComponent extends CBitrixComponent
 		}
 
 		$this->arResult['PROJECTS'] = $arrayOfProjects;
+	}
+
+	private function fetchUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
 	}
 }

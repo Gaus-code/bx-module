@@ -22,12 +22,22 @@ class UserComponent extends CBitrixComponent
 
 	protected function fetchUser()
 	{
-		global $USER;
-		$query = \Up\Ukan\Model\UserTable::query();
+		$this->arResult['USER'] = \Up\Ukan\Model\UserTable::query()->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.DATE_REGISTER','SUBSCRIPTION_STATUS'])
+			->where('ID', $this->arParams['USER_ID'])
+			->fetchObject();
 
-		$this->arResult['USER'] = $query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.DATE_REGISTER','SUBSCRIPTION_STATUS'])->where('ID', $this->arParams['USER_ID'])->fetchObject();
-		$this->arResult['PROFILE_IMAGE'] = \Up\Ukan\Controller\User::getUserImage($USER->GetID());
+		$userRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT'])
+			->where('ID', $this->arParams['USER_ID'])
+			->fetch();
+
+		$userRating['RATING']=round((float)$userRatingResult['RATING'],1);
+		$userRating['FEEDBACK_COUNT']=(int)$userRatingResult['FEEDBACK_COUNT'];
+
+		$this->arResult['USER_RATING'] = $userRating;
+		$this->arResult['PROFILE_IMAGE'] = \Up\Ukan\Controller\User::getUserImage($this->arParams['USER_ID']);
+
 	}
+
 
 	protected function fetchUserActivity()
 	{
@@ -58,7 +68,5 @@ class UserComponent extends CBitrixComponent
 											 ->where('TYPE', 'user')
 											 ->fetchObject();
 		$this->arResult['ISSET_REPORT'] = (bool)$report;
-
-
 	}
 }

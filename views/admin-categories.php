@@ -10,6 +10,7 @@ if (!$USER->IsAdmin())
 	LocalRedirect('/access/denied/');
 }
 ?>
-<?php $APPLICATION->IncludeComponent('up:admin.tags', '', [
+<?php $APPLICATION->IncludeComponent('up:admin.categories', '', [
 	'USER_ID' => (int)$USER->GetID(),
 ]); ?>
+

@@ -49,7 +49,7 @@
     min-height: 72px;
     border-radius: 8px;
     border: 1px solid var(--color-primary-purple);
-    background: #F9F9F9;
+    background: var(--color-bg-input);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -85,7 +85,7 @@
     width: 450px;
     min-height: 300px;
     border: 2px solid var(--color-primary-purple);
-    background: #F9F9F9;
+    background: var(--color-bg-input);
     border-radius: 10px;
 }
 
@@ -93,7 +93,7 @@
     width: 100%;
     border-radius: 8px;
     background: var(--color-primary-purple);
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     border: 2px solid var(--color-primary-purple);
     padding: 6px 8px;
     font-size: 18px;
@@ -104,9 +104,8 @@
 }
 
 .profile__changeBio_form button:hover, .changePassword__btn:hover, .profile__changeBio_form button:focus, .changePassword__btn:focus {
-    background: var(--color-primary-white);
+    background: inherit;
     transition: 0.4s;
-    color: var(--color-primary-black);
 }
 
 .profile__changePassword {
@@ -145,7 +144,7 @@
     min-height: 40px;
     border-radius: 8px;
     border: 1px solid var(--color-primary-purple);
-    background: #F9F9F9;
+    background: var(--color-bg-input);
 }
 
 .profile__changeContacts {
@@ -176,6 +175,7 @@
     font-size: 18px;
     border-radius: 6px;
     border: 2px solid var(--color-primary-purple);
+    background-color: var(--color-bg-input);
 }
 
 .profile__changeContacts_form button {
@@ -183,7 +183,7 @@
     margin: 0 auto;
     border-radius: 8px;
     background: var(--color-primary-purple);
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     border: 2px solid var(--color-primary-purple);
     padding: 5px 8px;
     font-size: 18px;
@@ -194,9 +194,9 @@
 }
 
 .profile__changeContacts_form button:hover, .profile__changeContacts_form button:focus {
-    background: var(--color-primary-white);
+    background: inherit;
     transition: 0.4s;
-    color: var(--color-primary-black);
+    /*color: var(--color-primary-black);*/
 }
 
 .profile__changeContainer {

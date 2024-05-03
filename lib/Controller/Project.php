@@ -28,6 +28,19 @@ class Project extends Controller
 			global $USER;
 			$clientId = $USER->GetID();
 
+			$user = \Up\Ukan\Model\UserTable::query()
+											->setSelect(['ID', 'PROJECTS.STATUS', 'PROJECTS_COUNT'])
+											->where('ID', $clientId)
+											->where('PROJECTS.STATUS', Configuration::getOption('project_status')['active'])
+											->fetch();
+
+			if ((int)$user['PROJECTS_COUNT']>0)
+			{
+				$errors[] = 'Превышено ограничение по количеству проектов. Чтобы увеличить количество проектов приобретите нашу подписку.';
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $clientId . "/create/");
+			}
+
 			$project = new EO_Project();
 			$projectStage = new EO_ProjectStage();
 			$projectStage->setNumber(Configuration::getOption('independent_stage_number'))
@@ -44,6 +57,36 @@ class Project extends Controller
 		}
 	}
 
+	public function editInfoAction(
+		int $projectId,
+		string $title,
+		string $description,
+	)
+	{
+		if (check_bitrix_sessid())
+		{
+			global $USER;
+			$userId = $USER->GetID();
+
+			$project = \Up\Ukan\Model\ProjectTable::query()
+												  ->setSelect(['ID', 'TITLE', 'DESCRIPTION'])
+												  ->where('ID', $projectId)
+												  ->where('CLIENT_ID', $userId)
+												  ->fetchObject();
+
+			if (!$project)
+			{
+				LocalRedirect("/access/denied/");
+			}
+
+			$project->setTitle($title)
+					->setDescription($description);
+
+			$project->save();
+
+			LocalRedirect("/project/" . $projectId . "/edit/");
+		}
+	}
 	public function editStagesAction(
 		int    $projectId,
 		array  $tasks = [],
@@ -51,6 +94,7 @@ class Project extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
+			// return $tasks;
 			global $USER;
 			$userId = (int)$USER->GetID();
 
@@ -65,21 +109,60 @@ class Project extends Controller
 				LocalRedirect("/access/denied/");
 			}
 
-			$arrayStages=[];
 			foreach ($tasks as $taskId => $taskOptions)
 			{
+
 				$task = $project->getStages()->getTasksCollection()->getByPrimary($taskId);
 
-				if (!isset($taskOptions["taskDelete"]))
-				{
-					$arrayStages[$taskOptions["zoneId"]][]=$taskId;
-					$project->getStages()->getByPrimary($taskOptions["zoneId"])->addToTasks($task);
-				}
-				else
+				if (isset($taskOptions["taskDelete"]))
 				{
 					$task->fillProjectStage();
 					$projectStage = $task->getProjectStage();
 					$projectStage->removeFromTasks($task);
+
+					if ($task->getStatus() === Configuration::getOption('task_status')['done']
+						|| $task->getStatus() === Configuration::getOption('task_status')['at_work'])
+					{
+						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя удалить';
+						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+						LocalRedirect("/project/" . $projectId . "/edit/");
+					}
+
+					continue;
+				}
+
+				if ($taskOptions["zoneId"])
+				{
+					$projectStage = ProjectStageTable::getById($taskOptions["zoneId"])->fetchObject();
+
+					if ($projectStage->getStatus()===Configuration::getOption('project_stage_status')['active']
+					|| $projectStage->getStatus()===Configuration::getOption('project_stage_status')['completed'])
+					{
+						$errors[] = "Этап {$projectStage->getNumber()} нельзя редактировать";
+						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+						LocalRedirect("/project/" . $projectId . "/edit/");
+					}
+					if ($task->getStatus() !== Configuration::getOption('task_status')['queue']
+						&& $task->getStatus() !== Configuration::getOption('task_status')['waiting_to_start'])
+					{
+						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя переместить в другой этап';
+						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+						LocalRedirect("/project/" . $projectId . "/edit/");
+					}
+
+					$project->getStages()->getByPrimary($taskOptions["zoneId"])->addToTasks($task);
+
+					$projectStageStatuses = Configuration::getOption('project_stage_status');
+					$taskStatuses = Configuration::getOption('task_status');
+					if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
+					{
+						$task->setStatus($taskStatuses['queue']);
+					}
+					elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
+					{
+						$task->setStatus($taskStatuses['waiting_to_start']);
+					}
+
 				}
 
 			}
@@ -163,6 +246,7 @@ class Project extends Controller
 			foreach ($tasks as $task)
 			{
 				$projectStage->addToTasks($task);
+				$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
 			}
 			$projectStage->save();
 			LocalRedirect("/project/" . $projectId . "/edit/");
@@ -247,5 +331,45 @@ class Project extends Controller
 
 			LocalRedirect("/project/" . $projectId . "/edit/");
 		}
+	}
+
+	public function completeAction(
+		int $projectId,
+	)
+	{
+		$errors = [];
+
+		global $USER;
+		$userId=(int)$USER->GetID();
+
+		$project = ProjectTable::query()->setSelect(['ID', 'STATUS', 'CLIENT_ID', 'STAGES.TASKS.ID','STAGES.TASKS.STATUS'])
+								  ->where('ID', $projectId)
+								  ->where('CLIENT_ID', $userId)
+								  ->fetchObject();
+		if (!$project)
+		{
+			LocalRedirect("/access/denied/");
+		}
+		if ($project->getStatus()===Configuration::getOption('project_stage_status')['completed'])
+		{
+			$errors[] = "Этот проект уже завершен.";
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/project/" . $project->getId() . "/");
+		}
+
+		foreach ($project->getStages()->getTasksCollection() as $task)
+		{
+			if ($task->getStatus() !== Configuration::getOption('task_status')['done'])
+			{
+				$errors[] = "Вы не можете завершить проект, пока все задачи не выполнены.";
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $project->getId() . "/");
+			}
+		}
+
+		$project->setStatus(Configuration::getOption('project_stage_status')['completed']);
+		$project->save();
+		LocalRedirect("/project/" . $project->getId() . "/");
+
 	}
 }

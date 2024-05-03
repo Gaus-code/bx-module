@@ -52,37 +52,58 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<div class="userInfo">
 						<p class="userInfo__name"><?= htmlspecialcharsbx($user->getBUser()->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?></p>
-						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($user->getRating()) ?> (<?= htmlspecialcharsbx($user->getFeedbackCount()) ?> оценки)</p>
-
+						<?php if((int)$arResult['USER_RATING']['FEEDBACK_COUNT']===0): ?>
+							<p class="userInfo__surname">У этого пользователя пока нет отзывов</p>
+						<?php else:?>
+						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($arResult['USER_RATING']['RATING']) ?> (<?= htmlspecialcharsbx($arResult['USER_RATING']['FEEDBACK_COUNT']) ?> оценки)</p>
+						<?php endif;?>
 					</div>
-					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner' && !$arResult['USER']->getIsBanned()):?>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 					</a>
 					<?php endif;?>
-					<?php if ($arResult['USER_ACTIVITY'] !== 'owner'):?>
-						<?php if ($USER->IsAdmin()):?>
-							<form class="banForm" action="">
-								<button type="submit">Заблокировать пользователя</button>
-							</form>
-						<?php else :?>
-							<?php if (!$arResult['ISSET_REPORT']):?>
-							<button class="banBtn" type="button">Пожаловаться на пользователя</button>
-							<form class="banForm" action="/report/create/" method="post">
+
+<!--					если зашел админ-->
+					<?php if ($USER->IsAdmin()):?>
+						<?php if (!$arResult['USER']->getIsBanned()):?>
+<!--							если юзер не забанен-->
+							<form action="/user/block/" method="post" >
 								<?= bitrix_sessid_post() ?>
-								<input hidden="hidden" name="complaintType" value="user">
-								<input hidden="hidden" name="toUserId" value="<?= $arParams['USER_ID'] ?>">
-								<button id="closeFormBtn" type="button">
-									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
-								</button>
-								<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
-								<button id="sendComplaint" type="submit">Отправить</button>
+								<input hidden="hidden" name="userId" value="<?= $arParams['USER_ID'] ?>">
+								<button class="banBtn" type="submit">Заблокировать пользователя</button>
 							</form>
+						<?php else: ?>
+<!--						если юзер забанен-->
+							<form action="/user/unblock/" method="post" >
+								<?= bitrix_sessid_post() ?>
+								<input hidden="hidden" name="userId" value="<?= $arParams['USER_ID'] ?>">
+								<button class="banBtn" type="submit">Разлокировать пользователя</button>
+							</form>
+						<?php endif; ?>
+					<?php else: ?>
+						<?php if ($arResult['USER']->getIsBanned()):?>
+							<p class="banBtn">Профиль заблокирован</p>
+						<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner'):?>
+							<?php if (!$arResult['ISSET_REPORT']):?>
+<!--							если зашел НЕ владелец задачи и не было жалоб от него-->
+								<button class="banBtn" type="button">Пожаловаться на пользователя</button>
+								<form class="banForm" action="/report/create/" method="post">
+									<?= bitrix_sessid_post() ?>
+									<input hidden="hidden" name="complaintType" value="user">
+									<input hidden="hidden" name="toUserId" value="<?= $arParams['USER_ID'] ?>">
+									<button id="closeFormBtn" type="button">
+										<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+									</button>
+									<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
+									<button id="sendComplaint" type="submit">Отправить</button>
+								</form>
 							<?php else :?>
-							<p class="banBtn">Вы уже отправили жалобу, ждите решение администрации</p>
+<!--							если жалоба уже отправлена-->
+								<p class="banBtn">Вы уже отправили жалобу</p>
 							<?php endif; ?>
 						<?php endif; ?>
-					<?php endif;?>
+					<?php endif; ?>
 				</div>
 				<div class="content__mainBio_main">
 					<?php

@@ -55,6 +55,11 @@ class TaskDetailComponent extends CBitrixComponent
 			global $USER;
 			$userId = (int)$USER->getId();
 
+			if ($USER->IsAdmin())
+			{
+				$this->arResult['USER_ACTIVITY'] = 'admin';
+				return ;
+			}
 
 			if ($this->arResult['TASK']->getClientId() === $userId)
 			{

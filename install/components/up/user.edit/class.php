@@ -4,6 +4,7 @@ class UserEditComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->checkUserBan();
 		$this->fetchUser();
 		$this->arResult['FILES'] = $this->prepareFileInput();
 		$this->includeComponentTemplate();
@@ -45,5 +46,13 @@ class UserEditComponent extends CBitrixComponent
 				"maxCount" => 1,
 				"maxSize" => 2 * 1024 * 1024
 			]);
+	}
+	private function checkUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		if ($user->getIsBanned())
+		{
+			LocalRedirect('/access/denied/');
+		}
 	}
 }

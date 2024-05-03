@@ -4,6 +4,7 @@ class CommentEditComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->checkUserBan();
 		$this->fetchFeedback();
 		$this->includeComponentTemplate();
 	}
@@ -33,6 +34,15 @@ class CommentEditComponent extends CBitrixComponent
 
 
 
+	}
+
+	private function checkUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		if ($user->getIsBanned())
+		{
+			LocalRedirect('/access/denied/');
+		}
 	}
 
 }

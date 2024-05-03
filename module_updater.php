@@ -261,3 +261,102 @@ __ukanMigrate(16, function($updater, $DB) {
 		);
 	}
 });
+
+__ukanMigrate(17, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_task'))
+	{
+		$DB->query("UPDATE `up_ukan_task`
+SET STATUS = 'Поиск исполнителя'
+WHERE STATUS = 'Новая';");
+	};
+
+});
+
+__ukanMigrate(18, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_categories'))
+	{
+		$DB->query("INSERT INTO up_ukan_categories (TITLE)
+SELECT 'Без категории'
+FROM dual
+WHERE NOT EXISTS (
+	SELECT 1
+	FROM up_ukan_categories
+	WHERE TITLE = 'Без категории'
+);");
+	};
+
+});
+
+__ukanMigrate(19, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_reports'))
+	{
+		$DB->query(
+			'ALTER TABLE `up_ukan_reports`
+			DROP COLUMN `TAG_ID`,
+			DROP COLUMN `IS_BANNED`;'
+		);
+	}
+});
+
+__ukanMigrate(20, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_task'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_task`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});
+
+__ukanMigrate(21, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_user`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});
+
+__ukanMigrate(22, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_tag'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_tag`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});
+
+__ukanMigrate(23, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_feedback'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_feedback`
+			ADD COLUMN `IS_BANNED` char default 'N' not null"
+		);
+	}
+});
+
+__ukanMigrate(24, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_notification'))
+	{
+		$DB->query(
+			"ALTER TABLE `up_ukan_notification`
+	MODIFY COLUMN `TASK_ID` int;"
+		);
+	}
+});
+
+__ukanMigrate(25, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_project'))
+	{
+		$DB->query(
+			"alter table up_ukan_project
+    add STATUS VARCHAR(255) not null;"
+		);
+	}
+});
+
+
+

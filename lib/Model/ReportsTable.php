@@ -83,7 +83,7 @@ class ReportsTable extends DataManager
 							  []
 			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_TASK_ID_FIELD')),
 			new Reference(
-				'TO_TASK', TaskTable::class, Join::on('this.TASK_ID', 'ref.ID')
+				'TASK', TaskTable::class, Join::on('this.TASK_ID', 'ref.ID')
 			),
 			(new IntegerField('FEEDBACK_ID',
 							  []
@@ -91,15 +91,6 @@ class ReportsTable extends DataManager
 			new Reference(
 				'TO_FEEDBACK', FeedbackTable::class, Join::on('this.FEEDBACK_ID', 'ref.ID')
 			),
-			(new IntegerField('TAG_ID',
-				[]
-			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_TAG_ID_FIELD')),
-			new Reference(
-				'TO_TAG', TagTable::class, Join::on('this.TAG_ID', 'ref.ID')
-			),
-			(new BooleanField('IS_BANNED',
-				[]
-			))->configureTitle(Loc::getMessage('REPORTS_ENTITY_IS_BANNED_FIELD'))
 		];
 	}
 

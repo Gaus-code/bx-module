@@ -36,15 +36,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</tr>
 				</thead>
 				<tbody>
-				<?php foreach ($arResult['ADMIN_USERS'] as $user):?>
+				<?php foreach ($arResult['ADMIN_USERS'] as $report):?>
 					<tr>
-						<td><?= $user->getToUser()->getBUser()->getName() ?></td>
-						<td><?= $user->getMessage()?></td>
+						<td><?= $report->getToUser()->getBUser()->getName() ?></td>
+						<td><?= $report->getMessage()?></td>
 						<td>
 							<div class="responseBtns">
-								<a href="/profile/<?= $user->getToUserId() ?>/">Посмотреть профиль</a>
+								<a href="/profile/<?= $report->getToUserId() ?>/">Посмотреть профиль</a>
 								<form action="">
 									<button type="submit">Забанить пользователя</button>
+								</form>
+								<form action="/report/delete/" method="post" >
+									<?= bitrix_sessid_post() ?>
+									<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
+									<button id="sendComplaint" type="submit">Отклонить жалобу</button>
 								</form>
 							</div>
 						</td>
@@ -52,6 +57,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php endforeach;?>
 				</tbody>
 			</table>
+				<?php
+				if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+				{
+					$APPLICATION->IncludeComponent('up:pagination', '', [
+						'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+					]);
+				}
+				?>
 			<?php else:?>
 				<div class="contractor__emptyContainer">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">

@@ -35,14 +35,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($arResult['ADMIN_FEEDBACKS'] as $feedback): ?>
+					<?php foreach ($arResult['ADMIN_FEEDBACKS'] as $report): ?>
 					<tr>
-						<td><?= htmlspecialcharsbx($feedback->getToFeedback()->getComment()) ?></td>
+						<td><?= htmlspecialcharsbx($report->getToFeedback()->getComment()) ?></td>
 						<td>
 							<div class="responseBtns">
-								<a href="/task/<?= $feedback->getToTask()->getId() ?>/">Посмотреть заявку</a>
+								<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
 								<form action="">
 									<button type="submit">Удалить отзыв</button>
+								</form>
+								<form action="/report/delete/" method="post" >
+									<?= bitrix_sessid_post() ?>
+									<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
+									<button id="sendComplaint" type="submit">Отклонить жалобу</button>
 								</form>
 							</div>
 						</td>
@@ -50,6 +55,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+				<?php
+				if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+				{
+					$APPLICATION->IncludeComponent('up:pagination', '', [
+						'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+					]);
+				}
+				?>
 			<?php else:?>
 				<div class="contractor__emptyContainer">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">

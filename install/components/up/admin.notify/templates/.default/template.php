@@ -31,13 +31,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if ($notify->getType() === 'task'): ?>
 					<li class="notify__item task-report">
 						<div class="notify__profile">
-							<p>Жалоба на заявку: <?= htmlspecialcharsbx($notify->getToTask()->getTitle()) ?></p>
+							<p>Жалоба на заявку: <?= htmlspecialcharsbx($notify->getTask()->getTitle()) ?></p>
 						</div>
 						<div class="notify__profile">
 							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
-							<a class="notify__accept" href="/task/<?= $notify->getToTask()->getId() ?>/">Посмотреть</a>
+							<a class="notify__accept" href="/task/<?= $notify->getTask()->getId() ?>/">Посмотреть</a>
 						</div>
 					</li>
 					<?php endif;?>
@@ -57,13 +57,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if ($notify->getType() === 'tag'): ?>
 					<li class="notify__item tag-report">
 						<div class="notify__profile">
-							<p>Жалоба на тег в заявке: <?= htmlspecialcharsbx($notify->getToTask()->getTitle()) ?> </p>
+							<p>Жалоба на тег в заявке: <?= htmlspecialcharsbx($notify->getTask()->getTitle()) ?> </p>
 						</div>
 						<div class="notify__profile">
 							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
-							<a class="notify__accept" href="/task/<?= $notify->getToTask()->getId() ?>/">Посмотреть</a>
+							<a class="notify__accept" href="/task/<?= $notify->getTask()->getId() ?>/">Посмотреть</a>
 						</div>
 					</li>
 					<?php endif;?>
@@ -76,12 +76,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
-							<a class="notify__accept" href="/task/<?= $notify->getToTask()->getId() ?>/">Посмотреть</a>
+							<a class="notify__accept" href="/task/<?= $notify->getTask()->getId() ?>/">Посмотреть</a>
 						</div>
 					</li>
 					<?php endif;?>
 				<?php endforeach;?>
 			</ul>
+			<?php
+			if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+			{
+				$APPLICATION->IncludeComponent('up:pagination', '', [
+					'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+				]);
+			}
+			?>
 		</article>
 	</section>
 </main>

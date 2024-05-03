@@ -3,7 +3,7 @@
 }
 
 .taskViewLink {
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }
 
 .taskViewLink:hover, .taskViewLink:active, .taskViewLink:focus {

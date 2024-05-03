@@ -35,17 +35,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($arResult['ADMIN_TASKS'] as $task): ?>
+			<?php foreach ($arResult['ADMIN_TASKS'] as $report): ?>
 			<tr>
-				<td><?= htmlspecialcharsbx($task->getToTask()->getTitle()) ?></td>
-				<td><?= htmlspecialcharsbx($task->getToTask()->getDescription()) ?></td>
+				<td><?= htmlspecialcharsbx($report->getTask()->getTitle()) ?></td>
+				<td><?= htmlspecialcharsbx($report->getTask()->getDescription()) ?></td>
 				<td>
-					<a href="/task/<?= $task->getToTask()->getId() ?>/">Посмотреть заявку</a>
+					<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
+					<form action="/report/delete/" method="post" >
+						<?= bitrix_sessid_post() ?>
+						<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
+						<button id="sendComplaint" type="submit">Отклонить жалобу</button>
+					</form>
 				</td>
 			</tr>
 			<?php endforeach;?>
 			</tbody>
 		</table>
+			<?php
+			if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+			{
+				$APPLICATION->IncludeComponent('up:pagination', '', [
+					'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+				]);
+			}
+			?>
 		<?php else:?>
 			<div class="contractor__emptyContainer">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/Box.svg" alt="no projects image">

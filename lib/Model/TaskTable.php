@@ -5,6 +5,7 @@ namespace Up\Ukan\Model;
 use Bitrix\Main\Localization\Loc, Bitrix\Main\ORM\Data\DataManager, Bitrix\Main\ORM\Fields\DatetimeField, Bitrix\Main\ORM\Fields\IntegerField, Bitrix\Main\ORM\Fields\StringField, Bitrix\Main\ORM\Fields\TextField, Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Event;
 use Bitrix\Main\ORM\EventResult;
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\DateField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
@@ -104,7 +105,7 @@ class TaskTable extends DataManager
 							'required' => true,
 							'validation' => [__CLASS__, 'validateStatus'],
 							'title' => Loc::getMessage('TASK_ENTITY_STATUS_FIELD'),
-							'default_value' => Configuration::getOption('task_status')['new'],
+							'default_value' => Configuration::getOption('task_status')['search_contractor'],
 						]
 			),
 			new IntegerField(
@@ -161,6 +162,11 @@ class TaskTable extends DataManager
 							  'title' => Loc::getMessage('TASK_ENTITY_DEADLINE_FIELD'),
 						  ]
 			),
+			new BooleanField(
+				'IS_BANNED', [
+				'values' => ['N', 'Y'],
+				'default_value' => 'N',
+			]),
 			(new ManyToMany(
 				'TAGS', TagTable::class
 			))->configureTableName('up_ukan_tag_task'),
@@ -192,110 +198,5 @@ class TaskTable extends DataManager
 		return [
 			new LengthValidator(null, 255),
 		];
-	}
-
-	public static function onAfterAdd(Event $event)
-	{
-		$taskId = $event->getParameter("id");
-		$data = $event->getParameter("fields");
-
-		if (isset($data['PROJECT_STAGE_ID']))
-		{
-			$task = TaskTable::getById($taskId)->fetchObject();
-
-			$task->fillProjectStage();
-			$projectStage = $task->getProjectStage();
-			if ($task->getDeadline() > $projectStage->getExpectedCompletionDate())
-			{
-				$projectStage->setExpectedCompletionDate($task->getDeadline());
-				$projectStage->save();
-			}
-		}
-	}
-
-	public static function onDelete(Event $event)
-	{
-		$taskId = $event->getParameter("id");
-		$task = TaskTable::getById($taskId)->fetchObject();
-
-		if ($task->getProjectStageId())
-		{
-			$task->fillProjectStage();
-			$projectStage = $task->getProjectStage();
-
-			if ($task->getDeadline() == $projectStage->getExpectedCompletionDate())
-			{
-				$projectStage->fillTasks();
-				$deadlineList = $projectStage->getTasks()->getDeadlineList();
-
-				unset($deadlineList[array_search($task->getDeadline(),$deadlineList)]);
-				if ($deadlineList)
-				{
-					$expectedCompletionDate = max($deadlineList);
-				}
-				else
-				{
-					$expectedCompletionDate = null;
-				}
-
-				$projectStage->setExpectedCompletionDate($expectedCompletionDate);
-				$projectStage->save();
-			}
-		}
-	}
-
-	public static function onUpdate(Event $event)
-	{
-		$taskId = $event->getParameter("id");
-		$data = $event->getParameter("fields");
-		if (empty($data['PROJECT_STAGE_ID']) || empty($data['DEADLINE']))
-		{
-			$taskAfterUpdate = TaskTable::getById($taskId)->fetchObject();
-			// var_dump([isset($data['PROJECT_STAGE_ID']), $taskAfterUpdate->getProjectStageId()]); die;
-			if (empty($data['PROJECT_STAGE_ID']) && $taskAfterUpdate->getProjectStageId())
-			{
-				// echo 'пиздец'; die;
-				$taskAfterUpdate->fillProjectStage();
-				$oldProjectStage = $taskAfterUpdate->getProjectStage();
-
-				if ($taskAfterUpdate->getDeadline() == $oldProjectStage->getExpectedCompletionDate())
-				{
-					$oldProjectStage->fillTasks();
-					$deadlineList = $oldProjectStage->getTasks()->getDeadlineList();
-					unset($deadlineList[array_search($taskAfterUpdate->getDeadline(), $deadlineList)]);
-					if ($deadlineList)
-					{
-						$expectedCompletionDate = max($deadlineList);
-					}
-					else
-					{
-						$expectedCompletionDate = null;
-					}
-
-					$oldProjectStage->setExpectedCompletionDate($expectedCompletionDate);
-					$oldProjectStage->save();
-				}
-			}
-		}
-		if (isset($data['PROJECT_STAGE_ID']))
-		{
-
-			$newProjectStage = ProjectStageTable::getById($data['PROJECT_STAGE_ID'])->fetchObject();
-
-			if ($data['DEADLINE'])
-			{
-				$deadline = $data['DEADLINE'];
-			}
-			else
-			{
-				$deadline = $taskAfterUpdate->getDeadline();
-			}
-
-			if ($deadline > $newProjectStage->getExpectedCompletionDate())
-			{
-				$newProjectStage->setExpectedCompletionDate($deadline);
-				$newProjectStage->save();
-			}
-		}
 	}
 }

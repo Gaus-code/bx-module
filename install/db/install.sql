@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS `up_ukan_user`
 (
-	`ID`                    int  NOT NULL,
+	`ID`                    int              NOT NULL,
 	`BIO`                   text,
 	`SUBSCRIPTION_END_DATE` date,
 	`UPDATED_AT`            datetime,
-	`CONTACTS`              text NOT NULL,
+	`CONTACTS`              text             NOT NULL,
+	`IS_BANNED`             char default 'N' not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
 	`TASK_ID`      int                NOT NULL,
 	`FEEDBACK`     text,
 	`CREATED_AT`   datetime,
+	`IS_BANNED`    char default 'N'   not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_tag`
 	`TITLE`      varchar(255)       NOT NULL,
 	`USER_ID`    INT                NOT NULL,
 	`CREATED_AT` datetime           NOT NULL,
+	`IS_BANNED`  char default 'N'   not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -53,11 +56,12 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`PROJECT_PRIORITY` int                NOT NULL,
 	`CLIENT_ID`        int                NOT NULL,
 	`CONTRACTOR_ID`    int,
-    `STATUS`           varchar(255)       NOT NULL,
+	`STATUS`           varchar(255)       NOT NULL,
 	`PROJECT_ID`       int,
 	`CREATED_AT`       datetime,
 	`UPDATED_AT`       datetime,
 	`CATEGORY_ID`      int,
+	`IS_BANNED`        char default 'N'   not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -122,7 +126,7 @@ CREATE TABLE IF NOT EXISTS up_ukan_notification
 	`MESSAGE`      varchar(255) not null,
 	`FROM_USER_ID` int          not null,
 	`TO_USER_ID`   int          not null,
-	`TASK_ID`      int          not null,
+	`TASK_ID`      int,
 	`CREATED_AT`   datetime     not null,
 	PRIMARY KEY (
 	             `ID`
@@ -140,21 +144,22 @@ CREATE TABLE IF NOT EXISTS `up_ukan_categories`
 
 CREATE TABLE IF NOT EXISTS `up_ukan_reports`
 (
-	`ID`             int AUTO_INCREMENT NOT NULL,
-	`TYPE`           varchar(255)       NOT NULL,
-	`MESSAGE`        text,
-	`FROM_USER_ID`   int                not null,
-	`TO_USER_ID`     int                not null,
-	`TASK_ID`        int,
-	`FEEDBACK_ID`    int,
-    `TAG_ID`         int,
-    `IS_BANNED`      boolean,
+	`ID`           int AUTO_INCREMENT NOT NULL,
+	`TYPE`         varchar(255)       NOT NULL,
+	`MESSAGE`      text,
+	`FROM_USER_ID` int                not null,
+	`TO_USER_ID`   int                not null,
+	`TASK_ID`      int,
+	`FEEDBACK_ID`  int,
 	PRIMARY KEY (
 	             `ID`
 		)
 );
 
--- Заполнение таблицы up_ukan_tag
+-- Заполнение таблицы up_ukan_categories
+INSERT INTO up_ukan_categories (TITLE)
+VALUES ('Без категории');
+
 INSERT INTO up_ukan_tag (TITLE)
 VALUES ('HTML'),
        ('CSS'),

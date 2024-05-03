@@ -12,6 +12,7 @@ use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Service\Configuration;
 
 Loc::loadMessages(__FILE__);
 
@@ -106,6 +107,15 @@ class ProjectTable extends DataManager
 					}
 				]
 			),
+			new StringField(
+				'STATUS',
+				[
+					'required' => true,
+					'validation' => [__CLASS__, 'validateStatus'],
+					'title' => Loc::getMessage('PROJECT_ENTITY_STATUS_FIELD'),
+					'default_value' => Configuration::getOption('project_status')['active'],
+				]
+			),
 			new OneToMany(
 				'STAGES',
 				ProjectStageTable::class,
@@ -120,6 +130,17 @@ class ProjectTable extends DataManager
 	 * @return array
 	 */
 	public static function validateTitle()
+	{
+		return [
+			new LengthValidator(null, 255),
+		];
+	}
+	/**
+	 * Returns validators for STATUS field.
+	 *
+	 * @return array
+	 */
+	public static function validateStatus()
 	{
 		return [
 			new LengthValidator(null, 255),

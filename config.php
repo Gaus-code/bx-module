@@ -2,11 +2,11 @@
 
 return array(
 	'task_status' => array(
-		'new' => 'Новая',
-		'pause' => 'Приостановленно',
+		'queue' => 'В очереди',
 		'done' => 'Выполнено',
 		'at_work' => 'В работе',
 		'search_contractor' => 'Поиск исполнителя',
+		'waiting_to_start' => 'Ожидает начала поиска исполнителя',
 	),
 	'subscription' => array(
 		'price' => 399,
@@ -16,13 +16,18 @@ return array(
 		'secret_key' => 'AQVNztg5AhOJG_qdivT_LWgRQADPQkfjCwyY2tbP',
 		'directory_id' => 'b1gjdsgd12d0ee2e41in',
 	),
-	'NUMBER_OF_PRODUCTS_PER_PAGE' => 7,
 	'notification_message' => array(
 		'approve' => 'Ваш отклик одобрен',
 		'reject' => 'Ваш отклик отклонен',
 		'new_feedback' => 'Новый отзыв',
 		'new_response' => 'Новый отклик',
-		'task_finished' => 'Задача выполена'
+		'task_finished' => 'Задача выполена',
+		'task_block' => 'Задача заблокирована',
+		'task_unblock' => 'Задача разблокирована',
+		'feedback_block' => 'Отзыв заблокирован',
+		'feedback_unblock' => 'Отзыв разблокирован',
+		'user_block' => 'Ваш профиль заблокирован',
+		'user_unblock' => 'Ваш профиль разблокирован',
 	),
 	'response_status' => array(
 		'wait' => 'Ожидает',
@@ -34,8 +39,10 @@ return array(
 		'task_list_catalog' => 9,
 		'task_list_personal' => 10,
 		'responses_list' => 6,
-		'notification_list' => 7,
+		'notification_list' => 9,
 		'feedback_list' => 7,
+		'admin_tables' => 10,
+		'project_list' => 7,
 	),
 	'independent_stage_number'=>0,
 	'project_stage_status' => array(
@@ -44,5 +51,9 @@ return array(
 		'active' => 'Активен',
 		'completed' => 'Завершен',
 		'independent' => 'Независимый',
+	),
+	'project_status' => array(
+		'active' => 'Активен',
+		'completed' => 'Завершен',
 	),
 );

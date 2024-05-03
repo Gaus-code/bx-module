@@ -14,20 +14,56 @@ class AdminComponent extends CBitrixComponent
 			$arParams['USER_ID'] = null;
 		}
 
+		if (!request()->get('PAGEN_1') || !is_numeric(request()->get('PAGEN_1')) || (int)request()->get('PAGEN_1') < 1)
+		{
+			$arParams['CURRENT_PAGE'] = 1;
+		}
+		else
+		{
+			$arParams['CURRENT_PAGE'] = (int)request()->get('PAGEN_1');
+		}
+
+		$arParams['EXIST_NEXT_PAGE'] = false;
+
 		return $arParams;
 	}
 
 	protected function getTaskList()
 	{
 		global $USER;
-
-		if ($USER->IsAdmin())
+		if (!$USER->IsAdmin())
 		{
-			$query = \Up\Ukan\Model\ReportsTable::query()
-				->setSelect(['*', 'TO_TASK'])
-				->setFilter(['TYPE' => 'task'])
-				->fetchCollection();
-			$this->arResult['ADMIN_TASKS'] = $query;
+			LocalRedirect('/access/denied/');
 		}
+
+		$nav = new \Bitrix\Main\UI\PageNavigation("admin_tables");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['admin_tables']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		$query = \Up\Ukan\Model\ReportsTable::query()
+											->setSelect(['*', 'TASK'])
+											->setFilter(['TYPE' => 'task']);
+
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
+
+		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
+
+		$arrayOfTasks = $result->getAll();
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($arrayOfTasks);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['ADMIN_TASKS'] = $arrayOfTasks;
+
+
 	}
 }

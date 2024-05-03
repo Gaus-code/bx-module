@@ -5,10 +5,10 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\DatetimeField,
 	Bitrix\Main\ORM\Fields\IntegerField,
-	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\TextField,
 	Bitrix\Main\ORM\Fields\DateField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\FloatField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
@@ -106,22 +106,31 @@ class UserTable extends DataManager
 					}
 				]
 			),
-			new FloatField(
+			new ExpressionField(
 				'RATING',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('USER_ENTITY_RATING_FIELD'),
-					'default_value'=>0,
-				]
+				"AVG(%s)",
+				['FEEDBACKS_TO.RATING']
 			),
-			new IntegerField(
+			new ExpressionField(
 				'FEEDBACK_COUNT',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('USER_ENTITY_FEEDBACK_COUNT_FIELD'),
-					'default_value'=>0,
-				]
+				"COUNT(%s)",
+				['FEEDBACKS_TO.RATING']
 			),
+			new ExpressionField(
+				'PROJECTS_COUNT',
+				"COUNT(%s)",
+				['PROJECTS.ID']
+			),
+			new ExpressionField(
+				'TASKS_COUNT',
+				"COUNT(%s)",
+				['TASKS_CLIENT.ID']
+			),
+			new BooleanField(
+				'IS_BANNED', [
+				'values' => ['N', 'Y'],
+				'default_value' => 'N',
+			]),
 			new ExpressionField(
 				'SUBSCRIPTION_STATUS',
 				"IF (NOW()<=%s, 'Active', 'Not active')",

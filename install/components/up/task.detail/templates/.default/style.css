@@ -25,6 +25,7 @@
 }
 
 .detail__feedback {
+    position: relative;
 	margin: 20px;
 	padding: 15px 25px;
 	background-color: var(--color-primary-white);
@@ -63,6 +64,7 @@
     font-size: 18px;
     line-height: 24px;
     word-break: break-word;
+    color: var(--color-bg-text);
 }
 
 .detail__container {
@@ -110,6 +112,7 @@
 
 .detail__form label {
     font-size: 18px;
+    color: var(--color-bg-text);
 }
 
 .detail__form textarea {
@@ -122,6 +125,7 @@
     font-size: 18px;
     padding: 10px;
     color: var(--color-primary-purple);
+    background-color: var(--color-bg-input);
 }
 
 .detail__btn {
@@ -143,21 +147,45 @@
     color: var(--color-primary-black);
 }
 
+.detail__metaContainers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
 .detail__metaContainer {
     padding: 15px 25px;
-    background-color: var(--color-primary-white);
+    background-color: var(--color-bg-modal);
     border-radius: 6px;
     border: 1px solid var(--color-primary-purple);
     box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
 }
 
+.metaContainer__header {
+    width: 100%;
+    margin: 0 auto;
+}
+
 .metaContainer__header h2 {
     font-size: 18px;
     font-weight: 600;
+    color: var(--color-bg-text);
 }
 
 .metaContainer__info span {
     color: var(--color-primary-purple);
+}
+
+.metaContainer__info a {
+    color: var(--color-bg-text);
+}
+
+.metaContainer__info a:hover, .metaContainer__info a:focus {
+    color: var(--color-primary-purple);
+    border-bottom: 1px solid var(--color-primary-purple);
+    transition: 0.4s;
 }
 
 .metaContainer__list {
@@ -175,6 +203,7 @@
 
 .metaContainer__info {
     font-size: 16px;
+    color: var(--color-bg-text);
 }
 
 .rating-area {
@@ -199,19 +228,19 @@
 	content: '★';
 }
 .rating-area > input:checked ~ label {
-	color: gold;
+    color: var(--color-primary-yellow);
 	text-shadow: 1px 1px #c60;
 }
 .rating-area:not(:checked) > label:hover,
 .rating-area:not(:checked) > label:hover ~ label {
-	color: gold;
+    color: var(--color-primary-yellow);
 }
 .rating-area > input:checked + label:hover,
 .rating-area > input:checked + label:hover ~ label,
 .rating-area > input:checked ~ label:hover,
 .rating-area > input:checked ~ label:hover ~ label,
 .rating-area > label:hover ~ input:checked ~ label {
-	color: gold;
+    color: var(--color-primary-yellow);
 	text-shadow: 1px 1px goldenrod;
 }
 .rate-area > label:active {
@@ -221,7 +250,13 @@
 .rating-result {
 	width: 265px;
 	margin: 0 auto;
+    font-size: 16px;
 }
+
+.detail__feedback p {
+    font-size: 16px;
+}
+
 .rating-result span {
 	padding: 0;
 	font-size: 32px;
@@ -234,7 +269,7 @@
 	content: '★';
 }
 .rating-result > span.active {
-	color: gold;
+	color: var(--color-primary-yellow);
 	text-shadow: 1px 1px #c60;
 }
 
@@ -250,14 +285,68 @@
     border: 2px solid var(--color-primary-border);
 }
 
-.banBtn, .banBtnForAdmin {
-    max-width: 300px;
+.banBtn, .banBtnForAdmin, .banBtnIsSent {
     width: 100%;
     padding: 10px 20px;
-    background-color: var(--color-warning-red);
     border-radius: 6px;
     font-weight: 600;
     text-align: center;
+}
+
+.detail__feedback .banBtn, .detail__feedback .banBtnIsSent, .detail__feedback a {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20%;
+    padding: 5px 10px;
+}
+
+.detail__feedback a:hover, .detail__feedback a:focus {
+    color: var(--color-warning-green);
+    transition: 0.4s;
+}
+
+.detail__feedback .banBtn {
+    color: var(--color-warning-red);
+    background-color: inherit;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.detail__feedback .banBtn:hover, .detail__feedback .banBtn:focus {
+    color: #C6011F;
+    transition: 0.4s;
+}
+
+.detail__feedback .banBtnIsSent {
+    background-color: inherit;
+    color: var(--color-warning-yellow);
+    width: 23%;
+    font-size: 16px;
+}
+
+.detail__feedback a {
+    color: var(--color-tag-green);
+    font-weight: 600;
+}
+
+.detail__feedback .banForm {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20%;
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
+}
+
+
+.banBtn, .banBtnForAdmin {
+    background-color: var(--color-warning-red);
+}
+
+.banBtnIsSent {
+    background-color: var(--color-warning-yellow);
 }
 
 .complaint__list {
@@ -313,25 +402,28 @@
 }
 
 .complaintText {
-    margin: 10px 0;
+    margin: 20px 0 10px;
     resize: none;
     width: 100%;
     height: 70px;
     padding: 10px;
     border: 1px solid var(--color-primary-purple);
     border-radius: 6px;
+    background-color: var(--color-bg-input);
 }
 
 #sendComplaint {
+    margin: 5px 0 10px;
     width: 100%;
     padding: 5px;
     background-color: var(--color-primary-purple);
     border-radius: 6px;
     border: 2px solid var(--color-primary-purple);
+    color: var(--color-bg-text);
 }
 
 #sendComplaint:hover, #sendComplaint:active, #sendComplaint:focus {
-    background-color: #fff;
+    background-color: inherit;
     transition: 0.3s;
 }
 
@@ -345,4 +437,8 @@
 #closeFormBtn img {
     display: block;
     width: 20px;
+}
+
+.commentText {
+    margin-top: 10px;
 }

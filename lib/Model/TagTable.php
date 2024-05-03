@@ -6,6 +6,7 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\IntegerField,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
+use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\DatetimeField;
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
@@ -84,6 +85,11 @@ class TagTable extends DataManager
 					}
 				]
 			),
+			new BooleanField(
+				'IS_BANNED', [
+				'values' => ['N', 'Y'],
+				'default_value' => 'N',
+			]),
 			(new ManyToMany(
 				'TASKS',
 				TaskTable::class)

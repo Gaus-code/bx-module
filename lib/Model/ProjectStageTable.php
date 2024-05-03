@@ -88,17 +88,17 @@ class ProjectStageTable extends DataManager
 				TaskTable::class,
 				'PROJECT_STAGE'
 			),
-			new DateField(
-				'EXPECTED_COMPLETION_DATE',
-				[
-					'title' => Loc::getMessage('TASK_ENTITY_DEADLINE_FIELD')
-				]
-			),
-			// new ExpressionField(
+			// new DateField(
 			// 	'EXPECTED_COMPLETION_DATE',
-			// 	"MAX(%s)",
-			// 	['TASKS.DEADLINE']
+			// 	[
+			// 		'title' => Loc::getMessage('TASK_ENTITY_DEADLINE_FIELD')
+			// 	]
 			// ),
+			new ExpressionField(
+				'EXPECTED_COMPLETION_DATE',
+				"MAX(%s)",
+				['TASKS.DEADLINE']
+			),
 		];
 	}
 

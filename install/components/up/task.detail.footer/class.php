@@ -19,7 +19,8 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			'contractor_from_project',
 			'owner',
 			'reject',
-			'wait'
+			'wait',
+			'admin'
 			], true))
 		{
 			$arParams['USER_ACTIVITY'] = '.default' ;
@@ -36,13 +37,18 @@ class TaskDetailFooterComponent extends CBitrixComponent
 		{
 			case 'owner':
 				$this->fetchOwnerActivity();
+				$this->fetchUserBan();
 				break;
 			case 'contractor_this_task':
 				$this->fetchContractorActivity();
+				$this->fetchUserBan();
 				break;
 			case 'contractor_from_project':
 				$this->fetchContractor();
 				break;
+			case 'admin':
+				$this->fetchContractor();
+				$this->fillFeedbacks();
 			case 'reject':
 			case 'wait':
 			default:
@@ -53,7 +59,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 	private function fetchOwnerActivity()
 	{
-		if ($this->arParams['TASK']->getStatus() === $this->arParams['TASK_STATUSES']['new'] )
+		if ($this->arParams['TASK']->getStatus() === $this->arParams['TASK_STATUSES']['search_contractor'] )
 		{
 			$this->fetchResponses();
 		}
@@ -66,6 +72,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			$this->setUserSentFeedback();
 			$this->fetchLeaveFeedbackForm();
 			$this->fillFeedbacks();
+			$this->fetchIssetReportFeedback();
 		}
 	}
 
@@ -80,6 +87,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			$this->setUserSentFeedback();
 			$this->fetchLeaveFeedbackForm();
 			$this->fillFeedbacks();
+			$this->fetchIssetReportFeedback();
 		}
 	}
 	private function fetchResponses()
@@ -147,5 +155,28 @@ class TaskDetailFooterComponent extends CBitrixComponent
 				"TO_USER_ID"=>$toUserId,
 			];
 		}
+	}
+
+	private function fetchIssetReportFeedback()
+	{
+		if ($this->arParams['TASK'])
+		{
+			global $USER;
+			$userId = (int)$USER->getId();
+			$report = \Up\Ukan\Model\ReportsTable::query()
+												 ->setSelect(['ID'])
+												 ->where('FROM_USER_ID', $userId)
+												 ->where('TASK_ID', $this->arParams['TASK']->getId())
+												 ->where('TYPE', 'feedback')
+												 ->fetchObject();
+			$this->arResult['ISSET_REPORT'] = (bool)$report;
+		}
+
+	}
+
+	private function fetchUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
 	}
 }

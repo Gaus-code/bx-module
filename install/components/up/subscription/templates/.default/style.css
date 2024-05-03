@@ -3,6 +3,7 @@
 }
 
 .subscription__container {
+    background-color: inherit;
 }
 
 .subscription__main {
@@ -37,33 +38,44 @@
 
 .subscription__item p {
     font-size: 20px;
+    color: var(--color-bg-text);
+}
+
+.subscription__description {
+    color: var(--color-bg-text);
 }
 
 .subscription__description span {
     color: var(--color-primary-purple);
 }
 
-.subscription__footer {
+.subscription__footer a {
+    color: var(--color-bg-text);
 }
 
 .subscription__form h4 {
     margin-bottom: 15px;
+    color: var(--color-bg-text);
+    font-size: 20px;
 }
 
 .subscription__form label{
     font-size: 16px;
+    color: var(--color-bg-text);
 }
 
 .subscription__cost {
+    color: var(--color-bg-text);
+    font-size: 15px;
 }
 
 .subscription__btn {
-    margin-top: 20px;
+    margin: 20px 0;
     border: 2px solid var(--color-primary-purple);
     border-radius: 6px;
-    background-color: var(--color-primary-white);
+    background-color: inherit;
     padding: 10px 20px;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 600;
@@ -72,7 +84,7 @@
 .subscription__btn:hover, .subscription__btn:active {
     background-color: var(--color-primary-purple);
     transition: 0.3s;
-    color: var(--color-primary-white);
+    color: var(--color-bg-text);
 }
 
 /*rainbow border styles start*/
@@ -87,9 +99,9 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 100px;
+    gap: 38px;
     font-size: 24px;
-    padding: 20px;
+    padding: 25px 20px 20px;
 }
 .animate-border::before {
     content: '';
@@ -114,7 +126,7 @@
     top: 6px;
     width: calc(100% - 12px);
     height: calc(100% - 12px);
-    background: white;
+    background: var(--color-bg-subscription);
     border-radius: 5px;
 }
 @keyframes anim-ramka-5 {

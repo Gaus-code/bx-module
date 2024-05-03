@@ -47,9 +47,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="notify__profile">
 								<p><?=$notification->getMessage()?></p>
 							</div>
-							<div class="notify__title"><span>Заявка:</span> <?=htmlspecialcharsbx($notification->getTask()->getTitle())  ?></div>
+							<div class="notify__title">
+								<?php if ($notification->getTask()): ?>
+									<span>Заявка:</span> <?=htmlspecialcharsbx($notification->getTask()->getTitle())  ?>
+								<?php else: ?>
+									<span>Без заявки</span>
+								<?php endif; ?>
+							</div>
 							<div class="notify__buttons">
-								<a class="notify__accept" href="/task/<?= $notification->getTask()->getId() ?>/">Посмотреть</a>
+								<?php if ($notification->getTask()): ?>
+									<a class="notify__accept" href="/task/<?= $notification->getTask()->getId() ?>/">Посмотреть</a>
+								<?php endif; ?>
 								<form action="/notification/delete/" method="post">
 									<?=bitrix_sessid_post()?>
 									<input hidden="hidden" name="notificationId" value="<?= $notification->getId() ?>">

@@ -21,7 +21,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/notify.php'));
 	$routes->get('/profile/{user_id}/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/feedback-list.php'));
 	$routes->get('/subscription/', new PublicPageController('/local/modules/up.ukan/views/subscription.php'));
-
+	$routes->get('/subscription/haha/', new PublicPageController('/local/modules/up.ukan/views/payment-gateway.php'));
 	//profile actions(get)
 	$routes->get('/profile/{user_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));
 	$routes->get('/task/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
@@ -37,6 +37,8 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/task/delete/', [\Up\Ukan\Controller\Task::class, 'delete']);
 	$routes->post('/task/finish/', [\Up\Ukan\Controller\Task::class, 'finishTask']);
 	$routes->post('/task/create/project/', [\Up\Ukan\Controller\Task::class, 'createAtProject']);
+	$routes->post('/task/stop-search-contractor/', [\Up\Ukan\Controller\Task::class, 'stopSearchContractor']);
+	$routes->post('/task/start-search-contractor/', [\Up\Ukan\Controller\Task::class, 'startSearchContractor']);
 
 	//project actions
 	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);
@@ -45,6 +47,9 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/project/add-tasks/', [\Up\Ukan\Controller\Project::class, 'addTasks']);
 	$routes->post('/project/add-stage/', [\Up\Ukan\Controller\Project::class, 'addStage']);
 	$routes->post('/project/delete-stage/', [\Up\Ukan\Controller\Project::class, 'deleteStage']);
+	$routes->post('/project/edit-info/', [\Up\Ukan\Controller\Project::class, 'editInfo']);
+	$routes->post('/project/edit-info/', [\Up\Ukan\Controller\Project::class, 'editInfo']);
+	$routes->post('/project/complete/', [\Up\Ukan\Controller\Project::class, 'complete']);
 
 	//stage actions
 	$routes->post('/stage/start/', [\Up\Ukan\Controller\ProjectStage::class, 'start']);
@@ -81,10 +86,22 @@ return function (RoutingConfigurator $routes)
 
 	//admin
 	$routes->get('/admin/', new PublicPageController('/local/modules/up.ukan/views/admin.php'));
-	$routes->get('/admin/tags/', new PublicPageController('/local/modules/up.ukan/views/admin-tags.php'));
 	$routes->get('/admin/notifications/', new PublicPageController('/local/modules/up.ukan/views/admin-notify.php'));
 	$routes->get('/admin/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/admin-feedback.php'));
 	$routes->get('/admin/users/', new PublicPageController('/local/modules/up.ukan/views/admin-user.php'));
+	$routes->get('/admin/categories/', new PublicPageController('/local/modules/up.ukan/views/admin-categories.php'));
+
+	$routes->post('/category/create/', [\Up\Ukan\Controller\Category::class, 'create']);
+	$routes->post('/category/delete/', [\Up\Ukan\Controller\Category::class, 'delete']);
+
 	//reports
 	$routes->post('/report/create/', [\Up\Ukan\Controller\Report::class, 'create']);
+	$routes->post('/report/delete/', [\Up\Ukan\Controller\Report::class, 'delete']);
+	$routes->post('/task/block/', [\Up\Ukan\Controller\Block::class, 'blockTask']);
+	$routes->post('/task/unblock/', [\Up\Ukan\Controller\Block::class, 'unblockTask']);
+	$routes->post('/tag/block/', [\Up\Ukan\Controller\Block::class, 'blockTag']);
+	$routes->post('/feedback/block/', [\Up\Ukan\Controller\Block::class, 'blockFeedback']);
+	$routes->post('/feedback/unblock/', [\Up\Ukan\Controller\Block::class, 'unblockFeedback']);
+	$routes->post('/user/block/', [\Up\Ukan\Controller\Block::class, 'blockUser']);
+	$routes->post('/user/unblock/', [\Up\Ukan\Controller\Block::class, 'unblockUser']);
 };

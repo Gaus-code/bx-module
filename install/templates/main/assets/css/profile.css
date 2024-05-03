@@ -68,7 +68,7 @@
 }
 
 a.aside__btn {
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }
 
 .userImg {
@@ -126,12 +126,14 @@ a.aside__btn {
     font-weight: 500;
     line-height: 20px;
     text-align: center;
+    color: var(--color-bg-text);
 }
 
 .profile__email {
     font-size: 13px;
     font-weight: 400;
     line-height: 15px;
+    color: var(--color-bg-text);
 }
 
 .profile__logOut {
@@ -144,7 +146,7 @@ a.aside__btn {
     border-radius: 8px;
     text-align: center;
     font-weight: 500;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }
 
 .profile__logOut:active, .profile__logOut:hover {
@@ -171,7 +173,7 @@ a.aside__btn {
     font-weight: 900;
     line-height: 34px;
     text-align: left;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }
 
 .content__header button.plus-link {
@@ -185,6 +187,7 @@ a.aside__btn {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: var(--color-bg-modal);
 }
 
 .content__header button.plus-link .plus-link__inner {
@@ -214,6 +217,7 @@ a.aside__btn {
     font-weight: 500;
     line-height: 31px;
     text-align: left;
+    color: var(--color-bg-text);
 }
 
 .content__main {
@@ -230,7 +234,7 @@ a.aside__btn {
 	position: relative;
     border: 1px solid var(--color-primary-purple);
 	border-radius: 10px;
-	background: var(--color-primary-white);
+	background: var(--color-bg-modal);
 	box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
 }
 
@@ -256,7 +260,7 @@ a.aside__btn {
 }
 
 .task__categories {
-    background-color: #E3963E;
+    background-color: var(--color-primary-yellow);
 }
 
 .task__tag {
@@ -271,7 +275,7 @@ a.aside__btn {
     font-size: 18px;
     font-weight: 700;
     text-align: left;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
@@ -286,7 +290,7 @@ a.aside__btn {
     font-weight: 400;
     line-height: 167%;
     text-align: left;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
@@ -300,7 +304,7 @@ a.aside__btn {
     font-weight: 400;
     line-height: 167%;
     text-align: left;
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -343,11 +347,10 @@ a.aside__btn {
 }
 
 .task__notify p, .task__files p, .task__footer_img p {
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
 }
 
 .create__form {
-    max-width: 750px;
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -386,6 +389,7 @@ a.aside__btn {
     border: 2px solid var(--color-primary-purple);
     padding: 10px;
     border-radius: 6px;
+    background-color: var(--color-bg-input);
 }
 
 .create__description {
@@ -395,14 +399,15 @@ a.aside__btn {
     resize: none;
     width: 100%;
     padding: 10px;
+    background-color: var(--color-bg-input);
 }
 
 .create__text {
     display: flex;
     flex-direction: column;
     width: 100%;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -414,7 +419,7 @@ a.aside__btn {
     width: 100%;
     border-radius: 8px;
     background: var(--bg-color-primary-purple);
-    color: var(--color-primary-white);
+    color: var(--color-bg-text);
     border: 1px solid var(--color-primary-purple);
     padding: 2px 8px;
     font-size: 12px;
@@ -425,9 +430,8 @@ a.aside__btn {
 }
 
 .createBtn:hover, .createBtn:active, .createBtn:focus {
-    background: var(--color-primary-white);
+    background: inherit;
     transition: 0.4s;
-    color: var(--color-primary-black);
 }
 
 #taskList.open, #projectList.open{
@@ -501,16 +505,20 @@ a.aside__btn {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    color: var(--color-bg-text);
 }
 
 .contractor__emptyContainer img {
     display: block;
     width: 300px;
+    border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 .contractor__emptyLink {
     padding: 5px;
     font-size: 18px;
+    color: var(--color-bg-text);
 }
 
 .contractor__emptyLink a {

@@ -15,7 +15,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arParams['TASK']->getId() ?>/edit/"> отредактировать</a> ее?  </span>
 	</div>
 
-	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['new']): ?>
+	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['search_contractor']): ?>
 		<?php if (count($arResult['RESPONSES']) > 0): ?>
 			<div class="detail__status">
 				<p> Вы можете просмотреть несколько ваших откликов здесь!</p>
@@ -75,7 +75,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 		</div>
 		<p class="detail__feedback_title">Отзывы:</p>
-		<?php if (!$arResult['USER_SENT_FEEDBACK']): ?>
+		<?php if (!$arResult['USER_SENT_FEEDBACK'] && !$arResult['USER_IS_BANNED']): ?>
 			<form class="comment__form" action="/feedback/create/" method="post">
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
@@ -111,10 +111,27 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php endfor; ?>
 				</div>
 				<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
-				<?php if ($feedback->getFromUserId() === $arParams['USER_ID']): ?>
-					<div class="rating-result">
-						<a href="/feedback/<?=$feedback->getId() ?>/edit/">Отредактировать отзыв</a>
-					</div>
+				<?php if (!$feedback->getIsBanned()): ?>
+					<?php if ($feedback->getFromUserId() === $arParams['USER_ID'] && !$arResult['USER_IS_BANNED']): ?>
+						<div class="rating-result">
+							<a href="/feedback/<?=$feedback->getId() ?>/edit/">Отредактировать отзыв</a>
+						</div>
+					<?php elseif (!$arResult['ISSET_REPORT']): ?>
+						<button class="banBtn" type="button">Пожаловаться</button>
+						<form class="banForm" action="/report/create/" method="post">
+							<?= bitrix_sessid_post() ?>
+							<button id="closeFormBtn" type="button">
+								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" alt="close form cross">
+							</button>
+							<input name="taskId" hidden="hidden" value="<?=$arParams['TASK']->getId()?>">
+							<input name="feedbackId" hidden="hidden" value="<?=$feedback->getId() ?>">
+							<input hidden="hidden" name="complaintType" value="feedback">
+							<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>
+							<button id="sendComplaint" type="submit">Отправить</button>
+						</form>
+					<?php else: ?>
+						<p class="banBtn">Вы уже отправили жалобу</p>
+					<?php endif; ?>
 				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>

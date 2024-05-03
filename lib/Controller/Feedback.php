@@ -20,6 +20,11 @@ class Feedback extends Controller
 	)
 	{
 
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		$errors = $this->validateDataCreateFeedback(
 			$taskId,
 			$fromUserId,
@@ -43,8 +48,6 @@ class Feedback extends Controller
 
 		$feedback->save();
 
-		$this->updateUserRating($toUserId, $rating, 'addFeedback');
-
 		LocalRedirect("/task/" . $taskId . "/");
 	}
 
@@ -54,6 +57,11 @@ class Feedback extends Controller
 		?string $comment
 	)
 	{
+
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
 
 		[$errors, $feedback] = $this->validateDataUpdateFeedback(
 			$feedbackId,
@@ -71,8 +79,6 @@ class Feedback extends Controller
 
 		$feedback->save();
 
-		$this->updateUserRating($feedback->getToUserId(), $rating, 'editFeedback');
-
 		LocalRedirect("/task/" . $feedback->getTaskId() . "/");
 	}
 
@@ -80,6 +86,11 @@ class Feedback extends Controller
 		int $feedbackId,
 	)
 	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
 		global $USER;
 		$userId = (int)$USER->GetID();
 
@@ -89,8 +100,6 @@ class Feedback extends Controller
 		{
 			LocalRedirect("/access/denied/");
 		}
-
-		$this->updateUserRating($feedback->getToUserId(), $feedback->getRating(), 'deleteFeedback');
 
 		$feedback->delete();
 
@@ -133,6 +142,13 @@ class Feedback extends Controller
 								 ->where('TASK_ID', $taskId)
 								 ->fetchObject();
 
+		$user = UserTable::getById($fromUserId)->fetchObject();
+		if ($user && $user->getIsBanned())
+		{
+			$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+			return $errors;
+		}
+
 		if (isset($feedback))
 		{
 			$errors[] = 'Похоже, вы уже оставили отзыв😑';
@@ -174,6 +190,19 @@ class Feedback extends Controller
 			LocalRedirect("/access/denied/");
 		}
 
+		$user = $feedback->fillFromUser();
+		if ($user && $user->getIsBanned())
+		{
+			$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
+			return $errors;
+		}
+
+		if ($feedback->getIsBanned())
+		{
+			$errors [] = 'Отзыв заблокирован, Вы не можете его отредактировать!';
+			return $errors;
+		}
+
 		if (!$rating || !is_numeric($rating) || (int)$rating < 0)
 		{
 			$errors [] = 'Оцените пользователя';
@@ -195,36 +224,4 @@ class Feedback extends Controller
 		return [$errors, $feedback];
 	}
 
-	private function updateUserRating(
-		int    $userId,
-		int    $rating,
-		string $action
-	)
-	{
-		$user = UserTable::getByPrimary($userId)->fetchObject();
-		switch ($action)
-		{
-			case 'addFeedback':
-				$oldFeedbackCount = $user->getFeedbackCount();
-				$oldRating = $user->getRating();
-				$newFeedbackCount = $oldFeedbackCount + 1;
-				$newRating = ($oldRating * $oldFeedbackCount + $rating) / $newFeedbackCount;
-				$user->setRating($newRating)->setFeedbackCount($newFeedbackCount);
-				break;
-			case 'editFeedback':
-				$feedbackCount = $user->getFeedbackCount();
-				$oldRating = $user->getRating();
-				$newRating = ($oldRating * $feedbackCount - $oldRating + $rating) / $feedbackCount;
-				$user->setRating($newRating);
-				break;
-			case 'deleteFeedback':
-				$oldFeedbackCount = $user->getFeedbackCount();
-				$oldRating = $user->getRating();
-				$newFeedbackCount = $oldFeedbackCount - 1;
-				$newRating = ($oldRating * $oldFeedbackCount - $rating) / $newFeedbackCount;
-				$user->setRating($newRating)->setFeedbackCount($newFeedbackCount);
-				break;
-		}
-		$user->save();
-	}
 }
