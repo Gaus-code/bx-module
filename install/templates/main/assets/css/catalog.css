@@ -109,6 +109,8 @@
     line-height: 18px;
     text-align: left;
     color: var(--color-bg-text);
+    word-break: break-word;
+    max-width: 600px;
 }
 
 .catalog__main {

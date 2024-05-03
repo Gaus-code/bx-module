@@ -9,6 +9,7 @@
     border-radius: 8px;
     font-size: 25px;
     padding: 10px;
+    word-break: break-word;
 }
 
 .project__description {
@@ -16,6 +17,7 @@
     font-size: 19px;
     padding: 10px;
     color: var(--color-bg-text);
+    word-break: break-word;
 }
 
 .content__project {
