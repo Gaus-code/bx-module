@@ -38,14 +38,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<tbody>
 				<?php foreach ($arResult['ADMIN_USERS'] as $report):?>
 					<tr>
-						<td><?= $report->getToUser()->getBUser()->getName() ?></td>
-						<td><?= $report->getMessage()?></td>
+						<td><?= htmlspecialcharsbx($report->getToUser()->getBUser()->getName() . ' ' . $report->getToUser()->getBUser()->getLastName())?></td>
+						<td><?= htmlspecialcharsbx($report->getMessage())?></td>
 						<td>
 							<div class="responseBtns">
 								<a href="/profile/<?= $report->getToUserId() ?>/">Посмотреть профиль</a>
-								<form action="">
-									<button type="submit">Забанить пользователя</button>
-								</form>
 								<form action="/report/delete/" method="post" >
 									<?= bitrix_sessid_post() ?>
 									<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">

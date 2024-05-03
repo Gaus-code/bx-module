@@ -7,7 +7,7 @@
 <aside class="aside">
 	<?php $user = $arResult['USER']?>
 	<div class="aside__profile">
-		<p class="profile__name"><?=$user->getBUser()->getName() . ' ' .$user->getBUser()->getLastName()?></p>
+		<p class="profile__name"><?=htmlspecialcharsbx($user->getBUser()->getName() . ' ' .$user->getBUser()->getLastName())?></p>
 		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 		<p class="profile__email"><?=$user->getBUser()->getEmail()?></p>
 		<?php endif; ?>
