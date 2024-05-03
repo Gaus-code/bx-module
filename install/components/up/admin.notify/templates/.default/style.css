@@ -36,7 +36,7 @@ li.tag-report {
     justify-content: space-between;
     gap: 10px;
     border-radius: 10px;
-    background: var(--color-primary-white);
+    background: var(--color-bg-modal);
     box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
 
 }
@@ -44,6 +44,12 @@ li.tag-report {
 .notify__profile {
     max-width: 250px;
     text-align: center;
+    color: var(--color-bg-text);
+}
+
+.notify__profile span {
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .notify__accept {

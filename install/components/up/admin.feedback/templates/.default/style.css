@@ -2,26 +2,80 @@
     width: 100%;
 }
 
-.response-table {
-    margin-top: 32px;
-    width: 90%;
+.rounded-corners {
+    margin-top: 40px;
+    margin-left: 20px;
+    border-collapse: separate;
+    border: 3px solid var(--color-primary-purple);
+    border-radius: 6px;
+    width: 85%;
+}
+
+.rounded-corners th,
+.rounded-corners td {
+    border: 1px solid var(--color-primary-border);
     text-align: center;
-
 }
 
-.response-table thead {
-    background-color: var(--color-tag-purple);
-    border: 1px solid var(--color-tag-purple);
-    border-radius: 8px;
+.rounded-corners th {
+    background-color: var(--color-primary-purple);
+    color: var(--color-primary-white);
+
+    padding: 8px;
 }
 
-.response-table th, td {
-    padding: 20px;
+.rounded-corners td {
+    padding: 8px;
+    color: var(--color-bg-text);
 }
 
 .responseBtns {
+    max-width: 390px;
+    width: 100%;
     display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin: 0 auto;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
+}
+
+.responseBtns a{
+    padding: 5px 7px;
+    background-color: var(--color-warning-green);
+    border-radius: 8px;
+    color: var(--color-bg-text);
+    border: 2px solid var(--color-warning-green);
+}
+
+.responseBtns a:hover, .responseBtns a:focus {
+    background-color: inherit;
+    color: var(--color-warning-green);
+    transition: 0.4s;
+}
+
+.responseBtns button {
+    padding: 3px 7px;
+    background-color: var(--color-primary-purple);
+    border-radius: 8px;
+    color: var(--color-bg-text);
+    border: 2px solid var(--color-primary-purple);
+}
+
+.responseBtns button:hover, .responseBtns button:focus {
+    background-color: inherit;
+    color: var(--color-primary-purple);
+    transition: 0.4s;
+}
+
+#sendComplaint {
+    background-color: var(--color-warning-yellow);
+    border: 2px solid var(--color-warning-yellow);
+    color: var(--color-bg-text);
+
+}
+
+#sendComplaint:hover, #sendComplaint:focus {
+    background-color: inherit;
+    color: var(--color-warning-yellow);
+    transition: 0.4s;
 }

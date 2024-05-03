@@ -27,7 +27,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article>
 			<?php if (count($arResult['ADMIN_USERS']) > 0):?>
-			<table class="response-table">
+			<table class="rounded-corners">
 				<thead>
 				<tr>
 					<th>Пользователь</th>

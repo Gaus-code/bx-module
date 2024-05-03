@@ -31,10 +31,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if ($notify->getType() === 'task'): ?>
 					<li class="notify__item task-report">
 						<div class="notify__profile">
-							<p>Жалоба на заявку: <?= htmlspecialcharsbx($notify->getTask()->getTitle()) ?></p>
+							<p><span>Жалоба на заявку:</span> <?= htmlspecialcharsbx($notify->getTask()->getTitle()) ?></p>
 						</div>
 						<div class="notify__profile">
-							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+							<p><span>Сообщение:</span> <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
 							<a class="notify__accept" href="/task/<?= $notify->getTask()->getId() ?>/">Посмотреть</a>
@@ -44,10 +44,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if ($notify->getType() === 'user'): ?>
 					<li class="notify__item user-report">
 						<div class="notify__profile">
-							<p>Жалоба описание профиля: <?= htmlspecialcharsbx($notify->getToUser()->getBio()) ?></p>
+							<p><span>Жалоба описание профиля:</span> <?= htmlspecialcharsbx($notify->getToUser()->getBio()) ?></p>
 						</div>
 						<div class="notify__profile">
-							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+							<p><span>Сообщение:</span> <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
 							<a class="notify__accept" href="/profile/<?= $notify->getToUser()->getId() ?>/">Посмотреть</a>
@@ -57,10 +57,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if ($notify->getType() === 'tag'): ?>
 					<li class="notify__item tag-report">
 						<div class="notify__profile">
-							<p>Жалоба на тег в заявке: <?= htmlspecialcharsbx($notify->getTask()->getTitle()) ?> </p>
+							<p><span>Жалоба на тег в заявке:</span></span> <?= htmlspecialcharsbx($notify->getTask()->getTitle()) ?> </p>
 						</div>
 						<div class="notify__profile">
-							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+							<p><span>Сообщение:</span> <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
 							<a class="notify__accept" href="/task/<?= $notify->getTask()->getId() ?>/">Посмотреть</a>
@@ -70,10 +70,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php if ($notify->getType() === 'feedback'): ?>
 					<li class="notify__item feedback-report">
 						<div class="notify__profile">
-							<p>Жалоба на комментарий: <?= htmlspecialcharsbx($notify->getToFeedback()->getComment()) ?></p>
+							<p><span>Жалоба на комментарий:</span> <?= htmlspecialcharsbx($notify->getToFeedback()->getComment()) ?></p>
 						</div>
 						<div class="notify__profile">
-							<p>Сообщение: <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
+							<p><span>Сообщение:</span> <?= htmlspecialcharsbx($notify->getMessage()) ?></p>
 						</div>
 						<div class="notify__buttons">
 							<a class="notify__accept" href="/task/<?= $notify->getTask()->getId() ?>/">Посмотреть</a>

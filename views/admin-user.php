@@ -13,3 +13,4 @@ if (!$USER->IsAdmin())
 <?php $APPLICATION->IncludeComponent('up:admin.user', '', [
 	'USER_ID' => (int)$USER->GetID(),
 ]); ?>
+<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

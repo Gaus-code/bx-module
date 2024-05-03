@@ -27,7 +27,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<article>
 			<?php if (count($arResult['ADMIN_FEEDBACKS']) > 0):?>
-			<table class="response-table">
+			<table class="rounded-corners">
 				<thead>
 				<tr>
 					<th>Отзыв</th>
@@ -50,7 +50,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<form action="/report/delete/" method="post" >
 									<?= bitrix_sessid_post() ?>
 									<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
-									<button id="sendComplaint" type="submit">Отклонить жалобу</button>
+									<button type="submit">Отклонить жалобу</button>
 								</form>
 							</div>
 						</td>

@@ -26,7 +26,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<h2 class="content__tittle">Жалоба на заявки</h2>
 		</article>
 		<?php if (count($arResult['ADMIN_TASKS']) > 0):?>
-		<table class="task-table">
+		<table class="rounded-corners">
 			<thead>
 			<tr>
 				<th>Заголовок</th>
@@ -40,12 +40,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<td><?= htmlspecialcharsbx($report->getTask()->getTitle()) ?></td>
 				<td><?= htmlspecialcharsbx($report->getTask()->getDescription()) ?></td>
 				<td>
-					<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
-					<form action="/report/delete/" method="post" >
-						<?= bitrix_sessid_post() ?>
-						<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
-						<button id="sendComplaint" type="submit">Отклонить жалобу</button>
-					</form>
+					<div class="rounded-corners__btn">
+						<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
+						<form action="/report/delete/" method="post" >
+							<?= bitrix_sessid_post() ?>
+							<input name="reportId" hidden="hidden" value="<?= $report->getId() ?>">
+							<button id="sendComplaint" type="submit">Отклонить жалобу</button>
+						</form>
+					</div>
 				</td>
 			</tr>
 			<?php endforeach;?>
