@@ -178,7 +178,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</div>
 							</a>
 							<?php
-							if (($arParams['FILTER']) === 'wait'): ?>
+							if (($arParams['FILTER']) === 'wait' &&  !$arResult['USER_IS_BANNED']): ?>
 								<div class="task__responseFooter">
 									<form action="/response/approve/" method="post">
 										<?= bitrix_sessid_post() ?>

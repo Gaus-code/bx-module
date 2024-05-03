@@ -44,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($user->getRating()) ?> (<?= htmlspecialcharsbx($user->getFeedbackCount()) ?> оценки)</p>
 
 					</div>
-					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner' && !$arResult['USER']->getIsBanned()):?>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 					</a>

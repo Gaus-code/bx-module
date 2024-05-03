@@ -37,9 +37,11 @@ class TaskDetailFooterComponent extends CBitrixComponent
 		{
 			case 'owner':
 				$this->fetchOwnerActivity();
+				$this->fetchUserBan();
 				break;
 			case 'contractor_this_task':
 				$this->fetchContractorActivity();
+				$this->fetchUserBan();
 				break;
 			case 'contractor_from_project':
 				$this->fetchContractor();
@@ -170,5 +172,11 @@ class TaskDetailFooterComponent extends CBitrixComponent
 			$this->arResult['ISSET_REPORT'] = (bool)$report;
 		}
 
+	}
+
+	private function fetchUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
 	}
 }

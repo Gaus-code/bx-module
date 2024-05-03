@@ -31,7 +31,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<th>Описание заявки</th>
 			<th>Дата создания заявки</th>
 			<th>Исполнитель</th>
-			<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
+			<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
 			<th></th>
 			<?php endif;?>
 		</tr>
@@ -48,7 +48,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>В поиске исполнителя</td>
-					<?php if ($arParams['USER_ACTIVITY'] === 'owner'):?>
+					<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
@@ -87,7 +87,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<th>Описание заявки</th>
 				<th>Дата создания заявки</th>
 				<th>Исполнитель</th>
+				<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
 				<th></th>
+				<?php endif; ?>
 			</tr>
 			</thead>
 			<tbody>
@@ -107,9 +109,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 												   . ' ' . $task->getContractor()->getBUser()->getLastName()) ?>
 						</a>
 					</td>
+					<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
 					<td data-label="Редактировать">
 						<a class="editTask" href="/task/<?= $task->getId() ?>/edit/">Редактировать заявку</a>
 					</td>
+					<?php endif; ?>
 
 				</tr>
 			<?php endforeach; ?>

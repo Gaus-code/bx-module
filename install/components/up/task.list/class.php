@@ -258,11 +258,18 @@ class TaskListComponent extends CBitrixComponent
 		if ($this->arParams['USER_ID'] === $userId)
 		{
 			$this->arResult['USER_ACTIVITY'] = 'owner';
+			$this->fetchUserBan();
 		}
 		else
 		{
 			$this->arResult['USER_ACTIVITY'] = 'other_user';
 		}
+	}
+
+	private function fetchUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
 	}
 
 }
