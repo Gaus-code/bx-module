@@ -11,10 +11,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <section class="detail__footer">
-	<div class="detail__status">
-		<span> Вы владелец этой задачи! Хотите <a href="/task/<?= $arParams['TASK']->getId() ?>/edit/"> отредактировать</a> ее?  </span>
-	</div>
-
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['search_contractor']): ?>
 		<?php if (count($arResult['RESPONSES']) > 0): ?>
 			<p class="responses__text"> Отклики на вашу заявку: </p>
@@ -54,16 +50,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<?php endif; ?>
 
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['at_work']): ?>
-		<div class="detail__status">
-			<span> Отлично, Ваша задача имеет исполнителя!</span>
-			<p> Вот его имя и контакты: </p>
-			<p class="boldSpan">
-				<?= htmlspecialcharsbx($arResult['CONTRACTOR']->getBUser()->getName()
-					. ' ' .
-					$arResult['CONTRACTOR']->getBUser()->getLastName()) ?>
-			</p>
-			<p class="boldSpan"> <?= $arResult['CONTRACTOR']->getContacts() ?> </p>
-		</div>
 		<form action="/task/finish/" method="post">
 			<?= bitrix_sessid_post() ?>
 			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">

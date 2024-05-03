@@ -104,6 +104,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								<button id="sendComplaint" class="banBtn" type="submit">Заблокировать заявку</button>
 							</form>
 						</div>
+						<?php if (count($arResult['TASK']->getTags()) > 0): ?>
 						<div class="metaContainer__item">
 							<div class="detail__metaContainer">
 								<form action="/tag/block/" method="post" >
@@ -121,6 +122,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 								</form>
 							</div>
 						</div>
+						<?php endif; ?>
 					<?php else :?>
 						<div class="metaContainer__item">
 							<form  action="/task/unblock/" method="post" >
@@ -152,6 +154,15 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 			</section>
 		</div>
 	</main>
+
+	<?php $APPLICATION->IncludeComponent('up:task.detail.meta',
+									   $arResult['USER_ACTIVITY'],
+									   [
+										   'USER_ACTIVITY' => $arResult['USER_ACTIVITY'],
+										   'TASK' => $arResult['TASK'],
+										   'RESPONSE' => $arResult['RESPONSE'],
+									   ]);
+	?>
 <?php
 else: ?>
 	<main class="detail wrapper">

@@ -13,16 +13,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 <section class="detail__footer">
 	<?php if ($arParams['TASK']->getStatus() !== $arParams['TASK_STATUSES']['done']): ?>
-		<div class="detail__status">
-			<span> Круто, ваш отклик подтвердили! </span>
-			<p> Контакты заказчика: </p>
-			<p class="boldSpan">
-				<?= htmlspecialcharsbx($arResult['CLIENT']->getBUser()->getName()
-					. ' ' .
-					$arResult['CLIENT']->getBUser()->getLastName()) ?>
-			</p>
-			<p class="boldSpan"> <?= htmlspecialcharsbx($arResult['CLIENT']->getContacts()) ?> </p>
-		</div>
 		<form action="/task/withdraw/" method="post">
 			<?= bitrix_sessid_post() ?>
 			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
