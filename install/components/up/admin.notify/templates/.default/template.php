@@ -82,6 +82,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php endif;?>
 				<?php endforeach;?>
 			</ul>
+			<?php
+			if ($arParams['CURRENT_PAGE'] !== 1 || $arParams['EXIST_NEXT_PAGE'])
+			{
+				$APPLICATION->IncludeComponent('up:pagination', '', [
+					'EXIST_NEXT_PAGE' => $arParams['EXIST_NEXT_PAGE'],
+				]);
+			}
+			?>
 		</article>
 	</section>
 </main>

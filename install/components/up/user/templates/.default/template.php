@@ -44,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($user->getRating()) ?> (<?= htmlspecialcharsbx($user->getFeedbackCount()) ?> оценки)</p>
 
 					</div>
-					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner' && !$arResult['USER']->getIsBanned()):?>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
 					</a>
@@ -68,7 +68,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</form>
 						<?php endif; ?>
 					<?php else: ?>
-						<?php if ($arResult['USER_ACTIVITY'] !== 'owner'):?>
+						<?php if ($arResult['USER']->getIsBanned()):?>
+							<p class="banBtn">Профиль заблокирован</p>
+						<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner'):?>
 							<?php if (!$arResult['ISSET_REPORT']):?>
 <!--							если зашел НЕ владелец задачи и не было жалоб от него-->
 								<button class="banBtn" type="button">Пожаловаться на пользователя</button>
