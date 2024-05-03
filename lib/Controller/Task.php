@@ -244,7 +244,7 @@ class Task extends Controller
 		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
 		$task->save();
 
-		LocalRedirect("/project/$projectId/");
+		LocalRedirect("/project/$projectId/edit/");
 
 	}
 
