@@ -106,6 +106,15 @@ class ProjectTable extends DataManager
 					}
 				]
 			),
+			new StringField(
+				'STATUS',
+				[
+					'required' => true,
+					'validation' => [__CLASS__, 'validateStatus'],
+					'title' => Loc::getMessage('PROJECT_ENTITY_STATUS_FIELD'),
+					'default_value' => Configuration::getOption('project_status')['active'],
+				]
+			),
 			new OneToMany(
 				'STAGES',
 				ProjectStageTable::class,
@@ -120,6 +129,17 @@ class ProjectTable extends DataManager
 	 * @return array
 	 */
 	public static function validateTitle()
+	{
+		return [
+			new LengthValidator(null, 255),
+		];
+	}
+	/**
+	 * Returns validators for STATUS field.
+	 *
+	 * @return array
+	 */
+	public static function validateStatus()
 	{
 		return [
 			new LengthValidator(null, 255),
