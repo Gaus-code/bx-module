@@ -43,16 +43,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<div class="responses__filterForm">
 					<p>Отфильтровать по статусу отклика: </p>
 					<form method="get">
-						<input type="hidden" name="show" value="<?= $arParams['SHOW'] ?>">
-						<select name="filter" class="catalog__sort">
-							<option value="wait" <?= $arParams['FILTER'] === 'wait' ? 'selected'
-								: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['wait'] ?></option>
-							<option value="approve" <?= $arParams['FILTER'] === 'approve' ? 'selected'
-								: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['approve'] ?></option>
-							<option value="reject" <?= $arParams['FILTER'] === 'reject' ? 'selected'
-								: '' ?>><?= \Up\Ukan\Service\Configuration::getOption('response_status')['reject'] ?></option>
+						<select name="filter" class="catalog__sort" onchange="this.form.submit()">
+							<option value="wait" <?= $arParams['FILTER'] === 'wait' ? 'selected' : '' ?>>
+								<?= \Up\Ukan\Service\Configuration::getOption('response_status')['wait'] ?>
+							</option>
+							<option value="approve" <?= $arParams['FILTER'] === 'approve' ? 'selected' : '' ?>>
+								<?= \Up\Ukan\Service\Configuration::getOption('response_status')['approve'] ?>
+							</option>
+							<option value="reject" <?= $arParams['FILTER'] === 'reject' ? 'selected' : '' ?>>
+								<?= \Up\Ukan\Service\Configuration::getOption('response_status')['reject'] ?>
+							</option>
 						</select>
-						<button class="task__responseDelete" type="submit">Отфильтровать</button>
 					</form>
 				</div>
 			</div>
@@ -131,7 +132,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 			<div id="receiveResponse-reviews" class="tab__container nonPriority-container">
 				<form method="get" class="searchForm">
-					<input type="hidden" name="show" value="<?= $arParams['SHOW'] ?>">
 					<input type="hidden" name="filter" value="<?= $arParams['FILTER'] ?>">
 					<input type="text" name="q" placeholder="Поиск задачи">
 					<button type="submit" class="searchBtn">

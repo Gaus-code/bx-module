@@ -17,15 +17,6 @@ class UserResponseComponent extends CBitrixComponent
 			$arParams['USER_ID'] = null;
 		}
 
-		if (request()->get('show') && (request()->get('show') === 'sent' || request()->get('show') === 'receive'))
-		{
-			$arParams['SHOW'] = request()->get('show');
-		}
-		else
-		{
-			$arParams['SHOW'] = 'sent';
-		}
-
 		if (request()->get('filter') && (request()->get('filter') === 'wait' || request()->get('filter') === 'approve' || request()->get('filter') === 'reject'))
 		{
 			$arParams['FILTER'] = request()->get('filter');
