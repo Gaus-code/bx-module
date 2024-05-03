@@ -6,3 +6,24 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.boldSpan {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.cancelBtn {
+    background-color: var(--color-warning-red);
+    width: 100%;
+    color: var(--color-bg-text);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.detail__feedback_title {
+    font-size: 24px;
+    font-weight: 600;
+}

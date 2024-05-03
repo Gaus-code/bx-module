@@ -1,4 +1,4 @@
-body, p, a, button, h1, h2, h3, h4, h5, h6, option, select, div, label {
+body, p, a, button, h1, h2, h3, h4, h5, h6, option, select, div, label, span, * {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -104,7 +104,7 @@ body {
 }
 
 .header__modalLink {
-    font-size: 16px;
+    font-size: 21px;
     color: var(--color-bg-text);
 }
 
@@ -137,7 +137,7 @@ body {
 
 .header__link, .header__logoName {
     line-height: 28px;
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 500;
     color: var(--color-bg-text);
 }
@@ -169,7 +169,7 @@ body {
     border-bottom: 3px solid var(--color-primary-purple);
     padding: 10px;
     color: var(--color-bg-text);
-    font-size: 17px;
+    font-size: 21px;
     background-color: inherit;
 }
 
@@ -542,5 +542,55 @@ h1 span {
 .peoplePreview__textcontainer button:hover, .peoplePreview__textcontainer button:active, .peoplePreview__textcontainer button:focus {
     background: var(--color-primary-white);
     transition: 0.4s;
+    color: var(--color-bg-text);
+}
+
+.detail__responseText {
+    border: 2px solid var(--color-primary-purple);
+    border-radius: 6px;
+    display: block;
+    resize: none;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-bg-input);
+    word-break: break-word;
+    font-size: 18px;
+}
+
+.completeBtn, .cancelBtn {
+    width: 100%;
+    color: var(--color-bg-text);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.completeBtn {
+    background-color: var(--color-tag-green);
+}
+
+.cancelBtn {
+    background-color: var(--color-warning-red);
+}
+
+.detail__feedback_title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-bg-text);
+}
+
+.detail__feedback {
+    margin-top: 30px;
+    border: 3px solid var(--color-primary-border);
+    padding: 10px;
+    background-color: var(--color-bg-modal);
+    position: relative;
+    border-radius: 8px;
+}
+
+.detail__feedback p {
+    font-size: 20px;
     color: var(--color-bg-text);
 }
