@@ -59,13 +59,13 @@ class Category extends Engine\Controller
 
 		$category = CategoriesTable::getById($categoryId)->fetchObject();
 
-		if (!$category || $category->getTitle() === 'Без категории')
+		if (!$category || $category->getTitle() === 'Другое')
 		{
 			LocalRedirect('/access/denied/');
 		}
 
 		$tasks = $category->fillTasks();
-		$defaultCategory = CategoriesTable::query()->setSelect(['*'])->where('TITLE', 'Без категории')->fetchObject();
+		$defaultCategory = CategoriesTable::query()->setSelect(['*'])->where('TITLE', 'Другое')->fetchObject();
 
 		foreach ($tasks as $task)
 		{

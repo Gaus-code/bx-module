@@ -347,3 +347,14 @@ __ukanMigrate(24, function($updater, $DB) {
 		);
 	}
 });
+
+__ukanMigrate(25, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_categories'))
+	{
+		$DB->query(
+			"UPDATE up_ukan_categories
+SET TITLE = 'Другое'
+WHERE TITLE = 'Без категории';"
+		);
+	}
+});
