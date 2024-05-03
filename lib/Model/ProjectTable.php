@@ -12,6 +12,7 @@ use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Service\Configuration;
 
 Loc::loadMessages(__FILE__);
 
