@@ -4,7 +4,8 @@ class UserProjectsComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
-		$this->fetchProjects();
+		$this->fetchActiveProjects();
+		$this->fetchCompletedProjects();
 		$this->fetchUserBan();
 		$this->includeComponentTemplate();
 	}
@@ -30,7 +31,7 @@ class UserProjectsComponent extends CBitrixComponent
 		return $arParams;
 	}
 
-	private function fetchProjects()
+	private function fetchActiveProjects()
 	{
 		$nav = new \Bitrix\Main\UI\PageNavigation("project.list");
 		$nav->allowAllRecords(true)
@@ -44,7 +45,8 @@ class UserProjectsComponent extends CBitrixComponent
 
 		$query->setSelect(['*', 'CLIENT']);
 
-		$query->where('CLIENT_ID', $clientId);
+		$query->where('CLIENT_ID', $clientId)
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('project_status')['active']);
 
 		$query->addOrder('CREATED_AT', 'DESC');
 		$query->setLimit($nav->getLimit() + 1);
@@ -64,7 +66,44 @@ class UserProjectsComponent extends CBitrixComponent
 			$this->arParams['EXIST_NEXT_PAGE'] = false;
 		}
 
-		$this->arResult['PROJECTS'] = $arrayOfProjects;
+		$this->arResult['ACTIVE_PROJECTS'] = $arrayOfProjects;
+	}
+	private function fetchCompletedProjects()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("project.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['project_list']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
+
+		global $USER;
+		$clientId = $USER->GetID();
+
+		$query = \Up\Ukan\Model\ProjectTable::query();
+
+		$query->setSelect(['*', 'CLIENT']);
+
+		$query->where('CLIENT_ID', $clientId)
+			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('project_status')['completed']);
+
+		$query->addOrder('CREATED_AT', 'DESC');
+		$query->setLimit($nav->getLimit() + 1);
+		$query->setOffset($nav->getOffset());
+
+		$result = $query->fetchCollection();
+		$nav->setRecordCount($nav->getOffset() + count($result));
+
+		$arrayOfProjects = $result->getAll();
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = true;
+			array_pop($arrayOfProjects);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE'] = false;
+		}
+
+		$this->arResult['COMPLETED_PROJECTS'] = $arrayOfProjects;
 	}
 
 	private function fetchUserBan()

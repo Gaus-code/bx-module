@@ -1,4 +1,5 @@
 .content__userProject {
+	width: 85%;
     margin-top: 32px;
     max-width: 95%;
 }
@@ -376,9 +377,8 @@ section.editPriority {
 }
 
 .board {
-    width: 84%;
+    width: 100%;
     height: 100%;
-    max-height: 550px;
     overflow: scroll;
     margin-top: 20px;
 }
@@ -395,11 +395,10 @@ section.editPriority {
 }
 
 .lanes {
-    max-width: 1100px;
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: start;
     gap: 16px;
     padding: 16px 32px;
@@ -416,7 +415,7 @@ section.editPriority {
 
     padding: 12px;
     border-radius: 6px;
-    width: 225px;
+    width: 300px;
     min-height: 120px;
     flex-shrink: 0;
 }
@@ -492,13 +491,13 @@ section.editPriority {
     -webkit-appearance: none;
     outline: none;
     position: absolute;
-    top: 50%;
+	top: 10px;
     right: 0;
     transform: translate(0, -50%);
 }
 
 .projectTaskDelete:after {
-    content: '🗑️';
+    content: '✖️';
     width: 14px;
     height: 14px;
     cursor: pointer;
@@ -628,4 +627,59 @@ section.editPriority {
 
 .lanes::-webkit-scrollbar-track {
     background-color: #f0f0f0;
+}
+.project__stage__header {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 9px;
+	max-width: 350px;
+	overflow: hidden;
+	margin-top: 10px;
+	padding-bottom: 12px;
+	border-bottom: 2px solid rgb(209 185 185);
+}
+.project__stage__status {
+	border-radius: 20px;
+	text-align: center;
+	font-size: 12px;
+
+	line-height: 15px;
+	padding: 3px 11px;
+	color: var(--color-primary-black);
+	background-color: var(--color-primary-yellow);
+}
+
+.task__header {
+	display: flex;
+	width: -webkit-fill-available;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 9px;
+	max-width: 350px;
+	overflow: hidden;
+	margin-top: 10px;
+	padding-bottom: 12px;
+	border-bottom: 2px solid rgb(209 185 185);
+}
+
+.task__header a {
+	text-decoration: none;
+	color: #000;
+}
+.task__info  {
+
+}
+.task__info p {
+	margin-bottom: 5px;
+	margin-top: 5px;
+	margin-right: 7px;
+}
+.task__info a {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.task__info_parameters {
+	display: flex;
 }
