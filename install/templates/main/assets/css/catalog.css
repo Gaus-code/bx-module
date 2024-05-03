@@ -143,6 +143,8 @@
     border: 2px solid var(--color-primary-purple);
     border-radius: 6px;
     min-height: 30px;
+    background-color: var(--color-bg-modal);
+    color: var(--color-bg-text);
 }
 
 .catalog__sort option {

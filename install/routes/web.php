@@ -21,7 +21,7 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/notify.php'));
 	$routes->get('/profile/{user_id}/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/feedback-list.php'));
 	$routes->get('/subscription/', new PublicPageController('/local/modules/up.ukan/views/subscription.php'));
-
+	$routes->get('/subscription/haha/', new PublicPageController('/local/modules/up.ukan/views/payment-gateway.php'));
 	//profile actions(get)
 	$routes->get('/profile/{user_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));
 	$routes->get('/task/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));

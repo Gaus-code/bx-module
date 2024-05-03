@@ -351,7 +351,6 @@ a.aside__btn {
 }
 
 .create__form {
-    max-width: 750px;
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -407,8 +406,8 @@ a.aside__btn {
     display: flex;
     flex-direction: column;
     width: 100%;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -506,16 +505,20 @@ a.aside__btn {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    color: var(--color-bg-text);
 }
 
 .contractor__emptyContainer img {
     display: block;
     width: 300px;
+    border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 .contractor__emptyLink {
     padding: 5px;
     font-size: 18px;
+    color: var(--color-bg-text);
 }
 
 .contractor__emptyLink a {
