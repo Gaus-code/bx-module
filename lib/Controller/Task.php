@@ -332,6 +332,37 @@ class Task extends Controller
 		LocalRedirect("/task/$taskId/");
 
 	}
+	public function startSearchContractorAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'RESPONSES', 'TAGS'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+		if ($task->getStatus()!==Configuration::getOption('task_status')['wait_start'])
+		{
+			$errors = ['По данной заявке нельзя начать поиск исполнителя'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/$taskId/edit/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+
+		LocalRedirect("/task/$taskId/");
+
+	}
 	public function finishTaskAction(int $taskId)
 	{
 		if (!check_bitrix_sessid())

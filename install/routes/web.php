@@ -38,6 +38,7 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/task/finish/', [\Up\Ukan\Controller\Task::class, 'finishTask']);
 	$routes->post('/task/create/project/', [\Up\Ukan\Controller\Task::class, 'createAtProject']);
 	$routes->post('/task/stop-search-contractor/', [\Up\Ukan\Controller\Task::class, 'stopSearchContractor']);
+	$routes->post('/task/start-search-contractor/', [\Up\Ukan\Controller\Task::class, 'startSearchContractor']);
 
 	//project actions
 	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);
@@ -47,6 +48,8 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/project/add-stage/', [\Up\Ukan\Controller\Project::class, 'addStage']);
 	$routes->post('/project/delete-stage/', [\Up\Ukan\Controller\Project::class, 'deleteStage']);
 	$routes->post('/project/edit-info/', [\Up\Ukan\Controller\Project::class, 'editInfo']);
+	$routes->post('/project/edit-info/', [\Up\Ukan\Controller\Project::class, 'editInfo']);
+	$routes->post('/project/complete/', [\Up\Ukan\Controller\Project::class, 'complete']);
 
 	//stage actions
 	$routes->post('/stage/start/', [\Up\Ukan\Controller\ProjectStage::class, 'start']);
