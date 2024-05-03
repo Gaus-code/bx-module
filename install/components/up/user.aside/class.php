@@ -36,10 +36,23 @@ class UserAsideComponent extends CBitrixComponent
 		if ($this->arParams['USER_ID'] === $userId)
 		{
 			$this->arResult['USER_ACTIVITY'] = 'owner';
+			$this->fetchNotifyCount();
 		}
 		else
 		{
 			$this->arResult['USER_ACTIVITY'] = 'other_user';
 		}
+	}
+
+	private function fetchNotifyCount()
+	{
+		$notifications = \Up\Ukan\Model\NotificationTable::query()
+														 ->addSelect('COUNT(*) as NOTIFICATION_COUNT')
+														 ->where('TO_USER_ID', $this->arParams['USER_ID'])
+														 ->exec()
+														 ->fetchAll();
+
+		$this->arResult['NOTIFICATION_COUNT'] = count($notifications);
+
 	}
 }
