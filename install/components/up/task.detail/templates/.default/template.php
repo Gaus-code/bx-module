@@ -16,35 +16,25 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())): ?>
 	<main class="detail wrapper">
 		<div class="detail__mainContainer">
-			<section class="detail__header">
-				<h1><?= htmlspecialcharsbx($arResult['TASK']->getTitle()) ?></h1>
-				<div class="detail__tags">
-					<p class="task__categories"><?= $arResult['TASK']->getCategory()->getTitle() ?></p>
-					<?php
-					foreach ($arResult['TASK']->getTags() as $tag): ?>
-						<p class="task__tag">#<?= htmlspecialcharsbx($tag->getTitle()) ?></p>
-					<?php
-					endforeach; ?>
-				</div>
-			</section>
-			<section class="detail__main">
-				<div class="detail__description">
-					<?= htmlspecialcharsbx($arResult['TASK']->getDescription()) ?>
-				</div>
-				<div class="detail__container">
-					<div class="detail__status"><?= $arResult['TASK']->getStatus() ?></div>
-				</div>
-				<?php if (!empty($arResult['TASK']->getDeadline())): ?>
-					<div class="detail__container">
-						<div class="detail__status">Дедлайн: <?= $arResult['TASK']->getDeadline() ?></div>
+			<div class="detail__mainInfo">
+				<section class="detail__header">
+					<h1><?= htmlspecialcharsbx($arResult['TASK']->getTitle()) ?></h1>
+					<div class="detail__tags">
+						<p class="task__categories"><?= $arResult['TASK']->getCategory()->getTitle() ?></p>
+						<?php
+						foreach ($arResult['TASK']->getTags() as $tag): ?>
+							<p class="task__tag">#<?= htmlspecialcharsbx($tag->getTitle()) ?></p>
+						<?php
+						endforeach; ?>
 					</div>
-				<?php endif;?>
-				<?php if (!empty($arResult['TASK']->getMaxPrice())): ?>
-					<div class="detail__container">
-						<div class="detail__status">До <?= $arResult['TASK']->getMaxPrice() ?> ₽</div>
+				</section>
+				<section class="detail__main">
+					<div class="detail__description">
+						<?= htmlspecialcharsbx($arResult['TASK']->getDescription()) ?>
 					</div>
-				<?php endif;?>
-			</section>
+				</section>
+			</div>
+
 
 			<?php if ($USER->IsAuthorized()): ?>
 				<?php $APPLICATION->IncludeComponent('up:task.detail.footer',
@@ -60,7 +50,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 		<div class="detail__metaContainers">
 			<div class="detail__metaContainer">
 				<section class="metaContainer__header">
-					<h2>Дополнительная информация:</h2>
+					<h2>Дополнительная информация</h2>
 					<ul class="metaContainer__list">
 						<li class="metaContainer__item">
 							<p class="metaContainer__info">
@@ -71,13 +61,36 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 						<li class="metaContainer__item">
 							<p class="metaContainer__info">
 								<span>Заказчик:</span>
-								<a href="/profile/<?= $arResult['TASK']->getClient()->get('B_USER')->getId() ?>/">
+								<a class="metaContainer__text" href="/profile/<?= $arResult['TASK']->getClient()->get('B_USER')->getId() ?>/">
 									<?= htmlspecialcharsbx($arResult['TASK']->getClient()->get('B_USER')->getName()
 										. ' '
 										. $arResult['TASK']->getClient()->get('B_USER')->getLastName()) ?>
 								</a>
 							</p>
 						</li>
+						<li class="metaContainer__item">
+							<div class="metaContainer__info">
+								<span>Статус:</span>
+								<p class="metaContainer__text"><?= $arResult['TASK']->getStatus() ?></p>
+							</div>
+						</li>
+						<?php if (!empty($arResult['TASK']->getDeadline())): ?>
+						<li class="metaContainer__item">
+							<div class="metaContainer__info">
+								<span>Дедлайн:</span>
+								<p class="metaContainer__text"> <?= $arResult['TASK']->getDeadline() ?></p>
+							</div>
+
+						</li>
+						<?php endif;?>
+						<?php if (!empty($arResult['TASK']->getMaxPrice())): ?>
+						<li class="metaContainer__item">
+							<div class="metaContainer__info">
+								<span>Цена:</span>
+								<p class="metaContainer__text"> До <?= $arResult['TASK']->getMaxPrice() ?> ₽</p>
+							</div>
+						</li>
+						<?php endif;?>
 					</ul>
 				</section>
 			</div>

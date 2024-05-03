@@ -14,12 +14,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <section class="detail__footer">
 	<?php if ($arParams['TASK']->getStatus() !== $arParams['TASK_STATUSES']['done']): ?>
 		<div class="detail__status">
-			<span> Круто, ваш отклик подтвердили! Если Вы еще не связались с заказчиком, скорее сделайте это! </span>
-			<p> Вот его имя и контакты: </p> <?= htmlspecialcharsbx($arResult['CLIENT']->getBUser()->getName()
-																	. ' ' .
-																	$arResult['CLIENT']->getBUser()->getLastName()) ?>
-			<p> <?= htmlspecialcharsbx($arResult['CLIENT']->getContacts()) ?> </p>
+			<span> Круто, ваш отклик подтвердили! </span>
+			<p> Контакты заказчика: </p>
+			<p class="boldSpan">
+				<?= htmlspecialcharsbx($arResult['CLIENT']->getBUser()->getName()
+					. ' ' .
+					$arResult['CLIENT']->getBUser()->getLastName()) ?>
+			</p>
+			<p class="boldSpan"> <?= htmlspecialcharsbx($arResult['CLIENT']->getContacts()) ?> </p>
 		</div>
+		<form action="/task/withdraw/" method="post">
+			<?= bitrix_sessid_post() ?>
+			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
+			<button class="cancelBtn" type="submit">Прекратить сотрудничество</button>
+		</form>
 	<?php else: ?>
 		<div class="modalResponse">
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
@@ -39,9 +47,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endfor; ?>
 					</div>
 					<label class="create__textareaLabel" for="taskDescription">Комментарий</label>
-					<textarea name="comment" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+					<textarea name="comment" id="taskDescription" class="detail__responseText" cols="30" rows="10"></textarea>
 				</div>
-				<button class="createBtn" type="submit">Оставить Отзыв</button>
+				<button class="completeBtn" type="submit">Оставить Отзыв</button>
 			</form>
 		<?php endif; ?>
 		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>

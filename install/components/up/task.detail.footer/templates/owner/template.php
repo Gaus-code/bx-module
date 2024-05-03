@@ -17,10 +17,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['search_contractor']): ?>
 		<?php if (count($arResult['RESPONSES']) > 0): ?>
-			<div class="detail__status">
-				<p> Вы можете просмотреть несколько ваших откликов здесь!</p>
-				<p> (Хотите посмотреть все? Тогда нажмите <a href="/profile/<?= $arParams['USER_ID']?>/responses/?show=receive&filter=wait&q=<?= $arParams['TASK']->getTitle() ?>"> сюда </a> )</p>
-			</div>
+			<p class="responses__text"> Отклики на вашу заявку: </p>
 			<?php foreach ($arResult['RESPONSES'] as $response): ?>
 				<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
 					<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
@@ -52,21 +49,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 				</div>
 			<?php endforeach; ?>
+			<p class="responses__textMore"> Хотите посмотреть все отклики? Тогда нажмите <a href="/profile/<?= $arParams['USER_ID']?>/responses/?show=receive&filter=wait&q=<?= $arParams['TASK']->getTitle() ?>"> сюда </a></p>
 		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['at_work']): ?>
 		<div class="detail__status">
-			<span> Отлично, Ваша задача имеет исполнителя! Если Вы с ним еще не связались, то скорее сделайте это! </span>
-			<p> Вот его имя и контакты: </p> <?= htmlspecialcharsbx($arResult['CONTRACTOR']->getBUser()->getName()
-																	. ' ' .
-																	$arResult['CONTRACTOR']->getBUser()->getLastName()) ?>
-			<p> <?= $arResult['CONTRACTOR']->getContacts() ?> </p>
+			<span> Отлично, Ваша задача имеет исполнителя!</span>
+			<p> Вот его имя и контакты: </p>
+			<p class="boldSpan">
+				<?= htmlspecialcharsbx($arResult['CONTRACTOR']->getBUser()->getName()
+					. ' ' .
+					$arResult['CONTRACTOR']->getBUser()->getLastName()) ?>
+			</p>
+			<p class="boldSpan"> <?= $arResult['CONTRACTOR']->getContacts() ?> </p>
 		</div>
 		<form action="/task/finish/" method="post">
 			<?= bitrix_sessid_post() ?>
 			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
-			<button class="createBtn" type="submit">Завершить задачу!</button>
+			<button class="completeBtn" type="submit">Завершить задачу</button>
+		</form>
+		<form action="/task/unassign/" method="post">
+			<?= bitrix_sessid_post() ?>
+			<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
+			<button class="cancelBtn" type="submit">Отменить назначение исполнителя</button>
 		</form>
 	<?php endif; ?>
 
@@ -89,9 +95,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<?php endfor; ?>
 					</div>
 					<label class="create__textareaLabel" for="taskDescription">Комментарий</label>
-					<textarea name="comment" id="taskDescription" class="create__description" cols="30" rows="10"></textarea>
+					<textarea name="comment" id="taskDescription" class="detail__responseText" cols="30" rows="10"></textarea>
 				</div>
-				<button class="createBtn" type="submit">Оставить Отзыв</button>
+				<button class="completeBtn" type="submit">Оставить Отзыв</button>
 			</form>
 		<?php endif; ?>
 		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>

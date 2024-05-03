@@ -15,6 +15,7 @@
 	border-radius: 10px;
 	background: var(--color-bg-modal);
 	box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
+	margin-bottom: 10px;
 }
 
 .task__responseMain {
@@ -29,7 +30,7 @@
 
 .task__responseCreated {
 	margin-top: 5px;
-	font-size: 15px;
+	font-size: 21px;
 	color: var(--color-bg-text);
 }
 
@@ -43,9 +44,18 @@
 	padding: 10px 0 10px;
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
-	gap: 13px;
+	justify-content: center;
+	gap: 25px;
 	border-top: 1px solid var(--color-primary-gray);
+}
+
+.task__responseFooter form button {
+	font-size: 18px;
+	width: 100%;
+}
+
+.task__responseFooter form {
+	width: 45%;
 }
 
 .task__responseDelete {
@@ -61,3 +71,15 @@
 	color: var(--color-bg-text);
 	transition: 0.3s;
 }
+
+.responses__text, .responses__textMore {
+	padding: 10px;
+	font-size: 21px;
+	font-weight: 600;
+}
+
+.responses__textMore {
+	text-align: center;
+}
+
+
