@@ -50,7 +50,7 @@ return array(
 		'queue'=>'В очереди',
 		'active' => 'Активен',
 		'completed' => 'Завершен',
-		'independent' => 'Независимый',
+		'independent' => 'Независимый этап',
 	),
 	'project_status' => array(
 		'active' => 'Активен',
