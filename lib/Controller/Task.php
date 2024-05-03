@@ -66,6 +66,7 @@ class Task extends Controller
 			$maxPrice,
 			$deadline
 		);
+		$task->save();
 
 		LocalRedirect("/task/" . $task->getId() . "/");
 
@@ -240,6 +241,8 @@ class Task extends Controller
 			$maxPrice,
 			$deadline,
 		);
+		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+		$task->save();
 
 		LocalRedirect("/project/$projectId/");
 
@@ -264,6 +267,13 @@ class Task extends Controller
 		if (!$task)
 		{
 			LocalRedirect("/access/denied/");
+		}
+		if ($task->getStatus()===Configuration::getOption('task_status')['active']
+			|| $task->getStatus()===Configuration::getOption('task_status')['completed'])
+		{
+			$errors = ['Задачу нельзя удалить, поскольку она находится в процессе выполнения или уже успешно завершена'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/$taskId/edit/");
 		}
 
 		$tags = $task->getTags();
@@ -565,8 +575,6 @@ class Task extends Controller
 		{
 			$task->setMaxPrice($maxPrice);
 		}
-
-		$task->save();
 
 		return $task;
 	}
