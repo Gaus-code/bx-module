@@ -75,7 +75,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 		</div>
 		<p class="detail__feedback_title">Отзывы:</p>
-		<?php if (!$arResult['USER_SENT_FEEDBACK']): ?>
+		<?php if (!$arResult['USER_SENT_FEEDBACK'] && !$arResult['USER_IS_BANNED']): ?>
 			<form class="comment__form" action="/feedback/create/" method="post">
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
@@ -112,7 +112,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
 				<?php if (!$feedback->getIsBanned()): ?>
-					<?php if ($feedback->getFromUserId() === $arParams['USER_ID'] ): ?>
+					<?php if ($feedback->getFromUserId() === $arParams['USER_ID'] && !$arResult['USER_IS_BANNED']): ?>
 						<div class="rating-result">
 							<a href="/feedback/<?=$feedback->getId() ?>/edit/">Отредактировать отзыв</a>
 						</div>

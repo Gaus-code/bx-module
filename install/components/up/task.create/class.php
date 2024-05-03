@@ -4,6 +4,7 @@ class TaskCreateComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->checkUserBan();
 		$this->fetchCategories();
 		$this->fetchProjects();
 		$this->includeComponentTemplate();
@@ -41,6 +42,15 @@ class TaskCreateComponent extends CBitrixComponent
 	protected function fetchCategories()
 	{
 		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
+	}
+
+	private function checkUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		if ($user->getIsBanned())
+		{
+			LocalRedirect('/access/denied/');
+		}
 	}
 
 }

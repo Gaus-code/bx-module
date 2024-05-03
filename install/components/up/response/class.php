@@ -7,6 +7,7 @@ class UserResponseComponent extends CBitrixComponent
 		$this->preparePaginationParams();
 		$this->fetchSentResponses();
 		$this->fetchReceiveResponses();
+		$this->fetchUserBan();
 		$this->includeComponentTemplate();
 	}
 	public function onPrepareComponentParams($arParams)
@@ -165,5 +166,11 @@ class UserResponseComponent extends CBitrixComponent
 			  ->whereLike('TITLE', "%{$this->arParams['TASK']}%");
 
 		return $query->fetchCollection()->getIdList();
+	}
+
+	private function fetchUserBan()
+	{
+		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
+		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
 	}
 }
