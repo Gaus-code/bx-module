@@ -53,7 +53,7 @@ class Auth extends Engine\Controller
 
 			if ($USER->IsAdmin())
 			{
-				LocalRedirect('/admin/');
+				LocalRedirect('/admin/tasks/');
 			}
 			LocalRedirect('/profile/'.$userId.'/');
 		}

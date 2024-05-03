@@ -85,7 +85,7 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/feedback/delete/', [\Up\Ukan\Controller\Feedback::class, 'delete']);
 
 	//admin
-	$routes->get('/admin/', new PublicPageController('/local/modules/up.ukan/views/admin.php'));
+	$routes->get('/admin/tasks/', new PublicPageController('/local/modules/up.ukan/views/admin.php'));
 	$routes->get('/admin/notifications/', new PublicPageController('/local/modules/up.ukan/views/admin-notify.php'));
 	$routes->get('/admin/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/admin-feedback.php'));
 	$routes->get('/admin/users/', new PublicPageController('/local/modules/up.ukan/views/admin-user.php'));

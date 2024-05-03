@@ -45,7 +45,7 @@
 				<?php if ($USER->IsAdmin()):?>
 					<li class="header__modalItem">
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerMiniUser.svg" alt="logout image">
-						<a href="/admin/" class="header__modalLink">Администрирование</a>
+						<a href="/admin/tasks/" class="header__modalLink">Администрирование</a>
 					</li>
 				<?php else:?>
 					<li class="header__modalItem">

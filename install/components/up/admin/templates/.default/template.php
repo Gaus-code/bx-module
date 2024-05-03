@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<!-- Таблица тасков у админа !-->
 	<section class="admin">
 		<article class="content__header">
-			<h1>Рабочая область</h1>
+			<h1>Администрирование</h1>
 		</article>
 		<article class="content__name">
 			<h2 class="content__tittle">Жалоба на заявки</h2>
@@ -69,4 +69,3 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?php endif;?>
 	</section>
 </main>
-<script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
