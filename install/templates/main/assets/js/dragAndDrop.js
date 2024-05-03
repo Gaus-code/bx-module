@@ -5,18 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	draggables.forEach((task) => {
 		task.addEventListener('dragstart', (e) => {
 			const swimLane = task.closest('.swim-lane');
-			const zoneStatus = swimLane.querySelector('.zoneStatus').textContent.trim();
+			// const zoneStatus = swimLane.querySelector('.zoneStatus').textContent.trim();
 
-			if (zoneStatus === 'Активен' || zoneStatus === 'Завершен')
-			{
-				task.style.cursor = 'not-allowed';
-				e.preventDefault();
-				return;
-			}
-			else
-			{
-				task.style.cursor = 'grab';
-			}
+			// if (zoneStatus === 'Активен' || zoneStatus === 'Завершен')
+			// {
+			// 	task.style.cursor = 'not-allowed';
+			// 	e.preventDefault();
+			// 	return;
+			// }
+			// else
+			// {
+			// 	task.style.cursor = 'grab';
+			// }
 
 			task.classList.add('is-dragging');
 		});
@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		zone.addEventListener('dragover', (e) => {
 			e.preventDefault();
 
-			const zoneStatus = zone.querySelector('.zoneStatus').textContent.trim();
-			if (zoneStatus === 'Активен' || zoneStatus === 'Завершен')
-			{
-				return;
-			}
+			// const zoneStatus = zone.querySelector('.zoneStatus').textContent.trim();
+			// if (zoneStatus === 'Активен' || zoneStatus === 'Завершен')
+			// {
+			// 	return;
+			// }
 
 			const bottomTask = insertAboveTask(zone, e.clientY);
 			const currentTask = document.querySelector('.is-dragging');
