@@ -39,6 +39,8 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/task/create/project/', [\Up\Ukan\Controller\Task::class, 'createAtProject']);
 	$routes->post('/task/stop-search-contractor/', [\Up\Ukan\Controller\Task::class, 'stopSearchContractor']);
 	$routes->post('/task/start-search-contractor/', [\Up\Ukan\Controller\Task::class, 'startSearchContractor']);
+	$routes->post('/task/unassign/', [\Up\Ukan\Controller\Task::class, 'unassignContractor']);
+	$routes->post('/task/withdraw/', [\Up\Ukan\Controller\Task::class, 'withdraw']);
 
 	//project actions
 	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);

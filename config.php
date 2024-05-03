@@ -28,6 +28,9 @@ return array(
 		'feedback_unblock' => 'Отзыв разблокирован',
 		'user_block' => 'Ваш профиль заблокирован',
 		'user_unblock' => 'Ваш профиль разблокирован',
+		'drop_contractor' => 'Заказчик прекратил сотрудничество',
+		'drop_client' => 'Исполнитель прекратил сотрудничество',
+		'reconsideration' =>  'Ваш отклик вновь на рассмотрении',
 	),
 	'response_status' => array(
 		'wait' => 'Ожидает',
