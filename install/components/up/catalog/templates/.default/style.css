@@ -13,7 +13,7 @@
 }
 
 .searchBtn {
-    background-color: var(--color-bg-input);
+    background-color: inherit;
     position: absolute;
     top: 3px;
     right: 5px;
