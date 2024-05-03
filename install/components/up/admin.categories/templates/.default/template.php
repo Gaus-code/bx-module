@@ -49,7 +49,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<tr>
 						<td><?= htmlspecialcharsbx($category->getTitle()) ?></td>
 						<td>
-							<?php if ($category->getTitle() !== 'Без категории'): ?>
+							<?php if ($category->getTitle() !== 'Другое'): ?>
 							<div class="responseBtns" >
 								<form action="/category/delete/" method="post">
 									<?=bitrix_sessid_post()?>

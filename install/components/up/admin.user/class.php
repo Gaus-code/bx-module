@@ -42,7 +42,7 @@ class AdminFeedbackComponent extends CBitrixComponent
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		$query = \Up\Ukan\Model\ReportsTable::query()
-											->setSelect(['*', 'TO_USER.B_USER.NAME'])
+											->setSelect(['*', 'TO_USER.B_USER.NAME', 'TO_USER.B_USER.LAST_NAME'])
 											->setFilter(['TYPE' => 'user']);
 
 		$query->setLimit($nav->getLimit() + 1);

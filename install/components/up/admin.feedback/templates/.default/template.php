@@ -41,8 +41,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<td>
 							<div class="responseBtns">
 								<a href="/task/<?= $report->getTask()->getId() ?>/">Посмотреть заявку</a>
-								<form action="">
-									<button type="submit">Удалить отзыв</button>
+								<form action="/feedback/block/" method="post">
+									<?= bitrix_sessid_post() ?>
+									<input name="taskId" hidden="hidden" value="<?= $report->getTaskId() ?>">
+									<input name="feedbackId" hidden="hidden" value="<?= $report->getFeedbackId() ?>">
+									<button id="sendComplaint" type="submit">Заблокировать отзыв</button>
 								</form>
 								<form action="/report/delete/" method="post" >
 									<?= bitrix_sessid_post() ?>
