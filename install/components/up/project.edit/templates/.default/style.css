@@ -344,7 +344,7 @@ section.editPriority {
     outline: none;
     border: 1px solid var(--color-primary-purple);
     border-radius: 2px;
-    background-color: var(--color-primary-white);
+    background-color: var(--color-bg-input);
     width: 15px;
     height: 15px;
     position: relative;
@@ -513,7 +513,7 @@ section.editPriority {
 }
 
 .content__link {
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     font-size: 26px;
     font-weight: 500;
     line-height: 31px;
@@ -545,6 +545,7 @@ section.editPriority {
     border-radius: 6px;
     padding: 5px;
     font-size: 15px;
+    background-color: var(--color-bg-input);
 }
 
 .editForm label {
@@ -591,7 +592,7 @@ section.editPriority {
     outline: none;
     border: 1px solid var(--color-primary-purple);
     border-radius: 50%;
-    background-color: var(--color-primary-white);
+    background-color: var(--color-bg-input);
     width: 15px;
     height: 15px;
     position: relative;

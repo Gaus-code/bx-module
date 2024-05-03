@@ -3,6 +3,7 @@ namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\Date;
+use Up\Ukan\Service\Configuration;
 
 class Subscription extends Controller
 {
@@ -21,11 +22,14 @@ class Subscription extends Controller
 
 		if (!empty($user->get('SUBSCRIPTION_END_DATE')))
 		{
+			$errors = ['Вы не можете получить пробную подписку тк вы уже пользовались подпиской'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect("/subscription/");
 		}
 
 		$subscriptionEndDate = new Date;
-		$subscriptionEndDate->add('7d');
+		$trialSubscriptionPeriod = Configuration::getOption('subscription')['trial_subscription_period_in_days'].'d';
+		$subscriptionEndDate->add($trialSubscriptionPeriod);
 
 		$user->set('SUBSCRIPTION_END_DATE', $subscriptionEndDate);
 		$user->save();

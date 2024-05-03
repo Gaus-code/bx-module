@@ -36,6 +36,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<a class="project__link" href="/project/<?=$arParams['PROJECT_ID']?>/edit/">
 				Перейти к настройке проекта
 			</a>
+			<form action="/project/complete/" method="post">
+				<?= bitrix_sessid_post() ?>
+				<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
+				<button class="project__stageBtn" type="submit">Завершить проект</button>
+			</form>
 			<div class="project__categories">
 				<ul class="project__tagList">
 					<li id="activeStage-btn" class="project__tagItem active-tag-item">

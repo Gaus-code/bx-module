@@ -41,8 +41,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 						<p class="userInfo__name"><?= htmlspecialcharsbx($user->getBUser()->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?></p>
-						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($user->getRating()) ?> (<?= htmlspecialcharsbx($user->getFeedbackCount()) ?> оценки)</p>
-
+						<?php if((int)$arResult['USER_RATING']['FEEDBACK_COUNT']===0): ?>
+							<p class="userInfo__surname">У этого пользователя пока нет отзывов</p>
+						<?php else:?>
+						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($arResult['USER_RATING']['RATING']) ?> (<?= htmlspecialcharsbx($arResult['USER_RATING']['FEEDBACK_COUNT']) ?> оценки)</p>
+						<?php endif;?>
 					</div>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner' && !$arResult['USER']->getIsBanned()):?>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">

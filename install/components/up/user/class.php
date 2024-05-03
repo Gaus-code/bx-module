@@ -22,9 +22,18 @@ class UserComponent extends CBitrixComponent
 
 	protected function fetchUser()
 	{
-		$query = \Up\Ukan\Model\UserTable::query();
+		$this->arResult['USER'] = \Up\Ukan\Model\UserTable::query()->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.DATE_REGISTER','SUBSCRIPTION_STATUS'])
+										->where('ID', $this->arParams['USER_ID'])
+										->fetchObject();
 
-		$this->arResult['USER'] = $query->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.DATE_REGISTER','SUBSCRIPTION_STATUS'])->where('ID', $this->arParams['USER_ID'])->fetchObject();
+		$userRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT'])
+															 ->where('ID', $this->arParams['USER_ID'])
+															 ->fetch();
+
+		$userRating['RATING']=round((float)$userRatingResult['RATING'],1);
+		$userRating['FEEDBACK_COUNT']=(int)$userRatingResult['FEEDBACK_COUNT'];
+
+		$this->arResult['USER_RATING'] = $userRating;
 
 	}
 

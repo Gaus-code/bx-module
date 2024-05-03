@@ -1,6 +1,6 @@
 .content__editTask {
     margin-top: 32px;
-    max-width: 750px;
+    width: 85%;
 }
 
 .splitContainer {
@@ -77,7 +77,7 @@
 }
 
 .deleteTask:hover, .deleteTask:active, .deleteTask:focus {
-    background-color: var(--color-primary-white);
+    background-color: inherit;
     transition: 0.3s;
     color: var(--color-warning-red);
 }

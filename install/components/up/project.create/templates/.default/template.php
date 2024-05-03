@@ -27,6 +27,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<a href="/task/<?=$USER->GetID()?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
+		<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 		<article class="content__create">
 			<form class="create__form" action="/project/create/" method="post">
 				<?=bitrix_sessid_post()?>

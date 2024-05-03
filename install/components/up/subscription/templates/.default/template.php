@@ -12,6 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <main class="subscription wrapper">
+	<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 	<div class="subscription__container animate-border">
 		<div class="subscription__main">
 			<p class="subscription__description">Какое-то гениальное описание подписки и надпись "подписка доступна <span>30 дней</span> со дня оформления"</p>
@@ -27,11 +28,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</li>
 				<li class="subscription__item">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/crown.svg" alt="crown image">
-					<p class="subscription__description">Чего-нибудь еще</p>
+					<p class="subscription__description">Неограниченное количество проектов</p>
 				</li>
 				<li class="subscription__item">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/crown.svg" alt="crown image">
-					<p class="subscription__description">Доступ к GPT без ограничений</p>
+					<p class="subscription__description">Автоматический подбор тегов для ваших заявок</p>
 				</li>
 			</ul>
 		</div>
@@ -46,7 +47,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</p>
 				<input id="requiredInput" type="checkbox" required>
 				<label for="requiredInput">Я принимаю пользовательское соглашение бла-бла-бла</label>
-				<button class="subscription__btn" type="submit">Оформить подписку</button>
+				<button class="subscription__btn" type="submit">
+					<a href="/subscription/haha/">Оформить подписку</a>
+				</button>
 			</form>
 			<form action="/subscription/getTrialVersion" method="post" class="subscription__form">
 				<?=bitrix_sessid_post()?>

@@ -66,6 +66,7 @@ class Task extends Controller
 			$maxPrice,
 			$deadline
 		);
+		$task->save();
 
 		LocalRedirect("/task/" . $task->getId() . "/");
 
@@ -240,6 +241,8 @@ class Task extends Controller
 			$maxPrice,
 			$deadline,
 		);
+		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+		$task->save();
 
 		LocalRedirect("/project/$projectId/");
 
@@ -264,6 +267,13 @@ class Task extends Controller
 		if (!$task)
 		{
 			LocalRedirect("/access/denied/");
+		}
+		if ($task->getStatus()===Configuration::getOption('task_status')['active']
+			|| $task->getStatus()===Configuration::getOption('task_status')['completed'])
+		{
+			$errors = ['Задачу нельзя удалить, поскольку она находится в процессе выполнения или уже успешно завершена'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/$taskId/edit/");
 		}
 
 		$tags = $task->getTags();
@@ -318,6 +328,37 @@ class Task extends Controller
 		}
 
 		$task->setStatus(Configuration::getOption('task_status')['wait_start']);
+
+		LocalRedirect("/task/$taskId/");
+
+	}
+	public function startSearchContractorAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'RESPONSES', 'TAGS'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+		if ($task->getStatus()!==Configuration::getOption('task_status')['wait_start'])
+		{
+			$errors = ['По данной заявке нельзя начать поиск исполнителя'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/$taskId/edit/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
 
 		LocalRedirect("/task/$taskId/");
 
@@ -565,8 +606,6 @@ class Task extends Controller
 		{
 			$task->setMaxPrice($maxPrice);
 		}
-
-		$task->save();
 
 		return $task;
 	}

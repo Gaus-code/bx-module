@@ -48,8 +48,6 @@ class Feedback extends Controller
 
 		$feedback->save();
 
-		$this->updateUserRating($toUserId, $rating, 'addFeedback');
-
 		LocalRedirect("/task/" . $taskId . "/");
 	}
 
@@ -81,8 +79,6 @@ class Feedback extends Controller
 
 		$feedback->save();
 
-		$this->updateUserRating($feedback->getToUserId(), $rating, 'editFeedback');
-
 		LocalRedirect("/task/" . $feedback->getTaskId() . "/");
 	}
 
@@ -104,8 +100,6 @@ class Feedback extends Controller
 		{
 			LocalRedirect("/access/denied/");
 		}
-
-		$this->updateUserRating($feedback->getToUserId(), $feedback->getRating(), 'deleteFeedback');
 
 		$feedback->delete();
 
@@ -230,36 +224,4 @@ class Feedback extends Controller
 		return [$errors, $feedback];
 	}
 
-	private function updateUserRating(
-		int    $userId,
-		int    $rating,
-		string $action
-	)
-	{
-		$user = UserTable::getByPrimary($userId)->fetchObject();
-		switch ($action)
-		{
-			case 'addFeedback':
-				$oldFeedbackCount = $user->getFeedbackCount();
-				$oldRating = $user->getRating();
-				$newFeedbackCount = $oldFeedbackCount + 1;
-				$newRating = ($oldRating * $oldFeedbackCount + $rating) / $newFeedbackCount;
-				$user->setRating($newRating)->setFeedbackCount($newFeedbackCount);
-				break;
-			case 'editFeedback':
-				$feedbackCount = $user->getFeedbackCount();
-				$oldRating = $user->getRating();
-				$newRating = ($oldRating * $feedbackCount - $oldRating + $rating) / $feedbackCount;
-				$user->setRating($newRating);
-				break;
-			case 'deleteFeedback':
-				$oldFeedbackCount = $user->getFeedbackCount();
-				$oldRating = $user->getRating();
-				$newFeedbackCount = $oldFeedbackCount - 1;
-				$newRating = ($oldRating * $oldFeedbackCount - $rating) / $newFeedbackCount;
-				$user->setRating($newRating)->setFeedbackCount($newFeedbackCount);
-				break;
-		}
-		$user->save();
-	}
 }

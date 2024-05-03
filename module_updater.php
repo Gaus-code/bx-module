@@ -349,6 +349,20 @@ __ukanMigrate(24, function($updater, $DB) {
 });
 
 __ukanMigrate(25, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_project'))
+	{
+		$DB->query(
+			"alter table up_ukan_project
+    add STATUS VARCHAR(255) not null;"
+		);
+	}
+});
+
+
+
+
+
+__ukanMigrate(26, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_categories'))
 	{
 		$DB->query(
