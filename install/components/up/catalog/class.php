@@ -5,6 +5,7 @@ class CatalogComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->fetchCategories();
+		$this->fetchSubscriber();
 		$this->includeComponentTemplate();
 	}
 
@@ -21,4 +22,12 @@ class CatalogComponent extends CBitrixComponent
 																	  ->fetchCollection();
 	}
 
+	protected function fetchSubscriber()
+	{
+		global $USER;
+		$userId = $USER->GetID();
+		$this->arResult['SUBSCRIBER'] = \Up\Ukan\Model\UserTable::query()->setSelect(['SUBSCRIPTION_STATUS'])
+			->where('ID', $userId)
+			->fetchObject();
+	}
 }
