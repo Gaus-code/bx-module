@@ -52,4 +52,8 @@ return array(
 		'completed' => 'Завершен',
 		'independent' => 'Независимый',
 	),
+	'project_status' => array(
+		'active' => 'Активен',
+		'completed' => 'Завершен',
+	),
 );
