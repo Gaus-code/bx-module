@@ -68,12 +68,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<form action="/project/add-stage/" method="post">
 							<?= bitrix_sessid_post() ?>
 							<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
-							<button class="submitDrag" type="submit">Добавить этап(временное решение)</button>
+							<button class="submitDrag" type="submit">Добавить этап</button>
 						</form>
 						<form action="/project/delete-stage/" method="post">
 							<?= bitrix_sessid_post() ?>
 							<input type="hidden" name="projectId" value="<?=$arParams['PROJECT_ID']?>">
-							<button class="submitDrag" type="submit">удалить этап(временное решение)</button>
+							<button class="submitDrag" type="submit">Удалить этап</button>
 						</form>
 					</div>
 

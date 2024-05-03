@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		switch (status)
 		{
 			case 'В очереди':
-				swimLane.style.backgroundColor = 'inherit';
+				swimLane.style.backgroundColor = '#FFF';
 				break;
 			case 'Ожидает начала выполнения':
 				swimLane.style.backgroundColor = '#E3963E';
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				swimLane.style.backgroundColor = 'rgba(228, 216, 216, 0.5)';
 				break;
 			default:
-				swimLane.style.backgroundColor = 'inherit';
+				swimLane.style.backgroundColor = '#FFF';
 		}
 	});
 
