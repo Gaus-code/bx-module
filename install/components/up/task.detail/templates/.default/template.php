@@ -117,7 +117,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 							</form>
 						</div>
 					<?php endif; ?>
-				<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner') :?>
+				<?php elseif ($arResult['USER_ACTIVITY'] !== 'owner' && $USER->IsAuthorized()) :?>
 					<?php if (!$arResult['ISSET_REPORT'] ): ?>
 						<div class="metaContainer__item">
 							<button class="banBtn" type="button">Пожаловаться</button>
