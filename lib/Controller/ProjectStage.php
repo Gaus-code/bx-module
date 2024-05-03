@@ -73,6 +73,13 @@ class ProjectStage extends Engine\Controller
 		}
 
 		$now = new Date();
+		if (count($stage->getTasks())===0)
+		{
+			$errors[] = "Вы не можете начать этап тк в нем нет задач.";
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/project/" . $stage->getProjectId() . "/");
+		}
+
 		foreach ($stage->getTasks() as $task)
 		{
 			if ($task->getDeadline() < $now)
