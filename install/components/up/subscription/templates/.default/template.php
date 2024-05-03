@@ -47,7 +47,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</p>
 				<input id="requiredInput" type="checkbox" required>
 				<label for="requiredInput">Я принимаю пользовательское соглашение бла-бла-бла</label>
-				<button class="subscription__btn" type="submit">Оформить подписку</button>
+				<button class="subscription__btn" type="submit">
+					<a href="/subscription/haha/">Оформить подписку</a>
+				</button>
 			</form>
 			<form action="/subscription/getTrialVersion" method="post" class="subscription__form">
 				<?=bitrix_sessid_post()?>

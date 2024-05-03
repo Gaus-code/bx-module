@@ -15,6 +15,7 @@
     max-width: 85%;
     font-size: 19px;
     padding: 10px;
+    color: var(--color-bg-text);
 }
 
 .content__project {
@@ -35,7 +36,8 @@
 }
 
 .project__link:hover, .project__link:focus {
-    background-color: var(--color-primary-white);
+    background-color: inherit;
+    color: var(--color-bg-text);
     transition: 0.4s;
 }
 
@@ -57,6 +59,7 @@
     border: 1px solid var(--color-primary-purple);
     cursor: pointer;
     margin: 20px 0;
+    color: var(--color-bg-text);
 }
 
 .project__tagItem:hover, .project__tagItem:active, .project__tagItem:focus
@@ -95,10 +98,7 @@
 
 .rounded-corners td {
     padding: 8px;
-}
-
-.rounded-corners tr:nth-child(even) td {
-    background-color: #f2f2f2;
+    color: var(--color-bg-text);
 }
 
 .project__stageForm {
@@ -115,7 +115,8 @@
 }
 
 .project__stageBtn:hover, .project__stageBtn:focus {
-    background-color: var(--color-primary-white);
+    background-color: inherit;
+    color: var(--color-warning-yellow);
     transition: 0.3s;
 }
 
@@ -130,4 +131,8 @@
     justify-content: center;
     gap: 20px;
     border-radius: 8px;
+}
+
+.emptyStage p {
+    color: var(--color-bg-text);
 }
