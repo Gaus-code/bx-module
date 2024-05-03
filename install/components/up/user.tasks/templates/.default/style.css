@@ -27,6 +27,7 @@
     border-radius: 12px;
     border: 1px solid var(--color-primary-purple);
     cursor: pointer;
+    color: var(--color-bg-text);
 }
 
 .content__tagItem:hover, .content__tagItem:active, .content__tagItem:focus
@@ -55,6 +56,7 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 205px;
+    color: var(--color-bg-text);
 }
 
 th {
@@ -66,7 +68,7 @@ th {
 }
 
 .editTask {
-    color: var(--color-primary-black);
+    color: var(--color-bg-text);
     border: 2px solid var(--color-tag-purple);
     padding: 4px 8px;
     border-radius: 8px;

@@ -9,7 +9,7 @@
 }
 
 .task__responseDelete:hover, .task__responseDelete:active, .task__responseDelete:focus {
-    background-color: var(--color-primary-white);
+    background-color: inherit;
     color: var(--color-warning-yellow);
     transition: 0.3s;
 }
