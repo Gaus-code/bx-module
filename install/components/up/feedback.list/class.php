@@ -143,6 +143,7 @@ class CommentListComponent extends CBitrixComponent
 		{
 			$this->arResult['USER_ACTIVITY'] = 'owner';
 			$this->fetchUserBan();
+			$this->fetchIssetReportFeedback();
 		}
 		else
 		{
@@ -154,5 +155,22 @@ class CommentListComponent extends CBitrixComponent
 	{
 		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
 		$this->arResult['USER_IS_BANNED'] = $user->getIsBanned();
+	}
+
+	private function fetchIssetReportFeedback()
+	{
+		if ($this->arParams['TASK'])
+		{
+			global $USER;
+			$userId = (int)$USER->getId();
+			$report = \Up\Ukan\Model\ReportsTable::query()
+												 ->setSelect(['ID'])
+												 ->where('FROM_USER_ID', $userId)
+												 ->where('TASK_ID', $this->arParams['TASK']->getId())
+												 ->where('TYPE', 'feedback')
+												 ->fetchObject();
+			$this->arResult['ISSET_REPORT'] = (bool)$report;
+		}
+
 	}
 }

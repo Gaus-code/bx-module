@@ -74,6 +74,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 										<p><?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName() . ' ' . $feedback->getFromUser()->getBUser()->getLastName()) ?></p>
 									</div>
 								</div>
+								<?php //if (!$feedback->getIsBanned() && !$arResult['ISSET_REPORT']): ?>
+								<!--	<button class="banBtn" type="button">Пожаловаться</button>-->
+								<!--	<form class="banForm" action="/report/create/" method="post">-->
+								<!--		--><?php //= bitrix_sessid_post() ?>
+								<!--		<button id="closeFormBtn" type="button">-->
+								<!--			<img src="--><?php //= SITE_TEMPLATE_PATH ?><!--/assets/images/cross.svg" alt="close form cross">-->
+								<!--		</button>-->
+								<!--		<input name="taskId" hidden="hidden" value="--><?php //=$arParams['TASK']->getId()?><!--">-->
+								<!--		<input name="feedbackId" hidden="hidden" value="--><?php //=$feedback->getId() ?><!--">-->
+								<!--		<input hidden="hidden" name="complaintType" value="feedback">-->
+								<!--		<textarea class="complaintText" type="text" name="complaintMessage" placeholder="Пожалуйста, опишите проблему"></textarea>-->
+								<!--		<button id="sendComplaint" type="submit">Отправить</button>-->
+								<!--	</form>-->
+								<?php //else: ?>
+								<!--	<p class="banBtn">Вы уже отправили жалобу</p>-->
+								<?php //endif; ?>
 							</li>
 						<?php endforeach; ?>
 					</ul>
