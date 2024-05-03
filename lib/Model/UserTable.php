@@ -106,13 +106,10 @@ class UserTable extends DataManager
 					}
 				]
 			),
-			new FloatField(
+			new ExpressionField(
 				'RATING',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('USER_ENTITY_RATING_FIELD'),
-					'default_value'=>0,
-				]
+				"AVG(%s)",
+				['FEEDBACKS_TO.RATING']
 			),
 			new IntegerField(
 				'FEEDBACK_COUNT',
