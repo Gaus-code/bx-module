@@ -144,14 +144,17 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 			if ($this->arParams['USER_ACTIVITY']==='owner')
 			{
+				$toUserRole='Contractor';
 				$toUserId=$this->arParams['TASK']->getContractorId();
 			}
 			elseif ($this->arParams['USER_ACTIVITY']==='contractor_this_task')
 			{
+				$toUserRole='Client';
 				$toUserId=$this->arParams['TASK']->getClientId();
 			}
 
 			$this->arResult['LEAVE_FEEDBACK_FORM'] = [
+				"TO_USER_ROLE"=>$toUserRole,
 				"FROM_USER_ID"=>$fromUserId,
 				"TO_USER_ID"=>$toUserId,
 			];

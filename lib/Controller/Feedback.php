@@ -15,6 +15,7 @@ class Feedback extends Controller
 		?int    $taskId = null,
 		?int    $fromUserId = null,
 		?int    $toUserId = null,
+		?string    $toUserRole = null,
 		?int    $rating = null,
 		?string $comment = null,
 	)
@@ -44,7 +45,8 @@ class Feedback extends Controller
 				 ->setToUserId($toUserId)
 				 ->setTaskId($taskId)
 				 ->setRating($rating)
-				 ->setComment($comment);
+				 ->setComment($comment)
+				 ->setToUserRole($toUserRole);
 
 		$feedback->save();
 

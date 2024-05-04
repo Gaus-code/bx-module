@@ -439,3 +439,13 @@ __ukanMigrate(32, function($updater, $DB) {
 		);
 	}
 });
+
+__ukanMigrate(33, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_feedback'))
+	{
+		$DB->query(
+			"alter table up_ukan_feedback
+    add TO_USER_ROLE VARCHAR(31) not null;"
+		);
+	}
+});
