@@ -1,6 +1,8 @@
 <?php
 namespace Up\Ukan\Model;
 
+use Bitrix\Main\Entity\Event;
+use Bitrix\Main\Entity\EventResult;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\DatetimeField,
@@ -233,12 +235,12 @@ class UserTable extends DataManager
 		];
 	}
 
-	public static function unBeforeUpdate(Event $event)
+	public static function onBeforeUpdate(Event $event)
 	{
-		$result = new \Bitrix\Main\Entity\EventResult();
+		$result = new EventResult();
 
 		$arFields = $event->getParameter("fields");
-		$now = new \DateTime();
+		$now = new DateTime;
 		$arFields['UPDATED_AT'] = $now;
 
 		$result->modifyFields($arFields);

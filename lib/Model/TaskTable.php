@@ -2,9 +2,10 @@
 
 namespace Up\Ukan\Model;
 
+use Bitrix\Main\Entity\Event;
+use Bitrix\Main\Entity\EventResult;
 use Bitrix\Main\Localization\Loc, Bitrix\Main\ORM\Data\DataManager, Bitrix\Main\ORM\Fields\DatetimeField, Bitrix\Main\ORM\Fields\IntegerField, Bitrix\Main\ORM\Fields\StringField, Bitrix\Main\ORM\Fields\TextField, Bitrix\Main\ORM\Fields\Validators\LengthValidator;
-use Bitrix\Main\ORM\Event;
-use Bitrix\Main\ORM\EventResult;
+
 use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\DateField;
 use Bitrix\Main\ORM\Fields\ExpressionField;
@@ -199,12 +200,12 @@ class TaskTable extends DataManager
 			new LengthValidator(null, 255),
 		];
 	}
-	public static function unBeforeUpdate(Event $event)
+	public static function onBeforeUpdate(Event $event)
 	{
-		$result = new \Bitrix\Main\Entity\EventResult();
+		$result = new EventResult();
 
 		$arFields = $event->getParameter("fields");
-		$now = new \DateTime();
+		$now = new DateTime;
 		$arFields['UPDATED_AT'] = $now;
 
 		$result->modifyFields($arFields);

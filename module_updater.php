@@ -411,12 +411,31 @@ __ukanMigrate(29, function($updater, $DB) {
 	}
 });
 
-__ukanMigrate(29, function($updater, $DB) {
+__ukanMigrate(30, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
 	{
 		$DB->query(
 			"alter table up_ukan_user
     modify CONTACTS text null;"
+		);
+	}
+});
+
+__ukanMigrate(31, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_subscription'))
+	{
+		$DB->query(
+			"drop table up_ukan_subscription;"
+		);
+	}
+});
+
+__ukanMigrate(32, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user_subscription'))
+	{
+		$DB->query(
+			"alter table up_ukan_user_subscription
+    drop column SUBSCRIPTION_ID;"
 		);
 	}
 });
