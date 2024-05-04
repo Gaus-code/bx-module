@@ -64,6 +64,10 @@ table {
     box-sizing: border-box;
 }
 
+p, textarea, input {
+    word-break: break-word;
+}
+
 :focus, :active {
     outline: none;
 }

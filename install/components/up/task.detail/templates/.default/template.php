@@ -55,7 +55,7 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 						<li class="metaContainer__item">
 							<p class="metaContainer__info">
 								<span>Задача создана:</span>
-								<?= $arResult['TASK']->getCreatedAt() ?>
+								<?= $arResult['TASK']->getCreatedAt()->format('d.m.Y') ?>
 							</p>
 						</li>
 						<li class="metaContainer__item">
@@ -152,24 +152,23 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 					<?php endif; ?>
 				<?php endif; ?>
 			</section>
+			<?php $APPLICATION->IncludeComponent('up:task.detail.meta',
+				$arResult['USER_ACTIVITY'],
+				[
+					'USER_ACTIVITY' => $arResult['USER_ACTIVITY'],
+					'TASK' => $arResult['TASK'],
+					'RESPONSE' => $arResult['RESPONSE'],
+				]);
+			?>
+			<?php
+			else: ?>
+				<main class="detail wrapper">
+					<section class="detail__header">
+						<h1>Задача не найдена или заблокирована!</h1
+					</section>
+				</main>
+			<?php
+			endif; ?>
 		</div>
 	</main>
-
-	<?php $APPLICATION->IncludeComponent('up:task.detail.meta',
-									   $arResult['USER_ACTIVITY'],
-									   [
-										   'USER_ACTIVITY' => $arResult['USER_ACTIVITY'],
-										   'TASK' => $arResult['TASK'],
-										   'RESPONSE' => $arResult['RESPONSE'],
-									   ]);
-	?>
-<?php
-else: ?>
-	<main class="detail wrapper">
-		<section class="detail__header">
-			<h1>Задача не найдена или заблокирована!</h1
-		</section>
-	</main>
-<?php
-endif; ?>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/banForm.js"></script>

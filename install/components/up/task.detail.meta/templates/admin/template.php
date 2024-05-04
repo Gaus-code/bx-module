@@ -10,23 +10,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 }
 ?>
 <?php if ($arParams['TASK']->getContractor()): ?>
-	<div class="detail__metaContainers">
-		<div class="detail__metaContainer">
-			<section class="metaContainer__header">
-				<h2>Дополнительная информация 2</h2>
-				<ul class="metaContainer__list">
-					<li class="metaContainer__item">
-						<p class="metaContainer__info">
-							<span>Исполнитель:</span>
-							<a class="metaContainer__text" href="/profile/<?= $arParams['TASK']->getContractor()->getId() ?>/">
-								<?= htmlspecialcharsbx($arParams['TASK']->getContractor()->getBUser()->getName()
-													   . ' '
-													   . $arParams['TASK']->getContractor()->getBUser()->getLastName()) ?>
-							</a>
-						</p>
-					</li>
-				</ul>
-			</section>
-		</div>
-	</div>
+<div class="detail__notify">
+	<section class="detail__notifyHeader">
+		<h2>Уведомления по заявке</h2>
+		<ul class="detail__notifyList">
+			<li class="detail__notifyItem">
+				<p class="detail__notifyInfo">
+					<span>Исполнитель:</span>
+					<a class="detail__notifyText" href="/profile/<?= $arParams['TASK']->getContractor()->getId() ?>/">
+						<?= htmlspecialcharsbx($arParams['TASK']->getContractor()->getBUser()->getName()
+											   . ' '
+											   . $arParams['TASK']->getContractor()->getBUser()->getLastName()) ?>
+					</a>
+				</p>
+			</li>
+		</ul>
+	</section>
+</div>
 <?php endif;?>

@@ -331,6 +331,7 @@ a.aside__btn {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 130px;
+    line-height: 17px;
 }
 
 .task__footer_img img {
