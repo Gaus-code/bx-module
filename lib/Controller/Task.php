@@ -4,6 +4,7 @@ namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\AI\AI;
 use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Notification;
 use Up\Ukan\Model\EO_Tag;
@@ -147,7 +148,7 @@ class Task extends Controller
 
 		if ($useGPT)
 		{
-			$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+			$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 			foreach ($tagsFromGPT as $tag)
 			{
 				$task->addToTags($tag);
@@ -679,7 +680,7 @@ class Task extends Controller
 
 		if ($useGPT)
 		{
-			$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+			$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 			foreach ($tagsFromGPT as $tag)
 			{
 				$task->addToTags($tag);
@@ -753,7 +754,7 @@ class Task extends Controller
 
 		$title = $_POST['title'];
 		$description = $_POST['description'];
-		$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+		$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 
 		foreach ($tagsFromGPT as $tag)
 		{

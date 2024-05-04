@@ -3,6 +3,7 @@
 namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
+use Up\Ukan\AI\AI;
 use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Feedback;
 use Up\Ukan\Model\FeedbackTable;
@@ -178,7 +179,7 @@ class Feedback extends Controller
 			return $errors;
 		}
 
-		if (!YandexGPT::censorshipCheck($comment))
+		if (!AI::censorshipCheck($comment))
 		{
 			$errors[] = 'Ваш отзыв не прошел цензуру от великого YandexGPT';
 		}
@@ -233,7 +234,7 @@ class Feedback extends Controller
 		{
 			return $errors;
 		}
-		if (!YandexGPT::censorshipCheck($comment))
+		if (!AI::censorshipCheck($comment))
 		{
 			$errors[] = 'Ваш отзыв не прошел цензуру от великого YandexGPT';
 		}
