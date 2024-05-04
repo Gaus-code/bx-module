@@ -6,11 +6,12 @@ class UserEditProject extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchProject();
+		$this->fetchUserActivity();
 		$this->fetchActiveStage();
 		$this->fetchIndependentStage();
 		$this->fetchFutureStage();
 		$this->fetchCompletedStage();
-		$this->fetchProject();
 		$this->includeComponentTemplate();
 	}
 
@@ -98,6 +99,21 @@ class UserEditProject extends CBitrixComponent
 				  ->where('STATUS', Configuration::getOption('project_stage_status')['completed'])->fetchCollection();
 
 			$this->arResult['COMPLETED_STAGE'] = $stage;
+		}
+	}
+
+	protected function fetchUserActivity()
+	{
+		global $USER;
+		$userID = (int)$USER->GetID();
+
+		if ($this->arResult['PROJECT']->getClientId()===$userID)
+		{
+			$this->arResult['USER_ACTIVITY'] = 'owner';
+		}
+		else
+		{
+			$this->arResult['USER_ACTIVITY'] = 'other_user';
 		}
 	}
 }

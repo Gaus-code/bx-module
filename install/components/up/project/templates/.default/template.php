@@ -33,6 +33,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 		</article>
 		<article class="content__project">
+			<?php if($arResult['USER_ACTIVITY'] === 'owner'):?>
 			<div class="content__project_btnContainer">
 				<a class="project__link" href="/project/<?=$arParams['PROJECT_ID']?>/edit/">
 					Перейти к настройке проекта
@@ -43,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<button class="project__stageBtn" type="submit">Завершить проект</button>
 				</form>
 			</div>
-
+			<?php endif;?>
 			<div class="project__categories">
 				<ul class="project__tagList">
 					<li id="activeStage-btn" class="project__tagItem active-tag-item">
@@ -63,32 +64,35 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			<div id="activeStage-reviews" class="tab__container">
 				<?php if (count($arResult['ACTIVE_STAGE']) > 0): ?>
-					<?php foreach ($arResult['ACTIVE_STAGE'] as $stage): ?>
-					<?php if ($stage->getStatus() === 'Активен') {
-						$hasActiveStage = true;
-						?>
-						<form class="project__stageForm" action="/stage/complete/" method="post">
-							<?=bitrix_sessid_post()?>
-							<input type="hidden" name="stageId" value="<?= $stage->getId() ?>">
-							<button type="submit" class="project__stageBtn">
-								Завершить <span>этап <?= $stage->getNumber() ?></span> ?
-							</button>
-						</form>
-						<?php
-					}
-					if (!$hasActiveStage) {
-						?>
-						<form class="project__stageForm" action="/stage/start/" method="post">
-							<?=bitrix_sessid_post()?>
-							<input type="hidden" name="stageId" value="<?= $stage->getId() ?>">
-							<button type="submit" class="project__stageBtn">
-								Начать <span>этап <?= $stage->getNumber() ?></span> ?
-							</button>
-						</form>
-						<?php
-					}
-						?>
-					<?php endforeach; ?>
+					<?php if($arResult['USER_ACTIVITY'] === 'owner'):?>
+						<?php foreach ($arResult['ACTIVE_STAGE'] as $stage): ?>
+							<?php if ($stage->getStatus() === 'Активен') {
+								$hasActiveStage = true;
+								?>
+								<form class="project__stageForm" action="/stage/complete/" method="post">
+									<?=bitrix_sessid_post()?>
+									<input type="hidden" name="stageId" value="<?= $stage->getId() ?>">
+									<button type="submit" class="project__stageBtn">
+										Завершить <span>этап <?= $stage->getNumber() ?></span> ?
+									</button>
+								</form>
+								<?php
+							}
+							if (!$hasActiveStage) {
+								?>
+								<form class="project__stageForm" action="/stage/start/" method="post">
+									<?=bitrix_sessid_post()?>
+									<input type="hidden" name="stageId" value="<?= $stage->getId() ?>">
+									<button type="submit" class="project__stageBtn">
+										Начать <span>этап <?= $stage->getNumber() ?></span> ?
+									</button>
+								</form>
+								<?php
+							}
+							?>
+						<?php endforeach; ?>
+					<?php endif;?>
+
 					<table class="rounded-corners">
 						<thead>
 						<tr>
@@ -144,7 +148,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<th>Описание</th>
 						<th>Статус</th>
 						<th>Дедлайн</th>
-						<th>Действия</th>
+						<?php if($arResult['USER_ACTIVITY'] === 'owner'):?>
+							<th>Действия</th>
+						<?php endif;?>
+
 					</tr>
 					</thead>
 					<tbody>
@@ -156,14 +163,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<td><?= $task->getDescription() ?></td>
 						<td><?= $task->getStatus() ?></td>
 						<td><?= $task->getDeadline() ?></td>
-						<td>
-							<form action="" method="post">
-								<button class="project__stageBtn" type="submit">Возобновить задачу</button>
-							</form>
-							<form action="" method="post">
-								<button class="project__stageBtn" type="submit">Приостановить задачу</button>
-							</form>
-						</td>
+						<?php if($arResult['USER_ACTIVITY'] === 'owner'):?>
+							<td>
+								<form action="" method="post">
+									<button class="project__stageBtn" type="submit">Возобновить задачу</button>
+								</form>
+								<form action="" method="post">
+									<button class="project__stageBtn" type="submit">Приостановить задачу</button>
+								</form>
+							</td>
+						<?php endif;?>
+
 					</tr>
 						<?php endforeach;?>
 					<?php endforeach;?>
@@ -227,8 +237,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</table>
 				<?php else:?>
 					<div class="emptyStage">
-						<p>У вас пока нет завершенных этапов</p>
-						<a class="project__link" href="/project/<?=$arParams['PROJECT_ID']?>/edit/">Перейти к планированию проекта</a>
+						<p>У данного проекта нет завершенных этапов</p>
+						<?php if($arResult['USER_ACTIVITY'] === 'owner'):?>
+							<a class="project__link" href="/project/<?=$arParams['PROJECT_ID']?>/edit/">Перейти к планированию проекта</a>
+						<?php endif;?>
 					</div>
 				<?php endif;?>
 			</div>
