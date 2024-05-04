@@ -72,6 +72,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?= bitrix_sessid_post() ?>
 				<div class="create__container">
 					<input name="taskId" type="hidden" value="<?= $arParams['TASK']->GetId() ?>">
+					<input name="toUserRole" type="hidden" value="<?= $arResult['LEAVE_FEEDBACK_FORM']['TO_USER_ROLE'] ?>">
 					<input name="toUserId" type="hidden" value="<?= $arResult['LEAVE_FEEDBACK_FORM']['TO_USER_ID'] ?>">
 					<input name="fromUserId" type="hidden" value="<?= $arResult['LEAVE_FEEDBACK_FORM']['FROM_USER_ID'] ?>">
 					<div class="rating-area">

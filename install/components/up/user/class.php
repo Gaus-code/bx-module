@@ -26,14 +26,23 @@ class UserComponent extends CBitrixComponent
 			->where('ID', $this->arParams['USER_ID'])
 			->fetchObject();
 
-		$userRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT'])
-			->where('ID', $this->arParams['USER_ID'])
+		$userContractorRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT','FEEDBACKS_TO.TO_USER_ROLE'])
+			->where('ID', $this->arParams['USER_ID'])->where('FEEDBACKS_TO.TO_USER_ROLE', 'Contractor')
 			->fetch();
 
-		$userRating['RATING']=round((float)$userRatingResult['RATING'],1);
-		$userRating['FEEDBACK_COUNT']=(int)$userRatingResult['FEEDBACK_COUNT'];
+		$userContractorRating['RATING']=round((float)$userContractorRatingResult['RATING'],1);
+		$userContractorRating['FEEDBACK_COUNT']=(int)$userContractorRatingResult['FEEDBACK_COUNT'];
 
-		$this->arResult['USER_RATING'] = $userRating;
+		$userClientRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT','FEEDBACKS_TO.TO_USER_ROLE'])
+															  ->where('ID', $this->arParams['USER_ID'])->where('FEEDBACKS_TO.TO_USER_ROLE', 'Client')
+															  ->fetch();
+
+		$userClientRating['RATING']=round((float)$userClientRatingResult['RATING'],1);
+		$userClientRating['FEEDBACK_COUNT']=(int)$userClientRatingResult['FEEDBACK_COUNT'];
+
+		$this->arResult['USER_CONTRACTOR_RATING'] = $userContractorRating;
+		$this->arResult['USER_CLIENT_RATING'] = $userClientRating;
+
 		$this->arResult['PROFILE_IMAGE'] = \Up\Ukan\Controller\User::getUserImage($this->arParams['USER_ID']);
 
 	}

@@ -8,6 +8,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\TextField;
 use Bitrix\Main\ORM\Fields\BooleanField;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Fields\StringField;
+use Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
 
@@ -122,6 +124,25 @@ class FeedbackTable extends DataManager
 				'values' => ['N', 'Y'],
 				'default_value' => 'N',
 			]),
+			new StringField(
+				'TO_USER_ROLE',
+				[
+					'required' => true,
+					'validation' => [__CLASS__, 'validateToUserRole'],
+					'title' => Loc::getMessage('FEEDBACK_ENTITY_TO_USER_ROLE_FIELD')
+				]
+			),
+		];
+	}
+	/**
+	 * Returns validators for TO_USER_ROLE field.
+	 *
+	 * @return array
+	 */
+	public static function validateToUserRole()
+	{
+		return [
+			new LengthValidator(null, 31),
 		];
 	}
 }

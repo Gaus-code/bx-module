@@ -52,10 +52,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<div class="userInfo">
 						<p class="userInfo__name"><?= htmlspecialcharsbx($user->getBUser()->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?></p>
-						<?php if((int)$arResult['USER_RATING']['FEEDBACK_COUNT']===0): ?>
-							<p class="userInfo__surname">У этого пользователя пока нет отзывов</p>
+						<?php if((int)$arResult['USER_CONTRACTOR_RATING']['FEEDBACK_COUNT']===0): ?>
+							<p class="userInfo__rating">У этого пользователя пока нет отзывов как исполнителю</p>
 						<?php else:?>
-						<p class="userInfo__surname">Рейтинг: <?= htmlspecialcharsbx($arResult['USER_RATING']['RATING']) ?> (<?= htmlspecialcharsbx($arResult['USER_RATING']['FEEDBACK_COUNT']) ?> оценки)</p>
+						<p class="userInfo__rating">Рейтинг исполнителя: <?= htmlspecialcharsbx($arResult['USER_CONTRACTOR_RATING']['RATING']) ?> <span>★</span> (<?= $arResult['USER_CONTRACTOR_RATING']['FEEDBACK_COUNT'] ?> оценки)</p>
+						<?php endif;?>
+						<?php if((int)$arResult['USER_CLIENT_RATING']['FEEDBACK_COUNT']===0): ?>
+							<p class="userInfo__rating">У этого пользователя пока нет отзывов как заказчику</p>
+						<?php else:?>
+							<p class="userInfo__rating">Рейтинг заказчика: <?= htmlspecialcharsbx($arResult['USER_CLIENT_RATING']['RATING']) ?> <span>★</span> (<?= $arResult['USER_CLIENT_RATING']['FEEDBACK_COUNT'] ?> оценки)</p>
 						<?php endif;?>
 					</div>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner' && !$arResult['USER']->getIsBanned()):?>
