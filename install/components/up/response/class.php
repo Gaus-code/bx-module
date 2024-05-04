@@ -124,7 +124,7 @@ class UserResponseComponent extends CBitrixComponent
 			$query->whereIn('TASK_ID', $taskIdList);
 		}
 
-
+		$query->addOrder('SEARCH_PRIORITY', 'DESC');
 		$query->addOrder('CREATED_AT', 'DESC');
 		$query->setLimit($nav->getLimit() + 1);
 		$query->setOffset($nav->getOffset());

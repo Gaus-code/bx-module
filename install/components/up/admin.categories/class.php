@@ -41,7 +41,7 @@ class AdminFeedbackComponent extends CBitrixComponent
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['admin_tables']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
-		$query = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*']);
+		$query = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->whereNot('TITLE', 'Другое');
 
 		$query->addOrder('TITLE');
 		$query->setLimit($nav->getLimit() + 1);
