@@ -116,7 +116,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</button>
 			</form>
 			<?php endif;?>
-			<?php if ($arResult['TASK']->getStatus() === \Up\Ukan\Service\Configuration::getOption('task_status')['wait_start']):?>
+			<?php if ($arResult['TASK']->getStatus() === \Up\Ukan\Service\Configuration::getOption('task_status')['waiting_to_start']):?>
 				<form action="/task/start-search-contractor/" method="post" class="deleteTask__form">
 					<?=bitrix_sessid_post()?>
 					<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">

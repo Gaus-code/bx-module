@@ -9,6 +9,7 @@ use Up\Ukan\Model\EO_Feedback;
 use Up\Ukan\Model\FeedbackTable;
 use Up\Ukan\Model\TaskTable;
 use Up\Ukan\Model\UserTable;
+use Up\Ukan\Service\Configuration;
 
 class Feedback extends Controller
 {
@@ -169,7 +170,8 @@ class Feedback extends Controller
 			$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
 		}
 
-		if ($toUserRole!=='Client' && $toUserRole!=='Contractor')
+		if ($toUserRole!==Configuration::getOption('user_role')['client']
+			&& $toUserRole!==Configuration::getOption('user_role')['contractor'])
 		{
 			$errors[] = 'ToUserRole введена некоректно';
 		}

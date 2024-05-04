@@ -345,8 +345,9 @@ class Task extends Controller
 			LocalRedirect("/task/$taskId/edit/");
 		}
 
-		$task->setStatus(Configuration::getOption('task_status')['wait_start']);
-
+		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+		// $task->setStatus('dsadas');
+		$task->save();
 		LocalRedirect("/task/$taskId/");
 
 	}
@@ -369,14 +370,16 @@ class Task extends Controller
 		{
 			LocalRedirect("/access/denied/");
 		}
-		if ($task->getStatus()!==Configuration::getOption('task_status')['wait_start'])
+		if ($task->getStatus()!==Configuration::getOption('task_status')['waiting_to_start'])
 		{
 			$errors = ['По данной заявке нельзя начать поиск исполнителя'];
 			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect("/task/$taskId/edit/");
 		}
 
-		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+		// $task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+		$task->setStatus('dsada');
+		$task->save();
 
 		LocalRedirect("/task/$taskId/");
 
