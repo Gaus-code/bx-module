@@ -31,7 +31,8 @@ class Feedback extends Controller
 			$fromUserId,
 			$toUserId,
 			$rating,
-			$comment
+			$comment,
+			$toUserRole
 		);
 
 		if ($errors !== [])
@@ -113,7 +114,8 @@ class Feedback extends Controller
 		?int    $fromUserId,
 		?int    $toUserId,
 		?int    $rating,
-		?string $comment
+		?string $comment,
+		?string $toUserRole
 	): array
 	{
 
@@ -164,6 +166,16 @@ class Feedback extends Controller
 		if ($comment && !preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $comment))
 		{
 			$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
+		}
+
+		if ($toUserRole!=='Client' && $toUserRole!=='Contractor')
+		{
+			$errors[] = 'ToUserRole введена некоректно';
+		}
+
+		if ($errors)
+		{
+			return $errors;
 		}
 
 		if (!YandexGPT::censorshipCheck($comment))
@@ -217,7 +229,10 @@ class Feedback extends Controller
 				$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
 			}
 		}
-
+		if ($errors)
+		{
+			return $errors;
+		}
 		if (!YandexGPT::censorshipCheck($comment))
 		{
 			$errors[] = 'Ваш отзыв не прошел цензуру от великого YandexGPT';

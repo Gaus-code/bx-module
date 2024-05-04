@@ -131,7 +131,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<div class="comment__footer">
 									<p class="comment__date"> <span>Опубликован:</span> <?= $feedback->getCreatedAt() ?></p>
 									<div class="comment__btnContainer">
-										<?php if (!$arResult['USER_IS_BANNED'] && !$feedback->getIsBanned):?>
+										<?php if (!$arResult['USER_IS_BANNED'] && !$feedback->getIsBanned()):?>
 										<a href="/feedback/<?= $feedback->getId() ?>/edit/">Редактировать</a>
 										<form method="post" action="/feedback/delete/">
 											<?= bitrix_sessid_post() ?>
