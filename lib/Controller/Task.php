@@ -728,4 +728,25 @@ class Task extends Controller
 
 		return $task;
 	}
+
+	public function generateGptTagsAction()
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+		header("Content-type: application/json; charset=utf-8");
+
+		$title = $_POST['title'];
+		$description = $_POST['description'];
+		$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+		$result = [];
+
+		foreach ($tagsFromGPT as $tag)
+		{
+			$result[] = $tag->getTitle();
+		}
+
+		return json_encode($result);
+	}
 }

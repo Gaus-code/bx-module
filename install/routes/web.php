@@ -41,6 +41,7 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/task/start-search-contractor/', [\Up\Ukan\Controller\Task::class, 'startSearchContractor']);
 	$routes->post('/task/unassign/', [\Up\Ukan\Controller\Task::class, 'unassignContractor']);
 	$routes->post('/task/withdraw/', [\Up\Ukan\Controller\Task::class, 'withdraw']);
+	$routes->post('/task/gpt-tags/', [\Up\Ukan\Controller\Task::class, 'generateGptTags']);
 
 	//project actions
 	$routes->post('/project/create/', [\Up\Ukan\Controller\Project::class, 'create']);

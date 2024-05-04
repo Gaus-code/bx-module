@@ -9,7 +9,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
+CJSCore::Init(array('ajax'));
 ?>
 <main class="profile__main">
 	<?php $APPLICATION->IncludeComponent('up:user.aside', '', [
@@ -48,7 +48,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
 							<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
 						</div>
-						<select class="create__category" name="categoryId" id="">
+						<select class="create__category" name="categoryId" id="categorySelect">
 							<option selected disabled>Выберите категорию</option>
 							<?php foreach ($arResult['CATEGORIES'] as $category): ?>
 								<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
@@ -57,10 +57,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 					<h2>Дополнительные поля:</h2>
 
-					<div class="create__container">
-						<label class="create__textareaLabel">Добавьте тэги (используя #)</label>
-						<input name = "tagsString" class="create__title" placeholder="#HTML #CSS #...">
+					<div class="create__tagContainers">
+						<div class="create__container">
+							<div id="gptError"></div>
+							<label class="create__textareaLabel">Добавьте тэги (используя #)</label>
+							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
+						</div>
+						<div class="gptCreate">
+							<div class="premium-link-tag">
+								<button id="gptBtn" type="button">Автоматическое проставление тегов по описанию</button>
+							</div>
+						</div>
 					</div>
+
 				</div>
 
 
@@ -82,17 +91,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<button class="createBtn" type="submit">Создать заявку</button>
 			</form>
-			<div class="gptCreate">
-				<form action="" method="post" class="premium-link-tag">
-					<?=bitrix_sessid_post()?>
-					<input class="filter__checkbox" name = "useGPT" type = "checkbox">
-					<button type="submit">Автоматическое проставление тегов по описанию</button>
-				</form>
-			</div>
 		</article>
+		<div id="loader" style="display: none">
+			<div class="loader">
+				<div class="ball moving"></div>
+				<div class="balls">
+					<div class="ball"></div>
+					<div class="ball"></div>
+					<div class="ball"></div>
+					<div class="ball"></div>
+					<div class="ball moving"></div>
+				</div>
+
+			</div>
+
+			<svg>
+				<filter id="goo">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+					<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+				</filter>
+			</svg>
+			<p>подтягиваем магию...</p>
+		</div>
 	</section>
 </main>
-
 <?php
 \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/validation.js");
 \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/localStorageForActions.js");
