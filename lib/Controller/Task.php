@@ -735,12 +735,25 @@ class Task extends Controller
 		{
 			LocalRedirect("/access/denied/");
 		}
+
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$user = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'SUBSCRIPTION_STATUS'])
+										->where('ID', $userId)
+										->fetchObject();
+
+		if ($user->getSubscriptionStatus()!=='Active')
+		{
+			$result['error'] = 'Чтобы Воспользоваться данной функцией, приобретите подписку!';
+			return json_encode($result);
+		}
+
 		header("Content-type: application/json; charset=utf-8");
 
 		$title = $_POST['title'];
 		$description = $_POST['description'];
 		$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
-		$result = [];
 
 		foreach ($tagsFromGPT as $tag)
 		{

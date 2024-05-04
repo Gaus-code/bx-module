@@ -63,11 +63,23 @@ CJSCore::Init(array('ajax'));
 							<label class="create__textareaLabel">Добавьте тэги (используя #)</label>
 							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
 						</div>
-						<div class="gptCreate">
-							<div class="premium-link-tag">
-								<button id="gptBtn" type="button">Автоматическое проставление тегов по описанию</button>
+
+						<?php if ($arResult['USER_SUBSCRIPTION_STATUS']):?>
+							<div class="gptCreate">
+								<div class="premium-link-tag">
+									<button id="gptBtn" type="button">Автоматическое проставление тегов по описанию</button>
+								</div>
 							</div>
-						</div>
+						<?php else:?>
+						<a href="/subscription/" target="_blank">
+							<div class="gptCreate">
+								<div class="premium-link-tag">
+									<button type="button">Автоматическое проставление тегов по описанию</button>
+								</div>
+							</div>
+						</a>
+						<?php endif;?>
+
 					</div>
 
 				</div>
