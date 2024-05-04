@@ -4,6 +4,7 @@ namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\AI\AI;
 use Up\Ukan\AI\YandexGPT;
 use Up\Ukan\Model\EO_Notification;
 use Up\Ukan\Model\EO_Tag;
@@ -49,6 +50,14 @@ class Task extends Controller
 			$projectId,
 			$clientId,
 		);
+
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/" . $clientId . "/create/");
+		}
+
+		$errors = $this->censorshipCheck($title, $description, $tagsString);
 
 		if ($errors !== [])
 		{
@@ -135,6 +144,14 @@ class Task extends Controller
 			LocalRedirect("/access/denied/");
 		}
 
+		$errors = $this->censorshipCheck($title, $description, $tagsString);
+
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/" . $clientId . "/create/");
+		}
+
 		$task->setTitle($title)
 			 ->setMaxPrice($maxPrice)
 			 ->setDescription($description)
@@ -147,7 +164,7 @@ class Task extends Controller
 
 		if ($useGPT)
 		{
-			$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+			$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 			foreach ($tagsFromGPT as $tag)
 			{
 				$task->addToTags($tag);
@@ -328,8 +345,8 @@ class Task extends Controller
 			LocalRedirect("/task/$taskId/edit/");
 		}
 
-		$task->setStatus(Configuration::getOption('task_status')['wait_start']);
-
+		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+		$task->save();
 		LocalRedirect("/task/$taskId/");
 
 	}
@@ -352,7 +369,7 @@ class Task extends Controller
 		{
 			LocalRedirect("/access/denied/");
 		}
-		if ($task->getStatus()!==Configuration::getOption('task_status')['wait_start'])
+		if ($task->getStatus()!==Configuration::getOption('task_status')['waiting_to_start'])
 		{
 			$errors = ['По данной заявке нельзя начать поиск исполнителя'];
 			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
@@ -360,6 +377,7 @@ class Task extends Controller
 		}
 
 		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+		$task->save();
 
 		LocalRedirect("/task/$taskId/");
 
@@ -679,7 +697,7 @@ class Task extends Controller
 
 		if ($useGPT)
 		{
-			$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+			$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 			foreach ($tagsFromGPT as $tag)
 			{
 				$task->addToTags($tag);
@@ -753,7 +771,7 @@ class Task extends Controller
 
 		$title = $_POST['title'];
 		$description = $_POST['description'];
-		$tagsFromGPT = YandexGPT::getTagsByTaskDescription($title.$description);
+		$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 
 		foreach ($tagsFromGPT as $tag)
 		{
@@ -761,5 +779,22 @@ class Task extends Controller
 		}
 
 		return json_encode($result);
+	}
+
+	private function censorshipCheck(?string $title, ?string $description, ?string $tagsString)
+	{
+		if (!AI::censorshipCheck($title))
+		{
+			$errors[]='Название не прошло цензуру';
+		}
+		if (!AI::censorshipCheck($description))
+		{
+			$errors[]='Описание не прошло цензуру';
+		}
+		if (!AI::censorshipCheck($tagsString))
+		{
+			$errors[]='Теги не прошли цензуру';
+		}
+		return $errors;
 	}
 }

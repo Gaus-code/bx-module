@@ -1,5 +1,7 @@
 <?php
 
+use Up\Ukan\Service\Configuration;
+
 class TaskDetailFooterComponent extends CBitrixComponent
 {
 	public function executeComponent()
@@ -144,12 +146,12 @@ class TaskDetailFooterComponent extends CBitrixComponent
 
 			if ($this->arParams['USER_ACTIVITY']==='owner')
 			{
-				$toUserRole='Contractor';
+				$toUserRole=Configuration::getOption('user_role')['contractor'];
 				$toUserId=$this->arParams['TASK']->getContractorId();
 			}
 			elseif ($this->arParams['USER_ACTIVITY']==='contractor_this_task')
 			{
-				$toUserRole='Client';
+				$toUserRole=Configuration::getOption('user_role')['client'];
 				$toUserId=$this->arParams['TASK']->getClientId();
 			}
 

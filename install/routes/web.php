@@ -73,6 +73,9 @@ return function(RoutingConfigurator $routes) {
 	$routes->post('/project/edit-info/', [\Up\Ukan\Controller\Project::class, 'editInfo']);
 	$routes->post('/project/edit-info/', [\Up\Ukan\Controller\Project::class, 'editInfo']);
 	$routes->post('/project/complete/', [\Up\Ukan\Controller\Project::class, 'complete']);
+	$routes->post('/project/task/stop-search-contractor/', [\Up\Ukan\Controller\Project::class, 'stopSearchContractor']);
+	$routes->post('/project/task/start-search-contractor/', [\Up\Ukan\Controller\Project::class, 'startSearchContractor']);
+	$routes->post('/project/task/finish/', [\Up\Ukan\Controller\Project::class, 'finishTask']);
 
 	//stage actions
 	$routes->post('/stage/start/', [\Up\Ukan\Controller\ProjectStage::class, 'start']);

@@ -14,6 +14,7 @@ use Bitrix\Main\ORM\Fields\StringField;
 use Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Service\Configuration;
 
 Loc::loadMessages(__FILE__);
 
@@ -144,6 +145,13 @@ class ResponseTable extends DataManager
 	{
 		return [
 			new LengthValidator(null, 255),
+			function ($value) {
+				if (in_array($value, Configuration::getOption('response_status')))
+				{
+					return true;
+				}
+				return 'Такого статуса не существует';
+			}
 		];
 	}
 	public static function onBeforeUpdate(Event $event)
