@@ -37,7 +37,7 @@
 
 			<a href="/profile/<?=$user->getId()?>/notifications/" id="notificationLink" class="aside__btn">
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
-				Уведомления
+				Уведомления  <?=($arResult['NOTIFICATION_COUNT'] > 0) ? "<span> {$arResult['NOTIFICATION_COUNT']} </span>" : '' ?>
 			</a><?php endif;?>
 
 			<a href="/profile/<?=$user->getId()?>/feedbacks/" id="commentLink" class="aside__btn">

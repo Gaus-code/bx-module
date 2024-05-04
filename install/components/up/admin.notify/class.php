@@ -38,7 +38,7 @@ class AdminNotifyComponent extends CBitrixComponent
 
 		$nav = new \Bitrix\Main\UI\PageNavigation("admin_tables");
 		$nav->allowAllRecords(true)
-			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['notification_list']);
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['notification_list_admin']);
 		$nav->setCurrentPage($this->arParams['CURRENT_PAGE']);
 
 		$query =  \Up\Ukan\Model\ReportsTable::query()

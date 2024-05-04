@@ -93,7 +93,8 @@ class TaskListComponent extends CBitrixComponent
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['ID'])
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])
-			  ->where('IS_BANNED', 'N');
+			  ->where('IS_BANNED', 'N')
+			  ->where('CLIENT.IS_BANNED', 'N');
 
 		if (!is_null($this->arParams['CATEGORIES_ID']))
 		{

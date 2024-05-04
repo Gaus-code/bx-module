@@ -75,7 +75,7 @@ class TaskDetailComponent extends CBitrixComponent
 				}
 				else
 				{
-					$this->arResult['USER_ACTIVITY'] = 'contractor_from_project';
+					$this->arResult['USER_ACTIVITY'] = 'another_contractor';
 				}
 				return ;
 			}

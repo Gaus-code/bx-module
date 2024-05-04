@@ -16,7 +16,7 @@ class TaskDetailFooterComponent extends CBitrixComponent
 		if (!$arParams['USER_ACTIVITY'] || !in_array($arParams['USER_ACTIVITY'], [
 			'.default',
 			'contractor_this_task',
-			'contractor_from_project',
+			'another_contractor',
 			'owner',
 			'reject',
 			'wait',
@@ -43,12 +43,13 @@ class TaskDetailFooterComponent extends CBitrixComponent
 				$this->fetchContractorActivity();
 				$this->fetchUserBan();
 				break;
-			case 'contractor_from_project':
+			case 'another_contractor':
 				$this->fetchContractor();
 				break;
 			case 'admin':
 				$this->fetchContractor();
 				$this->fillFeedbacks();
+				break;
 			case 'reject':
 			case 'wait':
 			default:

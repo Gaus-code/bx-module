@@ -11,19 +11,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <section class="detail__footer">
-
-
-	<?php if ($arResult['CONTRACTOR']): ?>
-		<div class="detail__status">
-			<span> Исполнитель: <a href="/profile/<?= $arResult['CONTRACTOR']->getId()?>/">
-					<?= htmlspecialcharsbx($arResult['CONTRACTOR']->getBUser()->getName()
-										   . ' ' .
-										   $arResult['CONTRACTOR']->getBUser()->getLastName() )?> </a> </span>
-		</div>
-
-	<?php endif; ?>
-
-	<?php if ($arParams['TASK']->getFeedbacks()): ?>
+	<?php if ($arParams['TASK']->getFeedbacks() && count($arParams['TASK']->getFeedbacks()) > 0): ?>
 			<p class="detail__feedback_title">Отзывы:</p>
 		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<div class="detail__feedback">
