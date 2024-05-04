@@ -1,6 +1,8 @@
 <?php
 namespace Up\Ukan\Model;
 
+use Bitrix\Main\Entity\Event;
+use Bitrix\Main\Entity\EventResult;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\DatetimeField,
@@ -143,5 +145,17 @@ class ResponseTable extends DataManager
 		return [
 			new LengthValidator(null, 255),
 		];
+	}
+	public static function onBeforeUpdate(Event $event)
+	{
+		$result = new EventResult();
+
+		$arFields = $event->getParameter("fields");
+		$now = new DateTime;
+		$arFields['UPDATED_AT'] = $now;
+
+		$result->modifyFields($arFields);
+
+		return $result;
 	}
 }

@@ -3,8 +3,7 @@
 use Bitrix\Main\Routing\Controllers\PublicPageController;
 use Bitrix\Main\Routing\RoutingConfigurator;
 
-return function (RoutingConfigurator $routes)
-{
+return function(RoutingConfigurator $routes) {
 
 	//common
 	$routes->get('/', new PublicPageController('/local/modules/up.ukan/views/main.php'));
@@ -15,21 +14,42 @@ return function (RoutingConfigurator $routes)
 	//profile
 	$routes->get('/profile/{user_id}/', new PublicPageController('/local/modules/up.ukan/views/user.php'));
 	$routes->get('/profile/{user_id}/tasks/', new PublicPageController('/local/modules/up.ukan/views/task-list.php'));
-	$routes->get('/profile/{user_id}/projects/', new PublicPageController('/local/modules/up.ukan/views/project-list.php'));
+	$routes->get(
+		'/profile/{user_id}/projects/',
+		new PublicPageController('/local/modules/up.ukan/views/project-list.php')
+	);
 	$routes->get('/project/{project_id}/', new PublicPageController('/local/modules/up.ukan/views/project.php'));
-	$routes->get('/profile/{user_id}/responses/', new PublicPageController('/local/modules/up.ukan/views/responses.php'));
-	$routes->get('/profile/{user_id}/notifications/', new PublicPageController('/local/modules/up.ukan/views/notify.php'));
-	$routes->get('/profile/{user_id}/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/feedback-list.php'));
+	$routes->get(
+		'/profile/{user_id}/responses/',
+		new PublicPageController('/local/modules/up.ukan/views/responses.php')
+	);
+	$routes->get(
+		'/profile/{user_id}/notifications/',
+		new PublicPageController('/local/modules/up.ukan/views/notify.php')
+	);
+	$routes->get(
+		'/profile/{user_id}/feedbacks/',
+		new PublicPageController('/local/modules/up.ukan/views/feedback-list.php')
+	);
 	$routes->get('/subscription/', new PublicPageController('/local/modules/up.ukan/views/subscription.php'));
 	$routes->get('/subscription/haha/', new PublicPageController('/local/modules/up.ukan/views/payment-gateway.php'));
 	//profile actions(get)
 	$routes->get('/profile/{user_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/user-edit.php'));
 	$routes->get('/task/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/task-create.php'));
-	$routes->get('/project/{user_id}/create/', new PublicPageController('/local/modules/up.ukan/views/project-create.php'));
+	$routes->get(
+		'/project/{user_id}/create/',
+		new PublicPageController('/local/modules/up.ukan/views/project-create.php')
+	);
 	$routes->get('/task/{task_id}/', new PublicPageController('/local/modules/up.ukan/views/detail.php'));
-	$routes->get('/project/{project_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/project-edit.php'));
+	$routes->get(
+		'/project/{project_id}/edit/',
+		new PublicPageController('/local/modules/up.ukan/views/project-edit.php')
+	);
 	$routes->get('/task/{task_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/task-edit.php'));
-	$routes->get('/feedback/{feedback_id}/edit/', new PublicPageController('/local/modules/up.ukan/views/feedback-edit.php'));
+	$routes->get(
+		'/feedback/{feedback_id}/edit/',
+		new PublicPageController('/local/modules/up.ukan/views/feedback-edit.php')
+	);
 
 	//task actions(post)
 	$routes->post('/task/create/', [\Up\Ukan\Controller\Task::class, 'create']);
@@ -93,6 +113,9 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/admin/feedbacks/', new PublicPageController('/local/modules/up.ukan/views/admin-feedback.php'));
 	$routes->get('/admin/users/', new PublicPageController('/local/modules/up.ukan/views/admin-user.php'));
 	$routes->get('/admin/categories/', new PublicPageController('/local/modules/up.ukan/views/admin-categories.php'));
+	$routes->get('/admin/settings/', new PublicPageController('/local/modules/up.ukan/views/admin-settings.php'));
+
+	$routes->post('/admin/setting/newOptionsYandexGPT', [\Up\Ukan\Controller\Setting::class, 'newOptionsYandexGPT']);
 
 	$routes->post('/category/create/', [\Up\Ukan\Controller\Category::class, 'create']);
 	$routes->post('/category/delete/', [\Up\Ukan\Controller\Category::class, 'delete']);

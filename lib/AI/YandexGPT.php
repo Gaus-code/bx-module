@@ -3,6 +3,7 @@
 namespace Up\Ukan\AI;
 
 use Bitrix\Main\Web\HttpClient;
+use Up\Ukan\Model\SecretOptionSiteTable;
 use Up\Ukan\Model\TagTable;
 use Up\Ukan\Service\Configuration;
 
@@ -56,16 +57,22 @@ class YandexGPT
 
 	public static function getResponse(array $messages): array
 	{
-		$secretKey = Configuration::getOption('yandexGPT')['secret_key'];
-		$directoryId = Configuration::getOption('yandexGPT')['directory_id'];
+		$optionsResult = SecretOptionSiteTable::query()->setSelect(['ID', 'NAME', 'VALUE'])
+										->whereIn('NAME', ['secret_key', 'directory_id'])
+										->fetchAll();
+		foreach ($optionsResult as $row)
+		{
+			$options[$row['NAME']]=$row['VALUE'];
+		}
+		var_dump($options);
 
 		$httpClient = new HttpClient();
 		$httpClient->setHeader('Content-Type', 'application/json', true);
-		$httpClient->setHeader('Authorization', 'Api-Key ' . $secretKey, true);
+		$httpClient->setHeader('Authorization', 'Api-Key ' . $options['secret_key'], true);
 		$url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion";
 
 		$requestBody = [
-			"modelUri" => "gpt://" . $directoryId . "/yandexgpt",
+			"modelUri" => "gpt://" . $options['directory_id'] . "/yandexgpt",
 			"completionOptions" => [
 				"stream" => false,
 				"temperature" => 0,

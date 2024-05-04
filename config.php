@@ -12,10 +12,6 @@ return array(
 		'price' => 399,
 		'trial_subscription_period_in_days'=>'30',
 	),
-	'yandexGPT' => array(
-		'secret_key' => 'AQVNztg5AhOJG_qdivT_LWgRQADPQkfjCwyY2tbP',
-		'directory_id' => 'b1gjdsgd12d0ee2e41in',
-	),
 	'notification_message' => array(
 		'approve' => 'Ваш отклик одобрен',
 		'reject' => 'Ваш отклик отклонен',
