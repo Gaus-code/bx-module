@@ -42,10 +42,11 @@ return array(
 		'task_list_catalog' => 9,
 		'task_list_personal' => 10,
 		'responses_list' => 6,
-		'notification_list' => 9,
+		'notification_list' => 8,
 		'feedback_list' => 7,
 		'admin_tables' => 10,
 		'project_list' => 7,
+		'notification_list_admin' => 9,
 	),
 	'independent_stage_number'=>0,
 	'project_stage_status' => array(

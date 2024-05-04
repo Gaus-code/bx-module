@@ -12,6 +12,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 ?>
 
 <form method="get" class="searchForm">
+	<?php if ($arParams['CATEGORIES_ID']): ?>
+		<?php foreach ($arParams['CATEGORIES_ID'] as $categoryId): ?>
+			<input hidden="hidden" name="categories[]" value="<?=$categoryId?>">
+		<?php endforeach;?>
+	<?php endif; ?>
 	<input type="text" name="q" placeholder="Поиск...">
 	<button type="submit" class="searchBtn">
 		<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/search.svg" alt="search what you want">
