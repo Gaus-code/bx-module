@@ -372,3 +372,20 @@ WHERE TITLE = 'Без категории';"
 		);
 	}
 });
+
+__ukanMigrate(27, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_secret_option'))
+	{
+		$DB->query(
+			"create table if not exists up_ukan_secret_option_site
+(
+	ID       int not null auto_increment,
+	NAME    varchar(255) not null,
+	VALUE    varchar(255) not null,
+	PRIMARY KEY (
+	             `ID`
+		)
+);"
+		);
+	}
+});

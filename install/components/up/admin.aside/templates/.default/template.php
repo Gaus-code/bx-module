@@ -38,6 +38,10 @@
 				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="notification folder">
 				Уведомления
 			</a>
+			<a href="/admin/settings/" class="aside__btn">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/setting.svg" alt="setting folder">
+				Настройки сайта
+			</a>
 		</nav>
 		<a href="/logout?sessid=<?= bitrix_sessid() ?>" class="profile__logOut">Выйти</a>
 
