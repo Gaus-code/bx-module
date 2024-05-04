@@ -199,4 +199,16 @@ class TaskTable extends DataManager
 			new LengthValidator(null, 255),
 		];
 	}
+	public static function unBeforeUpdate(Event $event)
+	{
+		$result = new \Bitrix\Main\Entity\EventResult();
+
+		$arFields = $event->getParameter("fields");
+		$now = new \DateTime();
+		$arFields['UPDATED_AT'] = $now;
+
+		$result->modifyFields($arFields);
+
+		return $result;
+	}
 }
