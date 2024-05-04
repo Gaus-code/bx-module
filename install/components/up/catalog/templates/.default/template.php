@@ -14,6 +14,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <main class="catalog wrapper">
 	<aside class="catalog__aside">
 		<form method="get">
+			<?php if ($arParams['SEARCH']): ?>
+				<input hidden="hidden" name="q" value="<?=$arParams['SEARCH']?>">
+			<?php endif; ?>
 			<h2>Фильтры</h2>
 			<p class="catalog__subtitle">Категория</p>
 			<ul class="filter__list">
@@ -28,7 +31,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<button type="button" id="resetFilters">Очистить Мой Выбор</button>
+			<button type="button" id="resetFilters"><a href="/catalog/">Очистить Мой Выбор</a></button>
 			<button class="filterBtn" type="submit">Отфильтровать</button>
 		</form>
 	</aside>

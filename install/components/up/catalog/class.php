@@ -12,6 +12,7 @@ class CatalogComponent extends CBitrixComponent
 	public function onPrepareComponentParams($arParams)
 	{
 		$arParams['CATEGORIES_ID'] = request()->get('categories');
+		$arParams['SEARCH'] = request()->get('q');
 		return $arParams;
 	}
 	protected function fetchCategories()
