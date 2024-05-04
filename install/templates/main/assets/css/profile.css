@@ -357,15 +357,33 @@ a.aside__btn {
     width: 85%;
     margin: 0 auto;
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: center;
     flex-direction: column;
     gap: 20px;
 }
 
+.create__form h2 {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+    color: var(--color-bg-text);
+}
+
+.create__form select {
+    background-color: var(--color-bg-modal);
+    font-size: 20px;
+    border: 2px solid var(--color-primary-purple);
+    color: var(--color-bg-text);
+    border-radius: 8px;
+    max-width: 250px;
+}
+
 .create__textareaLabel {
-    font-size: 15px;
+    font-size: 18px;
     color: var(--color-primary-purple);
+
 }
 
 .create__form fieldset {
@@ -376,6 +394,12 @@ a.aside__btn {
     max-width: 682px;
 }
 
+.create__form fieldset legend {
+    text-align: center;
+    color: var(--color-primary-purple);
+    font-size: 18px;
+}
+
 .create__fieldsetContainer {
     display: flex;
     flex-direction: row;
@@ -384,18 +408,13 @@ a.aside__btn {
     gap: 20px;
 }
 
-.create__form fieldset legend {
-    text-align: center;
-    color: var(--color-primary-purple);
-}
-
 .create__title {
-    width: 80%;
     border: 2px solid var(--color-primary-purple);
     padding: 10px;
     border-radius: 6px;
     background-color: var(--color-bg-input);
     word-break: break-word;
+    font-size: 17px;
 }
 
 .create__description {
@@ -403,10 +422,13 @@ a.aside__btn {
     border-radius: 6px;
     display: block;
     resize: none;
-    width: 80%;
     padding: 10px;
     background-color: var(--color-bg-input);
     word-break: break-word;
+}
+
+.create__description, .create__title, .createBtn {
+    width: 85%;
 }
 
 .create__text {
@@ -415,31 +437,64 @@ a.aside__btn {
     width: 100%;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 27px;
+}
+
+.create__dateInput {
+    border: 2px solid var(--color-primary-purple);
+    padding: 10px;
+    border-radius: 6px;
+    background-color: var(--color-bg-input);
+    word-break: break-word;
+}
+
+.create__priceInput {
+    border: 2px solid var(--color-primary-purple);
+    padding: 10px;
+    border-radius: 6px;
+    background-color: var(--color-bg-input);
+    word-break: break-word;
 }
 
 .create__container {
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 4px;
+}
+
+.create__dateContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.create__containers {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
 }
 
 .createBtn {
-    width: 80%;
     border-radius: 8px;
-    background: var(--bg-color-primary-purple);
+    background: var(--color-tag-green);
     color: var(--color-bg-text);
-    border: 1px solid var(--color-primary-purple);
-    padding: 2px 8px;
-    font-size: 12px;
+    border: 2px solid var(--color-tag-green);
+    padding: 5px 8px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 28px;
     text-align: center;
     text-transform: capitalize;
+    margin-top: 20px;
 }
 
 .createBtn:hover, .createBtn:active, .createBtn:focus {
     background: inherit;
+    color: var(--color-tag-green);
     transition: 0.4s;
 }
 
@@ -502,10 +557,47 @@ a.aside__btn {
 
 .content__create {
     margin: 30px 0 20px;
+    position: relative;
 }
 
+.gptCreate {
+    position: fixed;
+    top: 50%;
+    right: 40px;
+}
 
+.gptCreate button {
+    position: relative;
+    color: #000;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 190px;
+    font-size: 18px;
+    border: 3px solid var(--color-primary-yellow);
+    background-color: var(--color-primary-yellow);
+}
 
+.premium-link-tag {
+    position: relative;
+    color: var(--color-bg-text);
+    text-decoration: none;
+    padding: 5px;
+}
+
+.premium-link-tag::after {
+    opacity: 1;
+    content: "👑";
+    position: absolute;
+    top: -12px;
+    right: 9px;
+    width: 17px;
+    height: 20px;
+    transition: opacity 0.3s ease;
+    transform: rotate(27deg);
+    font-size: 23px;
+}
 /*empty responses styles start*/
 .contractor__emptyContainer {
     margin-top: 32px;

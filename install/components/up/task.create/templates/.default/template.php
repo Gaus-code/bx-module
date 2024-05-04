@@ -30,8 +30,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="modalResponse">
 				<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			</div>
+
 			<form class="create__form" action="/task/create/" method="post">
 				<?=bitrix_sessid_post()?>
+				<h2>Обязательные поля:</h2>
 				<div class="create__text">
 					<div class="create__container">
 						<label class="create__textareaLabel" for="createTitle">Добавьте Название</label>
@@ -41,56 +43,52 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<label class="create__textareaLabel" for="taskDescription">Добавьте Описание</label>
 						<textarea name="description" id="taskDescription" class="create__description validate" cols="30" rows="10"></textarea>
 					</div>
-					<div class="create__container">
-						<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
-						<input name = "maxPrice" id="createMaxPrice" type="number" class="create__title" placeholder="Максимальная стоимость">
+					<div class="create__containers">
+						<div class="create__dateContainer">
+							<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
+							<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
+						</div>
+						<select class="create__category" name="categoryId" id="">
+							<option selected disabled>Выберите категорию</option>
+							<?php foreach ($arResult['CATEGORIES'] as $category): ?>
+								<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
+					<h2>Дополнительные поля:</h2>
+
 					<div class="create__container">
-						<label class="create__textareaLabel" for="createMaxPrice">Добавьте тэги (используя #)</label>
-						<input name = "tagsString" id="createMaxPrice"  class="create__title" placeholder="#HTML #CSS #...">
-					</div>
-					<div class="create__container">
-						<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
-						<input name="deadline" id="deadline" type="date" class="create__title validate">
+						<label class="create__textareaLabel">Добавьте тэги (используя #)</label>
+						<input name = "tagsString" class="create__title" placeholder="#HTML #CSS #...">
 					</div>
 				</div>
-				<li class="filter__item">
-					<input class="filter__checkbox" name = "useGPT" type = "checkbox">
-					<label class="filter__label">Автоматическое проставление тегов по описанию</label>
-				</li>
+
+
 				<div class="create__fieldsetContainer">
-					<fieldset>
-						<legend>Выберите категорию</legend>
-							<ul class="filter__list">
-								<?php foreach ($arResult['CATEGORIES'] as $category): ?>
-									<li class="filter__item">
-										<input type="radio" class="filter__checkbox validate" name="categoryId" value="<?=$category->getId()?>">
-										<label class="filter__label"><?=htmlspecialcharsbx($category->getTitle())?></label>
-									</li>
-								<?php endforeach; ?>
-							</ul>
-					</fieldset>
-					<fieldset>
-						<legend>Выберите Проект</legend>
+					<div class="create__containers">
+						<div class="create__dateContainer">
+							<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
+							<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
+						</div>
 						<?php if (count($arResult['PROJECTS']) > 0): ?>
-						<ul class="filter__list">
-							<?php foreach ($arResult['PROJECTS'] as $project): ?>
-								<li class="filter__item">
-									<input type="radio" class="filter__checkbox" name="projectId" value="<?=$project->getId()?>">
-									<label class="filter__label"><?=htmlspecialcharsbx($project->getTitle())?></label>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-						<?php else: ?>
-							<div class="emptyContainer">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/NoProjects.svg" alt="no projects image">
-								<p class="empty">У вас пока нет проектов</p>
-							</div>
+							<select name="projectId">
+								<option selected disabled>Выберите Проект</option>
+								<?php foreach ($arResult['PROJECTS'] as $project): ?>
+									<option value="<?=$project->getId()?>"><?=htmlspecialcharsbx($project->getTitle())?></option>
+								<?php endforeach; ?>
+							</select>
 						<?php endif;?>
-					</fieldset>
+					</div>
 				</div>
 				<button class="createBtn" type="submit">Создать заявку</button>
 			</form>
+			<div class="gptCreate">
+				<form action="" method="post" class="premium-link-tag">
+					<?=bitrix_sessid_post()?>
+					<input class="filter__checkbox" name = "useGPT" type = "checkbox">
+					<button type="submit">Автоматическое проставление тегов по описанию</button>
+				</form>
+			</div>
 		</article>
 	</section>
 </main>
