@@ -9,6 +9,7 @@ class UserEditProject extends CBitrixComponent
 		$this->fetchProject();
 		$this->fetchUserActivity();
 		$this->fetchActiveStage();
+		$this->fetchWaitingToStartStage();
 		$this->fetchIndependentStage();
 		$this->fetchFutureStage();
 		$this->fetchCompletedStage();
@@ -47,17 +48,29 @@ class UserEditProject extends CBitrixComponent
 		if ($this->arParams['PROJECT_ID'])
 		{
 			$projectId = $this->arParams['PROJECT_ID'];
-			$stageStatuses = [
-				Configuration::getOption('project_stage_status')['waiting_to_start'],
-				Configuration::getOption('project_stage_status')['active']
-			];
+			$stageStatus = Configuration::getOption('project_stage_status')['active'];
 
 			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
 													 ->where('PROJECT_ID', $projectId)
-													 ->whereIn('STATUS', $stageStatuses)
-													 ->fetchCollection();
+													 ->where('STATUS', $stageStatus)
+													 ->fetchObject();
 
 			$this->arResult['ACTIVE_STAGE'] = $stage;
+		}
+	}
+	protected function fetchWaitingToStartStage()
+	{
+		if ($this->arParams['PROJECT_ID'])
+		{
+			$projectId = $this->arParams['PROJECT_ID'];
+			$stageStatus = Configuration::getOption('project_stage_status')['waiting_to_start'];
+
+			$stage = \Up\Ukan\Model\ProjectStageTable::query()->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
+													 ->where('PROJECT_ID', $projectId)
+													 ->where('STATUS', $stageStatus)
+													 ->fetchObject();
+
+			$this->arResult['WAITING_TO_START_STAGE'] = $stage;
 		}
 	}
 
@@ -70,7 +83,7 @@ class UserEditProject extends CBitrixComponent
 													 ->setSelect(['*', 'TASKS', 'TASKS.CONTRACTOR', 'TASKS.CONTRACTOR.B_USER'])
 													 ->where('PROJECT_ID', $projectId)
 													 ->where('STATUS', Configuration::getOption('project_stage_status')['independent'])
-													 ->fetchCollection();
+													 ->fetchObject();
 
 			$this->arResult['INDEPENDENT_STAGE'] = $stage;
 		}
