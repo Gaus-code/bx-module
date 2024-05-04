@@ -8,23 +8,22 @@
     margin: 10px 0;
     font-size: 21px;
     text-decoration: underline;
+    align-self: flex-start;
 }
 
 .profile__changeBio_form {
-    margin-top: 22px;
-    min-height: 400px;
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    margin-left: 20px;
-    padding-bottom: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
 }
 
 .editData__list {
-    width: 50%;
+    width: 55%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -33,7 +32,7 @@
 }
 
 .editData__item {
-
+    width: 100%;
 }
 
 .editData__title {
@@ -43,33 +42,21 @@
     padding-left: 19px;
 }
 
-.editData__form {
-    padding: 4px 16px;
-    width: 450px;
-    min-height: 72px;
-    border-radius: 8px;
-    border: 1px solid var(--color-primary-purple);
-    background: var(--color-bg-input);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
-}
 
 .editData__img {
 }
 
 .editData__input {
-    height: 100%;
     width: 100%;
-    font-size: 19px;
-    border: none;
-    background-color: inherit;
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 6px;
+    border: 2px solid var(--color-primary-purple);
+    background-color: var(--color-bg-input);
 }
 
 .editData__bioContainer {
-    height: 397px;
+    height: 263px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -83,7 +70,7 @@
     resize: none;
     display: block;
     width: 450px;
-    min-height: 300px;
+    min-height: 177px;
     border: 2px solid var(--color-primary-purple);
     background: var(--color-bg-input);
     border-radius: 10px;
@@ -95,11 +82,10 @@
     background: var(--color-primary-purple);
     color: var(--color-bg-text);
     border: 2px solid var(--color-primary-purple);
-    padding: 6px 8px;
+    padding: 4px 8px;
     font-size: 18px;
     line-height: 28px;
     text-align: center;
-    text-transform: capitalize;
     align-self: flex-end;
 }
 
@@ -108,12 +94,6 @@
     transition: 0.4s;
 }
 
-.profile__changePassword {
-    width: 85%;
-    margin-top: 20px;
-    padding-bottom: 40px;
-    border-bottom: 3px solid var(--color-primary-border);
-}
 
 .changePassword__form {
     width: 100%;
@@ -140,22 +120,25 @@
 
 .changePassword__input {
     width: 100%;
-    padding: 4px 16px;
-    min-height: 40px;
-    border-radius: 8px;
-    border: 1px solid var(--color-primary-purple);
-    background: var(--color-bg-input);
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 6px;
+    border: 2px solid var(--color-primary-purple);
+    background-color: var(--color-bg-input);
 }
 
 .profile__changeContacts {
-    padding-top: 40px;
     width: 50%;
-    border-right: 3px solid var(--color-primary-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--color-primary-border);
 }
 
 .profile__changeContacts p {
-    color: var(--color-tag-green);
+    color: var(--color-warning-red);
     font-size: 15px;
+    font-weight: 600;
 }
 
 .profile__changeContacts_form {
@@ -189,8 +172,8 @@
     font-size: 18px;
     line-height: 28px;
     text-align: center;
-    text-transform: capitalize;
     align-self: flex-end;
+    max-width: 500px;
 }
 
 .profile__changeContacts_form button:hover, .profile__changeContacts_form button:focus {
@@ -199,24 +182,33 @@
     /*color: var(--color-primary-black);*/
 }
 
-.profile__changeContainer {
-    display: flex;
-    align-items: center;
-    width: 85%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
+
+.profile__changeImage, .profile__changeContacts, .profile__changeBio, .profile__changePassword {
+    border: 2px solid var(--color-primary-border);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 20px;
+    width:85%;
+    margin: 20px auto 0;
+
 }
 
 .profile__changeImage {
-    padding: 20px;
-    max-width: 48%;
-    width: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     flex-direction: column;
+}
+
+.changeImageForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
 .changeImageBtn {
@@ -228,12 +220,38 @@
     font-size: 18px;
     line-height: 28px;
     text-align: center;
-    text-transform: capitalize;
     align-self: flex-end;
+    width: 100%;
 }
 
 .changeImageBtn:hover, .changeImageBtn:focus {
     background: inherit;
     transition: 0.4s;
     color: var(--color-bg-text);
+}
+
+.changePassword__btn {
+    max-width: 450px;
+    align-self: flex-end;
+}
+
+.adm-fileinput-area-container {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.adm-fileinput-wrapper-single .adm-fileinput-area {
+    display: inline-block;
+    width: 500px;
+    min-height: 223px;
+    padding: 5px 5px 6px;
+}
+
+.adm-fileinput-btn-panel .adm-fileinput-mode {
+    display: flex;
+}
+
+.adm-fileinput-btn-panel {
+    float: none;
 }

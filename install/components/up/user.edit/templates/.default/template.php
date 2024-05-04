@@ -29,43 +29,53 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<article class="content__name">
 			<h2 class="content__tittle">Ваш профиль</h2>
 		</article>
+		<?php $user = $arResult['USER']?>
+		<article class="profile__changeImage">
+			<h2 class="profile__changeBio_title">Смена фотографии</h2>
+			<form class="changeImageForm" action="/profile/changeImage" method="post" enctype="multipart/form-data">
+				<?php echo bitrix_sessid_post(); ?>
+				<?= $arResult['FILES']->show(); ?>
+				<button class="changeImageBtn" type="submit">Изменить фотографию</button>
+			</form>
+		</article>
+		<article class="profile__changeContacts">
+			<h2 class="profile__changeBio_title">Контакты для связи</h2>
+			<p>*будут видеть ваши исполнители</p>
+			<form action="/profile/changeContacts" method="post" class="profile__changeContacts_form">
+				<?= bitrix_sessid_post() ?>
+				<div class="editData__item">
+					<label class="editData__title">Телефон</label>
+					<input type="tel" name="tel" value="<?= $user->getContacts(); ?>">
+				</div>
+				<div class="editData__item">
+					<label class="editData__title">Пожелания по способу связи</label>
+					<input type="text" name="contacts" value="<?= $user->getContacts(); ?>" placeholder="Пожелания по способу связи">
+				</div>
+				<button type="submit">Редактировать</button>
+			</form>
+		</article>
 		<article class="profile__changeBio">
 			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			<h2 class="profile__changeBio_title">Смена личной информации</h2>
 			<form action="/profile/changeBio" method="post" class="profile__changeBio_form">
-				<?php $user = $arResult['USER']?>
 					<?= bitrix_sessid_post() ?>
 					<ul class="editData__list">
 						<li class="editData__item">
-							<h2 class="editData__title">Имя</h2>
-							<div class="editData__form">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit name" class="editData__img">
-								<input type="text" class="editData__input" name="userName" value="<?=htmlspecialcharsbx($user->getBUser()->getName())  ?>">
-							</div>
+							<label class="editData__title">Имя</label>
+							<input type="text" class="editData__input" name="userName" value="<?=htmlspecialcharsbx($user->getBUser()->getName())  ?>">
 						</li>
 						<li class="editData__item">
-							<h2 class="editData__title">Фамилия</h2>
-							<div class="editData__form">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit surname"
-									 class="editData__img">
-								<input type="text" class="editData__input" name="userLastName" value="<?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?>">
-							</div>
+							<label class="editData__title">Фамилия</label>
+							<input type="text" class="editData__input" name="userLastName" value="<?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?>">
 						</li>
 						<li class="editData__item">
-							<h2 class="editData__title">Почта</h2>
-							<div class="editData__form">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/email.svg" alt="edit email"
-									 class="editData__img">
-								<input type="text" class="editData__input" name="userEmail" value="<?= htmlspecialcharsbx($user->getBUser()->getEmail()) ?>">
-							</div>
+							<label class="editData__title">Почта</label>
+							<input type="text" class="editData__input" name="userEmail" value="<?= htmlspecialcharsbx($user->getBUser()->getEmail()) ?>">
 						</li>
 						<li class="editData__item">
-							<h2 class="editData__title">Логин</h2>
-							<div class="editData__form">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/user.svg" alt="edit login"
-									 class="editData__img">
-								<input type="text" class="editData__input" name="userLogin" value="<?= htmlspecialcharsbx($user->getBUser()->getLogin()) ?>">
-							</div>
+							<label class="editData__title">Логин</label>
+							<input type="text" class="editData__input" name="userLogin" value="<?= htmlspecialcharsbx($user->getBUser()->getLogin()) ?>">
+
 						</li>
 					</ul>
 					<div class="editData__bioContainer">
@@ -74,7 +84,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<textarea class="editData__bio" name="userBio"><?=htmlspecialcharsbx($user->getBio())?></textarea>
 						</div>
 						<input type="hidden" value="<?= $user->getID() ?>" name="userId">
-						<button type="submit">Изменить основную информацию</button>
+						<button type="submit">Изменить личную информацию</button>
 					</div>
 			</form>
 		</article>
@@ -99,24 +109,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<button class="changePassword__btn" type="submit">Изменить пароль</button>
 			</form>
 		</article>
-		<article class="profile__changeContainer">
-			<article class="profile__changeContacts">
-				<h2 class="profile__changeBio_title">Пожелания по способу для связи</h2>
-				<p>*этот текст будет виден вашим исполнителям</p>
-				<form action="/profile/changeContacts" method="post" class="profile__changeContacts_form">
-					<?= bitrix_sessid_post() ?>
-					<input type="text" name="contacts" value="<?= $user->getContacts(); ?>" placeholder="Пожелания по способу связи">
-					<button type="submit">Редактировать</button>
-				</form>
-			</article>
-			<article class="profile__changeImage">
-				<form action="/profile/changeImage" method="post" enctype="multipart/form-data">
-					<?php echo bitrix_sessid_post(); ?>
-					<?= $arResult['FILES']->show(); ?>
-					<button class="changeImageBtn" type="submit">отправить</button>
-				</form>
-			</article>
-		</article>
+
 	</section>
 </main>
 <script src="<?= SITE_TEMPLATE_PATH ?>/assets/js/profile.js"></script>
