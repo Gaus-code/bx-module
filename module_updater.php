@@ -244,7 +244,8 @@ __ukanMigrate(15, function($updater, $DB) {
 				PRIMARY KEY (
 							 `ID`
 					)
-			);');
+			);'
+		);
 	};
 
 });
@@ -265,9 +266,11 @@ __ukanMigrate(16, function($updater, $DB) {
 __ukanMigrate(17, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && !$updater->TableExists('up_ukan_task'))
 	{
-		$DB->query("UPDATE `up_ukan_task`
+		$DB->query(
+			"UPDATE `up_ukan_task`
 SET STATUS = 'Поиск исполнителя'
-WHERE STATUS = 'Новая';");
+WHERE STATUS = 'Новая';"
+		);
 	};
 
 });
@@ -275,14 +278,16 @@ WHERE STATUS = 'Новая';");
 __ukanMigrate(18, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_categories'))
 	{
-		$DB->query("INSERT INTO up_ukan_categories (TITLE)
+		$DB->query(
+			"INSERT INTO up_ukan_categories (TITLE)
 SELECT 'Без категории'
 FROM dual
 WHERE NOT EXISTS (
 	SELECT 1
 	FROM up_ukan_categories
 	WHERE TITLE = 'Без категории'
-);");
+);"
+		);
 	};
 
 });
@@ -358,10 +363,6 @@ __ukanMigrate(25, function($updater, $DB) {
 	}
 });
 
-
-
-
-
 __ukanMigrate(26, function($updater, $DB) {
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_categories'))
 	{
@@ -386,6 +387,36 @@ __ukanMigrate(27, function($updater, $DB) {
 	             `ID`
 		)
 );"
+		);
+	}
+});
+
+__ukanMigrate(28, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query(
+			"alter table up_ukan_user
+    drop column RATING;"
+		);
+	}
+});
+
+__ukanMigrate(29, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query(
+			"alter table up_ukan_user
+    drop column FEEDBACK_COUNT;"
+		);
+	}
+});
+
+__ukanMigrate(29, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query(
+			"alter table up_ukan_user
+    modify CONTACTS text null;"
 		);
 	}
 });

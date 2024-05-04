@@ -6,6 +6,7 @@ use Bitrix\Main\Context;
 use Bitrix\Main\Type\DateTime;
 use Up\Ukan\Model\BUserTable;
 use Up\Ukan\Model\EO_User;
+use Up\Ukan\Model\UserTable;
 use Up\Ukan\Repository\User;
 use Up\Ukan\Service\Validation;
 
@@ -50,6 +51,14 @@ class Auth extends Engine\Controller
 		{
 			$userId = $USER->GetID();
 			$this->setUserSession($userId);
+
+			if (!$this->issetUkanUser())
+			{
+				$this->createUkanUser();
+				$ukanUser = new EO_User();
+				$ukanUser->setId($userId);
+				$ukanUser->save();
+			}
 
 			if ($USER->IsAdmin())
 			{
@@ -108,5 +117,24 @@ class Auth extends Engine\Controller
 		$USER->Logout();
 		unset($_SESSION['USER_ID']);
 		LocalRedirect('/sign-in');
+	}
+
+	private function issetUkanUser(): bool
+	{
+		global $USER;
+		$userId = $USER->GetID();
+
+		$ukanUser = UserTable::getById($userId)->fetchObject();
+
+		return (bool)$ukanUser;
+	}
+	private function createUkanUser(): void
+	{
+		global $USER;
+		$userId = $USER->GetID();
+
+		$ukanUser = new EO_User();
+		$ukanUser->setId($userId);
+		$ukanUser->save();
 	}
 }
