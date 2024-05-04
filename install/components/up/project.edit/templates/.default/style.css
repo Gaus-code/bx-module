@@ -243,6 +243,7 @@ section.editPriority {
     justify-content: center;
     gap: 20px;
     margin-top: 30px;
+    color: var(--color-bg-text);
 }
 
 .createTask__form input {
@@ -371,12 +372,11 @@ section.editPriority {
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
-    letter-spacing: 1%;
     text-align: left;
-    text-transform: capitalize;
 }
 
 .board {
+    max-width: 1200px;
     width: 100%;
     height: 100%;
     overflow: scroll;
