@@ -57,6 +57,14 @@ class Task extends Controller
 			LocalRedirect("/task/" . $clientId . "/create/");
 		}
 
+		$errors = $this->censorshipCheck($title, $description, $tagsString);
+
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/" . $clientId . "/create/");
+		}
+
 		$task = $this->createTask(
 			$clientId,
 			$projectId,
@@ -134,6 +142,14 @@ class Task extends Controller
 		if (!$task)
 		{
 			LocalRedirect("/access/denied/");
+		}
+
+		$errors = $this->censorshipCheck($title, $description, $tagsString);
+
+		if ($errors !== [])
+		{
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/task/" . $clientId . "/create/");
 		}
 
 		$task->setTitle($title)
@@ -762,5 +778,22 @@ class Task extends Controller
 		}
 
 		return json_encode($result);
+	}
+
+	private function censorshipCheck(?string $title, ?string $description, ?string $tagsString)
+	{
+		if (!AI::censorshipCheck($title))
+		{
+			$errors[]='Название не прошло цензуру';
+		}
+		if (!AI::censorshipCheck($description))
+		{
+			$errors[]='Описание не прошло цензуру';
+		}
+		if (!AI::censorshipCheck($tagsString))
+		{
+			$errors[]='Теги не прошли цензуру';
+		}
+		return $errors;
 	}
 }
