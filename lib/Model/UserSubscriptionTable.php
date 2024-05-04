@@ -68,13 +68,6 @@ class UserSubscriptionTable extends DataManager
 				UserTable::class,
 				Join::on('this.USER_ID', 'ref.ID')
 			),
-			new IntegerField(
-				'SUBSCRIPTION_ID',
-				[
-					'required' => true,
-					'title' => Loc::getMessage('USER_SUBSCRIPTION_ENTITY_SUBSCRIPTION_ID_FIELD')
-				]
-			),
 			new Reference(
 				'SUBSCRIPTION',
 				SubscriptionTable::class,

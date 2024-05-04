@@ -3,6 +3,8 @@ namespace Up\Ukan\Controller;
 
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\Type\Date;
+use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Model\EO_UserSubscription;
 use Up\Ukan\Service\Configuration;
 
 class Subscription extends Controller
@@ -16,7 +18,7 @@ class Subscription extends Controller
 
 		global $USER;
 
-		$userId = $USER->GetID();
+		$userId = (int)$USER->GetID();
 
 		$user = \Up\Ukan\Model\UserTable::getById($userId)->fetchObject();
 
@@ -27,11 +29,21 @@ class Subscription extends Controller
 			LocalRedirect("/subscription/");
 		}
 
+		$nowDateTime = new DateTime;
+		$nowDate = new Date;
 		$subscriptionEndDate = new Date;
 		$trialSubscriptionPeriod = Configuration::getOption('subscription')['trial_subscription_period_in_days'].'d';
 		$subscriptionEndDate->add($trialSubscriptionPeriod);
 
-		$user->set('SUBSCRIPTION_END_DATE', $subscriptionEndDate);
+		$userSubscription = new EO_UserSubscription();
+		$userSubscription->setUserId($userId)
+						 ->setPrice(0)
+						 ->setEndDate($subscriptionEndDate)
+						 ->setPaymentAt($nowDateTime)
+						 ->setStartDate($nowDate);
+
+		$userSubscription->save();
+		$user->setSubscriptionEndDate($subscriptionEndDate);
 		$user->save();
 
 		LocalRedirect("/profile/".$userId."/");
