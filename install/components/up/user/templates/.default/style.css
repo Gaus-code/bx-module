@@ -22,29 +22,61 @@
     position: absolute;
     top: 45px;
     right: 0;
-
+    border-bottom: 2px solid var(--color-primary-purple);
 }
 
-.editProfile img {
-    display: block;
-    width: 35px;
-    padding: 3px;
-    border: 2px dashed var(--color-primary-purple);
+.editProfile:hover, .editProfile:focus {
+    color: var(--color-primary-purple);
+    border-color: var(--color-primary-purple);
+    transition: 0.3s;
 }
 
-.userImage, .userImage__container img {
+.userImage, .userImage__container img, .userImage__containerPremium img{
     display: block;
     width: 135px;
     min-height: 130px;
     border-radius: 50%;
 }
 
+
 .userImage__container img {
     border: 1px solid var(--color-primary-border);
 }
 
-.userImage__container {
+.userImage__container, .userImage__containerPremium {
     position: relative;
+    border-radius: 50%;
+}
+
+.gradient-border {
+    --border-width: 6px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 135px;
+    height: 130px;
+    background: inherit;
+    border-radius: var(--border-width);
+}
+.gradient-border::after {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: linear-gradient(60deg, #5f86f2, #a65ff2, #f25fd0, #f25f61, #f2cb5f, #abf25f, #5ff281, #5ff2f0);
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: 50%;
+    animation: moveGradient 4s alternate infinite;
+}
+@keyframes moveGradient {
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 .deleteUserImageForm {

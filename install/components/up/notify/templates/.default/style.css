@@ -6,7 +6,7 @@
     max-width: 1200px;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 600px 600px;
     flex-wrap: wrap;
     gap: 15px;
     margin-left: 30px;
@@ -73,6 +73,11 @@
 .notify__title {
     text-align: center;
     line-height: 20px;
+    -ms-word-break: break-word;
+    word-break: break-word;
+    max-width: 500px;
+    overflow: hidden;
+    text-wrap: nowrap;
 }
 
 .notify__title span {

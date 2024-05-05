@@ -16,6 +16,7 @@
     border-radius: 10px;
     background: var(--color-bg-modal);
     box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
+    margin-bottom: 15px;
 }
 
 .task__responseMain {
@@ -44,9 +45,18 @@
     padding: 10px 0 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 13px;
     border-top: 1px solid var(--color-primary-gray);
+}
+
+.task__responseFooter form {
+    width: 45%;
+}
+
+.task__responseFooter form button {
+    width: 100%;
+    font-size: 18px;
 }
 
 .task__responseDelete {

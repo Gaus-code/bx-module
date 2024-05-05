@@ -18,10 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	]); ?>
 	<section class="content">
 		<article class="content__header">
-			<h1>Создание проекта</h1>
-			<button type="button" class="plus-link">
-				<span class="plus-link__inner"></span>
-			</button>
+			<h1 id="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?=$USER->GetID()?>/create/" class="create__link">Создать проект</a>
 				<a href="/task/<?=$USER->GetID()?>/create/" class="create__link">Создать заявку</a>
@@ -29,6 +26,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		</article>
 		<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 		<article class="content__create">
+			<h2>Создание проекта</h2>
 			<form class="create__form" action="/project/create/" method="post">
 				<?=bitrix_sessid_post()?>
 				<input type="text" name="title" class="create__title" placeholder="Название проекта">

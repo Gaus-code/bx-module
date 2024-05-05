@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<section class="content">
 		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 		<article class="content__header">
-			<h1>Рабочая область</h1>
+			<h1 id="quickCreate">Быстрое создание</h1>
 			<button type="button" class="plus-link">
 				<span class="plus-link__inner"></span>
 			</button>
@@ -37,7 +37,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<article class="content__mainBio">
 				<div class="content__mainBio_header">
 					<?php if ($arResult['PROFILE_IMAGE']):?>
-						<div class="userImage__container">
+							<?php if ($user->get('SUBSCRIPTION_STATUS') === "Active"):?>
+							<div class="userImage__containerPremium gradient-border">
+
+							<?php else:?>
+							<div class="userImage__container">
+							<?php endif;?>
 							<?= CFile::ShowImage($arResult['PROFILE_IMAGE'], 130, 130, );?>
 							<form action="/profile/deleteImage" method="post" class="deleteUserImageForm">
 								<?= bitrix_sessid_post() ?>
@@ -65,7 +70,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</div>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner' && !$arResult['USER']->getIsBanned()):?>
 					<a href="/profile/<?= $user->getID() ?>/edit/" class="editProfile">
-						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/editDots.svg" alt="edit user profile">
+						редактировать профиль
 					</a>
 					<?php endif;?>
 

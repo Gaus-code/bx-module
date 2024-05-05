@@ -27,6 +27,16 @@
 		<nav class="header__nav">
 			<a href="/" class="header__link" id="mainLink">Главная</a>
 			<a href="/catalog/" class="header__link" id="catalogLink">Каталог</a>
+
+		</nav>
+	</div>
+
+	<?php if (!$USER->IsAuthorized()): ?>
+		<div class="header__registerContainer">
+			<a href="/sign-in" class="header__btn">Войти</a>
+		</div>
+	<?php else:?>
+		<div class="header__registerContainer">
 			<div>
 				<input type="checkbox" id="styleModeBtn">
 				<label for="styleModeBtn" class="styleModeLabel">
@@ -35,14 +45,6 @@
 					<div class="ball"></div>
 				</label>
 			</div>
-		</nav>
-	</div>
-	<?php if (!$USER->IsAuthorized()): ?>
-		<div class="header__registerContainer">
-			<a href="/sign-in" class="header__btn">Войти</a>
-		</div>
-	<?php else:?>
-		<div class="header__registerContainer">
 			<button type="button" class="header__userBtn">
 				<?= htmlspecialcharsbx($USER->GetLogin()) ?>
 			</button>

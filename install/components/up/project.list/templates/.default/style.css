@@ -60,7 +60,7 @@ td {
     padding: 20px;
     text-align: center;
     border-bottom: 1px solid #ddd;
-    font-size: 16px;
+    font-size: 18px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -71,6 +71,7 @@ td {
 th {
     color: var(--color-primary-purple);
     border-bottom: 1px dashed var(--color-primary-purple);
-    font-size: 16px;
+    font-size: 20px;
     padding: 15px;
+    font-weight: 600;
 }

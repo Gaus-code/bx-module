@@ -18,10 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	]); ?>
 	<section class="content">
 		<article class="content__header">
-			<h1>Рабочая область</h1>
-			<button type="button" class="plus-link">
-				<span class="plus-link__inner"></span>
-			</button>
+			<h1 id="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать проект</a>
 				<a href="/task/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать заявку</a>
@@ -91,7 +88,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?php
 							if ($response->getStatus() === \Up\Ukan\Service\Configuration::getOption('response_status')['wait']): ?>
 								<div class="task__responseFooter">
-									<form action="/response/delete/" method="post">
+									<form action="/response/delete/" class="deleteResponseForm" method="post">
 										<?= bitrix_sessid_post() ?>
 										<input hidden="hidden" name="responseId" value="<?= $response->getId() ?>">
 										<button class="task__responseDelete" type="submit">Отменить отклик</button>

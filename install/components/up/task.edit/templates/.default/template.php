@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	]); ?>
 	<section class="content">
 		<article class="content__header">
-			<h1>Рабочая область</h1>
+			<h1 id="quickCreate">Быстрое создание</h1>
 			<button type="button" class="plus-link">
 				<span class="plus-link__inner"></span>
 			</button>

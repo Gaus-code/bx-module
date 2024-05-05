@@ -19,10 +19,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<section class="content">
 		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
 		<article class="content__header">
-			<h1>Рабочая область</h1>
-			<button type="button" class="plus-link">
-				<span class="plus-link__inner"></span>
-			</button>
+			<h1 class="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать проект</a>
 				<a href="/task/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать заявку</a>

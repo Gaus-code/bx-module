@@ -17,16 +17,14 @@ CJSCore::Init(array('ajax'));
 	]); ?>
 	<section class="content">
 		<article class="content__header">
-			<h1>Создание Заявки</h1>
-			<button type="button" class="plus-link">
-				<span class="plus-link__inner"></span>
-			</button>
+			<h1 id="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать проект</a>
 				<a href="/task/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать заявку</a>
 			</div>
 		</article>
 		<article class="content__create">
+			<h2>Создание Заявки</h2>
 			<div class="modalResponse">
 				<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			</div>

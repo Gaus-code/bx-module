@@ -28,8 +28,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<tr>
 			<th>Название заявки</th>
 			<th>Категория</th>
-			<th>Описание заявки</th>
-			<th>Дата создания заявки</th>
+			<th>Дата создания </th>
 			<th>Исполнитель</th>
 			<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
 			<th></th>
@@ -44,8 +43,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
-					<td><?= $task->getCategory()->getTitle() ?></td>
-					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
+					<td><?= htmlspecialcharsbx($task->getCategory()->getTitle()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>В поиске исполнителя</td>
 					<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
@@ -84,8 +82,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<tr>
 				<th>Название заявки</th>
 				<th>Категория</th>
-				<th>Описание заявки</th>
-				<th>Дата создания заявки</th>
+				<th>Дата создания</th>
 				<th>Исполнитель</th>
 				<?php if ($arParams['USER_ACTIVITY'] === 'owner' && !$arResult['USER_IS_BANNED']):?>
 				<th></th>
@@ -100,8 +97,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
-					<td><?= $task->getCategory()->getTitle() ?></td>
-					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
+					<td><?= htmlspecialcharsbx($task->getCategory()->getTitle()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>
 						<a class="taskViewLink" href="/profile/<?= $task->getContractorId() ?>/">
@@ -147,8 +143,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<tr>
 				<th>Название заявки</th>
 				<th>Категория</th>
-				<th>Описание заявки</th>
-				<th>Дата создания заявки</th>
+				<th>Дата создания</th>
 				<th>Исполнитель</th>
 			</tr>
 			</thead>
@@ -160,8 +155,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<?= htmlspecialcharsbx($task->getTitle()) ?>
 						</a>
 					</td>
-					<td><?= $task->getCategory()->getTitle() ?></td>
-					<td><?= htmlspecialcharsbx($task->getDescription()) ?></td>
+					<td><?= htmlspecialcharsbx($task->getCategory()->getTitle()) ?></td>
 					<td><?= $task->getCreatedAt()->format('d.m.Y') ?></td>
 					<td>
 						<a class="taskViewLink" href="/profile/<?= $task->getContractorId() ?>/">
