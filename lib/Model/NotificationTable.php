@@ -61,7 +61,7 @@ class NotificationTable extends DataManager
 				'MESSAGE',
 				[
 					'required' => true,
-					'validation' => [__CLASS__, 'validateType'],
+					'validation' => [__CLASS__, 'validateMessage'],
 					'title' => Loc::getMessage('NOTIFICATION_ENTITY_MESSAGE_FIELD')
 				]
 			),
