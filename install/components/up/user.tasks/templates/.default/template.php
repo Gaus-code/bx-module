@@ -52,8 +52,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						class="content__tagItem">
 						Завершенные
 					</li>
+					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+						<li id="performing-btn" class="content__tagItem">
+							Исполняемые
+						</li>
+					<?php endif; ?>
 				</ul>
 			</div>
+			<form method="get" class="searchForm">
+				<input type="text" name="q" placeholder="Поиск задачи">
+				<button type="submit" class="searchBtn">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/search.svg" alt="search what you want">
+				</button>
+			</form>
 		</article>
 			<?php $APPLICATION->IncludeComponent('up:task.list', 'user', [
 				'USER_ID' => $arParams['USER_ID'],

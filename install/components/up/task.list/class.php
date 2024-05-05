@@ -77,6 +77,7 @@ class TaskListComponent extends CBitrixComponent
 			$this->fetchOpenTasksForPersonalPage();
 			$this->fetchAtWorkTasksForPersonalPage();
 			$this->fetchDoneTasksForPersonalPage();
+			$this->fetchPerformingTasksForPersonalPage();
 		}
 
 	}
@@ -167,6 +168,16 @@ class TaskListComponent extends CBitrixComponent
 			  ->setOffset($nav->getOffset())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']);
 
+		if (!is_null($this->arParams['SEARCH']))
+		{
+			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
+													  ->logic('or')
+													  ->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('TAGS.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('CATEGORY.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+			);
+		}
+
 		$openTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($openTasks));
@@ -201,6 +212,16 @@ class TaskListComponent extends CBitrixComponent
 			  ->setOffset($nav->getOffset())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['at_work']);
 
+		if (!is_null($this->arParams['SEARCH']))
+		{
+			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
+													  ->logic('or')
+													  ->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('TAGS.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('CATEGORY.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+			);
+		}
+
 		$atWorkTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($atWorkTasks));
@@ -234,6 +255,16 @@ class TaskListComponent extends CBitrixComponent
 			  ->setOffset($nav->getOffset())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['done']);
 
+		if (!is_null($this->arParams['SEARCH']))
+		{
+			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
+													  ->logic('or')
+													  ->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('TAGS.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('CATEGORY.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+			);
+		}
+
 		$doneTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($doneTasks));
@@ -248,6 +279,47 @@ class TaskListComponent extends CBitrixComponent
 		}
 
 		$this->arResult['DONE_TASKS'] = $doneTasks;
+	}
+
+	private function fetchPerformingTasksForPersonalPage()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_DONE_TASKS']);
+
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['*', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME', 'CATEGORY'])
+			  ->where('CONTRACTOR_ID', $this->arParams['USER_ID'])
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset());
+
+		if (!is_null($this->arParams['SEARCH']))
+		{
+			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
+													  ->logic('or')
+													  ->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('TAGS.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('CATEGORY.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+			);
+		}
+
+		$doneTasks = $query->fetchCollection()->getAll();
+
+		$nav->setRecordCount($nav->getOffset() + count($doneTasks));
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_DONE_TASKS'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'] = true;
+			array_pop($doneTasks);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'] = false;
+		}
+
+		$this->arResult['PERFORMING_TASKS'] = $doneTasks;
 	}
 
 	protected function fetchUserActivity()
