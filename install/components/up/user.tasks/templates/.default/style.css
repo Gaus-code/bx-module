@@ -80,6 +80,6 @@ th {
     transition: 0.3s;
 }
 
-#inProgress-reviews, #doneTask-reviews {
+#inProgress-reviews, #doneTask-reviews, #performing-reviews {
     display: none;
 }
