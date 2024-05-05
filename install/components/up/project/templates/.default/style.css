@@ -1,27 +1,30 @@
 .content__projectDetail {
-    margin-top: 20px;
+    margin-top: 30px;
+    width: 90%;
+    border-radius: 8px;
+    padding: 10px;
+    border: 3px solid var(--color-primary-border);
 }
 
 .project__title {
-    max-width: 85%;
     width: 100%;
-    background-color: var(--color-primary-purple);
-    border-radius: 8px;
-    font-size: 25px;
+    border-bottom: 2px solid var(--color-primary-border);
+    font-size: 31px;
     padding: 10px;
     word-break: break-word;
 }
 
 .project__description {
-    max-width: 85%;
-    font-size: 19px;
+    max-width: 100%;
+    font-size: 21px;
     padding: 10px;
     color: var(--color-bg-text);
     word-break: break-word;
 }
 
 .content__project {
-    max-width: 85%;
+    max-width: 90%;
+    margin-top: 40px;
 }
 
 .content__project_btnContainer {
@@ -35,15 +38,7 @@
     width: 49%;
 }
 
-.doneProjectForm button {
-    width: 100%;
-    margin-top: 10px;
-    font-weight: 600;
-    padding: 5.5px;
-}
-
-.project__link {
-    width: 49%;
+.project__link, .content__project_btnContainer button {
     display: block;
     background-color: var(--color-tag-green);
     border-radius: 6px;
@@ -54,6 +49,18 @@
     border: 2px solid var(--color-tag-green);
     margin-top: 10px;
     grid-area: link;
+    font-size: 18px;
+}
+
+.doneProjectForm button {
+    width: 100%;
+    margin-top: 10px;
+    font-weight: 600;
+    padding: 4px 7px;
+}
+
+.project__link {
+    width: 49%;
 }
 
 .project__link:hover, .project__link:focus {
@@ -113,13 +120,22 @@
 .rounded-corners th {
     background-color: var(--color-primary-purple);
     color: var(--color-primary-white);
-
+    font-size: 20px;
     padding: 8px;
 }
 
 .rounded-corners td {
     padding: 8px;
     color: var(--color-bg-text);
+    -ms-word-break: break-word;
+    word-break: break-word;
+    font-size: 18px;
+    max-width: 710px;
+}
+
+.rounded-corners td button {
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .project__stageForm {
@@ -129,15 +145,21 @@
 
 .project__stageBtn {
     width: 100%;
-    background-color: var(--color-warning-yellow);
+    background-color: var(--color-tag-green);
     border-radius: 6px;
-    border: 2px solid var(--color-warning-yellow);
+    border: 2px solid var(--color-tag-green);
     padding: 3px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.project__stageBtn span {
+    font-weight: 600;
 }
 
 .project__stageBtn:hover, .project__stageBtn:focus {
     background-color: inherit;
-    color: var(--color-warning-yellow);
+    color: var(--color-tag-green);
     transition: 0.3s;
 }
 
@@ -152,8 +174,23 @@
     justify-content: center;
     gap: 20px;
     border-radius: 8px;
+    font-size: 20px;
 }
 
 .emptyStage p {
     color: var(--color-bg-text);
+}
+
+.tab__container {
+    margin-top: 7px;
+}
+
+.tab__container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.project__detail_title {
+    font-size: 20px;
+    margin-top: 20px;
 }
