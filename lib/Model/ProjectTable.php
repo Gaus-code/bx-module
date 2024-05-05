@@ -146,6 +146,13 @@ class ProjectTable extends DataManager
 	{
 		return [
 			new LengthValidator(null, 255),
+			function ($value) {
+				if (in_array($value, Configuration::getOption('project_status')))
+				{
+					return true;
+				}
+				return 'Такого статуса не существует';
+			}
 		];
 	}
 	public static function onBeforeUpdate(Event $event)

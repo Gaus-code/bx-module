@@ -10,6 +10,7 @@ use Bitrix\Main\Localization\Loc,
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
+use Up\Ukan\Service\Configuration;
 
 Loc::loadMessages(__FILE__);
 
@@ -113,14 +114,21 @@ class NotificationTable extends DataManager
 	}
 
 	/**
-	 * Returns validators for TYPE field.
+	 * Returns validators for MESSAGE field.
 	 *
 	 * @return array
 	 */
-	public static function validateType()
+	public static function validateMessage()
 	{
 		return [
 			new LengthValidator(null, 255),
+			function ($value) {
+				if (in_array($value, Configuration::getOption('notification_message')))
+				{
+					return true;
+				}
+				return 'Такого сообщения не существует';
+			}
 		];
 	}
 }

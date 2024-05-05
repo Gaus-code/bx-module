@@ -247,6 +247,8 @@ a.aside__btn {
     max-width: 350px;
     overflow: hidden;
     margin-top: 10px;
+    flex-wrap: wrap;
+    max-height: 21px;
 }
 
 .task__tag, .task__categories {
@@ -255,7 +257,7 @@ a.aside__btn {
     font-size: 10px;
     font-weight: 700;
     line-height: 15px;
-    padding: 3px 11px;
+    padding: 3px 8px;
     color: var(--color-primary-black);
 }
 
@@ -355,7 +357,7 @@ a.aside__btn {
 }
 
 .create__form {
-    width: 85%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     align-items: stretch;
@@ -368,23 +370,25 @@ a.aside__btn {
     font-size: 20px;
     font-weight: 600;
     text-align: left;
-    width: 100%;
     color: var(--color-bg-text);
+    width: 85%;
+    margin: 0 auto;
 }
 
 .create__form select {
     background-color: var(--color-bg-modal);
-    font-size: 20px;
+    font-size: 18px;
     border: 2px solid var(--color-primary-purple);
     color: var(--color-bg-text);
     border-radius: 8px;
-    max-width: 250px;
+    max-width: 350px;
+    margin-top: 21px;
 }
 
 .create__textareaLabel {
     font-size: 18px;
     color: var(--color-primary-purple);
-
+    align-self: flex-start;
 }
 
 .create__form fieldset {
@@ -415,7 +419,7 @@ a.aside__btn {
     border-radius: 6px;
     background-color: var(--color-bg-input);
     word-break: break-word;
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .create__description {
@@ -426,13 +430,14 @@ a.aside__btn {
     padding: 10px;
     background-color: var(--color-bg-input);
     word-break: break-word;
+    font-size: 18px;
 }
 
-.create__description, .create__title, .createBtn {
-    width: 88%;
+.create__description, .create__title  {
+    width: 100%;
 }
 .create__tags {
-    width: 85%;
+    width: 100%;
 }
 
 .create__text {
@@ -450,6 +455,7 @@ a.aside__btn {
     border-radius: 6px;
     background-color: var(--color-bg-input);
     word-break: break-word;
+    font-size: 18px;
 }
 
 .create__priceInput {
@@ -458,13 +464,17 @@ a.aside__btn {
     border-radius: 6px;
     background-color: var(--color-bg-input);
     word-break: break-word;
+    font-size: 18px;
 }
 
 .create__container {
-    width: 100%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    justify-content: center;
+    align-self: center;
+    margin: 0 auto;
 }
 
 .create__dateContainer {
@@ -474,12 +484,13 @@ a.aside__btn {
 }
 
 .create__containers {
-    width: 100%;
+    width: 85%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 40px;
+    margin: 0 auto;
 }
 
 .createBtn {
@@ -488,12 +499,12 @@ a.aside__btn {
     color: var(--color-bg-text);
     border: 2px solid var(--color-tag-green);
     padding: 5px 8px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     line-height: 28px;
     text-align: center;
-    text-transform: capitalize;
-    margin-top: 20px;
+    margin: 20px auto 0;
+    width: 85%;
 }
 
 .createBtn:hover, .createBtn:active, .createBtn:focus {
@@ -565,8 +576,8 @@ a.aside__btn {
 }
 
 .gptCreate {
-    position: relative;
-    right: 137px;
+    /*position: relative;*/
+    /*right: 137px;*/
 }
 
 .create__tagContainers {
@@ -574,20 +585,31 @@ a.aside__btn {
     align-items: center;
     justify-content: flex-start;
     gap: 30px;
-    width: 100%;
+    width: 85%;
 }
 
 .gptCreate button {
     position: relative;
     color: #000;
     text-decoration: none;
-    /*padding: 5px;*/
     max-width: 330px;
     border-radius: 8px;
     overflow: hidden;
-    font-size: 18px;
+    font-size: 15px;
     border: 3px solid var(--color-primary-yellow);
     background-color: var(--color-primary-yellow);
+    margin-top: 24px;
+    font-weight: 600;
+}
+
+.gptCreate button:hover, .gptCreate button:focus {
+    background-color: inherit;
+    color: var(--color-bg-text);
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -ms-transition: 0.4s;
+    -o-transition: 0.4s;
+    transition: 0.4s;
 }
 
 .premium-link-tag {
@@ -600,7 +622,7 @@ a.aside__btn {
     opacity: 1;
     content: "👑";
     position: absolute;
-    top: -18px;
+    top: 5px;
     right: 2px;
     width: 17px;
     height: 20px;

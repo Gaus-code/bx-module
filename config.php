@@ -57,4 +57,8 @@ return array(
 		'completed' => 'Завершен',
 	),
 	'maximum_number_of_projects_for_users_without_subscription' => 3,
+	'user_role' => array(
+		'client'=>'Заказчик',
+		'contractor'=>'Исполнитель',
+	)
 );

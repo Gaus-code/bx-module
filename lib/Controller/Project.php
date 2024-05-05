@@ -6,7 +6,9 @@ use Bitrix\Main\Application;
 use Bitrix\Main\Engine\Controller;
 use Bitrix\Main\ORM\Query\Query;
 use Bitrix\Main\Type\Date;
+use Bitrix\Main\Type\DateTime;
 use Bitrix\Main\UserTable;
+use Up\Ukan\Model\EO_Notification;
 use Up\Ukan\Model\EO_Project;
 use Up\Ukan\Model\EO_ProjectStage;
 use Up\Ukan\Model\EO_Task;
@@ -371,6 +373,112 @@ class Project extends Controller
 		$project->setStatus(Configuration::getOption('project_stage_status')['completed']);
 		$project->save();
 		LocalRedirect("/project/" . $project->getId() . "/");
+
+	}
+
+	public function stopSearchContractorAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'PROJECT.ID', 'RESPONSES', 'TAGS'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+		if ($task->getStatus()!==Configuration::getOption('task_status')['search_contractor'])
+		{
+			$errors = ['По заявке "'.$task->getTitle().'" нельзя прекратить поиск исполнителя'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/project/".$task->getProject()->getId()."/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+		$task->save();
+		LocalRedirect("/project/".$task->getProject()->getId()."/");
+
+	}
+	public function startSearchContractorAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'PROJECT.ID','RESPONSES', 'TAGS'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $userId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+		if ($task->getStatus()!==Configuration::getOption('task_status')['waiting_to_start'])
+		{
+			$errors = ['По заявке "'.$task->getTitle().'" нельзя начать поиск исполнителя'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/project/".$task->getProject()->getId()."/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
+		$task->save();
+
+		LocalRedirect("/project/".$task->getProject()->getId()."/");
+
+	}
+	public function finishTaskAction(int $taskId)
+	{
+		if (!check_bitrix_sessid())
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		global $USER;
+		$clientId = (int)$USER->getId();
+
+		$task = TaskTable::query()
+						 ->setSelect(['*', 'PROJECT.ID'])
+						 ->where('ID', $taskId)
+						 ->where('CLIENT_ID', $clientId)
+						 ->fetchObject();
+
+		if (!$task)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		if ($task->getStatus()!==Configuration::getOption('task_status')['at_work'])
+		{
+			$errors = ['Заявку "'.$task->getTitle().'" нельзя завершить'];
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect("/project/".$task->getProject()->getId()."/");
+		}
+
+		$task->setStatus(Configuration::getOption('task_status')['done']);
+		$task->save();
+
+		$notification = new EO_Notification();
+		$notification->setMessage(Configuration::getOption('notification_message')['task_finished'])
+					 ->setFromUserId($clientId)
+					 ->setToUserId($task->getContractorId())
+					 ->setTaskId($taskId)
+					 ->setCreatedAt(new DateTime());
+		$notification->save();
+
+		LocalRedirect("/project/".$task->getProject()->getId()."/");
 
 	}
 }

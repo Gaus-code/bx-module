@@ -11,6 +11,7 @@ use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
 use Bitrix\Main\ORM\Query\Join;
+use Up\Ukan\Service\Configuration;
 
 Loc::loadMessages(__FILE__);
 
@@ -111,6 +112,13 @@ class ProjectStageTable extends DataManager
 	{
 		return [
 			new LengthValidator(null, 255),
+			function ($value) {
+				if (in_array($value, Configuration::getOption('project_stage_status')))
+				{
+					return true;
+				}
+				return 'Такого статуса не существует';
+			}
 		];
 	}
 }

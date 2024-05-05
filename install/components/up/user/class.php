@@ -1,5 +1,7 @@
 <?php
 
+use Up\Ukan\Service\Configuration;
+
 class UserComponent extends CBitrixComponent
 {
 	public function executeComponent()
@@ -22,20 +24,31 @@ class UserComponent extends CBitrixComponent
 
 	protected function fetchUser()
 	{
-		$this->arResult['USER'] = \Up\Ukan\Model\UserTable::query()->setSelect(['*', 'B_USER.NAME', 'B_USER.LAST_NAME', 'B_USER.DATE_REGISTER','SUBSCRIPTION_STATUS'])
+		$this->arResult['USER'] = \Up\Ukan\Model\UserTable::query()
+			->setSelect([
+					'*',
+					'B_USER.NAME',
+					'B_USER.LAST_NAME',
+					'B_USER.DATE_REGISTER',
+					'SUBSCRIPTION_STATUS'
+						])
 			->where('ID', $this->arParams['USER_ID'])
 			->fetchObject();
 
-		$userContractorRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT','FEEDBACKS_TO.TO_USER_ROLE'])
-			->where('ID', $this->arParams['USER_ID'])->where('FEEDBACKS_TO.TO_USER_ROLE', 'Contractor')
-			->fetch();
+		$userContractorRatingResult = \Up\Ukan\Model\UserTable::query()
+				  ->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT','FEEDBACKS_TO.TO_USER_ROLE'])
+				  ->where('ID', $this->arParams['USER_ID'])
+				  ->where('FEEDBACKS_TO.TO_USER_ROLE', Configuration::getOption('user_role')['contractor'])
+				  ->fetch();
 
 		$userContractorRating['RATING']=round((float)$userContractorRatingResult['RATING'],1);
 		$userContractorRating['FEEDBACK_COUNT']=(int)$userContractorRatingResult['FEEDBACK_COUNT'];
 
-		$userClientRatingResult = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT','FEEDBACKS_TO.TO_USER_ROLE'])
-															  ->where('ID', $this->arParams['USER_ID'])->where('FEEDBACKS_TO.TO_USER_ROLE', 'Client')
-															  ->fetch();
+		$userClientRatingResult = \Up\Ukan\Model\UserTable::query()
+				  ->setSelect(['ID', 'RATING', 'FEEDBACK_COUNT','FEEDBACKS_TO.TO_USER_ROLE'])
+				  ->where('ID', $this->arParams['USER_ID'])
+				  ->where('FEEDBACKS_TO.TO_USER_ROLE', Configuration::getOption('user_role')['client'])
+				  ->fetch();
 
 		$userClientRating['RATING']=round((float)$userClientRatingResult['RATING'],1);
 		$userClientRating['FEEDBACK_COUNT']=(int)$userClientRatingResult['FEEDBACK_COUNT'];
