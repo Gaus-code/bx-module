@@ -89,21 +89,38 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?php endif; ?>
 		<?php foreach ($arParams['TASK']->getFeedbacks() as $feedback): ?>
 			<div class="detail__feedback">
-				<p>
-					<?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName()
-										   . ' ' .
-										   $feedback->getFromUser()->getBUser()->getLastName() )?>
-				</p>
-				<div class="rating-result">
-					<?php for ($i = 1; $i <= 5; $i++): ?>
-						<?php if ($feedback->getRating() >= $i): ?>
-							<span class="active"></span>
-						<?php else : ?>
-							<span></span>
-						<?php endif; ?>
-					<?php endfor; ?>
+				<div class="feedback__header">
+					<div class="feedback_names">
+						<div class="feedback_from_to">
+							<p>От:</p>
+							<p>
+								<?= htmlspecialcharsbx($feedback->getFromUser()->getBUser()->getName()
+													   . ' ' .
+													   $feedback->getFromUser()->getBUser()->getLastName() )?>
+							</p>
+						</div>
+						<div class="feedback_from_to">
+							<p>Кому:</p>
+							<p>
+								<?= htmlspecialcharsbx($feedback->getToUser()->getBUser()->getName()
+													   . ' ' .
+													   $feedback->getToUser()->getBUser()->getLastName() .' ('.$feedback->getToUserRole().')')?>
+							</p>
+						</div>
+					</div>
+					<div class="rating-result">
+						<?php for ($i = 1; $i <= 5; $i++): ?>
+							<?php if ($feedback->getRating() >= $i): ?>
+								<span class="active"></span>
+							<?php else : ?>
+								<span></span>
+							<?php endif; ?>
+						<?php endfor; ?>
+					</div>
 				</div>
-				<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
+				<div class="feedback_comment">
+					<p><?= htmlspecialcharsbx($feedback->getComment()) ?></p>
+				</div>
 				<?php if (!$feedback->getIsBanned()): ?>
 					<?php if ($feedback->getFromUserId() === $arParams['USER_ID'] && !$arResult['USER_IS_BANNED']): ?>
 						<div class="rating-result">
