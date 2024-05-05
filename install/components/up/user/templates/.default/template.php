@@ -58,12 +58,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p class="userInfo__name"><?= htmlspecialcharsbx($user->getBUser()->getName()) ?></p>
 						<p class="userInfo__surname"><?= htmlspecialcharsbx($user->getBUser()->getLastName()) ?></p>
 						<?php if((int)$arResult['USER_CONTRACTOR_RATING']['FEEDBACK_COUNT']===0): ?>
-							<p class="userInfo__rating">У этого пользователя пока нет отзывов как исполнителю</p>
+							<p class="userInfo__rating">Рейтинг исполнителя: нет отзывов</p>
 						<?php else:?>
 						<p class="userInfo__rating">Рейтинг исполнителя: <?= htmlspecialcharsbx($arResult['USER_CONTRACTOR_RATING']['RATING']) ?> <span>★</span> (<?= $arResult['USER_CONTRACTOR_RATING']['FEEDBACK_COUNT'] ?> оценки)</p>
 						<?php endif;?>
 						<?php if((int)$arResult['USER_CLIENT_RATING']['FEEDBACK_COUNT']===0): ?>
-							<p class="userInfo__rating">У этого пользователя пока нет отзывов как заказчику</p>
+							<p class="userInfo__rating">Рейтинг заказчика: нет отзывов</p>
 						<?php else:?>
 							<p class="userInfo__rating">Рейтинг заказчика: <?= htmlspecialcharsbx($arResult['USER_CLIENT_RATING']['RATING']) ?> <span>★</span> (<?= $arResult['USER_CLIENT_RATING']['FEEDBACK_COUNT'] ?> оценки)</p>
 						<?php endif;?>
