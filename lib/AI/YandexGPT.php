@@ -18,7 +18,6 @@ class YandexGPT implements GPT
 		{
 			$options[$row['NAME']]=$row['VALUE'];
 		}
-		var_dump($options);
 
 		$httpClient = new HttpClient();
 		$httpClient->setHeader('Content-Type', 'application/json', true);

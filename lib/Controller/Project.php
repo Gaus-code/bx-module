@@ -30,6 +30,13 @@ class Project extends Controller
 			global $USER;
 			$clientId = $USER->GetID();
 
+			if (!$title || !$description)
+			{
+				$errors[] = 'Заполните все поля.';
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect("/project/" . $clientId . "/create/");
+			}
+
 			$user = \Up\Ukan\Model\UserTable::query()
 											->setSelect(['ID', 'PROJECTS.STATUS', 'PROJECTS_COUNT', 'SUBSCRIPTION_STATUS'])
 											->where('ID', $clientId)
