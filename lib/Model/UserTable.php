@@ -15,6 +15,7 @@ use Bitrix\Main\ORM\Fields\ExpressionField;
 use Bitrix\Main\ORM\Fields\FloatField;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Fields\StringField;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\Main\Type\DateTime;
 
@@ -107,6 +108,12 @@ class UserTable extends DataManager
 						return new DateTime();
 					}
 				]
+			),
+			new StringField(
+				'PHONE_NUMBER', [
+						   'validation' => [__CLASS__, 'validatePhoneNumber'],
+						   'title' => Loc::getMessage('USER_ENTITY_PHONE_NUMBER_FIELD'),
+					   ]
 			),
 			new ExpressionField(
 				'RATING',
@@ -232,6 +239,18 @@ class UserTable extends DataManager
 	{
 		return [
 			new LengthValidator(null, 255),
+		];
+	}
+
+	/**
+	 * Returns validators for PHONE_NUMBER field.
+	 *
+	 * @return array
+	 */
+	public static function validatePhoneNumber()
+	{
+		return [
+			new LengthValidator(null, 32),
 		];
 	}
 

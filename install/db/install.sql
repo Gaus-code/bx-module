@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS `up_ukan_user`
 	`UPDATED_AT`            datetime,
 	`CONTACTS`              text             NOT NULL,
 	`IS_BANNED`             char default 'N' not null,
-	PRIMARY KEY (
-	             `ID`
+	`PHONE_NUMBER`          VARCHAR(32)      null,
+	PRIMARY KEY (`ID`
 		)
 );
 
