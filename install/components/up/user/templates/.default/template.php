@@ -124,6 +124,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php
 					else: ?>
 					<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+						<h4>Описание профиля:</h4>
 						<p class="userInfo__bio">У вас пока нет описания. Давайте
 							<a href="/profile/<?= $user->getID() ?>/edit/">добавим</a></p>
 						<?php endif;?>
@@ -154,8 +155,25 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 
 				<div class="content__mainBio_footer">
-					<h4>Пожелания по способу для связи:</h4>
-					<p class="userInfo__bio"><?= htmlspecialcharsbx($user->getContacts()) ?></p>
+					<h4>Контакты для связи:</h4>
+					<?php
+					if (!empty($user->getPhoneNumber())): ?>
+						<p class="userInfo__bio">Номер телефона: <?= htmlspecialcharsbx($user->getPhoneNumber()) ?></p>
+					<?php
+					else: ?>
+						<p class="userInfo__bio">У вас не указан телефон. Давайте
+							<a href="/profile/<?= $user->getID() ?>/edit/">добавим</a></p>
+					<?php
+					endif; ?>
+					<?php
+					if (!empty($user->getContacts())): ?>
+						<p class="userInfo__bio">Предпочтительный способ связи: <?= htmlspecialcharsbx($user->getContacts()) ?></p>
+					<?php
+					else: ?>
+						<p class="userInfo__bio">У вас не указан предпочтительный способ для связи. Давайте
+							<a href="/profile/<?= $user->getID() ?>/edit/">добавим</a></p>
+					<?php
+					endif; ?>
 				</div>
 				<?php endif;?>
 			</article>
