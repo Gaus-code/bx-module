@@ -192,7 +192,7 @@ class Task extends Controller
 			}
 		}
 
-		if (isset($projectId))
+		if (isset($projectId) && (!$task->getProject() || $projectId!==$task->getProject()->getId()))
 		{
 			$projectStage = ProjectStageTable::query()
 											 ->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
