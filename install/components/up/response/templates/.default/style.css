@@ -35,6 +35,19 @@
     color: var(--color-bg-text);
 }
 
+.task__responseCreated a, .task__responseTitle a {
+    border-bottom: 2px solid var(--color-primary-purple);
+}
+
+.task__responseCreated a:hover, .task__responseCreated a:focus, .task__responseTitle a:hover, .task__responseTitle a:focus {
+    color: var(--color-primary-purple);
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -ms-transition: 0.4s;
+    -o-transition: 0.4s;
+    transition: 0.4s;
+}
+
 .task__responseCreated span {
     color: var(--color-primary-purple);
 }
@@ -165,4 +178,29 @@
 
 .contractor__emptyContainer {
     margin-top: 0;
+}
+
+.subscriberTask {
+    --border-width: 3px;
+    position: relative;
+    border-radius: var(--border-width);
+}
+.subscriberTask::after {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: linear-gradient(60deg, #5f86f2, #a65ff2, #f25fd0, #f25f61, #f2cb5f, #abf25f, #5ff281, #5ff2f0);
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: calc(2 * var(--border-width));
+    animation: moveGradient 4s alternate infinite;
+}
+@keyframes moveGradient {
+    50% {
+        background-position: 100% 50%;
+    }
 }

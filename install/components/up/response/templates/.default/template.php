@@ -9,7 +9,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
+foreach ($arResult['RECEIVE_RESPONSES'] as $response)
+{
+	var_dump($response->getContractor()->get('SUBSCRIPTION_STATUS'));
+}
 ?>
 <main class="profile__main">
 	<?php
@@ -60,8 +63,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				if (count($arResult['SENT_RESPONSES']) > 0): ?>
 					<?php
 					foreach ($arResult['SENT_RESPONSES'] as $response): ?>
-						<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
-							<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
+						<div class="task__response">
+							<div class="task__link">
 								<div class="task__header">
 									<?php
 									foreach ($response->getTask()->getTags() as $tag): ?>
@@ -70,21 +73,27 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									endforeach; ?>
 								</div>
 								<div class="task__responseMain">
-									<h3 class="task__responseTitle"><?= htmlspecialcharsbx(
-											$response->getTask()->getTitle()
-										) ?></h3>
+									<h3 class="task__responseTitle">
+										<a href="/task/<?= $response->getTask()->getId() ?>/">
+											<?= htmlspecialcharsbx($response->getTask()->getTitle()) ?>
+										</a>
+									</h3>
 									<p class="task__responseCreated">
 										<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
-									<p class="task__responseCreated"><span>Ваша цена:</span> <?= $response->getPrice(
-										) ?> </p>
-									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
-											->getProject())
-											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle())
-											: 'Без проекта' ?> </p>
+									<p class="task__responseCreated"><span>Ваша цена:</span> <?= $response->getPrice() ?></p>
+									<p class="task__responseCreated"><span>Проект:</span>
+										<?php if (!empty($response->getTask()->getProject())):?>
+										<a href="/project/<?php $response->getTask()->getProject()->getId() ?>/">
+											<?=  htmlspecialcharsbx($response->getTask()->getProject()->getTitle()) ?>
+										</a>
+										<?php else: ?>
+										Без проекта
+										<?php endif;?>
+									</p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
 										)) ?> </p>
 								</div>
-							</a>
+							</div>
 							<?php
 							if ($response->getStatus() === \Up\Ukan\Service\Configuration::getOption('response_status')['wait']): ?>
 								<div class="task__responseFooter">
@@ -135,7 +144,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				if (count($arResult['RECEIVE_RESPONSES']) > 0): ?>
 					<?php
 					foreach ($arResult['RECEIVE_RESPONSES'] as $response): ?>
-						<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
+						<?php if ($response->getContractor()->get('SUBSCRIPTION_STATUS') === "Active"):?>
+						<div class="task__response subscriberTask">
+						<?php else:?>
+						<div class="task__response">
+						<?php endif;?>
 							<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
 								<div class="task__header">
 									<?php
@@ -145,27 +158,40 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									endforeach; ?>
 								</div>
 								<div class="task__responseMain">
-									<h3 class="task__responseTitle"><?= htmlspecialcharsbx(
-											$response->getTask()->getTitle()
-										) ?></h3>
+									<h3 class="task__responseTitle">
+										<a href="/task/<?= $response->getTask()->getId() ?>/">
+											<?= htmlspecialcharsbx(
+												$response->getTask()->getTitle()
+											) ?>
+										</a>
+									</h3>
 									<p class="task__responseCreated">
 										<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
 									<p class="task__responseCreated">
 										<span>Предложенная цена:</span> <?= $response->getPrice() ?> </p>
 									<p class="task__responseCreated">
-										<span>Исполнитель:</span> <?= htmlspecialcharsbx(
-											$response->getContractor()->getBUser()->getName()
-											. ' '
-											. $response->getContractor()->getBUser()->getLastName()
-										) ?> </p>
+										<span>Исполнитель:</span>
+										<a href="/profile/<?= $response->getContractor()->getBUser()->getId() ?>/">
+											<?= htmlspecialcharsbx(
+												$response->getContractor()->getBUser()->getName()
+												. ' '
+												. $response->getContractor()->getBUser()->getLastName()
+											) ?>
+										</a>
+									</p>
 									<p class="task__responseCreated">
 										<span>Сопроводительное письмо:</span> <?= htmlspecialcharsbx(
 											$response->getDescription()
 										) ?> </p>
-									<p class="task__responseCreated"><span>Проект:</span> <?= ($response->getTask()
-											->getProject())
-											? htmlspecialcharsbx($response->getTask()->getProject()->getTitle())
-											: 'Без проекта' ?> </p>
+									<p class="task__responseCreated"><span>Проект:</span>
+										<?php if (!empty($response->getTask()->getProject())):?>
+										<a href="/project/<?= $response->getTask()->getProject()->getId() ?>/">
+											<?= htmlspecialcharsbx($response->getTask()->getProject()->getTitle()) ?>
+										</a>
+										<?php else:?>
+											Без проекта
+										<?php endif;?>
+									</p>
 									<p class="task__responseCreated"><span>Статус:</span> <?= ($response->getStatus(
 										)) ?> </p>
 								</div>

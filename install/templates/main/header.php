@@ -27,7 +27,7 @@
 		<nav class="header__nav">
 			<a href="/" class="header__link" id="mainLink">Главная</a>
 			<a href="/catalog/" class="header__link" id="catalogLink">Каталог</a>
-
+			<a href="/subscription/" class="header__link" id="subscriptionLink">Подписка</a>
 		</nav>
 	</div>
 

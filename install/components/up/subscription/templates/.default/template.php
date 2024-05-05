@@ -2,6 +2,7 @@
 /**
  * @var array $arResult
  * @var array $arParams
+ * @var CUser $USER
  */
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
@@ -51,6 +52,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<a href="/subscription/haha/">Оформить подписку</a>
 				</button>
 			</form>
+			<?php if ($USER->IsAuthorized()): ?>
 			<form action="/subscription/getTrialVersion" method="post" class="subscription__form">
 				<?=bitrix_sessid_post()?>
 				<h4>
@@ -60,6 +62,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</h4>
 				<button class="subscription__btn" type="submit">Оформить пробную версию</button>
 			</form>
+			<?php else: ?>
+			<a href="/sign-in" target="_blank" class="subscription__form">
+				<h4>
+					Оформить пробную версию на
+					<?=\Up\Ukan\Service\Configuration::getOption('subscription')['trial_subscription_period_in_days']?>
+					дней
+				</h4>
+				<button class="subscription__btn" type="submit">Оформить пробную версию</button>
+			</a>
+			<?php endif;?>
 		</div>
 	</div>
 </main>

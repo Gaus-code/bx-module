@@ -110,7 +110,7 @@ class UserResponseComponent extends CBitrixComponent
 		$query = \Up\Ukan\Model\ResponseTable::query();
 
 
-		$query->setSelect(['*', 'TASK', 'TASK.PROJECT' , 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME'])
+		$query->setSelect(['*', 'TASK', 'TASK.PROJECT' , 'CONTRACTOR.B_USER.NAME', 'CONTRACTOR.B_USER.LAST_NAME', 'CONTRACTOR.SUBSCRIPTION_STATUS'])
 			  ->where('TASK.CLIENT_ID', $userId)
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('response_status')[$this->arParams['FILTER']]);
 
