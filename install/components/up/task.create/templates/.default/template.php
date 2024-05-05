@@ -77,7 +77,6 @@ CJSCore::Init(array('ajax'));
 							</div>
 						</a>
 						<?php endif;?>
-
 					</div>
 
 				</div>

@@ -25,28 +25,31 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 			</article>
 			<article class="content__name">
+				<h2 class="project__detail_title">Детальная страница проекта</h2>
 				<div class="content__projectDetail">
 					<h2 class="project__title"><?= htmlspecialcharsbx($arResult['PROJECT']->getTitle()) ?></h2>
 					<p class="project__description"><?= htmlspecialcharsbx(
 							$arResult['PROJECT']->getDescription()
-						) ?></p>
+						) ?>
+					</p>
+					<?php
+					if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+						<div class="content__project_btnContainer">
+							<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">
+								Перейти к настройке проекта
+							</a>
+							<form class="doneProjectForm" action="/project/complete/" method="post">
+								<?= bitrix_sessid_post() ?>
+								<input type="hidden" name="projectId" value="<?= $arParams['PROJECT_ID'] ?>">
+								<button type="submit">Завершить проект</button>
+							</form>
+						</div>
+					<?php
+					endif; ?>
 				</div>
 			</article>
 			<article class="content__project">
-				<?php
-				if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
-					<div class="content__project_btnContainer">
-						<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">
-							Перейти к настройке проекта
-						</a>
-						<form class="doneProjectForm" action="/project/complete/" method="post">
-							<?= bitrix_sessid_post() ?>
-							<input type="hidden" name="projectId" value="<?= $arParams['PROJECT_ID'] ?>">
-							<button class="project__stageBtn" type="submit">Завершить проект</button>
-						</form>
-					</div>
-				<?php
-				endif; ?>
+
 				<div class="project__categories">
 					<ul class="project__tagList">
 						<?php
@@ -89,28 +92,35 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</form>
 							<?php
 							endif; ?>
+							<?php if (count($arResult['WAITING_TO_START_STAGE']->getTasks()) > 0):?>
+							<h2>Заявки в этапе:</h2>
+
 							<table class="rounded-corners">
 								<thead>
 								<tr>
-									<th>Название заявки в этапе</th>
+									<th>Название</th>
 									<th>Описание</th>
 									<th>Статус</th>
 									<th>Дедлайн</th>
 								</tr>
 								</thead>
 								<tbody>
-								<?php
-								foreach ($arResult['WAITING_TO_START_STAGE']->getTasks() as $task): ?>
-									<tr>
-										<td><?= $task->getTitle() ?></td>
-										<td><?= $task->getDescription() ?></td>
-										<td><?= $task->getStatus() ?></td>
-										<td><?= $task->getDeadline() ?></td>
-									</tr>
-								<?php
-								endforeach; ?>
+									<?php foreach ($arResult['WAITING_TO_START_STAGE']->getTasks() as $task): ?>
+										<tr>
+											<td><?= $task->getTitle() ?></td>
+											<td><?= $task->getDescription() ?></td>
+											<td><?= $task->getStatus() ?></td>
+											<td><?= $task->getDeadline() ?></td>
+										</tr>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
+							<?php else: ?>
+								<div class="emptyStage">
+									<p>У вас нет заявок в этом этапе</p>
+									<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+								</div>
+							<?php endif;?>
 					</div>
 				<?php
 				else: ?>
@@ -129,11 +139,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								</form>
 							<?php
 							endif; ?>
-
+							<?php if (count($arResult['ACTIVE_STAGE']->getTasks()) > 0):?>
+							<h2>Заявки в этапе:</h2>
 							<table class="rounded-corners">
 								<thead>
 								<tr>
-									<th>Название заявки в этапе</th>
+									<th>Название</th>
 									<th>Описание</th>
 									<th>Статус</th>
 									<th>Дедлайн</th>
@@ -152,6 +163,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								endforeach; ?>
 								</tbody>
 							</table>
+							<?php else: ?>
+								<div class="emptyStage">
+									<p>У вас нет заявок в этом этапе</p>
+									<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+								</div>
+							<?php endif;?>
 						<?php
 						else: ?>
 							<div class="emptyStage">
@@ -164,10 +181,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php
 				endif; ?>
 				<div id="independentStage-reviews" class="tab__container nonPriorityContainer">
+					<?php if (count($arResult['INDEPENDENT_STAGE']->getTasks()) > 0):?>
+					<h2>Заявки в этапе:</h2>
 					<table class="rounded-corners">
 						<thead>
 						<tr>
-							<th>Название заявки в этапе</th>
+							<th>Название</th>
 							<th>Описание</th>
 							<th>Статус</th>
 							<th>Дедлайн</th>
@@ -221,6 +240,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							endforeach; ?>
 						</tbody>
 					</table>
+					<?php else: ?>
+						<div class="emptyStage">
+							<p>У вас нет заявок в этом этапе</p>
+							<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+						</div>
+					<?php endif;?>
 				</div>
 				<div id="futureStage-reviews" class="tab__container nonPriorityContainer">
 					<?php
