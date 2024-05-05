@@ -777,6 +777,7 @@ class Task extends Controller
 		$description = $_POST['description'];
 		$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 
+		$result = [];
 		foreach ($tagsFromGPT as $tag)
 		{
 			$result[] = $tag->getTitle();

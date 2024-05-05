@@ -39,6 +39,8 @@
     align-items: center;
 }
 
+
+
 .responseBtns a{
     padding: 5px 7px;
     background-color: var(--color-warning-green);
@@ -54,7 +56,7 @@
 }
 
 .responseBtns button {
-    padding: 3px 7px;
+    padding: 1px 7px;
     background-color: var(--color-primary-purple);
     border-radius: 8px;
     color: var(--color-bg-text);
@@ -78,4 +80,9 @@
     background-color: inherit;
     color: var(--color-warning-yellow);
     transition: 0.4s;
+}
+
+.responseBtns a, .responseBtns form button {
+    font-size: 16px;
+    font-weight: 600;
 }

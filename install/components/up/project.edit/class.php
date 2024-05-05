@@ -5,6 +5,7 @@ class UserProjectComponent extends CBitrixComponent
 	public function executeComponent()
 	{
 		$this->fetchCategories();
+		$this->fethUserSubscriptionStatus();
 		$this->fetchAddTaskList();
 		$this->fetchProject();
 		$this->fetchStages();
@@ -105,5 +106,17 @@ class UserProjectComponent extends CBitrixComponent
 	protected function fetchCategories()
 	{
 		$this->arResult['CATEGORIES'] = \Up\Ukan\Model\CategoriesTable::query()->setSelect(['*'])->fetchCollection();
+	}
+
+	private function fethUserSubscriptionStatus()
+	{
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$user = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'SUBSCRIPTION_STATUS'])
+			->where('ID', $userId)
+			->fetchObject();
+
+		$this->arResult['USER_SUBSCRIPTION_STATUS'] = ($user->getSubscriptionStatus()==='Active');
 	}
 }

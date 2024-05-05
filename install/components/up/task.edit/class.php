@@ -9,6 +9,7 @@ class UserEditTask extends CBitrixComponent
 		$this->fetchTask();
 		$this->fetchTags();
 		$this->fetchProjects();
+		$this->fethUserSubscriptionStatus();
 		$this->includeComponentTemplate();
 	}
 
@@ -82,5 +83,17 @@ class UserEditTask extends CBitrixComponent
 		{
 			LocalRedirect('/access/denied/');
 		}
+	}
+
+	private function fethUserSubscriptionStatus()
+	{
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		$user = \Up\Ukan\Model\UserTable::query()->setSelect(['ID', 'SUBSCRIPTION_STATUS'])
+			->where('ID', $userId)
+			->fetchObject();
+
+		$this->arResult['USER_SUBSCRIPTION_STATUS'] = ($user->getSubscriptionStatus()==='Active');
 	}
 }

@@ -39,7 +39,7 @@
 				Уведомления
 			</a>
 			<a href="/admin/settings/" class="aside__btn">
-				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/setting.svg" alt="setting folder">
+				<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/settings.svg" alt="setting folder" class="commentImg">
 				Настройки сайта
 			</a>
 		</nav>

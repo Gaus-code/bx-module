@@ -85,3 +85,8 @@
     color: var(--color-warning-yellow);
     transition: 0.4s;
 }
+
+.responseBtns a, .responseBtns form button {
+    font-size: 16px;
+    font-weight: 600;
+}

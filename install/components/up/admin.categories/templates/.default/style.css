@@ -77,7 +77,8 @@
     background-color: var(--color-warning-yellow);
     border: 2px solid var(--color-warning-yellow);
     color: var(--color-bg-text);
-
+    font-size: 20px;
+    font-weight: 600;
 }
 
 #sendComplaint:hover, #sendComplaint:focus {

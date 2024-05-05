@@ -2,88 +2,54 @@
     width: 100%;
 }
 
-.rounded-corners {
-    margin-top: 40px;
-    margin-left: 20px;
-    border-collapse: separate;
-    border: 3px solid var(--color-primary-purple);
-    border-radius: 6px;
-    width: 85%;
-}
-
-.rounded-corners th,
-.rounded-corners td {
-    border: 1px solid var(--color-primary-border);
-    text-align: center;
-}
-
-.rounded-corners th {
-    background-color: var(--color-primary-purple);
-    color: var(--color-primary-white);
-
-    padding: 8px;
-}
-
-.rounded-corners td {
-    padding: 8px;
-    color: var(--color-bg-text);
-}
-
-.responseBtns {
-    max-width: 390px;
-    width: 100%;
+.admin__settings {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 40px 0 0 20px;
+    padding: 20px;
+    border: 3px solid var(--color-primary-border);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    width: 60%;
+    gap: 15px;
+}
+
+.admin__settings h3 {
+    font-size: 25px;
+    text-align: left;
+}
+
+.newOptionsYandexGPT__form {
+    width: 100%;
+}
+.option__sites {
+    display: flex;
     align-items: center;
-}
-
-.responseBtns a{
-    padding: 5px 7px;
-    background-color: var(--color-warning-green);
-    border-radius: 8px;
-    color: var(--color-bg-text);
-    border: 2px solid var(--color-warning-green);
+    justify-content: space-between;
     width: 100%;
 }
 
-.responseBtns a:hover, .responseBtns a:focus {
-    background-color: inherit;
-    color: var(--color-warning-green);
-    transition: 0.4s;
-}
-
-.responseBtns form {
+.option__site {
     width: 100%;
 }
 
-.responseBtns button {
-    padding: 3px 7px;
-    background-color: var(--color-primary-purple);
-    border-radius: 8px;
-    color: var(--color-bg-text);
-    border: 2px solid var(--color-primary-purple);
-    width: 100%;
-}
-
-.responseBtns button:hover, .responseBtns button:focus {
-    background-color: inherit;
+.option__site label {
     color: var(--color-primary-purple);
-    transition: 0.4s;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 19px;
 }
 
-#sendComplaint {
-    background-color: var(--color-warning-yellow);
-    border: 2px solid var(--color-warning-yellow);
-    color: var(--color-bg-text);
-
-}
-
-#sendComplaint:hover, #sendComplaint:focus {
-    background-color: inherit;
-    color: var(--color-warning-yellow);
-    transition: 0.4s;
+.option__site input {
+    width: 95%;
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 6px;
+    border: 2px solid var(--color-primary-purple);
+    background-color: var(--color-bg-input);
 }
 
 .newOptionsYandexGPTBtn {
@@ -97,5 +63,5 @@
 	font-weight: 600;
 	line-height: 28px;
 	text-align: center;
-	text-transform: capitalize;
+    margin-top: 10px;
 }
