@@ -35,7 +35,7 @@ return array(
 
 	),
 	'page_size' => array(
-		'task_list_catalog' => 9,
+		'task_list_catalog' => 15,
 		'task_list_personal' => 10,
 		'responses_list' => 6,
 		'notification_list' => 8,

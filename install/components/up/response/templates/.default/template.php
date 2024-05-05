@@ -9,10 +9,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-foreach ($arResult['RECEIVE_RESPONSES'] as $response)
-{
-	var_dump($response->getContractor()->get('SUBSCRIPTION_STATUS'));
-}
 ?>
 <main class="profile__main">
 	<?php
