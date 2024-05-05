@@ -81,5 +81,21 @@
 .responses__textMore {
 	text-align: center;
 }
-
-
+.feedback_from_to {
+	display: flex;
+}
+.feedback_from_to p{
+	display: flex;
+	padding-right: 7px;
+}
+.feedback__header{
+	display: flex;
+	justify-content: space-between;
+	max-width: 900px;
+	padding-bottom: 10px ;
+	border-bottom: 2px solid var(--color-primary-border);
+}
+.feedback_comment{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
