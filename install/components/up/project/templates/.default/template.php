@@ -68,7 +68,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							Независимый этап
 						</li>
 						<li id="futureStage-btn" class="project__tagItem">
-							Будущий этап
+							Будущие этапы
 						</li>
 						<li id="closedStage-btn" class="project__tagItem">
 							Завершенные этапы
@@ -121,8 +121,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</table>
 							<?php else: ?>
 								<div class="emptyStage">
-									<p>У вас нет заявок в этом этапе</p>
-									<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+									<p>Нет заявок в этом этапе</p>
+									<?php if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+										<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+									<?php endif; ?>
 								</div>
 							<?php endif;?>
 					</div>
@@ -173,15 +175,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							</table>
 							<?php else: ?>
 								<div class="emptyStage">
-									<p>У вас нет заявок в этом этапе</p>
-									<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+									<p>Нет заявок в этом этапе</p>
+									<?php if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+										<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+									<?php endif; ?>
 								</div>
 							<?php endif;?>
 						<?php
 						else: ?>
 							<div class="emptyStage">
-								<p>У вас пока нет активных этапов</p>
-								<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+								<p>Пока нет активных этапов</p>
+								<?php if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+									<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+								<?php endif; ?>
 							</div>
 						<?php
 						endif; ?>
@@ -254,8 +260,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</table>
 					<?php else: ?>
 						<div class="emptyStage">
-							<p>У вас нет заявок в этом этапе</p>
-							<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+							<p>Нет заявок в этом этапе</p>
+							<?php if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+								<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+							<?php endif; ?>
 						</div>
 					<?php endif;?>
 				</div>
@@ -292,8 +300,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php
 					else: ?>
 						<div class="emptyStage">
-							<p>У вас пока нет запланированных этапов</p>
-							<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+							<p>Нет запланированных этапов</p>
+							<?php if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+								<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
+							<?php endif; ?>
 						</div>
 					<?php
 					endif; ?>
@@ -331,12 +341,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<?php
 					else: ?>
 						<div class="emptyStage">
-							<p>У данного проекта нет завершенных этапов</p>
-							<?php
-							if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
+							<p>Нет завершенных этапов</p>
+							<?php if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
 								<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">Перейти к планированию проекта</a>
-							<?php
-							endif; ?>
+							<?php endif; ?>
 						</div>
 					<?php
 					endif; ?>
