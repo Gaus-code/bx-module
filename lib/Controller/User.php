@@ -142,7 +142,8 @@ class User extends Engine\Controller
 	}
 
 	public static function changeContactsAction(
-		string $contacts = null
+		string $contacts = null,
+		string $phoneNumber = null,
 	)
 	{
 		if (!check_bitrix_sessid())
@@ -154,7 +155,13 @@ class User extends Engine\Controller
 		$userId = $USER->GetID();
 
 		$user = UserTable::getById($userId)->fetchObject();
-		if ($user && $user->getIsBanned())
+
+		if (!$user)
+		{
+			LocalRedirect("/access/denied/");
+		}
+
+		if ($user->getIsBanned())
 		{
 			$errors[] = 'Вы заблокированы и не можете воспользоваться всем функционалом нашего сервиса';
 			Application::getInstance()->getSession()->set('errors', $errors);
@@ -163,10 +170,24 @@ class User extends Engine\Controller
 
 		if (!empty($contacts))
 		{
-			$user = \Up\Ukan\Model\UserTable::getById($userId)->fetchObject();
 			$user->setContacts($contacts);
-			$user->save();
 		}
+
+		if (!empty($phoneNumber))
+		{
+			if (preg_match('/^[\d+\s()-]+$/', $phoneNumber))
+			{
+				$user->setPhoneNumber($phoneNumber);
+			}
+			else
+			{
+				$errors[] = 'Неверный номер телефона';
+				Application::getInstance()->getSession()->set('errors', $errors);
+				LocalRedirect('/profile/' . $USER->GetID() . '/edit/');
+			}
+		}
+
+		$user->save();
 
 		LocalRedirect('/profile/' . $USER->GetID() . '/');
 	}

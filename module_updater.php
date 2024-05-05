@@ -449,3 +449,13 @@ __ukanMigrate(33, function($updater, $DB) {
 		);
 	}
 });
+
+__ukanMigrate(34, function($updater, $DB) {
+	if ($updater->CanUpdateDatabase() && $updater->TableExists('up_ukan_user'))
+	{
+		$DB->query(
+			"alter table up_ukan_user
+    add PHONE_NUMBER VARCHAR(32) null;"
+		);
+	}
+});

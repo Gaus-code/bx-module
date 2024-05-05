@@ -28,8 +28,20 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</li>
 			<li class="detail__notifyItem">
 				<div class="detail__notifyInfo">
-					<span>Контакты исполнителя:</span>
-					<p class="detail__notifyText"> <?= htmlspecialcharsbx($arParams['TASK']->getContractor()->getContacts()) ?></p>
+					<span>Почта:</span>
+					<p class="detail__notifyText"> <?= htmlspecialcharsbx($arParams['TASK']->getContractor()->getBUser()->getEmail()) ?></p>
+				</div>
+			</li>
+			<li class="detail__notifyItem">
+				<div class="detail__notifyInfo">
+					<span>Телефон:</span>
+					<p class="detail__notifyText"> <?= $arParams['TASK']->getContractor()->getPhoneNumber() ? htmlspecialcharsbx($arParams['TASK']->getClient()->getPhoneNumber()) : 'Телефон не указан' ?></p>
+				</div>
+			</li>
+			<li class="detail__notifyItem">
+				<div class="detail__notifyInfo">
+					<span>Контакты заказчика:</span>
+					<p class="detail__notifyText"> <?= $arParams['TASK']->getContractor()->getContacts() ? htmlspecialcharsbx($arParams['TASK']->getClient()->getContacts()) : 'Дргуие контанты не указаны' ?></p>
 				</div>
 			</li>
 		</ul>
