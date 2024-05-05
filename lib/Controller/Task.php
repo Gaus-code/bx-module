@@ -133,7 +133,7 @@ class Task extends Controller
 		}
 
 		$task = TaskTable::query()
-						 ->setSelect(['*'])
+						 ->setSelect(['*', 'PROJECT.ID'])
 						 ->where('CLIENT_ID', $clientId)
 						 ->where('ID', $taskId)
 						 ->fetchObject();
