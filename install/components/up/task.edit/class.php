@@ -9,6 +9,7 @@ class UserEditTask extends CBitrixComponent
 		$this->fetchTask();
 		$this->fetchTags();
 		$this->fetchProjects();
+		$this->checkUser();
 		$this->fethUserSubscriptionStatus();
 		$this->includeComponentTemplate();
 	}
@@ -80,6 +81,17 @@ class UserEditTask extends CBitrixComponent
 	{
 		$user = \Up\Ukan\Model\UserTable::getById($this->arParams['USER_ID'])->fetchObject();
 		if ($user->getIsBanned())
+		{
+			LocalRedirect('/access/denied/');
+		}
+	}
+
+	private function checkUser()
+	{
+		global $USER;
+		$userId = (int)$USER->GetID();
+
+		if ($this->arResult['TASK'] && ($userId !== $this->arResult['TASK']->getClientId()))
 		{
 			LocalRedirect('/access/denied/');
 		}

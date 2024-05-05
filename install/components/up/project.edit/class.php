@@ -85,7 +85,7 @@ class UserProjectComponent extends CBitrixComponent
 			}
 			else
 			{
-				LocalRedirect("/profile/" . $this->arParams['USER_ID'] . "/projects/");
+				LocalRedirect('/access/denied/');
 			}
 		}
 	}
