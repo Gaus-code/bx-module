@@ -264,11 +264,6 @@ class Response extends Engine\Controller
 			$errors [] = 'Неправильная цена';
 		}
 
-		if ($coverLetter && !preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $coverLetter))
-		{
-			$errors[] = 'Сопроводительное письмо может содержать только буквы, цифры, знаки препинания и круглые скобки';
-		}
-
 		return [$errors, $task];
 	}
 

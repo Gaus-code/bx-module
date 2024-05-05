@@ -572,11 +572,6 @@ class Task extends Controller
 			{
 				$errors[] = 'Название должно быть от 3 до 255 символов';
 			}
-			// Разрешаем буквы (русские и латинские), цифры, пробелы, знаки препинания, дефисы, подчеркивания и круглые скобки
-			if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $title))
-			{
-				$errors[] = 'Название может содержать только буквы, цифры, знаки препинания и круглые скобки';
-			}
 		}
 
 		if (!$description)
@@ -589,11 +584,6 @@ class Task extends Controller
 			if (mb_strlen($description) < 3)
 			{
 				$errors[] = 'Описание должно быть от 3 символов';
-			}
-			// Разрешаем буквы (русские и латинские), цифры, пробелы, знаки препинания, дефисы, подчеркивания и круглые скобки
-			if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $description))
-			{
-				$errors[] = 'Описание может содержать только буквы, цифры, знаки препинания и круглые скобки';
 			}
 		}
 
@@ -777,6 +767,7 @@ class Task extends Controller
 		$description = $_POST['description'];
 		$tagsFromGPT = AI::getTagsByTaskDescription($title.$description);
 
+		$result = [];
 		foreach ($tagsFromGPT as $tag)
 		{
 			$result[] = $tag->getTitle();

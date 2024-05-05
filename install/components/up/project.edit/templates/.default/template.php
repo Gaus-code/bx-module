@@ -12,7 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 {
 	die();
 }
-
+CJSCore::Init(array('ajax'));
 ?>
 	<main class="profile__main">
 		<?php
@@ -269,10 +269,31 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</form>
 				</div>
 			</article>
+			<div id="loader" style="display: none">
+				<div class="loader">
+					<div class="ball moving"></div>
+					<div class="balls">
+						<div class="ball"></div>
+						<div class="ball"></div>
+						<div class="ball"></div>
+						<div class="ball"></div>
+						<div class="ball moving"></div>
+					</div>
+				</div>
+
+				<svg>
+					<filter id="goo">
+						<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+						<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+					</filter>
+				</svg>
+				<p>подтягиваем магию...</p>
+			</div>
 		</section>
 	</main>
 <?php
 \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/profile.js");
 \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/tabContainers.js");
 \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/dragAndDrop.js");
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . "/assets/js/gptGeneration.js");
 ?>

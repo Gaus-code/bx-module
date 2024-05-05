@@ -565,6 +565,11 @@ a.aside__btn {
     /*right: 137px;*/
 }
 
+#gptError {
+    color: var(--color-warning-red);
+    font-weight: 600;
+}
+
 .create__tagContainers {
     display: flex;
     align-items: center;

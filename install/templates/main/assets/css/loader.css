@@ -1,0 +1,115 @@
+#loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 50px 30px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    background-color: var(--color-bg-modal);
+    box-shadow: rgba(0,0,0,.5) 0 0 0 1000px;
+    z-index: 1;
+}
+
+#loader p {
+    font-weight: 600;
+    font-size: 30px;
+    color: var(--color-bg-text);
+}
+
+.loader {
+    width: 420px;
+    height: 60px;
+    position: relative;
+}
+.loader .balls {
+    filter: url(#goo);
+}
+.loader .balls .ball.moving {
+    box-shadow: none;
+}
+
+.loader .ball {
+    width: 60px;
+    height: 60px;
+    background-color: #4db9ff;
+    position: absolute;
+    border-radius: 30px;
+    animation: 3s ease-in-out infinite;
+}
+.loader .ball:nth-child(1) {
+    left: 0px;
+    animation-name: scale1;
+}
+.loader .ball:nth-child(2) {
+    left: 120px;
+    animation-name: scale2;
+}
+.loader .ball:nth-child(3) {
+    left: 240px;
+    animation-name: scale3;
+}
+.loader .ball:nth-child(4) {
+    left: 360px;
+    animation-name: scale4;
+}
+.loader .ball.moving {
+    animation: move 3s ease-in-out infinite;
+    left: -30px;
+    background-color: #50f2f5;
+    box-shadow: 0 0 10px #50f2f5, 0 0 30px #50f2f5, 0 0 100px #50f2f5;
+}
+svg {
+    display: none;
+}
+@keyframes move {
+    50% {
+        left: 390px;
+    }
+}
+@keyframes scale1 {
+    0%, 100% {
+        transform: scale(1.1);
+    }
+    10%, 90% {
+        transform: scale(1.2);
+    }
+    20%, 80% {
+        transform: scale(1);
+    }
+}
+@keyframes scale2 {
+    20%, 80% {
+        transform: scale(1.2);
+    }
+    10%, 30%, 70%, 90% {
+        transform: scale(1);
+    }
+}
+@keyframes scale3 {
+    30%, 70% {
+        transform: scale(1.2);
+    }
+    20%, 40%, 60%, 80% {
+        transform: scale(1);
+    }
+}
+@keyframes scale4 {
+    50% {
+        transform: scale(1.1);
+    }
+    40%, 60% {
+        transform: scale(1.2);
+    }
+    30%, 70% {
+        transform: scale(1);
+    }
+}

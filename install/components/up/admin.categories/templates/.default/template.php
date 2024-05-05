@@ -40,7 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<table class="rounded-corners">
 				<thead>
 				<tr>
-					<th>Отзыв</th>
+					<th>Категория</th>
 					<th>Действия</th>
 				</tr>
 				</thead>

@@ -10,7 +10,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 }
 ?>
 
-<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['at_work']): ?>
 <div class="detail__notify">
 	<section class="detail__notifyHeader">
 		<h2>Уведомления по заявке</h2>
@@ -20,6 +19,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<span> Хотите <a href="/task/<?= $arParams['TASK']->getId() ?>/edit/"> отредактировать</a> задачу?  </span>
 				</p>
 			</li>
+			<?php if ($arParams['TASK']->getStatus() === $arParams['TASK_STATUSES']['at_work'] && $arParams['TASK']->getContractor()): ?>
 			<li class="detail__notifyItem">
 				<div class="detail__notifyInfo">
 					<span>Исполнитель:</span>
@@ -44,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<p class="detail__notifyText"> <?= $arParams['TASK']->getContractor()->getContacts() ? htmlspecialcharsbx($arParams['TASK']->getClient()->getContacts()) : 'Дргуие контанты не указаны' ?></p>
 				</div>
 			</li>
+			<?php endif; ?>
 		</ul>
 	</section>
 </div>
-<?php endif; ?>

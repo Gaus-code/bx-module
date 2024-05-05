@@ -36,13 +36,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</form>
 		</article>
 		<article class="profile__changeContacts">
+			<?php $APPLICATION->IncludeComponent('up:errors.message', '', []); ?>
 			<h2 class="profile__changeBio_title">Контакты для связи</h2>
 			<p>*будут видеть ваши исполнители</p>
 			<form action="/profile/changeContacts" method="post" class="profile__changeContacts_form">
 				<?= bitrix_sessid_post() ?>
 				<div class="editData__item">
 					<label class="editData__title">Телефон</label>
-					<input type="tel" name="tel" value="<?= $user->getContacts(); ?>">
+					<input type="tel" name="phoneNumber" value="<?= $user->getPhoneNumber(); ?>">
 				</div>
 				<div class="editData__item">
 					<label class="editData__title">Пожелания по способу связи</label>

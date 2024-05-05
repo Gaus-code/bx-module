@@ -165,11 +165,6 @@ class Feedback extends Controller
 			$errors [] = 'Оцените пользователя';
 		}
 
-		if ($comment && !preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $comment))
-		{
-			$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
-		}
-
 		if ($toUserRole!==Configuration::getOption('user_role')['client']
 			&& $toUserRole!==Configuration::getOption('user_role')['contractor'])
 		{
@@ -225,13 +220,6 @@ class Feedback extends Controller
 			$errors [] = 'Оцените пользователя';
 		}
 
-		if ($comment)
-		{
-			if (!preg_match('/^[\p{L}\p{N}\s.,;:!?()\-_]+$/u', $comment))
-			{
-				$errors[] = 'Отзыв может содержать только буквы, цифры, знаки препинания и круглые скобки';
-			}
-		}
 		if ($errors)
 		{
 			return $errors;
