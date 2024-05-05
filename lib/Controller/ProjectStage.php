@@ -18,7 +18,7 @@ class ProjectStage extends Engine\Controller
 		global $USER;
 		$userId=(int)$USER->GetID();
 
-		$stage = ProjectStageTable::query()->setSelect(['ID','PROJECT_ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS'])
+		$stage = ProjectStageTable::query()->setSelect(['ID','NUMBER', 'PROJECT_ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS'])
 										   ->where('ID', $stageId)
 										   ->where('PROJECT.CLIENT_ID', $userId)
 										   ->fetchObject();
@@ -41,6 +41,16 @@ class ProjectStage extends Engine\Controller
 				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 				LocalRedirect("/project/" . $stage->getProjectId() . "/");
 			}
+		}
+
+		$nextStage = ProjectStageTable::query()->setSelect(['ID','PROJECT_ID', 'STATUS', 'PROJECT.CLIENT_ID', 'TASKS.ID','TASKS.STATUS'])
+											   ->where('PROJECT_ID', $stage->getProjectId())
+											   ->where('NUMBER', $stage->getNumber()+1 )
+											   ->fetchObject();
+		if ($nextStage)
+		{
+			$nextStage->setStatus(Configuration::getOption('project_stage_status')['waiting_to_start']);
+			$nextStage->save();
 		}
 
 		$stage->setStatus(Configuration::getOption('project_stage_status')['completed']);
