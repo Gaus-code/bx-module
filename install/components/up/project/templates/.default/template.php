@@ -107,7 +107,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<tbody>
 									<?php foreach ($arResult['WAITING_TO_START_STAGE']->getTasks() as $task): ?>
 										<tr>
-											<td><?= $task->getTitle() ?></td>
+											<td>
+												<a class="taskViewLink" href="/task/<?= $task->getId() ?>/">
+													<?= htmlspecialcharsbx($task->getTitle()) ?>
+												</a>
+											</td>
 											<td><?= $task->getDescription() ?></td>
 											<td><?= $task->getStatus() ?></td>
 											<td><?= $task->getDeadline() ?></td>
@@ -154,7 +158,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 								<?php
 								foreach ($arResult['ACTIVE_STAGE']->getTasks() as $task): ?>
 									<tr>
-										<td><?= $task->getTitle() ?></td>
+										<td>
+											<a class="taskViewLink" href="/task/<?= $task->getId() ?>/">
+												<?= htmlspecialcharsbx($task->getTitle()) ?>
+											</a>
+										</td>
 										<td><?= $task->getDescription() ?></td>
 										<td><?= $task->getStatus() ?></td>
 										<td><?= $task->getDeadline() ?></td>
@@ -203,7 +211,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							foreach ($arResult['INDEPENDENT_STAGE']->getTasks() as $task): ?>
 								<tr>
 
-									<td><?= $task->getTitle() ?></td>
+									<td>
+										<a class="taskViewLink" href="/task/<?= $task->getId() ?>/">
+											<?= htmlspecialcharsbx($task->getTitle()) ?>
+										</a>
+									</td>
 									<td><?= $task->getDescription() ?></td>
 									<td><?= $task->getStatus() ?></td>
 									<td><?= $task->getDeadline() ?></td>

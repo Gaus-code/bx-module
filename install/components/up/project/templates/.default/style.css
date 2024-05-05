@@ -194,3 +194,12 @@
     font-size: 20px;
     margin-top: 20px;
 }
+
+.taskViewLink {
+	color: var(--color-bg-text);
+}
+
+.taskViewLink:hover, .taskViewLink:active, .taskViewLink:focus {
+	color: var(--color-primary-purple);
+	border-bottom: 1px solid var(--color-primary-purple);
+}
