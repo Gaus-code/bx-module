@@ -692,6 +692,10 @@ section.editPriority {
 	display: flex;
 }
 
+.task__info_parameters p {
+	color: var(--color-primary-black);
+}
+
 .draggableStatus {
     min-width: 56px;
 }

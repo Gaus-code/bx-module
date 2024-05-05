@@ -91,6 +91,16 @@ if ($arResult['TASK'] && (!$arResult['TASK']->getIsBanned() || $USER->IsAdmin())
 							</div>
 						</li>
 						<?php endif;?>
+						<?php if (!empty($arResult['TASK']->getProject())): ?>
+							<li class="metaContainer__item">
+								<div class="metaContainer__info">
+									<span>Проект:</span>
+									<a class="metaContainer__text" href="/project/<?= $arResult['TASK']->getProject()->getId()?>/">
+										<?= htmlspecialcharsbx($arResult['TASK']->getProject()->getTitle()) ?>
+									</a>
+								</div>
+							</li>
+						<?php endif;?>
 					</ul>
 				</section>
 			</div>
