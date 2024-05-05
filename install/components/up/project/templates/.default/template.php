@@ -196,15 +196,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
 										<td>
 											<?php if ($task->getStatus()===\Up\Ukan\Service\Configuration::getOption('task_status')['waiting_to_start']):?>
-											<form action="" method="post">
+											<form action="/project/task/start-search-contractor/" method="post">
+												<?= bitrix_sessid_post() ?>
+												<input type="hidden" name="taskId" value="<?=$task->getId()?>">
 												<button class="project__stageBtn" type="submit">Начать поиск исполнителя</button>
 											</form>
 										<?php elseif ($task->getStatus()===\Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']):?>
-											<form action="" method="post">
+											<form action="/project/task/stop-search-contractor/" method="post">
+												<?= bitrix_sessid_post() ?>
+												<input type="hidden" name="taskId" value="<?=$task->getId()?>">
 												<button class="project__stageBtn" type="submit">Приостановить задачу</button>
 											</form>
 										<?php elseif ($task->getStatus()===\Up\Ukan\Service\Configuration::getOption('task_status')['at_work']):?>
-											<form action="" method="post">
+											<form action="/project/task/finish/" method="post">
+												<?= bitrix_sessid_post() ?>
+												<input type="hidden" name="taskId" value="<?=$task->getId()?>">
 												<button class="project__stageBtn" type="submit">Завершить задачу</button>
 											</form>
 											<?php

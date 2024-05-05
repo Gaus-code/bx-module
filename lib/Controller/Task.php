@@ -346,7 +346,6 @@ class Task extends Controller
 		}
 
 		$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
-		// $task->setStatus('dsadas');
 		$task->save();
 		LocalRedirect("/task/$taskId/");
 
@@ -377,8 +376,7 @@ class Task extends Controller
 			LocalRedirect("/task/$taskId/edit/");
 		}
 
-		// $task->setStatus(Configuration::getOption('task_status')['search_contractor']);
-		$task->setStatus('dsada');
+		$task->setStatus(Configuration::getOption('task_status')['search_contractor']);
 		$task->save();
 
 		LocalRedirect("/task/$taskId/");
