@@ -68,7 +68,7 @@
 }
 
 .subscriberTask {
-    --border-width: 3px;
+    --border-width: 5px;
     position: relative;
     border-radius: var(--border-width);
 }

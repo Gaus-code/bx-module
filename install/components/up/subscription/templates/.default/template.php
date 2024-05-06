@@ -47,7 +47,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					₽
 				</p>
 				<input id="requiredInput" type="checkbox" required>
-				<label for="requiredInput">Я принимаю пользовательское соглашение бла-бла-бла</label>
+				<label for="requiredInput">Я принимаю пользовательское соглашение</label>
 				<button class="subscription__btn" type="submit">
 					<a href="/subscription/haha/">Оформить подписку</a>
 				</button>

@@ -203,3 +203,15 @@
 	color: var(--color-primary-purple);
 	border-bottom: 1px solid var(--color-primary-purple);
 }
+
+.doneProjectBtn {
+    background-color: var(--color-warning-red) !important;
+    border: 2px solid var(--color-warning-red) !important;
+
+}
+
+.doneProjectBtn:hover, .doneProjectBtn:focus {
+    transition: 0.4s;
+    background-color: inherit !important;
+    color: var(--color-warning-red) !important;
+}

@@ -19,7 +19,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	]); ?>
 	<section class="content">
 		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
-		<article class="content__header">
+		<article class="content__header header-border">
 			<h1 id="quickCreate">Быстрое создание</h1>
 			<button type="button" class="plus-link">
 				<span class="plus-link__inner"></span>

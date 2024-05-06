@@ -40,82 +40,81 @@
 }
 
 
-#edit-btn, #delete-btn, #createTask-btn, #addTask-btn, #plan-btn {
-    padding: 5px 10px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    margin: 10px 0;
-    color: var(--color-primary-black);
-}
+/*#edit-btn, #delete-btn, #createTask-btn, #addTask-btn, #plan-btn {*/
+/*    padding: 5px 10px;*/
+/*    font-size: 15px;*/
+/*    font-weight: 600;*/
+/*    border-radius: 10px;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    gap: 5px;*/
+/*    margin: 10px 0;*/
+/*    color: var(--color-primary-black);*/
+/*}*/
+
+/*#plan-btn {*/
+/*    border: 2px solid var(--color-tag-green);*/
+/*    background-color: var(--color-tag-green);*/
+/*    min-height: 38px;*/
+/*}*/
+
+/*#createTask-btn {*/
+/*    border: 2px solid var(--color-primary-purple);*/
+/*    background-color: var(--color-primary-purple);*/
+/*    min-height: 38px;*/
+/*}*/
+
+/*#addTask-btn {*/
+/*    border: 2px solid var(--color-warning-yellow);*/
+/*    background-color: var(--color-warning-yellow);*/
+/*    min-height: 38px;*/
+/*}*/
+
+/*#edit-btn {*/
+/*    border: 2px solid var(--color-primary-blue);*/
+/*    background-color: var(--color-primary-blue);*/
+/*    min-height: 38px;*/
+/*}*/
+
+/*#createTask-btn:hover, #createTask-btn:active, #createTask-btn:focus {*/
+/*    background-color: var(--color-primary-white);*/
+/*    transition: 0.3s;*/
+/*    color: var(--color-primary-purple);*/
+/*}*/
+
+/*#plan-btn:hover, #plan-btn:active, #plan-btn:focus {*/
+/*    background-color: var(--color-primary-white);*/
+/*    transition: 0.3s;*/
+/*    color: var(--color-tag-green);*/
+/*}*/
+
+/*#addTask-btn:hover, #addTask-btn:active, #addTask-btn:focus {*/
+/*    background-color: var(--color-primary-white);*/
+/*    transition: 0.3s;*/
+/*    color: var(--color-warning-yellow);*/
+/*}*/
+
+/*#edit-btn:hover, #edit-btn:active, #edit-btn:focus {*/
+/*    background-color: var(--color-primary-white);*/
+/*    transition: 0.3s;*/
+/*    color: var(--color-primary-blue);*/
+/*}*/
 
 #delete-btn {
     border: 2px solid var(--color-warning-red);
-    background-color: var(--color-warning-red);
-}
-
-#plan-btn {
-    border: 2px solid var(--color-tag-green);
-    background-color: var(--color-tag-green);
-    min-height: 38px;
-}
-
-#createTask-btn {
-    border: 2px solid var(--color-primary-purple);
-    background-color: var(--color-primary-purple);
-    min-height: 38px;
-}
-
-#addTask-btn {
-    border: 2px solid var(--color-warning-yellow);
-    background-color: var(--color-warning-yellow);
-    min-height: 38px;
-}
-
-#edit-btn {
-    border: 2px solid var(--color-primary-blue);
-    background-color: var(--color-primary-blue);
-    min-height: 38px;
-}
-
-#createTask-btn:hover, #createTask-btn:active, #createTask-btn:focus {
     background-color: var(--color-primary-white);
-    transition: 0.3s;
-    color: var(--color-primary-purple);
-}
-
-#plan-btn:hover, #plan-btn:active, #plan-btn:focus {
-    background-color: var(--color-primary-white);
-    transition: 0.3s;
-    color: var(--color-tag-green);
-}
-
-#addTask-btn:hover, #addTask-btn:active, #addTask-btn:focus {
-    background-color: var(--color-primary-white);
-    transition: 0.3s;
-    color: var(--color-warning-yellow);
-}
-
-#edit-btn:hover, #edit-btn:active, #edit-btn:focus {
-    background-color: var(--color-primary-white);
-    transition: 0.3s;
-    color: var(--color-primary-blue);
 }
 
 #delete-btn:hover, #delete-btn:active, #delete-btn:focus {
-    background-color: var(--color-primary-white);
+    background-color: var(--color-warning-red);
     transition: 0.3s;
-    color: var(--color-warning-red);
+    color: var(--color-bg-text);
 }
 
-#delete-btn img {
-    display: block;
-    width: 25px;
+#delete-btn.active-tag-item {
+    background-color: var(--color-warning-red);
 }
 
 .userProject__tasks {
@@ -194,17 +193,6 @@ section.editPriority {
 }
 
 
-/* for custom scrollbar for webkit browser*/
-/*::-webkit-scrollbar {*/
-/*    width: 6px;*/
-/*}*/
-/*::-webkit-scrollbar-track {*/
-/*    -webkit-box-shadow: inset 0 0 6px rgba(153, 170, 255, 1);*/
-/*}*/
-/*::-webkit-scrollbar-thumb {*/
-/*    -webkit-box-shadow: inset 0 0 6px rgb(115, 103, 240);*/
-/*}*/
-
 .content__tagList {
     margin: 20px 0;
     display: flex;
@@ -217,8 +205,9 @@ section.editPriority {
 .content__tagItem {
     padding: 6px 15px;
     border-radius: 12px;
-    border: 1px solid var(--color-primary-purple);
+    border: 2px solid var(--color-primary-purple);
     cursor: pointer;
+    color: var(--color-bg-text);
 }
 
 .content__tagItem:hover, .content__tagItem:active, .content__tagItem:focus
@@ -228,7 +217,7 @@ section.editPriority {
 }
 
 .active-tag-item {
-    background-color: var(--color-primary-white) !important;
+    background-color: var(--color-primary-purple);
 }
 
 .content__nonPriorityContainer {
@@ -265,6 +254,7 @@ section.editPriority {
     width: 50%;
     margin: 0 auto;
     font-weight: 600;
+    font-size: 18px;
 }
 
 .deleteTask__form button {
@@ -322,6 +312,7 @@ section.editPriority {
     padding: 10px;
     margin-left: 20px;
     border-radius: 6px;
+    min-width: 570px;
 }
 
 .addTask__form fieldset legend {
@@ -384,8 +375,8 @@ section.editPriority {
 }
 
 .board {
-    max-width: 1500px;
-    width: 100%;
+    width: 1275px;
+    /*width: 100%;*/
     height: 100%;
     overflow: scroll;
     margin-top: 20px;
@@ -463,10 +454,29 @@ section.editPriority {
     padding: 10px 15px;
     background-color: var(--color-tag-green);
     border: 3px solid var(--color-tag-green);
+    font-size: 17px;
+}
+
+.deleteZone {
+    width: 100%;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 10px 15px;
+    background-color: var(--color-warning-red);
+    border: 3px solid var(--color-warning-red);
+    color: var(--color-bg-text);
+    font-size: 17px;
 }
 
 .submitDrag:hover, .submitDrag:active, .submitDrag:focus {
-    background-color: var(--color-primary-white);
+    color: var(--color-tag-green);
+    background-color: inherit;
+    transition: 0.3s;
+}
+
+.deleteZone:hover, .deleteZone:focus {
+    color: var(--color-warning-red);
+    background-color: inherit;
     transition: 0.3s;
 }
 
@@ -549,11 +559,11 @@ section.editPriority {
 }
 
 .editForm input {
-    width: 100%;
+    width: 120%;
     border: 2px solid var(--color-primary-blue);
     border-radius: 6px;
     padding: 5px;
-    font-size: 15px;
+    font-size: 19px;
     background-color: var(--color-bg-input);
 }
 
@@ -565,10 +575,11 @@ section.editPriority {
 .editForm button {
     border: 2px solid var(--color-primary-blue);
     background-color: var(--color-primary-blue);
-    width: 70%;
+    width: 120%;
     border-radius: 8px;
     font-size: 16px;
     padding: 7px;
+    font-weight: 600;
 }
 
 .create__form {
@@ -702,4 +713,12 @@ section.editPriority {
 
 .stage__title {
     font-size: 20px;
+}
+
+.create__container {
+    width: 100%;
+}
+
+.projectTaskForm {
+    margin-left: 45px;
 }

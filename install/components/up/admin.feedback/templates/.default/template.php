@@ -19,7 +19,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	]); ?>
 	<!-- Вкладка уведомлений для админа !-->
 	<section class="admin">
-		<article class="content__header">
+		<article class="content__header header-border">
 			<h1>Администрирование</h1>
 		</article>
 		<article class="content__name">

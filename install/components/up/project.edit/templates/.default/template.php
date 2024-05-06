@@ -20,7 +20,7 @@ CJSCore::Init(array('ajax'));
 			'USER_ID' => $arParams['USER_ID'],
 		]); ?>
 		<section class="content">
-			<article class="content__header">
+			<article class="content__header header-border">
 				<h1 id="quickCreate">Быстрое создание</h1>
 				<div class="content__profileCreate">
 					<a href="/project/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать проект</a>
@@ -53,7 +53,6 @@ CJSCore::Init(array('ajax'));
 								Настройки
 							</li>
 							<li id="delete-btn" class="content__tagItem">
-								<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/skull.svg" alt="">
 								Удалить проект
 							</li>
 						</ul>
@@ -71,7 +70,7 @@ CJSCore::Init(array('ajax'));
 							<form action="/project/delete-stage/" method="post">
 								<?= bitrix_sessid_post() ?>
 								<input type="hidden" name="projectId" value="<?= $arParams['PROJECT_ID'] ?>">
-								<button class="submitDrag" type="submit">Удалить этап</button>
+								<button class="deleteZone" type="submit">Удалить этап</button>
 							</form>
 						</div>
 
@@ -197,18 +196,21 @@ CJSCore::Init(array('ajax'));
 									<label class="create__textareaLabel" for="deadline">Крайний срок</label>
 									<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
 								</div>
-								<select class="create__category" name="categoryId" id="categorySelect">
-									<option selected disabled>Выберите категорию</option>
-									<?php foreach ($arResult['CATEGORIES'] as $category): ?>
-										<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
-									<?php endforeach; ?>
-								</select>
+								<div class="create__dateContainer">
+									<label class="create__textareaLabel">Категория</label>
+									<select class="create__category" name="categoryId" id="categorySelect">
+										<option selected disabled>Выберите категорию</option>
+										<?php foreach ($arResult['CATEGORIES'] as $category): ?>
+											<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
 							</div>
 							<h2>Дополнительные поля:</h2>
 							<div class="create__tagContainers">
-								<div class="create__container">
+								<div class="create__tagCcontainer" style="width: 68%">
 									<div id="gptError"></div>
-									<label class="create__textareaLabel">Тэги </label>
+									<label class="create__textareaLabel">Теги</label>
 									<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
 								</div>
 
@@ -237,7 +239,7 @@ CJSCore::Init(array('ajax'));
 								</div>
 							</div>
 						</div>
-						<button class="createBtn" type="submit">Создать заявку</button>
+						<button class="createBtn" style="width: 100%;" type="submit">Создать заявку</button>
 					</form>
 				</div>
 				<!-- Контейнер для редактирование основной информации!-->
@@ -247,18 +249,20 @@ CJSCore::Init(array('ajax'));
 						<input type="hidden" name="projectId" value="<?= $arParams['PROJECT_ID'] ?>">
 						<div class="editForm__container">
 							<label for="projectTitle">Название проекта</label>
-							<input id="projectTitle" type="text" name="title" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getTitle()) ?>">
+							<input id="projectTitle projectZoneEdit" type="text" name="title" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getTitle()) ?>">
 						</div>
 						<div class="editForm__container">
 							<label for="projectDescription">Описание проекта</label>
-							<input id="projectDescription" type="text" name="description" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getDescription()) ?>">
+							<input id="projectDescription projectZoneEdit" type="text" name="description" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getDescription()) ?>">
 						</div>
-						<button type="submit">Отправить</button>
+						<div class="editForm__container">
+							<button type="submit">Отправить</button>
+						</div>
 					</form>
 				</div>
 				<!-- Контейнер для удаления проекта(работает!) !-->
 				<div id="delete-reviews" class="content__nonPriorityContainer tab__container">
-					<form action="/project/delete/" method="post" class="deleteTask__form">
+					<form action="/project/delete/" method="post" class="deleteTask__form projectTaskForm">
 						<?= bitrix_sessid_post() ?>
 						<h4>Вы действительно хотите удалить проект?</h4>
 						<input type="hidden" name="projectId" value='<?= $arParams['PROJECT_ID'] ?>'>

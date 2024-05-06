@@ -16,7 +16,7 @@ CJSCore::Init(array('ajax'));
 		'USER_ID' => $arParams['USER_ID'],
 	]); ?>
 	<section class="content">
-		<article class="content__header">
+		<article class="content__header header-border">
 			<h1 id="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать проект</a>
@@ -46,7 +46,7 @@ CJSCore::Init(array('ajax'));
 							<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
 						</div>
 						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="deadline">Категория</label>
+							<label class="create__textareaLabel">Категория</label>
 							<select class="create__category" name="categoryId" id="categorySelect">
 								<option selected disabled>Выберите категорию</option>
 								<?php foreach ($arResult['CATEGORIES'] as $category): ?>
@@ -60,7 +60,7 @@ CJSCore::Init(array('ajax'));
 					<div class="create__tagContainers">
 						<div class="create__tagCcontainer">
 							<div id="gptError"></div>
-							<label class="create__textareaLabel">Тэги</label>
+							<label class="create__textareaLabel">Теги</label>
 							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
 						</div>
 
@@ -85,7 +85,7 @@ CJSCore::Init(array('ajax'));
 
 
 				<div class="create__fieldsetContainer">
-					<div class="create__containers">
+					<div class="create__containers" style="margin-left: 60px">
 						<div class="create__dateContainer">
 							<label class="create__textareaLabel" for="createMaxPrice">Стоимость заявки (₽)</label>
 							<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
@@ -99,8 +99,8 @@ CJSCore::Init(array('ajax'));
 									<option value="<?=$project->getId()?>"><?=htmlspecialcharsbx($project->getTitle())?></option>
 								<?php endforeach; ?>
 							</select>
-						<?php endif;?>
 						</div>
+						<?php endif;?>
 					</div>
 				</div>
 				<button class="createBtn" type="submit">Создать заявку</button>

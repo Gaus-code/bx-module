@@ -17,7 +17,7 @@ CJSCore::Init(array('ajax'));
 		'USER_ID' => $arParams['USER_ID'],
 	]); ?>
 	<section class="content">
-		<article class="content__header">
+		<article class="content__header header-border">
 			<h1 id="quickCreate">Быстрое создание</h1>
 			<button type="button" class="plus-link">
 				<span class="plus-link__inner"></span>
@@ -63,75 +63,83 @@ CJSCore::Init(array('ajax'));
 				</form>
 			</div>
 
-
-			<form action="/task/update/" method="post" class="create__form">
-				<?=bitrix_sessid_post()?>
-				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
-				<div class="create__text">
-					<div class="create__container">
-						<label class="create__textareaLabel" for="createTitle">Название</label>
-						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=htmlspecialcharsbx($arResult['TASK']->getTitle())?>" required>
-					</div>
-					<div class="create__container">
-						<label class="create__textareaLabel" for="taskDescription">Описание</label>
-						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10" required><?=htmlspecialcharsbx($arResult['TASK']->getDescription())?></textarea>
-					</div>
-					<div class="create__containers">
-						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="deadline">Крайний срок</label>
-							<input name="deadline" id="deadline" type="date" class="create__dateInput validate" value="<?=$arResult['TASK']->getDeadline()->format('Y-m-d')?>">
-						</div>
-						<select class="create__category" name="categoryId" id="categorySelect">
-							<option selected disabled>Категория</option>
-							<?php foreach ($arResult['CATEGORIES'] as $category): ?>
-								<option value="<?=$category->getId()?>" <?= ($category->getId() === $arResult['TASK']->getCategoryId()) ? 'selected' : '' ?>><?=htmlspecialcharsbx($category->getTitle())?> </option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					<h2>Дополнительные поля:</h2>
-
-					<div class="create__tagContainers">
+			<div class="editTaskContainer">
+				<form action="/task/update/" method="post" class="create__form">
+					<?=bitrix_sessid_post()?>
+					<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
+					<div class="create__text">
 						<div class="create__container">
-							<div id="gptError"></div>
-							<label class="create__textareaLabel">Тэги</label>
-							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
+							<label class="create__textareaLabel" for="createTitle">Название</label>
+							<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=htmlspecialcharsbx($arResult['TASK']->getTitle())?>" required>
 						</div>
-
-						<?php if ($arResult['USER_SUBSCRIPTION_STATUS']):?>
-							<div class="gptCreate">
-								<div class="premium-link-tag">
-									<button id="gptBtn" type="button">Автоматическое проставление тегов по описанию</button>
-								</div>
+						<div class="create__container">
+							<label class="create__textareaLabel" for="taskDescription">Описание</label>
+							<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10" required><?=htmlspecialcharsbx($arResult['TASK']->getDescription())?></textarea>
+						</div>
+						<div class="create__containers">
+							<div class="create__dateContainer">
+								<label class="create__textareaLabel" for="deadline">Крайний срок</label>
+								<input name="deadline" id="deadline" type="date" class="create__dateInput validate" value="<?=$arResult['TASK']->getDeadline()->format('Y-m-d')?>">
 							</div>
-						<?php else:?>
-							<a href="/subscription/" target="_blank">
+							<div class="create__dateContainer">
+								<label class="create__textareaLabel">Категория</label>
+								<select class="create__category" name="categoryId" id="categorySelect">
+									<option selected disabled>Категория</option>
+									<?php foreach ($arResult['CATEGORIES'] as $category): ?>
+										<option value="<?=$category->getId()?>" <?= ($category->getId() === $arResult['TASK']->getCategoryId()) ? 'selected' : '' ?>><?=htmlspecialcharsbx($category->getTitle())?> </option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<h2>Дополнительные поля:</h2>
+
+						<div class="create__tagContainers">
+							<div class="create__tagCcontainer">
+								<div id="gptError"></div>
+								<label class="create__textareaLabel">Теги</label>
+								<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
+							</div>
+
+							<?php if ($arResult['USER_SUBSCRIPTION_STATUS']):?>
 								<div class="gptCreate">
 									<div class="premium-link-tag">
-										<button type="button">Автоматическое проставление тегов по описанию</button>
+										<button id="gptBtn" type="button">Автоматическое проставление тегов по описанию</button>
 									</div>
 								</div>
-							</a>
-						<?php endif;?>
-					</div>
-				</div>
-				<div class="create__fieldsetContainer">
-					<div class="create__containers">
-						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="createMaxPrice">Стоимость заявки (₽)</label>
-							<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
+							<?php else:?>
+								<a href="/subscription/" target="_blank">
+									<div class="gptCreate">
+										<div class="premium-link-tag">
+											<button type="button">Автоматическое проставление тегов по описанию</button>
+										</div>
+									</div>
+								</a>
+							<?php endif;?>
 						</div>
-						<?php if (count($arResult['PROJECTS']) > 0): ?>
-							<select name="projectId">
-								<option selected disabled>Выберите Проект</option>
-								<?php foreach ($arResult['PROJECTS'] as $project): ?>
-									<option value="<?=$project->getId()?>"><?=htmlspecialcharsbx($project->getTitle())?></option>
-								<?php endforeach; ?>
-							</select>
-						<?php endif;?>
 					</div>
-				</div>
-				<button class="createBtn" type="submit">Сохранить Изменения</button>
-			</form>
+					<div class="create__fieldsetContainer">
+						<div class="create__containers" style="margin-left: 60px">
+							<div class="create__dateContainer">
+								<label class="create__textareaLabel" for="createMaxPrice">Стоимость заявки (₽)</label>
+								<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
+							</div>
+							<?php if (count($arResult['PROJECTS']) > 0): ?>
+								<div class="create__dateContainer">
+									<label class="create__textareaLabel">Проект</label>
+									<select name="projectId">
+										<option selected disabled>Выберите Проект</option>
+										<?php foreach ($arResult['PROJECTS'] as $project): ?>
+											<option value="<?=$project->getId()?>"><?=htmlspecialcharsbx($project->getTitle())?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							<?php endif;?>
+						</div>
+					</div>
+					<button class="createBtn" type="submit">Сохранить Изменения</button>
+				</form>
+			</div>
+
 			<div id="loader" style="display: none">
 				<div class="loader">
 					<div class="ball moving"></div>

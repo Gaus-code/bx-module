@@ -17,7 +17,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		'USER_ID' => $arParams['USER_ID'],
 	]); ?>
 	<section class="content">
-		<article class="content__header">
+		<article class="content__header header-border">
 			<h1 id="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?=$arParams['USER_ID']?>/create/" class="create__link">Создать проект</a>
@@ -30,8 +30,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<div class="groupContainer">
 				<form class="create__form" action="/project/create/" method="post">
 					<?=bitrix_sessid_post()?>
-					<input type="text" name="title" class="create__title" placeholder="Название проекта">
-					<input type="text" name="description" class="create__description" placeholder="Описание проекта">
+					<input type="text" name="title" class="create__title" placeholder="Название проекта" style="margin-left: 60px" >
+					<input type="text" name="description" class="create__description" placeholder="Описание проекта" style="margin-left: 60px" >
 					<button class="createBtn" type="submit">Создать Проект</button>
 				</form>
 			</div>

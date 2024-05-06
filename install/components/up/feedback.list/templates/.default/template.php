@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	]); ?>
 	<section class="content">
 		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
-		<article class="content__header">
+		<article class="content__header header-border">
 			<h1 id="quickCreate">Быстрое создание</h1>
 			<div class="content__profileCreate">
 				<a href="/project/<?= $arParams['USER_ID'] ?>/create/" class="create__link">Создать проект</a>

@@ -40,8 +40,8 @@
 			<div>
 				<input type="checkbox" id="styleModeBtn">
 				<label for="styleModeBtn" class="styleModeLabel">
-					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/sun.svg" alt="sun img" class="styleModeIcon styleModeMoon">
 					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/moon.svg" alt="moon img" class="styleModeIcon styleModeSun">
+					<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/sun.svg" alt="sun img" class="styleModeIcon styleModeMoon">
 					<div class="ball"></div>
 				</label>
 			</div>

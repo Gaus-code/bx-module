@@ -160,14 +160,18 @@ a.aside__btn {
     margin: 23px 33px 33px 31px;
 }
 
-.content__header {
-    width: 90%;
+.content__header, .header-border {
+    /*width: 88%;*/
+    width: 95%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 20px;
     padding-bottom: 11px;
+}
+
+.header-border {
     border-bottom: 3px solid var(--color-primary-border);
 }
 
@@ -220,7 +224,7 @@ a.aside__btn {
     padding: 16px;
 	width: 100%;
 	position: relative;
-    border: 1px solid var(--color-primary-purple);
+    border: 1px solid var(--color-bg-text);
 	border-radius: 4px;
 	background: var(--color-bg-modal);
 	box-shadow: -2px 2px 20px -1px rgba(113, 113, 113, 0.20);
@@ -377,7 +381,7 @@ a.aside__btn {
     font-size: 18px;
     color: var(--color-primary-purple);
     align-self: flex-start;
-    margin-left: 32px;
+    /*margin-left: 32px;*/
 }
 
 .create__form fieldset {
@@ -436,6 +440,8 @@ a.aside__btn {
     align-items: center;
     justify-content: center;
     gap: 27px;
+    /*margin-left: 32px;*/
+    margin-left: 60px;
 }
 
 .create__dateInput {
@@ -494,15 +500,14 @@ a.aside__btn {
     background: var(--color-tag-green);
     color: var(--color-bg-text);
     border: 2px solid var(--color-tag-green);
-    padding: 5px 8px;
-    font-size: 17px;
+    padding: 13px 8px;
+    font-size: 22px;
     font-weight: 600;
     line-height: 28px;
     text-align: center;
     /*margin: 30px auto 0;*/
-    /*width: 75%;*/
-    margin: 40px 0 0 263px;
-    width: 50%;
+    width: 85%;
+    margin: 30px 0 0 60px;
 }
 
 .createBtn:hover, .createBtn:active, .createBtn:focus {

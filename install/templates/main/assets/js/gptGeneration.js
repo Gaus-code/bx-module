@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					}
 					else
 					{
-						const message = 'Чат gpt не смог ничего придумать. Попробуйте изменить описание';
+						const message = 'Мы не смогли автоматически добавить теги. Попробуйте изменить описание';
 						taskTagsInput.classList.add('gptGenerateError');
 						taskTagsInput.classList.remove('gptGenerate');
 						gptError.textContent = message;
