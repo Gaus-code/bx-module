@@ -1,4 +1,4 @@
-#inProgress-reviews, #doneTaskForOwner-reviews {
+#inProgress-reviews, #doneTaskForOwner-reviews, #performing-reviews, #stop-reviews {
     display: none;
 }
 
