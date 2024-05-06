@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
 	`FROM_USER_ID` int                NOT NULL,
 	`TO_USER_ID`   int                NOT NULL,
 	`TASK_ID`      int                NOT NULL,
-	`FEEDBACK`     text,
+	`COMMENT`     text,
 	`CREATED_AT`   datetime,
 	`IS_BANNED`    char default 'N'   not null,
 	`TO_USER_ROLE` varchar(31)        not null,
