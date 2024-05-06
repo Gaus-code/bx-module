@@ -19,8 +19,7 @@ class UserComponent extends CBitrixComponent
 				"text" => "Описание задачи:",
 			],
 		];
-		echo '<pre>';
-		return var_dump(\Up\Ukan\AI\GPT\YandexGPT::getResponse($messages)); die;
+
 		$this->fetchUserActivity();
 		$this->fetchUser();
 		$this->includeComponentTemplate();
