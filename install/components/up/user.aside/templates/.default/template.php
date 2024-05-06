@@ -6,12 +6,6 @@
 ?>
 <aside class="aside">
 	<?php $user = $arResult['USER']?>
-	<div class="aside__profile">
-		<p class="profile__name"><?=htmlspecialcharsbx($user->getBUser()->getName() . ' ' .$user->getBUser()->getLastName())?></p>
-		<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
-		<p class="profile__email"><?=$user->getBUser()->getEmail()?></p>
-		<?php endif; ?>
-	</div>
 
 	<div class="aside__header">
 		<nav class="aside__nav">

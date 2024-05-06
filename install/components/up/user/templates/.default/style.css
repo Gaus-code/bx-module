@@ -8,7 +8,6 @@
     justify-content: center;
     gap: 30px;
     position: relative;
-    border-top: 1px solid var(--color-primary-border);
 }
 
 .content__mainBio_header {

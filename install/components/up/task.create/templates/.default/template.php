@@ -45,17 +45,20 @@ CJSCore::Init(array('ajax'));
 							<label class="create__textareaLabel" for="deadline">Крайний срок</label>
 							<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
 						</div>
-						<select class="create__category" name="categoryId" id="categorySelect">
-							<option selected disabled>Выберите категорию</option>
-							<?php foreach ($arResult['CATEGORIES'] as $category): ?>
-								<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
-							<?php endforeach; ?>
-						</select>
+						<div class="create__dateContainer">
+							<label class="create__textareaLabel" for="deadline">Категория</label>
+							<select class="create__category" name="categoryId" id="categorySelect">
+								<option selected disabled>Выберите категорию</option>
+								<?php foreach ($arResult['CATEGORIES'] as $category): ?>
+									<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
 					</div>
 					<h2>Дополнительные поля:</h2>
 
 					<div class="create__tagContainers">
-						<div class="create__container">
+						<div class="create__tagCcontainer">
 							<div id="gptError"></div>
 							<label class="create__textareaLabel">Тэги</label>
 							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
@@ -88,6 +91,8 @@ CJSCore::Init(array('ajax'));
 							<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
 						</div>
 						<?php if (count($arResult['PROJECTS']) > 0): ?>
+						<div class="create__dateContainer">
+							<label class="create__textareaLabel">Проект</label>
 							<select name="projectId">
 								<option selected disabled>Выберите Проект</option>
 								<?php foreach ($arResult['PROJECTS'] as $project): ?>
@@ -95,6 +100,7 @@ CJSCore::Init(array('ajax'));
 								<?php endforeach; ?>
 							</select>
 						<?php endif;?>
+						</div>
 					</div>
 				</div>
 				<button class="createBtn" type="submit">Создать заявку</button>

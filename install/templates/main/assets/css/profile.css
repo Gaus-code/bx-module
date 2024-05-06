@@ -161,11 +161,14 @@ a.aside__btn {
 }
 
 .content__header {
+    width: 90%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 20px;
+    padding-bottom: 11px;
+    border-bottom: 3px solid var(--color-primary-border);
 }
 
 .content__header h1 {
@@ -356,7 +359,7 @@ a.aside__btn {
     font-weight: 600;
     text-align: left;
     color: var(--color-bg-text);
-    width: 85%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -367,13 +370,14 @@ a.aside__btn {
     color: var(--color-bg-text);
     border-radius: 8px;
     max-width: 350px;
-    margin-top: 21px;
+    min-height: 47px;
 }
 
 .create__textareaLabel {
     font-size: 18px;
     color: var(--color-primary-purple);
     align-self: flex-start;
+    margin-left: 32px;
 }
 
 .create__form fieldset {
@@ -458,8 +462,16 @@ a.aside__btn {
     flex-direction: column;
     gap: 4px;
     justify-content: center;
-    align-self: center;
-    margin: 0 auto;
+    align-self: flex-start;
+}
+
+.create__tagCcontainer {
+    width: 58%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    align-self: flex-start;
 }
 
 .create__dateContainer {
@@ -469,13 +481,12 @@ a.aside__btn {
 }
 
 .create__containers {
-    width: 85%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 40px;
-    margin: 0 auto;
 }
 
 .createBtn {
@@ -488,8 +499,10 @@ a.aside__btn {
     font-weight: 600;
     line-height: 28px;
     text-align: center;
-    margin: 20px auto 0;
-    width: 85%;
+    /*margin: 30px auto 0;*/
+    /*width: 75%;*/
+    margin: 40px 0 0 263px;
+    width: 50%;
 }
 
 .createBtn:hover, .createBtn:active, .createBtn:focus {
@@ -575,7 +588,7 @@ a.aside__btn {
     align-items: center;
     justify-content: flex-start;
     gap: 30px;
-    width: 85%;
+    width: 100%;
 }
 
 .gptCreate button {
