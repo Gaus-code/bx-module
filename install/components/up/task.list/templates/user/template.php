@@ -17,7 +17,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		echo "id=\"openForOwner-reviews\"";
 	}
 	else {
-		var_dump($arResult['USER_ACTIVITY']);
 		echo "id=\"open-reviews\"";
 	}
 	?>

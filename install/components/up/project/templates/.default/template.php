@@ -36,7 +36,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					if ($arResult['USER_ACTIVITY'] === 'owner'): ?>
 						<div class="content__project_btnContainer">
 							<a class="project__link" href="/project/<?= $arParams['PROJECT_ID'] ?>/edit/">
-								Перейти к настройке проекта
+								Управление проектом
 							</a>
 							<form class="doneProjectForm" action="/project/complete/" method="post">
 								<?= bitrix_sessid_post() ?>

@@ -40,7 +40,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</li>
 			<li class="detail__notifyItem">
 				<div class="detail__notifyInfo">
-					<span>Контакты заказчика:</span>
+					<span>Доп. способ связи исполнителя:</span>
 					<p class="detail__notifyText"> <?= $arParams['TASK']->getContractor()->getContacts() ? htmlspecialcharsbx($arParams['TASK']->getClient()->getContacts()) : 'Дргуие контанты не указаны' ?></p>
 				</div>
 			</li>

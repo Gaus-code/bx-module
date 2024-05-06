@@ -31,19 +31,18 @@ CJSCore::Init(array('ajax'));
 
 			<form class="create__form" action="/task/create/" method="post">
 				<?=bitrix_sessid_post()?>
-				<h2>Обязательные поля:</h2>
 				<div class="create__text">
 					<div class="create__container">
-						<label class="create__textareaLabel" for="createTitle">Добавьте Название</label>
+						<label class="create__textareaLabel" for="createTitle">Название</label>
 						<input name = "title" id="createTitle" type="text" class="create__title validate" placeholder="Название заявки">
 					</div>
 					<div class="create__container">
-						<label class="create__textareaLabel" for="taskDescription">Добавьте Описание</label>
+						<label class="create__textareaLabel" for="taskDescription">Описание</label>
 						<textarea name="description" id="taskDescription" class="create__description validate" cols="30" rows="10"></textarea>
 					</div>
 					<div class="create__containers">
 						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
+							<label class="create__textareaLabel" for="deadline">Крайний срок</label>
 							<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
 						</div>
 						<select class="create__category" name="categoryId" id="categorySelect">
@@ -58,7 +57,7 @@ CJSCore::Init(array('ajax'));
 					<div class="create__tagContainers">
 						<div class="create__container">
 							<div id="gptError"></div>
-							<label class="create__textareaLabel">Добавьте тэги (используя #)</label>
+							<label class="create__textareaLabel">Тэги</label>
 							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
 						</div>
 
@@ -85,7 +84,7 @@ CJSCore::Init(array('ajax'));
 				<div class="create__fieldsetContainer">
 					<div class="create__containers">
 						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
+							<label class="create__textareaLabel" for="createMaxPrice">Стоимость заявки (₽)</label>
 							<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
 						</div>
 						<?php if (count($arResult['PROJECTS']) > 0): ?>

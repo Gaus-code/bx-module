@@ -6,7 +6,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 	<section class="preview wrapper">
 		<div class="preview__container">
 			<h1>Стань на шаг ближе <br>
-				<span>К работе своей мечты</span>
+				<span>к работе своей мечты</span>
 			</h1>
 			<p>Поможем найти работу, которая подойдет вам лучше всего!</p>
 			<div class="preview__btnContainer">
@@ -33,8 +33,8 @@ $APPLICATION->SetTitle("UKAN - super service");
 			<img id="rosTelekom" src="<?= SITE_TEMPLATE_PATH ?>/assets/images/RosTelekom.png" alt="rosTelekom logo">
 		</div>
 		<div class="companiesPreview__textContainer">
-			<h2>Работайте с <span> интересными</span> <br> команиями</h2>
-			<p>Выбирай любую и откликайся на заявки!</p>
+			<h2>Работайте с <span>интересными</span> <br> компаниями</h2>
+			<p>Выбирайте любую и откликайтесь на заявки!</p>
 			<?php if (!$USER->IsAuthorized()):?>
 				<a href="/sign-up" class="previewBtn">Начать</a>
 			<?php else: ?>
@@ -48,7 +48,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 			<p class="catalogPreview__subtitle">Получите самое быстрое приложение</p>
 			<ul class="catalogPreview__list">
 				<li class="catalogPreview__item">
-					<p class="catalogPreview__text active-text">Все Вакансии</p>
+					<p class="catalogPreview__text active-text">Все вакансии</p>
 				</li>
 				<li class="catalogPreview__item">
 					<p class="catalogPreview__text">Разработчикам</p>
@@ -78,13 +78,13 @@ $APPLICATION->SetTitle("UKAN - super service");
 			</div>
 			<div class="card">
 				<div class="card__header">
-					<p class="card__tag">fulltime</p>
-					<p class="card__tag">onsite</p>
-					<p class="card__tag">₽300K</p>
+					<p class="card__tag">part-time</p>
+					<p class="card__tag">remote</p>
+					<p class="card__tag">₽200K</p>
 				</div>
 				<div class="card__main">
-					<h3 class="card__tittle">UX designer</h3>
-					<p class="card__subtitle">Bitrix24//University</p>
+					<h3 class="card__tittle">Frontend Developer</h3>
+					<p class="card__subtitle">Google//Moscow</p>
 				</div>
 				<div class="card__footer">
 					<button type="button" class="card__btn">Откликнуться</button>
@@ -94,11 +94,11 @@ $APPLICATION->SetTitle("UKAN - super service");
 				<div class="card__header">
 					<p class="card__tag">fulltime</p>
 					<p class="card__tag">onsite</p>
-					<p class="card__tag">₽300K</p>
+					<p class="card__tag">₽250K</p>
 				</div>
 				<div class="card__main">
-					<h3 class="card__tittle">UX designer</h3>
-					<p class="card__subtitle">Bitrix24//University</p>
+					<h3 class="card__tittle">Backend Developer</h3>
+					<p class="card__subtitle">Yandex//St. Petersburg</p>
 				</div>
 				<div class="card__footer">
 					<button type="button" class="card__btn">Откликнуться</button>
@@ -108,11 +108,11 @@ $APPLICATION->SetTitle("UKAN - super service");
 				<div class="card__header">
 					<p class="card__tag">fulltime</p>
 					<p class="card__tag">onsite</p>
-					<p class="card__tag">₽300K</p>
+					<p class="card__tag">₽280K</p>
 				</div>
 				<div class="card__main">
-					<h3 class="card__tittle">UX designer</h3>
-					<p class="card__subtitle">Bitrix24//University</p>
+					<h3 class="card__tittle">Mobile Developer</h3>
+					<p class="card__subtitle">Sber//Moscow</p>
 				</div>
 				<div class="card__footer">
 					<button type="button" class="card__btn">Откликнуться</button>
@@ -121,12 +121,12 @@ $APPLICATION->SetTitle("UKAN - super service");
 			<div class="card">
 				<div class="card__header">
 					<p class="card__tag">fulltime</p>
-					<p class="card__tag">onsite</p>
-					<p class="card__tag">₽300K</p>
+					<p class="card__tag">remote</p>
+					<p class="card__tag">₽220K</p>
 				</div>
 				<div class="card__main">
-					<h3 class="card__tittle">UX designer</h3>
-					<p class="card__subtitle">Bitrix24//University</p>
+					<h3 class="card__tittle">Data Scientist</h3>
+					<p class="card__subtitle">Avito//Moscow</p>
 				</div>
 				<div class="card__footer">
 					<button type="button" class="card__btn">Откликнуться</button>
@@ -134,13 +134,13 @@ $APPLICATION->SetTitle("UKAN - super service");
 			</div>
 			<div class="card">
 				<div class="card__header">
-					<p class="card__tag">fulltime</p>
-					<p class="card__tag">onsite</p>
-					<p class="card__tag">₽300K</p>
+					<p class="card__tag">part-time</p>
+					<p class="card__tag">remote</p>
+					<p class="card__tag">₽150K</p>
 				</div>
 				<div class="card__main">
-					<h3 class="card__tittle">UX designer</h3>
-					<p class="card__subtitle">Bitrix24//University</p>
+					<h3 class="card__tittle">Content Manager</h3>
+					<p class="card__subtitle">Tinkoff//Moscow</p>
 				</div>
 				<div class="card__footer">
 					<button type="button" class="card__btn">Откликнуться</button>
@@ -151,7 +151,7 @@ $APPLICATION->SetTitle("UKAN - super service");
 	<section class="peoplePreview wrapper">
 		<div class="peoplePreview__textcontainer">
 			<h2>Так много людей уже <span>заняты</span><br> по всему Калининграду</h2>
-			<p>Находите надёжных исполнителей для решений любых задач</p>
+			<p>Находите надежных исполнителей для решений любых задач</p>
 			<?php if (!$USER->IsAuthorized()):?>
 				<a class="peoplePreview__link" href="/sign-up">Разместить заявку</a>
 			<?php else: ?>

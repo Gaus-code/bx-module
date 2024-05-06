@@ -66,26 +66,25 @@ CJSCore::Init(array('ajax'));
 
 			<form action="/task/update/" method="post" class="create__form">
 				<?=bitrix_sessid_post()?>
-				<h2>Обязательные поля:</h2>
 				<input type="hidden" name="taskId" value="<?=$arParams['TASK_ID']?>">
 				<div class="create__text">
 					<div class="create__container">
-						<label class="create__textareaLabel" for="createTitle">Редактируйте Название</label>
+						<label class="create__textareaLabel" for="createTitle">Название</label>
 						<input name = "title" id="createTitle" type="text" class="create__title" placeholder="Название заявки" value="<?=htmlspecialcharsbx($arResult['TASK']->getTitle())?>" required>
 					</div>
 					<div class="create__container">
-						<label class="create__textareaLabel" for="taskDescription">Редактируйте Описание</label>
+						<label class="create__textareaLabel" for="taskDescription">Описание</label>
 						<textarea name="description" id="taskDescription" class="create__description" cols="30" rows="10" required><?=htmlspecialcharsbx($arResult['TASK']->getDescription())?></textarea>
 					</div>
 					<div class="create__containers">
 						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="deadline">Установите крайний срок</label>
-							<input name="deadline" id="deadline" type="date" class="create__dateInput validate">
+							<label class="create__textareaLabel" for="deadline">Крайний срок</label>
+							<input name="deadline" id="deadline" type="date" class="create__dateInput validate" value="<?=$arResult['TASK']->getDeadline()->format('Y-m-d')?>">
 						</div>
 						<select class="create__category" name="categoryId" id="categorySelect">
-							<option selected disabled>Выберите категорию</option>
+							<option selected disabled>Категория</option>
 							<?php foreach ($arResult['CATEGORIES'] as $category): ?>
-								<option value="<?=$category->getId()?>"><?=htmlspecialcharsbx($category->getTitle())?></option>
+								<option value="<?=$category->getId()?>" <?= ($category->getId() === $arResult['TASK']->getCategoryId()) ? 'selected' : '' ?>><?=htmlspecialcharsbx($category->getTitle())?> </option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -94,7 +93,7 @@ CJSCore::Init(array('ajax'));
 					<div class="create__tagContainers">
 						<div class="create__container">
 							<div id="gptError"></div>
-							<label class="create__textareaLabel">Добавьте тэги (используя #)</label>
+							<label class="create__textareaLabel">Тэги</label>
 							<input name = "tagsString" id="taskTags" class="create__tags" placeholder="#HTML #CSS #...">
 						</div>
 
@@ -118,7 +117,7 @@ CJSCore::Init(array('ajax'));
 				<div class="create__fieldsetContainer">
 					<div class="create__containers">
 						<div class="create__dateContainer">
-							<label class="create__textareaLabel" for="createMaxPrice">Добавьте максимальную стоимость (₽)</label>
+							<label class="create__textareaLabel" for="createMaxPrice">Стоимость заявки (₽)</label>
 							<input name="maxPrice" id="createMaxPrice" class="create__priceInput" type="number" placeholder="Максимальная стоимость">
 						</div>
 						<?php if (count($arResult['PROJECTS']) > 0): ?>
