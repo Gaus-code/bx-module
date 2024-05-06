@@ -149,9 +149,9 @@ CREATE TABLE IF NOT EXISTS `up_ukan_reports`
 CREATE TABLE IF NOT EXISTS `up_ukan_project_stage`
 (
 	`ID`                       int auto_increment,
-	`PROJECT_ID  `             int          not null,
+	`PROJECT_ID`             int          not null,
 	`STATUS`                   varchar(255) not null,
-	`NUMBER  `                 int          not null,
+	`NUMBER`                 int          not null,
 	`EXPECTED_COMPLETION_DATE` date         null,
 	PRIMARY KEY (
 	             `ID`
