@@ -96,10 +96,16 @@ class UserProjectComponent extends CBitrixComponent
 		{
 			global $USER;
 
-			$this->arResult['ADD_TASK_LIST'] = \Up\Ukan\Model\TaskTable::query()->setSelect(
-					['ID', 'TITLE', 'PROJECT_STAGE', 'STATUS']
-				)->whereNull('PROJECT_STAGE.PROJECT_ID')->where('CLIENT_ID', $USER->GetID())
-				 ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])->fetchCollection();
+			$this->arResult['ADD_TASK_LIST'] = \Up\Ukan\Model\TaskTable::query()
+																	   ->setSelect(['ID', 'TITLE', 'PROJECT_STAGE', 'STATUS'])
+																	   ->whereNull('PROJECT_STAGE.PROJECT_ID')
+																	   ->where('CLIENT_ID', $USER->GetID())
+																	   ->where(\Bitrix\Main\ORM\Query\Query::filter()
+																										   ->logic('or')
+																				   ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor'])
+																				   ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['waiting_to_start'])
+																				   ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['queue']))
+																	   ->fetchCollection();
 		}
 	}
 
