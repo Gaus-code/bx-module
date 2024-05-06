@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_feedback`
 	`FEEDBACK`     text,
 	`CREATED_AT`   datetime,
 	`IS_BANNED`    char default 'N'   not null,
+	`TO_USER_ROLE` varchar(31)        not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -53,13 +54,13 @@ CREATE TABLE IF NOT EXISTS `up_ukan_task`
 	`TITLE`            varchar(255)       NOT NULL,
 	`DESCRIPTION`      text               NOT NULL,
 	`MAX_PRICE`        int,
-	`PROJECT_PRIORITY` int                NOT NULL,
 	`CLIENT_ID`        int                NOT NULL,
 	`CONTRACTOR_ID`    int,
 	`STATUS`           varchar(255)       NOT NULL,
-	`PROJECT_ID`       int,
+	`PROJECT_STAGE_ID` int,
 	`CREATED_AT`       datetime,
 	`UPDATED_AT`       datetime,
+	DEADLINE           DATE               null,
 	`CATEGORY_ID`      int,
 	`IS_BANNED`        char default 'N'   not null,
 	PRIMARY KEY (
@@ -90,17 +91,7 @@ CREATE TABLE IF NOT EXISTS `up_ukan_project`
 	`CLIENT_ID`   int                NOT NULL,
 	`CREATED_AT`  datetime,
 	`UPDATED_AT`  datetime,
-	PRIMARY KEY (
-	             `ID`
-		)
-);
-
-CREATE TABLE IF NOT EXISTS `up_ukan_subscription`
-(
-	`ID`          int AUTO_INCREMENT NOT NULL,
-	`TITLE`       varchar(255)       NOT NULL,
-	`DESCRIPTION` text               NOT NULL,
-	`PRICE`       int                NOT NULL,
+	STATUS        varchar(255)       not null,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -108,13 +99,12 @@ CREATE TABLE IF NOT EXISTS `up_ukan_subscription`
 
 CREATE TABLE IF NOT EXISTS `up_ukan_user_subscription`
 (
-	`ID`              int AUTO_INCREMENT NOT NULL,
-	`USER_ID`         int                NOT NULL,
-	`SUBSCRIPTION_ID` int                NOT NULL,
-	`PAYMENT_AT`      datetime           NOT NULL,
-	`PRICE`           int                NOT NULL,
-	`START_DATE`      date               NOT NULL,
-	`END_DATE`        date               NOT NULL,
+	`ID`         int AUTO_INCREMENT NOT NULL,
+	`USER_ID`    int                NOT NULL,
+	`PAYMENT_AT` datetime           NOT NULL,
+	`PRICE`      int                NOT NULL,
+	`START_DATE` date               NOT NULL,
+	`END_DATE`   date               NOT NULL,
 	PRIMARY KEY (
 	             `ID`
 		)
@@ -156,18 +146,28 @@ CREATE TABLE IF NOT EXISTS `up_ukan_reports`
 		)
 );
 
+CREATE TABLE IF NOT EXISTS `up_ukan_project_stage`
+(
+	`ID`                       int auto_increment,
+	`PROJECT_ID  `             int          not null,
+	`STATUS`                   varchar(255) not null,
+	`NUMBER  `                 int          not null,
+	`EXPECTED_COMPLETION_DATE` date         null,
+	PRIMARY KEY (
+	             `ID`
+		)
+);
+
+CREATE TABLE IF NOT EXISTS `up_ukan_secret_option_site`
+(
+	`ID`    int          not null auto_increment,
+	`NAME`  varchar(255) not null,
+	`VALUE` varchar(255) not null,
+	PRIMARY KEY (
+	             `ID`
+		)
+);
+
 -- Заполнение таблицы up_ukan_categories
 INSERT INTO up_ukan_categories (TITLE)
 VALUES ('Другое');
-
-INSERT INTO up_ukan_tag (TITLE)
-VALUES ('HTML'),
-       ('CSS'),
-       ('JavaScript'),
-       ('Безопасность'),
-       ('Тестирование'),
-       ('Сервер'),
-       ('API'),
-       ('React'),
-       ('SQL'),
-       ('OWASP');
