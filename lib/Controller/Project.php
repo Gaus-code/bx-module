@@ -126,8 +126,7 @@ class Project extends Controller
 
 				if (isset($taskOptions["taskDelete"]))
 				{
-					if ($task->getStatus() === Configuration::getOption('task_status')['done']
-						|| $task->getStatus() === Configuration::getOption('task_status')['at_work'])
+					if (!self::canChangeTheTask($task))
 					{
 						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя удалить';
 					}
@@ -148,13 +147,11 @@ class Project extends Controller
 				{
 					$projectStage = $project->getStages()->getByPrimary($taskOptions["zoneId"]);
 
-					if ($projectStage->getStatus()===Configuration::getOption('project_stage_status')['active']
-					|| $projectStage->getStatus()===Configuration::getOption('project_stage_status')['completed'])
+					if (!self::canChangeTheProjectStage($projectStage))
 					{
 						$errors[] = "Этап {$projectStage->getNumber()} нельзя редактировать";
 					}
-					elseif ($task->getStatus() !== Configuration::getOption('task_status')['queue']
-						&& $task->getStatus() !== Configuration::getOption('task_status')['waiting_to_start'])
+					elseif (!self::canChangeTheTask($task))
 					{
 						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя переместить в другой этап';
 
@@ -163,16 +160,7 @@ class Project extends Controller
 					{
 						$projectStage->addToTasks($task);
 
-						$projectStageStatuses = Configuration::getOption('project_stage_status');
-						$taskStatuses = Configuration::getOption('task_status');
-						if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
-						{
-							$task->setStatus($taskStatuses['queue']);
-						}
-						elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
-						{
-							$task->setStatus($taskStatuses['waiting_to_start']);
-						}
+						$task->setStatus(self::getTaskStatusByProjectStage($projectStage));
 					}
 				}
 			}
@@ -492,5 +480,34 @@ class Project extends Controller
 
 		LocalRedirect("/project/".$task->getProject()->getId()."/");
 
+	}
+	private static function canChangeTheTask(EO_Task $task): bool
+	{
+		return $task->getStatus() === Configuration::getOption('task_status')['queue']
+			|| $task->getStatus() === Configuration::getOption('task_status')['waiting_to_start'];
+	}
+	private static function canChangeTheProjectStage(EO_ProjectStage $projectStage): bool
+	{
+		return $projectStage->getStatus() === Configuration::getOption('project_stage_status')['waiting_to_start']
+			|| $projectStage->getStatus() === Configuration::getOption('project_stage_status')['queue']
+			|| $projectStage->getStatus() === Configuration::getOption('project_stage_status')['independent'];
+	}
+
+	private static function getTaskStatusByProjectStage(EO_ProjectStage $projectStage): string
+	{
+		$projectStageStatuses = Configuration::getOption('project_stage_status');
+		$taskStatuses = Configuration::getOption('task_status');
+
+		if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
+		{
+			return $taskStatuses['queue'];
+		}
+
+		if ($projectStage->getStatus() === $projectStageStatuses['independent'])
+		{
+			return $taskStatuses['waiting_to_start'];
+		}
+
+		return false;
 	}
 }
