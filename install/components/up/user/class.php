@@ -6,6 +6,21 @@ class UserComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$messages = [
+			[
+				"role" => "system",
+				"text" => "Далее ты получишь описание задачи. 
+				Выбери подходящие теги из списка.
+				Если ни одна из категорий не подходит пиши напиши только '0'.
+				В ответ напиши только номера тегов через запятую и ничего более.",
+			],
+			[
+				"role" => "user",
+				"text" => "Описание задачи:",
+			],
+		];
+		echo '<pre>';
+		return var_dump(\Up\Ukan\AI\GPT\YandexGPT::getResponse($messages)); die;
 		$this->fetchUserActivity();
 		$this->fetchUser();
 		$this->includeComponentTemplate();

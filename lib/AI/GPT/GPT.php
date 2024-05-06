@@ -1,6 +1,6 @@
 <?php
 
-namespace Up\Ukan\AI;
+namespace Up\Ukan\AI\GPT;
 
 interface GPT
 {
