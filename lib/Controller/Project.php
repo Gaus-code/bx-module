@@ -107,6 +107,8 @@ class Project extends Controller
 			global $USER;
 			$userId = (int)$USER->GetID();
 
+			$errors = [];
+
 			$project = \Up\Ukan\Model\ProjectTable::query()
 												  ->setSelect(['*', 'STAGES', 'STAGES.TASKS'])
 												  ->where('ID', $projectId)
@@ -120,66 +122,67 @@ class Project extends Controller
 
 			foreach ($tasks as $taskId => $taskOptions)
 			{
-
 				$task = $project->getStages()->getTasksCollection()->getByPrimary($taskId);
 
 				if (isset($taskOptions["taskDelete"]))
 				{
-					$task->fillProjectStage();
-
 					if ($task->getStatus() === Configuration::getOption('task_status')['done']
 						|| $task->getStatus() === Configuration::getOption('task_status')['at_work'])
 					{
 						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя удалить';
-						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-						LocalRedirect("/project/" . $projectId . "/edit/");
 					}
+					else
+					{
+						$task->fillProjectStage();
+						$projectStage = $task->getProjectStage();
+						$projectStage->removeFromTasks($task);
 
-					$projectStage = $task->getProjectStage();
-					$projectStage->removeFromTasks($task);
-					$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
-					$task->save();
+						$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+						$task->save();
+					}
 
 					continue;
 				}
 
 				if ($taskOptions["zoneId"])
 				{
-					$projectStage = ProjectStageTable::getById($taskOptions["zoneId"])->fetchObject();
+					$projectStage = $project->getStages()->getByPrimary($taskOptions["zoneId"]);
 
 					if ($projectStage->getStatus()===Configuration::getOption('project_stage_status')['active']
 					|| $projectStage->getStatus()===Configuration::getOption('project_stage_status')['completed'])
 					{
 						$errors[] = "Этап {$projectStage->getNumber()} нельзя редактировать";
-						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-						LocalRedirect("/project/" . $projectId . "/edit/");
 					}
-					if ($task->getStatus() !== Configuration::getOption('task_status')['queue']
+					elseif ($task->getStatus() !== Configuration::getOption('task_status')['queue']
 						&& $task->getStatus() !== Configuration::getOption('task_status')['waiting_to_start'])
 					{
 						$errors[] = 'Задачу "'.$task->getTitle().'"нельзя переместить в другой этап';
-						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-						LocalRedirect("/project/" . $projectId . "/edit/");
+
 					}
-
-					$project->getStages()->getByPrimary($taskOptions["zoneId"])->addToTasks($task);
-
-					$projectStageStatuses = Configuration::getOption('project_stage_status');
-					$taskStatuses = Configuration::getOption('task_status');
-					if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
+					else
 					{
-						$task->setStatus($taskStatuses['queue']);
-					}
-					elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
-					{
-						$task->setStatus($taskStatuses['waiting_to_start']);
-					}
+						$projectStage->addToTasks($task);
 
+						$projectStageStatuses = Configuration::getOption('project_stage_status');
+						$taskStatuses = Configuration::getOption('task_status');
+						if ($projectStage->getStatus() === $projectStageStatuses['queue'] || $projectStage->getStatus() === $projectStageStatuses['waiting_to_start'])
+						{
+							$task->setStatus($taskStatuses['queue']);
+						}
+						elseif ($projectStage->getStatus() === $projectStageStatuses['independent'])
+						{
+							$task->setStatus($taskStatuses['waiting_to_start']);
+						}
+					}
 				}
-
 			}
 
 			$project->save();
+
+			if ($errors)
+			{
+				\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			}
 
 			LocalRedirect("/project/" . $projectId . "/edit/");
 		}
