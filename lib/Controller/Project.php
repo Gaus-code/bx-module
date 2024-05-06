@@ -104,7 +104,6 @@ class Project extends Controller
 	{
 		if (check_bitrix_sessid())
 		{
-			// return $tasks;
 			global $USER;
 			$userId = (int)$USER->GetID();
 
@@ -127,8 +126,6 @@ class Project extends Controller
 				if (isset($taskOptions["taskDelete"]))
 				{
 					$task->fillProjectStage();
-					$projectStage = $task->getProjectStage();
-					$projectStage->removeFromTasks($task);
 
 					if ($task->getStatus() === Configuration::getOption('task_status')['done']
 						|| $task->getStatus() === Configuration::getOption('task_status')['at_work'])
@@ -137,6 +134,11 @@ class Project extends Controller
 						\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 						LocalRedirect("/project/" . $projectId . "/edit/");
 					}
+
+					$projectStage = $task->getProjectStage();
+					$projectStage->removeFromTasks($task);
+					$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
+					$task->save();
 
 					continue;
 				}

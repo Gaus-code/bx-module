@@ -194,6 +194,7 @@ class Task extends Controller
 
 		if (isset($projectId) && (!$task->getProject() || $projectId!==$task->getProject()->getId()))
 		{
+			$task->setStatus(Configuration::getOption('task_status')['waiting_to_start']);
 			$projectStage = ProjectStageTable::query()
 											 ->setSelect(['ID', 'NUMBER', 'PROJECT_ID'])
 											 ->where('PROJECT_ID', $projectId)

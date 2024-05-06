@@ -1,11 +1,9 @@
 <?php
 
-namespace Up\Ukan\AI;
+namespace Up\Ukan\AI\GPT;
 
 use Bitrix\Main\Web\HttpClient;
 use Up\Ukan\Model\SecretOptionSiteTable;
-use Up\Ukan\Model\TagTable;
-use Up\Ukan\Service\Configuration;
 
 class YandexGPT implements GPT
 {

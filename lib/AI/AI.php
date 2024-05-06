@@ -2,10 +2,11 @@
 
 namespace Up\Ukan\AI;
 
-use Up\Ukan\AI\YandexGPT;
+use Up\Ukan\AI\GPT\YandexGPT;
+use Up\Ukan\Model\EO_Tag_Collection;
 use Up\Ukan\Model\TagTable;
 
-class AI extends YandexGPT
+class AI
 {
 	public static function censorshipCheck(string $text)
 	{
@@ -22,8 +23,8 @@ class AI extends YandexGPT
 			],
 		];
 
-		$response = self::getResponse($messages);
-		$responseMessageText = self::getMessageTextFromResponse($response);
+		$response = YandexGPT::getResponse($messages);
+		$responseMessageText = YandexGPT::getMessageTextFromResponse($response);
 
 		return $responseMessageText === 'true';
 	}
@@ -46,8 +47,8 @@ class AI extends YandexGPT
 			],
 		];
 
-		$response = self::getResponse($messages);
-		$responseMessageText = self::getMessageTextFromResponse($response);
+		$response = YandexGPT::getResponse($messages);
+		$responseMessageText = YandexGPT::getMessageTextFromResponse($response);
 		$tagCollection = self::getTagsListFromResponseMessage($responseMessageText);
 
 		return $tagCollection;
@@ -65,7 +66,7 @@ class AI extends YandexGPT
 
 		return implode(",\n", $tags);
 	}
-	private static function getTagsListFromResponseMessage(string $responseMessageText): ?\Up\Ukan\Model\EO_Tag_Collection
+	private static function getTagsListFromResponseMessage(string $responseMessageText): ?EO_Tag_Collection
 	{
 		$tagIdsList = preg_replace('/[^0-9]/', ' ', $responseMessageText);
 		$tagIdsList = explode(" ",trim($tagIdsList));
