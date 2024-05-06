@@ -54,6 +54,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							Исполняемые
 						</li>
 					<?php endif; ?>
+				<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+						<li id="stop-btn" class="content__tagItem">
+							Приостановленны
+						</li>
+					<?php endif; ?>
 				</ul>
 			</div>
 			<form method="get" class="searchForm">

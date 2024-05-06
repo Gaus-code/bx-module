@@ -51,6 +51,8 @@ class TaskListComponent extends CBitrixComponent
 				'_OPEN_TASKS',
 				'_AT_WORK_TASKS',
 				'_DONE_TASKS',
+				'_PERFORMING_TASKS',
+				'_STOP_TASKS',
 			];
 			foreach ($nameOfPageAreas as $nameOfPageArea)
 			{
@@ -78,6 +80,7 @@ class TaskListComponent extends CBitrixComponent
 			$this->fetchAtWorkTasksForPersonalPage();
 			$this->fetchDoneTasksForPersonalPage();
 			$this->fetchPerformingTasksForPersonalPage();
+			$this->fetchStopTasksForPersonalPage();
 		}
 
 	}
@@ -102,7 +105,7 @@ class TaskListComponent extends CBitrixComponent
 			$query->whereIn('CATEGORY.ID', $this->arParams['CATEGORIES_ID']);
 		}
 
-		if (!is_null($this->arParams['SEARCH']))
+		if (!is_null($this->arParams['SEARCH']) && $this->arParams['SEARCH'] !== '' )
 		{
 			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
 				->logic('or')
@@ -168,7 +171,7 @@ class TaskListComponent extends CBitrixComponent
 			  ->setOffset($nav->getOffset())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['search_contractor']);
 
-		if (!is_null($this->arParams['SEARCH']))
+		if (!is_null($this->arParams['SEARCH']) && $this->arParams['SEARCH'] !== '' )
 		{
 			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
 													  ->logic('or')
@@ -212,7 +215,7 @@ class TaskListComponent extends CBitrixComponent
 			  ->setOffset($nav->getOffset())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['at_work']);
 
-		if (!is_null($this->arParams['SEARCH']))
+		if (!is_null($this->arParams['SEARCH']) && $this->arParams['SEARCH'] !== '' )
 		{
 			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
 													  ->logic('or')
@@ -255,7 +258,7 @@ class TaskListComponent extends CBitrixComponent
 			  ->setOffset($nav->getOffset())
 			  ->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['done']);
 
-		if (!is_null($this->arParams['SEARCH']))
+		if (!is_null($this->arParams['SEARCH']) && $this->arParams['SEARCH'] !== '' )
 		{
 			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
 													  ->logic('or')
@@ -286,7 +289,7 @@ class TaskListComponent extends CBitrixComponent
 		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
 		$nav->allowAllRecords(true)
 			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
-		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_DONE_TASKS']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_PERFORMING_TASKS']);
 
 		$query = \Up\Ukan\Model\TaskTable::query();
 		$query->setSelect(['*', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME', 'CATEGORY'])
@@ -296,7 +299,7 @@ class TaskListComponent extends CBitrixComponent
 			  ->setLimit($nav->getLimit() + 1)
 			  ->setOffset($nav->getOffset());
 
-		if (!is_null($this->arParams['SEARCH']))
+		if (!is_null($this->arParams['SEARCH']) && $this->arParams['SEARCH'] !== '' )
 		{
 			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
 													  ->logic('or')
@@ -309,17 +312,62 @@ class TaskListComponent extends CBitrixComponent
 		$doneTasks = $query->fetchCollection()->getAll();
 
 		$nav->setRecordCount($nav->getOffset() + count($doneTasks));
-		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_DONE_TASKS'])
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_PERFORMING_TASKS'])
 		{
-			$this->arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'] = true;
+			$this->arParams['EXIST_NEXT_PAGE' . '_PERFORMING_TASKS'] = true;
 			array_pop($doneTasks);
 		}
 		else
 		{
-			$this->arParams['EXIST_NEXT_PAGE' . '_DONE_TASKS'] = false;
+			$this->arParams['EXIST_NEXT_PAGE' . '_PERFORMING_TASKS'] = false;
 		}
 
 		$this->arResult['PERFORMING_TASKS'] = $doneTasks;
+	}
+
+	private function fetchStopTasksForPersonalPage()
+	{
+		$nav = new \Bitrix\Main\UI\PageNavigation("task.list");
+		$nav->allowAllRecords(true)
+			->setPageSize(\Up\Ukan\Service\Configuration::getOption('page_size')['task_list_personal']);
+		$nav->setCurrentPage($this->arParams['CURRENT_PAGE' . '_STOP_TASKS']);
+
+		$query = \Up\Ukan\Model\TaskTable::query();
+		$query->setSelect(['*', 'CLIENT.B_USER.NAME', 'CLIENT.B_USER.LAST_NAME', 'CATEGORY', 'PROJECT.ID', 'PROJECT'])
+			->where('CLIENT_ID', $this->arParams['USER_ID'])
+			->where(\Bitrix\Main\ORM\Query\Query::filter()
+												->logic('or')
+												->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['waiting_to_start'])
+												->where('STATUS', \Up\Ukan\Service\Configuration::getOption('task_status')['queue']))
+			  ->addOrder('SEARCH_PRIORITY', 'DESC')
+			  ->addOrder('CREATED_AT', 'DESC')
+			  ->setLimit($nav->getLimit() + 1)
+			  ->setOffset($nav->getOffset());
+
+		if (!is_null($this->arParams['SEARCH']) && $this->arParams['SEARCH'] !== '')
+		{
+			$query->where(\Bitrix\Main\ORM\Query\Query::filter()
+													  ->logic('or')
+													  ->whereLike('TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('TAGS.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+													  ->whereLike('CATEGORY.TITLE', '%' . $this->arParams['SEARCH'] . '%')
+			);
+		}
+
+		$doneTasks = $query->fetchCollection()->getAll();
+
+		$nav->setRecordCount($nav->getOffset() + count($doneTasks));
+		if ($nav->getPageCount() > $this->arParams['CURRENT_PAGE' . '_STOP_TASKS'])
+		{
+			$this->arParams['EXIST_NEXT_PAGE' . '_STOP_TASKS'] = true;
+			array_pop($doneTasks);
+		}
+		else
+		{
+			$this->arParams['EXIST_NEXT_PAGE' . '_STOP_TASKS'] = false;
+		}
+
+		$this->arResult['STOP_TASKS'] = $doneTasks;
 	}
 
 	protected function fetchUserActivity()
