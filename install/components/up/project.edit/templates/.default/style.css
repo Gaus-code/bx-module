@@ -310,7 +310,6 @@ section.editPriority {
 .addTask__form fieldset {
     border: 2px solid var(--color-warning-yellow);
     padding: 10px;
-    margin-left: 20px;
     border-radius: 6px;
     min-width: 570px;
 }
@@ -572,6 +571,17 @@ section.editPriority {
     font-weight: 600;
 }
 
+.editForm textarea {
+    resize: none;
+    min-height: 100px;
+    width: 120%;
+    border: 2px solid var(--color-primary-blue);
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 19px;
+    background-color: var(--color-bg-input);
+}
+
 .editForm button {
     border: 2px solid var(--color-primary-blue);
     background-color: var(--color-primary-blue);
@@ -680,6 +690,7 @@ section.editPriority {
 	margin-top: 10px;
 	padding-bottom: 12px;
 	border-bottom: 2px solid rgb(209 185 185);
+    line-height: 20px;
 }
 
 .task__header a {

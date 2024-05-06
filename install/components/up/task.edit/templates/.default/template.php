@@ -136,7 +136,7 @@ CJSCore::Init(array('ajax'));
 							<?php endif;?>
 						</div>
 					</div>
-					<button class="createBtn" type="submit">Сохранить Изменения</button>
+					<button id="taskLoader" class="createBtn" type="submit">Сохранить Изменения</button>
 				</form>
 			</div>
 

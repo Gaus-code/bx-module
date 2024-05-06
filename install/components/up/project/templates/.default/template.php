@@ -139,7 +139,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 									<?= bitrix_sessid_post() ?>
 									<input type="hidden" name="stageId" value="<?= $arResult['ACTIVE_STAGE']->getId(
 									) ?>">
-									<button type="submit" class="project__stageBtn">
+									<button type="submit" class="project__stageBtn doneProjectBtn">
 										Завершить <span>этап <?= $arResult['ACTIVE_STAGE']->getNumber() ?></span>
 									</button>
 								</form>

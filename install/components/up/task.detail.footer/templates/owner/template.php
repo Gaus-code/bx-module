@@ -15,20 +15,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<?php if (count($arResult['RESPONSES']) > 0): ?>
 			<p class="responses__text"> Отклики на вашу заявку: </p>
 			<?php foreach ($arResult['RESPONSES'] as $response): ?>
-				<div href="/task/<?= $response->getTask()->getId() ?>/" class="task__response">
-					<a href="/task/<?= $response->getTask()->getId() ?>/" class="task__link">
+				<div class="task__response">
+					<div class="task__link">
 						<div class="task__responseMain">
 							<p class="task__responseCreated">
 								<span>Дата отклика:</span> <?= $response->getCreatedAt() ?> </p>
 							<p class="task__responseCreated">
 								<span>Предложенная цена:</span> <?= $response->getPrice() ?> </p>
 							<p class="task__responseCreated">
-								<span>Исполнитель:</span> <?= htmlspecialcharsbx($response->getContractor()->getBUser()->getName()
-																				 . ' ' . $response->getContractor()->getBUser()->getLastName()) ?> </p>
+								<span>Исполнитель:</span>
+								<a href="/profile/<?= $response->getContractor()->getBUser()->getId() ?>/">
+									<?= htmlspecialcharsbx($response->getContractor()->getBUser()->getName()
+										. ' ' . $response->getContractor()->getBUser()->getLastName()) ?>
+								</a>
+							</p>
 							<p class="task__responseCreated">
 								<span>Сопроводительное письмо:</span> <?= htmlspecialcharsbx($response->getDescription()) ?> </p>
 						</div>
-					</a>
+					</div>
 					<div class="task__responseFooter">
 						<form action="/response/approve/" method="post">
 							<?= bitrix_sessid_post() ?>

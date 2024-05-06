@@ -40,7 +40,7 @@
 .loader .ball {
     width: 60px;
     height: 60px;
-    background-color: #4db9ff;
+    background-color: rgb(115, 103, 240);
     position: absolute;
     border-radius: 30px;
     animation: 3s ease-in-out infinite;
@@ -64,8 +64,8 @@
 .loader .ball.moving {
     animation: move 3s ease-in-out infinite;
     left: -30px;
-    background-color: #50f2f5;
-    box-shadow: 0 0 10px #50f2f5, 0 0 30px #50f2f5, 0 0 100px #50f2f5;
+    background-color: #9370DB;
+    box-shadow: 0 0 10px #9370DB, 0 0 30px #9370DB, 0 0 100px #9370DB;
 }
 svg {
     display: none;

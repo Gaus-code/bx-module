@@ -150,7 +150,7 @@ CJSCore::Init(array('ajax'));
 						<fieldset>
 							<legend>Выберите заявки для добавления в проект</legend>
 							<?php
-							if (isset($arResult['ADD_TASK_LIST'])): ?>
+							if (count($arResult['ADD_TASK_LIST']) > 0): ?>
 								<ul class="filter__list">
 									<?php
 									foreach ($arResult['ADD_TASK_LIST'] as $task): ?>
@@ -166,7 +166,7 @@ CJSCore::Init(array('ajax'));
 								</ul>
 							<?php
 							else: ?>
-								<p class="empty">У вас пока нет заявок</p>
+								<p class="empty" style="text-align: center">У вас пока нет заявок</p>
 							<?php
 							endif; ?>
 						</fieldset>
@@ -249,11 +249,11 @@ CJSCore::Init(array('ajax'));
 						<input type="hidden" name="projectId" value="<?= $arParams['PROJECT_ID'] ?>">
 						<div class="editForm__container">
 							<label for="projectTitle">Название проекта</label>
-							<input id="projectTitle projectZoneEdit" type="text" name="title" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getTitle()) ?>">
+							<input id="projectTitle" type="text" name="title" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getTitle()) ?>">
 						</div>
 						<div class="editForm__container">
 							<label for="projectDescription">Описание проекта</label>
-							<input id="projectDescription projectZoneEdit" type="text" name="description" value="<?= htmlspecialcharsbx($arResult['PROJECT']->getDescription()) ?>">
+							<textarea id="projectDescription" name="description"><?= htmlspecialcharsbx($arResult['PROJECT']->getDescription()) ?></textarea>
 						</div>
 						<div class="editForm__container">
 							<button type="submit">Отправить</button>

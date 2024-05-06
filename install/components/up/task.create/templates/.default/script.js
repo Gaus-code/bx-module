@@ -26,4 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	loadFromLocalStorage();
+
+	const loader = document.getElementById('loader');
+	const loaderText = loader.querySelector('p');
+
+	document.getElementById('taskLoader').addEventListener('click', () => {
+		loader.style.display = 'flex';
+
+		loaderText.textContent = 'программируем заявку';
+	});
 });

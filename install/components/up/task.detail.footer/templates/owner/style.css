@@ -99,3 +99,13 @@
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+.task__responseCreated a {
+	color: var(--color-primary-purple);
+	border-bottom: 2px solid var(--color-primary-blue);
+}
+
+.task__responseCreated a:hover, .task__responseCreated a:focus {
+	color: var(--color-primary-blue);
+	transition: 0.3s;
+}

@@ -103,7 +103,7 @@ CJSCore::Init(array('ajax'));
 						<?php endif;?>
 					</div>
 				</div>
-				<button class="createBtn" type="submit">Создать заявку</button>
+				<button id="taskLoader" class="createBtn" type="submit">Создать заявку</button>
 			</form>
 		</article>
 		<div id="loader" style="display: none">
@@ -116,7 +116,6 @@ CJSCore::Init(array('ajax'));
 					<div class="ball"></div>
 					<div class="ball moving"></div>
 				</div>
-
 			</div>
 
 			<svg>
