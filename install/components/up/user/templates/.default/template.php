@@ -44,12 +44,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<div class="userImage__container">
 							<?php endif;?>
 							<?= CFile::ShowImage($arResult['PROFILE_IMAGE'], 130, 130, );?>
-							<form action="/profile/deleteImage" method="post" class="deleteUserImageForm">
-								<?= bitrix_sessid_post() ?>
-								<button type="submit" class="deleteImgBtn">
-									<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" title="удалить изображение" alt="close form cross">
-								</button>
-							</form>
+								<?php if ($arResult['USER_ACTIVITY'] === 'owner'):?>
+									<form action="/profile/deleteImage" method="post" class="deleteUserImageForm">
+										<?= bitrix_sessid_post() ?>
+										<button type="submit" class="deleteImgBtn">
+											<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/cross.svg" title="удалить изображение" alt="close form cross">
+										</button>
+									</form>
+								<?php endif;?>
 						</div>
 					<?php else:?>
 						<img src="<?= SITE_TEMPLATE_PATH ?>/assets/images/headerUser.svg" alt="user image" class="userImage">
