@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		switch (status)
 		{
 			case 'В очереди':
-				swimLane.style.backgroundColor = '#FFF';
+				zoneStatus.style.backgroundColor = '#fff556';
 				break;
 			case 'Ожидает начала выполнения':
 				zoneStatus.style.backgroundColor = '#FFAC1C';
